@@ -1,0 +1,21 @@
+.ant-tabs-tab-btn {
+  font-size: 18px !important;
+  color: var(--dark);
+}
+
+@media (max-width: 480px) {
+  .ant-tabs-nav {
+    margin-bottom: 24px !important;
+  }
+}
+
+.ant-collapse-header-text {
+  font-weight: 500 !important;
+  font-size: 18px !important;
+  letter-spacing: -0.05em !important;
+  line-height: 100% !important;
+}
+
+.ant-rate * {
+  color: inherit;
+}

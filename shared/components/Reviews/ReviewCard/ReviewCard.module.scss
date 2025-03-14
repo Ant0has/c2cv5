@@ -1,0 +1,47 @@
+.card {
+  box-shadow: 0px 0px 80px 0px #1212121c;
+  padding: 24px;
+  border-radius: 32px;
+  height: 100%;
+  // max-width: 30%;
+}
+
+.top {
+  display: flex;
+  gap: 12px;
+}
+
+.username {
+  margin-bottom: 2px;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.city {
+  margin-bottom: 11px;
+}
+
+.rate {
+  margin-bottom: 8px;
+}
+
+.review {
+  line-height: 150%;
+}
+// .card::before,
+// .card::after {
+//   content: "";
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   box-shadow: 0px 0px 80px 0px #1212121c;
+//   z-index: -1;
+// }

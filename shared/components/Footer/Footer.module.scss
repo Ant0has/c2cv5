@@ -1,0 +1,89 @@
+.footer {
+  width: 100%;
+  background: var(--dark);
+
+  .container {
+    max-width: calc(var(--header-footer-width) + 32px);
+    padding: 50px 16px 40px;
+    margin: 0 auto;
+
+    .top {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .bottom {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .description {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .navigation {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      height: fit-content;
+      gap: 24px;
+    }
+
+    .contacts {
+      display: flex;
+      flex-direction: column;
+      align-items: end;
+      flex-shrink: 0;
+      gap: 16px;
+      white-space: nowrap;
+    }
+
+    .phoneDescription {
+      text-align: end;
+    }
+
+    .roundLink {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+    }
+
+    @media (max-width: 905px) {
+      & {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 24px;
+      }
+
+      .top {
+        display: contents;
+      }
+
+      .navigation {
+        display: none;
+      }
+
+      .description,
+      .contacts,
+      .phoneDescription {
+        align-items: center;
+        text-align: center;
+      }
+
+      .bottom {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+    }
+  }
+}

@@ -1,0 +1,41 @@
+.wrapper {
+  padding-top: 104px;
+  padding-bottom: 104px;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+  margin-bottom: 48px;
+}
+
+@media (max-width: 800px) {
+  .wrapper {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  .top {
+    flex-direction: column;
+    align-items: start;
+    gap: 8px;
+    margin-bottom: 24px;
+
+    h2 {
+      font-size: 48px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .top {
+    h2 {
+      font-size: 32px;
+    }
+    p {
+      display: none;
+    }
+  }
+}

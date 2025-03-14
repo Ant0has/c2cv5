@@ -1,0 +1,89 @@
+.buttonLink {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+  height: 40px;
+  padding: 10px 14px;
+  background: var(--link-button);
+  border-radius: 16px;
+  transition-duration: var(--transition-duration);
+
+  @media (hover: hover) {
+    &:hover {
+      filter: brightness(97%);
+    }
+  }
+
+  &:active {
+    filter: brightness(95%);
+  }
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 32px;
+  border-radius: 16px;
+  transition-duration: var(--transition-duration);
+  flex-shrink: 0;
+
+  .text {
+    transition-duration: var(--transition-duration);
+  }
+
+  &.primary {
+    background: var(--orange);
+    .text {
+      color: var(--white);
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        filter: brightness(105%);
+      }
+    }
+
+    &:active {
+      filter: brightness(102%);
+    }
+  }
+
+  &.default {
+    background: transparent;
+    border: 1px solid var(--dark);
+    padding: 15px 31px;
+
+    .text {
+      color: var(--dark);
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        background: var(--dark);
+        .text {
+          color: var(--white);
+        }
+      }
+    }
+  }
+
+  &.secondary {
+    background: var(--light-gray);
+    .text {
+      color: var(--dark);
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        filter: brightness(97%);
+      }
+    }
+
+    &:active {
+      filter: brightness(95%);
+    }
+  }
+}

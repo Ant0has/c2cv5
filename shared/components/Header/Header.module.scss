@@ -1,0 +1,230 @@
+.header {
+  width: 100%;
+  background: var(--white);
+
+  .container {
+    max-width: calc(var(--header-footer-width) + 40px);
+    padding: 30px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+
+    .burger {
+      cursor: pointer;
+    }
+
+    .marker,
+    .markerInSocial {
+      cursor: pointer;
+      svg path {
+        transition-duration: var(--transition-duration);
+      }
+
+      &:hover path {
+        fill: var(--orange);
+        stroke: var(--white);
+      }
+      &:hover path:first-child {
+        fill: var(--orange);
+        stroke: var(--orange);
+      }
+
+      &:active path {
+        stroke: var(--white);
+      }
+    }
+
+    .right {
+      display: flex;
+      align-items: center;
+    }
+
+    .phone {
+      display: flex;
+      gap: 24px;
+
+      .block {
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+      }
+    }
+
+    .icon {
+      display: none;
+    }
+
+    .burger {
+      display: none;
+    }
+
+    .markerInSocial {
+      display: none;
+    }
+
+    @media (max-width: 1120px) {
+      & {
+        padding: 16px;
+      }
+
+      .phone {
+        display: none;
+      }
+
+      .icon {
+        display: block;
+      }
+    }
+
+    @media (max-width: 650px) {
+      & {
+        padding: 24px;
+        display: grid;
+        grid-template-columns: 24px auto 24px;
+        grid-template-areas:
+          "a b c"
+          "d d d";
+      }
+
+      .marker {
+        display: none;
+      }
+
+      .markerInSocial {
+        display: block;
+      }
+
+      .left,
+      .right {
+        display: contents;
+      }
+
+      .burger {
+        display: block;
+        order: 1;
+        width: 24px;
+        grid-area: a;
+      }
+
+      .logo {
+        order: 2;
+        grid-area: b;
+        align-self: center;
+        text-align: center;
+      }
+
+      .icon {
+        order: 3;
+        grid-area: c;
+        text-align: center;
+      }
+
+      .social {
+        grid-area: d;
+        order: 4;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+      }
+
+      .markerInSocial {
+        margin: 0;
+      }
+    }
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  gap: 4px;
+}
+
+// burger menu
+
+.menu,
+.menu:before,
+.menu:after {
+  display: inline-block;
+  height: 2px;
+  background-color: #000;
+  border-radius: 50px;
+}
+.menu {
+  transition: background-color 0.3s ease;
+  position: relative;
+  width: 16px;
+  margin: 8px 8px 8px 0;
+  z-index: 1;
+}
+
+.menu:before {
+  top: -7px;
+}
+.menu:before,
+.menu:after {
+  transition:
+    transform 0.5s ease,
+    top 0.3s ease;
+  content: "";
+  width: 24px;
+  position: absolute;
+}
+
+.menu,
+.menu:before,
+.menu:after {
+  display: inline-block;
+  height: 2px;
+  background-color: #000;
+  border-radius: 50px;
+}
+
+.menu:after {
+  top: 7px;
+}
+
+.menu:before,
+.menu:after {
+  transition:
+    transform 0.5s ease,
+    top 0.3s ease;
+  content: "";
+  width: 24px;
+  position: absolute;
+}
+.menu,
+.menu:before,
+.menu:after {
+  display: inline-block;
+  height: 2px;
+  background-color: #000;
+  border-radius: 50px;
+}
+
+.open .menu {
+  background-color: #0000;
+}
+
+.open .menu {
+  background-color: #0000;
+}
+
+.open .menu:before {
+  transform: rotate(45deg);
+}
+.open .menu:before,
+.open .menu:after {
+  top: 0;
+}
+
+.open .menu:after {
+  transform: rotate(-45deg);
+}
+
+.open .menu:before,
+.open .menu:after {
+  top: 0;
+}
