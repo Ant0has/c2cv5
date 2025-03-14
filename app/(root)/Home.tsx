@@ -16,11 +16,11 @@ import Reviews from "@/shared/components/Reviews/Reviews"
 // import { Hero } from './hero/Hero'
 
 interface HomeProps {
-	products: any
+	products: unknown
 }
 
 
-export function Home({ products }: HomeProps) {
+export function Home({  }: HomeProps) {
 
 	return (
 		<>
