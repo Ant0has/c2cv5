@@ -6,7 +6,7 @@ import { Home } from './Home'
 // import { Home } from './Home'
 
 export const metadata: Metadata = {
-  title: 'Ваш шопинг, ваше удовольствие – все в одном месте!'
+  title: 'Такси'
 }
 
 export const revalidate = 60
@@ -17,8 +17,8 @@ export const revalidate = 60
 // 	return data
 // }
 
-export default async function HomePage() {
+export default function Page() {
   // const data = await getProducts()
 
-  return <Home products={{}} />
+  return <Home />
 }

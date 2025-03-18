@@ -1,6 +1,5 @@
 .wrapper {
   background: url("/images/welcome-background.png") 0 0 / cover no-repeat;
-  padding: 112px 0px;
 }
 
 .content {
@@ -47,10 +46,6 @@
 }
 
 @media (max-width: 800px) {
-  .wrapper {
-    padding: 24px 0px;
-  }
-
   .content {
     flex-direction: column;
     gap: 16px;

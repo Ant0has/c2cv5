@@ -13,14 +13,14 @@ import Image from "next/image";
 import bigCarImage from '@/public/images/cars/car-big.png'
 
 interface IProps {
-
+ title?:unknown;
 }
 
 const OrderSteps: FC<IProps> = () => {
 
   return (
     <div className={s.wrapper}>
-      <div className={clsx(s.container, 'container')}>
+      <div className={clsx(s.container, 'container-24')}>
         <OrderStepsContent />
 
         <div className={s.actions}>

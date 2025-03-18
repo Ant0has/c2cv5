@@ -1,10 +1,29 @@
 'use client'
 
 import { ConfigProvider } from "antd"
-import { PropsWithChildren } from "react"
+import { Dispatch, PropsWithChildren, SetStateAction, createContext, useState } from "react"
 import { tokens } from "../shared/styles/style-tokens"
+import { IRegion } from "@/shared/types/types"
 
-export function Providers({ children }: PropsWithChildren) {
+interface ProvidersProps extends PropsWithChildren {
+	regions: IRegion[]
+}
+
+interface ModalContextProps {
+	isOpenQuestionModal: boolean,
+	setIsOpenQuestionModal: Dispatch<SetStateAction<boolean>>
+
+	isOpenOrderModal: boolean,
+	setIsOpenOrderModal: Dispatch<SetStateAction<boolean>>
+}
+
+export const RegionsContext = createContext<IRegion[]>([])
+
+export const ModalContext = createContext<ModalContextProps>({} as ModalContextProps)
+
+export function Providers({ children, regions }: ProvidersProps) {
+	const [isOpenQuestionModal, setIsOpenQuestionModal] = useState<boolean>(false)
+	const [isOpenOrderModal, setIsOpenOrderModal] = useState<boolean>(false)
 
 	return (
 		<ConfigProvider
@@ -14,7 +33,17 @@ export function Providers({ children }: PropsWithChildren) {
 				token: tokens.token
 			}}
 		>
-			{children}
-		</ConfigProvider>
+			<RegionsContext.Provider value={regions}>
+				<ModalContext.Provider value={{
+					isOpenQuestionModal,
+					setIsOpenQuestionModal,
+
+					isOpenOrderModal,
+					setIsOpenOrderModal
+				}}>
+					{children}
+				</ModalContext.Provider>
+			</RegionsContext.Provider>
+		</ConfigProvider >
 	)
 }

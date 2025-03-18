@@ -3,16 +3,16 @@
 import { Prices } from "@/shared/types/enums";
 import { Tabs, TabsProps } from "antd";
 import clsx from "clsx";
-import { FC } from "react";
+import { FC, RefObject } from "react";
 import s from './Price.module.scss';
 import PriceContent from "./PriceContent/PriceContent";
 import AddressSelect from "./AddressSelect/AddressSelect";
 
 interface IProps {
-
+  orderRef: RefObject<HTMLDivElement | null>
 }
 
-const Price: FC<IProps> = () => {
+const Price: FC<IProps> = ({ orderRef }) => {
 
   const tabs: TabsProps['items'] = [
     {
@@ -49,7 +49,7 @@ const Price: FC<IProps> = () => {
 
   ]
   return (
-    <div className={clsx(s.wrapper, 'container')}>
+    <div className='container-40'>
       <div className={s.top}>
         <h2 className="black-color font-56-medium">Цена такси Ключ</h2>
         <p className="black-color font-16-normal">Комфорт, Бизнес и Минивэн - поездки на любой случай</p>
@@ -63,7 +63,7 @@ const Price: FC<IProps> = () => {
         options={standardOptions}
       /> */}
 
-      <AddressSelect />
+      <AddressSelect orderRef={orderRef} />
     </div>
 
   )

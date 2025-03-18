@@ -3,7 +3,7 @@ import { FC } from "react";
 import s from './ReviewTitle.module.scss';
 
 interface IProps {
-
+ title?:unknown;
 }
 
 const ReviewTitle: FC<IProps> = () => {

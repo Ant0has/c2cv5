@@ -19,3 +19,124 @@
 .ant-rate * {
   color: inherit;
 }
+
+.ant-input {
+  font-weight: 400 !important;
+  font-size: 16px !important;
+  letter-spacing: -0.05em !important;
+  line-height: 100% !important;
+  background: var(--light-gray) !important;
+  border: none !important;
+}
+
+.white-input .ant-input {
+  background: var(--white) !important;
+}
+
+.ant-input::placeholder {
+  font-weight: 400 !important;
+  font-size: 16px !important;
+  letter-spacing: -0.05em !important;
+  line-height: 100% !important;
+}
+
+.ant-form-item-control-input-content textarea,
+.ant-form-item-control-input-content textarea::placeholder {
+  font-size: 16px !important;
+  line-height: 150% !important;
+}
+
+.ant-pagination-item {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-right: 16px !important;
+}
+
+.ant-pagination-item a {
+  color: #d2d0d0 !important;
+}
+
+.ant-pagination-item-active a {
+  color: var(--white) !important;
+}
+
+.ant-pagination-item-link svg {
+  fill: #9b9b9b;
+}
+
+.ant-pagination-options {
+  display: none !important;
+}
+
+.ant-modal-wrap {
+  max-height: 100svh !important;
+  overflow: hidden !important;
+}
+
+.ant-modal-content {
+  border-radius: 32px !important;
+  padding: 40px !important;
+  max-height: 90svh !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.ant-modal-header {
+  margin-bottom: 32px !important;
+  flex-shrink: 0 !important;
+}
+
+.ant-modal-body {
+  display: flex !important;
+  flex-direction: column !important;
+  overflow-y: auto !important;
+  flex: 1 !important;
+  padding-right: 20px !important;
+  margin-right: -20px;
+}
+
+/* .ant-modal-body::-webkit-scrollbar {
+  width: 8px !important;
+}
+
+.ant-modal-body::-webkit-scrollbar-track {
+  background: var(--light-gray) !important;
+  border-radius: 4px !important;
+}
+
+.ant-modal-body::-webkit-scrollbar-thumb {
+  background: var(--primary-color) !important;
+  border-radius: 4px !important;
+} */
+
+.ant-modal-footer {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .ant-modal-content {
+    padding: 24px !important;
+  }
+
+  .ant-modal-header {
+    margin-bottom: 24px !important;
+  }
+}
+
+/* :not(.ant-radio-checked).ant-radio-inner {
+  background: var(--light-gray) !important;
+} */
+
+.ant-picker-input input::placeholder,
+.ant-picker-input input {
+  font-size: 16px !important;
+}
+
+.ant-picker-status-error,
+.ant-picker {
+  width: 100% !important;
+  border: none !important;
+  background: var(--light-gray) !important;
+  padding: 20px 24px !important;
+}

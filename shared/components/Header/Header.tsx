@@ -1,44 +1,48 @@
 'use client'
 
-import { FC, useState } from 'react';
-import s from './Header.module.scss'
 import LogoIcon from '@/public/icons/LogoIcon';
-import MarkerIcon from '@/public/icons/MarkerIcon';
-import Button from '../ui/Button/Button';
-import { ButtonTypes } from '@/shared/types/enums';
-import { EMAIL_ADDRESS, PHONE_NUMBER_FIRST, PHONE_NUMBER_SECOND, TELEGRAM_LINK, WHATS_UP_LINK } from '@/shared/constants';
+import PhoneIcon from '@/public/icons/PhoneIcon';
 import TelegramIcon from '@/public/icons/TelegramIcon';
 import WhatsUpIcon from '@/public/icons/WhatsUpIcon';
+import { EMAIL_ADDRESS, PHONE_NUMBER_FIRST, PHONE_NUMBER_SECOND, TELEGRAM_LINK, WHATS_UP_LINK } from '@/shared/constants';
 import { formatPhoneNumber } from '@/shared/services/formate-phone-number';
-import clsx from 'clsx';
-import PhoneIcon from '@/public/icons/PhoneIcon';
+import { ButtonTypes } from '@/shared/types/enums';
 import { Popover } from 'antd';
-interface IHeaderProps {
+import clsx from 'clsx';
+import Link from 'next/link';
+import { FC, useState } from 'react';
+import MenuContent from '../MenuContent/MenuContent';
+import Button from '../ui/Button/Button';
+import s from './Header.module.scss';
 
+interface IHeaderProps {
+  title?:unknown
 }
 
 const Header: FC<IHeaderProps> = () => {
   const [isOpenPhone, setIsOpenPhone] = useState<boolean>(false)
-  const [isOpenBurgerMenu, setIsOpenBurgerMenu] = useState<boolean>(false)
 
   return (
     <header className={s.header}>
       <div className={s.container}>
         <div className={s.left}>
           <div
-            className={clsx(s.burger, { [s.open]: isOpenBurgerMenu })}
-            onClick={() => setIsOpenBurgerMenu(prev => !prev)}
+            className={clsx(s.burger, { [s.open]: false })}
           >
-            <span className={s.menu}></span>
+            <MenuContent />
           </div>
 
           <div className={s.logo}>
-            <LogoIcon />
+            <Link href='/'>
+              <LogoIcon />
+            </Link>
+
           </div>
         </div>
         <div className={s.right}>
           <div className={clsx(s.marker, 'margin-r-24')}>
-            <MarkerIcon />
+            <MenuContent />
+
           </div>
 
           <div className={clsx(s.social, 'row-flex-8 margin-r-32')}>
@@ -54,10 +58,6 @@ const Header: FC<IHeaderProps> = () => {
               link={WHATS_UP_LINK}
               icon={<WhatsUpIcon />}
             />
-
-            <div className={clsx(s.markerInSocial, 'margin-r-24')}>
-              <MarkerIcon />
-            </div>
           </div>
 
           <address className={s.phone}>

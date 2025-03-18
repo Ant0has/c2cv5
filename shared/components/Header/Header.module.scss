@@ -21,13 +21,17 @@
         transition-duration: var(--transition-duration);
       }
 
-      &:hover path {
-        fill: var(--orange);
-        stroke: var(--white);
-      }
-      &:hover path:first-child {
-        fill: var(--orange);
-        stroke: var(--orange);
+      @media (hover: hover) {
+        &:hover {
+          &:hover path {
+            fill: var(--orange);
+            stroke: var(--white);
+          }
+          &:hover path:first-child {
+            fill: var(--orange);
+            stroke: var(--orange);
+          }
+        }
       }
 
       &:active path {

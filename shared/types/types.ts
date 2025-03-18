@@ -1,5 +1,3 @@
-import { ReactElement } from "react"
-
 export interface IconProps {
   fill?: string
   className?: string
@@ -20,4 +18,16 @@ export interface IReviewData {
   rate: number,
   date: number
   review: string
+}
+
+export interface IRegion {
+  ID: number;
+  post_id: number;
+  meta_key: string;
+  meta_id: number;
+  meta_value: string;
+  region_value: string;
+  url: string | null;
+  address: string | null;
+  phone_number: string | null;
 }

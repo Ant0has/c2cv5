@@ -1,6 +1,5 @@
 'use client'
 
-import clsx from "clsx";
 import { FC } from "react";
 import { Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -11,13 +10,13 @@ import ReviewTitle from "./ReviewTitle/ReviewTitle";
 
 import 'swiper/css';
 interface IProps {
-
+ title?:unknown;
 }
 
 const Reviews: FC<IProps> = () => {
   return (
     <>
-      <div className={clsx(s.wrapper, 'container')}>
+      <div className='container-40'>
         <ReviewTitle />
 
         <Swiper

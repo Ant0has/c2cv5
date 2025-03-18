@@ -1,0 +1,28 @@
+.slide {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+.region {
+  cursor: pointer;
+  padding: 16px 32px;
+  border: 1px solid var(--light-gray);
+  border-radius: 16px;
+  color: #9b9b9b;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .slide {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+  .region {
+    width: 100%;
+  }
+}

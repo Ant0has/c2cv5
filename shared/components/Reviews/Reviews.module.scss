@@ -1,17 +1,5 @@
-.wrapper {
-  padding-top: 104px;
-  padding-bottom: 104px;
-}
-
 .swiper {
   max-width: calc(100% + 64px);
   margin: -80px -32px;
   padding: 80px 32px;
-}
-
-@media (max-width: 480px) {
-  .wrapper {
-    padding-top: 40px;
-    padding-bottom: 40px;
-  }
 }

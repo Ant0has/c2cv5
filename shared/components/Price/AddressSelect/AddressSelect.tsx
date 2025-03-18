@@ -1,7 +1,7 @@
 "use client"
 
 import clsx from "clsx";
-import { FC, useState } from "react";
+import { FC, RefObject, useState } from "react";
 import RoadIcon from "@/public/icons/RoadIcon";
 import SwapIcon from "@/public/icons/SwapIcon";
 import TimeIcon from "@/public/icons/TimeIcon";
@@ -11,10 +11,10 @@ import Button from "../../ui/Button/Button";
 import s from './AddressSelect.module.scss';
 
 interface IProps {
-
+  orderRef: RefObject<HTMLDivElement | null>
 }
 
-const AddressSelect: FC<IProps> = () => {
+const AddressSelect: FC<IProps> = ({ orderRef }) => {
 
   const [departurePoint, setDeparturePoint] = useState<string>('')
   const [arrivalPoint, setArrivalPoint] = useState<string>('')
@@ -46,7 +46,7 @@ const AddressSelect: FC<IProps> = () => {
   ]
 
   return (
-    <div className={s.wrapper}>
+    <div ref={orderRef} className={s.wrapper}>
       <div className={clsx(s.title, 'font-24-medium white-color')}>Укажите куда вам надо?</div>
 
       <div className={s.selection}>

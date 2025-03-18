@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  gap: 48px;
+  height: fit-content;
+}
+
+.wrapper {
+  background: var(--light-gray);
+}
+
+.left {
+  max-width: 538px;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.right {
+  margin: -104px 0px;
+  width: 100%;
+  // height: inherit;
+  // flex-grow: 1;
+  position: relative;
+
+  img {
+    object-fit: cover !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
+
+@media (max-width: 1000px) {
+  .right {
+    display: none;
+  }
+}

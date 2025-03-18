@@ -11,12 +11,17 @@ interface IButtonProps {
   linkType?: string
   icon?: ReactElement
   text?: string
-  className?: string
+  className?: string,
   handleClick?: () => void
 }
 
 const Button: FC<IButtonProps> = (props) => {
-  const { type, link, icon, text, className, handleClick } = props
+  const { type,
+    link,
+    icon,
+    text,
+    className,
+    handleClick } = props
 
   if (type === ButtonTypes.LINK) {
     return <a

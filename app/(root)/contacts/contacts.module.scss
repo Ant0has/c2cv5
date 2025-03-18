@@ -1,0 +1,104 @@
+.contacts {
+  display: flex;
+  justify-content: space-between;
+  gap: 32px;
+
+  .right {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .contact {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+}
+
+.payment {
+  display: flex;
+  justify-content: space-between;
+  gap: 32px;
+
+  .right {
+    justify-content: flex-end;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px 64px;
+  }
+
+  .paymentCard {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .paymentCardDescription {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 800px) {
+  .contacts {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .payment {
+    flex-direction: column;
+    .right {
+      flex-direction: column;
+      flex-wrap: nowrap;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .breadcrumbs {
+    display: flex;
+    gap: 24px;
+    margin: 24px 0px;
+  }
+
+  .contacts {
+    .right {
+      display: grid;
+      grid-template-columns: minmax(20px, 46px) 1fr;
+      align-items: center;
+      .contact {
+        display: contents;
+      }
+      a {
+        white-space: nowrap;
+      }
+
+      svg {
+        width: 100%;
+      }
+    }
+
+    a,
+    h3 {
+      font-size: 24px;
+      font-weight: 500;
+    }
+  }
+
+  .payment {
+    .paymentCard {
+      display: contents;
+    }
+    .right {
+      display: grid;
+      grid-template-columns: minmax(20px, 46px) 1fr;
+      align-items: center;
+      row-gap: 24px;
+      column-gap: 8px;
+    }
+  }
+}

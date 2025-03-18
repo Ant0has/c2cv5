@@ -4,7 +4,7 @@ import { Prices } from '@/shared/types/enums';
 import { IPriceOptions } from '@/shared/types/types';
 import { Collapse, CollapseProps } from 'antd';
 import clsx from 'clsx';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import { FC } from 'react';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -48,7 +48,7 @@ const PriceContent: FC<IProps> = ({ type }) => {
     [key in Prices]: {
       title: string
       options: IPriceOptions[],
-      carsImages: any,
+      carsImages: StaticImageData[],
       additionalServices?: CollapseProps['items']
     }
   } = {
@@ -141,7 +141,7 @@ const PriceContent: FC<IProps> = ({ type }) => {
             modules={[Autoplay, Pagination, Navigation]}
             spaceBetween={48}
           >
-            {contentByType[type].carsImages.map((image: any, id: number) => (
+            {contentByType[type].carsImages.map((image: StaticImageData, id: number) => (
               <SwiperSlide key={id}>
                 <Image
                   src={image}

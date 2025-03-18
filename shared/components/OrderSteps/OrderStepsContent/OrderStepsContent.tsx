@@ -6,7 +6,7 @@ import MobileIcon from "@/public/icons/MobileIcon";
 import MessageIcon from "@/public/icons/MessageIcon";
 
 interface IProps {
-
+ title?:unknown;
 }
 
 const OrderStepsContent: FC<IProps> = () => {

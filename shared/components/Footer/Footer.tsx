@@ -7,13 +7,14 @@ import Button from '../ui/Button/Button';
 import { ButtonTypes } from '@/shared/types/enums';
 import TelegramIcon from '@/public/icons/TelegramIcon';
 import WhatsUpIcon from '@/public/icons/WhatsUpIcon';
+import Link from 'next/link';
 
 const Footer = () => {
   const navList = [
     {
       id: 1,
-      label: 'Заказать',
-      route: ''
+      label: 'Контакты',
+      route: 'contacts'
     },
     {
       id: 2,
@@ -28,7 +29,7 @@ const Footer = () => {
     {
       id: 4,
       label: 'Наша команда',
-      route: ''
+      route: 'team'
     },
     {
       id: 5,
@@ -49,10 +50,11 @@ const Footer = () => {
           </div>
           <div className={s.navigation}>
             {navList.map(link => (
-              <a
+              <Link
+
                 key={link.id}
                 className='white-color font-18-medium'
-                href="">{link.label}</a>
+                href={link.route}>{link.label}</Link>
             ))}
           </div>
           <div className={s.contacts}>

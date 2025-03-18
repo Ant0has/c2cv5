@@ -1,7 +1,6 @@
-'use-client'
-
 import Footer from "@/shared/components/Footer/Footer";
 import Header from "../../shared/components/Header/Header";
+import QuestionModal from "@/shared/components/modals/QuestionModal/QuestionModal";
 
 
 export default function AppLayout({
@@ -14,8 +13,11 @@ export default function AppLayout({
       <Header />
       <main className="app-main">
         {children}
+        <QuestionModal />
       </main>
+
       <Footer />
+
     </div>
   </>;
 }
