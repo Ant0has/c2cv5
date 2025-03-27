@@ -1,9 +1,7 @@
-import { IRouteData } from "../types/route.interface"
-
 class RouteService {
     private BASE_URL = 'https://n.city2city.ru/api'
 
-    async getRouteByUrl(url?: string): Promise<IRouteData | null> {
+    async getRouteByUrl(url?: string) {
         try {
             const response = await fetch(`${this.BASE_URL}/routes/${url}`, {
                 next: { revalidate: 3600 } // Кэшируем на час

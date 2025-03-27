@@ -1,7 +1,7 @@
 'use client';
 
 import { ButtonTypes } from "@/shared/types/enums";
-import { Form, Input } from "antd";
+import { Form, FormInstance, Input } from "antd";
 import { FC } from "react";
 import Button from "../../ui/Button/Button";
 import s from './QuestionForm.module.scss';
@@ -9,11 +9,13 @@ import s from './QuestionForm.module.scss';
 interface IProps {
   buttonText?: string
   className?: string
+  form?: FormInstance
 }
 
-const QuestionForm: FC<IProps> = ({ buttonText, className }) => {
+const QuestionForm: FC<IProps> = ({ buttonText, className, form }) => {
   return (
     <Form
+      form={form}
       name="questionForm"
       layout="vertical"
       onFinish={() => undefined}

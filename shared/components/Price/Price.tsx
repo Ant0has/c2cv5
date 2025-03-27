@@ -2,14 +2,13 @@
 
 import { Prices } from "@/shared/types/enums";
 import { Tabs, TabsProps } from "antd";
-import clsx from "clsx";
-import { FC, RefObject } from "react";
+import { FC, LegacyRef } from "react";
+import AddressSelect from "./AddressSelect/AddressSelect";
 import s from './Price.module.scss';
 import PriceContent from "./PriceContent/PriceContent";
-import AddressSelect from "./AddressSelect/AddressSelect";
 
 interface IProps {
-  orderRef: RefObject<HTMLDivElement | null>
+  orderRef: LegacyRef<HTMLDivElement>
 }
 
 const Price: FC<IProps> = ({ orderRef }) => {

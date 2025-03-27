@@ -23,6 +23,18 @@
       display: flex;
       flex-direction: column;
       gap: 32px;
+
+      p {
+        line-height: 150%;
+      }
+    }
+
+    .navigationBlock {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      align-items: center;
+      text-align: center;
     }
 
     .navigation {
@@ -36,7 +48,7 @@
     .contacts {
       display: flex;
       flex-direction: column;
-      align-items: end;
+      align-items: flex-end;
       flex-shrink: 0;
       gap: 16px;
       white-space: nowrap;

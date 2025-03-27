@@ -1,26 +1,37 @@
 'use client'
 
+import { FC, useState, useContext } from 'react';
+import s from './Header.module.scss'
 import LogoIcon from '@/public/icons/LogoIcon';
-import PhoneIcon from '@/public/icons/PhoneIcon';
+import MarkerIcon from '@/public/icons/MarkerIcon';
+import Button from '../ui/Button/Button';
+import { ButtonTypes } from '@/shared/types/enums';
+import { EMAIL_ADDRESS, PHONE_NUMBER_FIRST, PHONE_NUMBER_SECOND, TELEGRAM_LINK, WHATS_UP_LINK } from '@/shared/constants';
 import TelegramIcon from '@/public/icons/TelegramIcon';
 import WhatsUpIcon from '@/public/icons/WhatsUpIcon';
-import { EMAIL_ADDRESS, PHONE_NUMBER_FIRST, PHONE_NUMBER_SECOND, TELEGRAM_LINK, WHATS_UP_LINK } from '@/shared/constants';
 import { formatPhoneNumber } from '@/shared/services/formate-phone-number';
-import { ButtonTypes } from '@/shared/types/enums';
-import { Popover } from 'antd';
 import clsx from 'clsx';
+import PhoneIcon from '@/public/icons/PhoneIcon';
+import { Popover } from 'antd';
 import Link from 'next/link';
-import { FC, useState } from 'react';
 import MenuContent from '../MenuContent/MenuContent';
-import Button from '../ui/Button/Button';
-import s from './Header.module.scss';
+import { RegionsContext } from '@/app/providers';
+import { usePathname } from 'next/navigation';
+import { getSelectedRegion } from '@/shared/services/get-selected-region';
 
 interface IHeaderProps {
-  title?:unknown
+
 }
 
 const Header: FC<IHeaderProps> = () => {
+  const regions = useContext(RegionsContext)
+
+  const pathname = usePathname()
   const [isOpenPhone, setIsOpenPhone] = useState<boolean>(false)
+
+  const regionData = getSelectedRegion({ regions, pathname })
+
+  console.log('regionData', regionData)
 
   return (
     <header className={s.header}>
@@ -61,15 +72,15 @@ const Header: FC<IHeaderProps> = () => {
           </div>
 
           <address className={s.phone}>
-            <div className={s.block}>
-              <a href={`tel:+${PHONE_NUMBER_FIRST}`} className='font-18-semibold'>
-                {formatPhoneNumber(PHONE_NUMBER_FIRST)}
-              </a>
-            </div>
+            {regionData?.address && <p>{regionData?.address}</p>}
 
             <div className={s.block}>
-              <a href={`tel:+${PHONE_NUMBER_SECOND}`} className='font-18-semibold'>
-                {formatPhoneNumber(PHONE_NUMBER_SECOND)}
+              {regionData?.phoneNumber && <a href={`tel:+${regionData?.phoneNumber}`} className='font-18-semibold'>
+                {formatPhoneNumber(regionData?.phoneNumber)}
+              </a>}
+
+              <a href={`tel:+${PHONE_NUMBER_FIRST}`} className='font-18-semibold'>
+                {formatPhoneNumber(PHONE_NUMBER_FIRST)}
               </a>
               <a href={`mailto:${EMAIL_ADDRESS}`} className='font-14-medium orange-color'>{EMAIL_ADDRESS}</a>
             </div>
@@ -79,11 +90,11 @@ const Header: FC<IHeaderProps> = () => {
           <Popover
             content={
               <div className={s.content}>
+                {regionData?.phoneNumber && <a href={`tel:+${regionData?.phoneNumber}`} className='font-18-semibold black-color'>
+                  {formatPhoneNumber(regionData?.phoneNumber)}
+                </a>}
                 <a href={`tel:+${PHONE_NUMBER_FIRST}`} className='font-18-semibold black-color'>
                   {formatPhoneNumber(PHONE_NUMBER_FIRST)}
-                </a>
-                <a href={`tel:+${PHONE_NUMBER_SECOND}`} className='font-18-semibold black-color'>
-                  {formatPhoneNumber(PHONE_NUMBER_SECOND)}
                 </a>
                 <a href={`mailto:${EMAIL_ADDRESS}`} className='font-14-medium orange-color'>{EMAIL_ADDRESS}</a>
               </div>

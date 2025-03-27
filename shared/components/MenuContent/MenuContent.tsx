@@ -12,22 +12,31 @@ import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import clsx from "clsx";
+import { usePathname } from 'next/navigation'
 
-const getValidName = (region: IRegion) => region.region_value || region.meta_value
+const getValidName = (region: IRegion) => {
+  return region.region_value || region.meta_value || region.url || ''
+}
 
 const MenuContent: FC = () => {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false)
   const [isMobile, setIsMobile] = useState<boolean>(false)
   const regions = useContext(RegionsContext)
+  const pathname = usePathname()
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 700)
+      if (typeof window !== 'undefined') {
+        setIsMobile(window.innerWidth <= 700)
+      }
     }
 
     checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', checkMobile)
+      return () => window.removeEventListener('resize', checkMobile)
+    }
   }, [])
 
   // Группировка по первой букве region_value
@@ -94,7 +103,7 @@ const MenuContent: FC = () => {
             {groupedData[letter].map((region) => (
               <Link
                 onClick={() => setIsOpenMenu(false)}
-                className={clsx('black-color', { ['orange-color']: region.url === window.location.pathname.replace('/', '') })}
+                className={clsx('black-color', { ['orange-color']: region.url === pathname?.replace('/', '') })}
                 href={`/${region.url || ''}`}
                 key={region.meta_id}
               >

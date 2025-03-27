@@ -1,3 +1,5 @@
+'use client'
+
 import s from './Footer.module.scss'
 import clsx from 'clsx';
 import LogoLightIcon from '@/public/icons/LogoLightIcon';
@@ -8,8 +10,19 @@ import { ButtonTypes } from '@/shared/types/enums';
 import TelegramIcon from '@/public/icons/TelegramIcon';
 import WhatsUpIcon from '@/public/icons/WhatsUpIcon';
 import Link from 'next/link';
+import { useContext, useMemo } from 'react';
+import { RegionsContext } from '@/app/providers';
+import { getSelectedRegion } from '@/shared/services/get-selected-region';
+import { usePathname } from 'next/navigation';
 
 const Footer = () => {
+  const regions = useContext(RegionsContext)
+  const pathname = usePathname()
+
+  const regionData = useMemo(() => {
+    return getSelectedRegion({ regions, pathname })
+  }, [])
+
   const navList = [
     {
       id: 1,
@@ -48,23 +61,29 @@ const Footer = () => {
             <LogoLightIcon />
             <p className='font-16-normal white-color'>Добро пожаловать на страницу City2City.ru - ведущего сервиса заказа междугороднего такси! Если вам требуется надежный и комфортабельный транспорт от аэропорта</p>
           </div>
-          <div className={s.navigation}>
-            {navList.map(link => (
-              <Link
+          <div className={s.navigationBlock}>
+            <div className={s.navigation}>
+              {navList.map(link => (
+                <Link
 
-                key={link.id}
-                className='white-color font-18-medium'
-                href={link.route}>{link.label}</Link>
-            ))}
+                  key={link.id}
+                  className='white-color font-18-medium'
+                  href={link.route}>{link.label}</Link>
+              ))}
+            </div>
+            {regionData?.address && <p className='white-color'>{regionData?.address}</p>}
           </div>
           <div className={s.contacts}>
+            {regionData?.phoneNumber && <a href={`tel:+${regionData?.phoneNumber}`} className='font-32-semibold white-color'>
+              {formatPhoneNumber(regionData?.phoneNumber)}
+            </a>}
             <a href={`tel:+${PHONE_NUMBER_FIRST}`} className='font-32-semibold white-color'>
               {formatPhoneNumber(PHONE_NUMBER_FIRST)}
             </a>
             <div>
-              <a href={`tel:+${PHONE_NUMBER_SECOND}`} className='font-32-semibold white-color'>
+              {/* <a href={`tel:+${PHONE_NUMBER_SECOND}`} className='font-32-semibold white-color'>
                 {formatPhoneNumber(PHONE_NUMBER_SECOND)}
-              </a>
+              </a> */}
               <p className={clsx(s.phoneDescription, 'font-14-normal white-color')}>8:00 - 23:00 МСК Бесплатно по России</p>
             </div>
 

@@ -17,7 +17,7 @@ interface Props {
 }
 
 export function Home({ routeData }: Props) {
-	const orderRef = useRef<HTMLDivElement | null>(null)
+	const orderRef = useRef<HTMLDivElement>(null)
 
 	const handleGoToOrder = () => {
 		if (orderRef.current) {

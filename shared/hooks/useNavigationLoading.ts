@@ -1,76 +1,58 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { usePathname, useSearchParams } from 'next/navigation'
 
-export function useNavigationLoading() {
-    const [isLoading, setIsLoading] = useState(false)
-    const pathname = usePathname()
-    const searchParams = useSearchParams()
-    const router = useRouter()
+export const useNavigationLoading = () => {
+  const [isLoading, setIsLoading] = useState(false)
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
 
-    const startLoading = useCallback(() => {
-        setIsLoading(true)
-        document.body.style.cursor = 'wait'
-        document.body.style.pointerEvents = 'none'
-        // Блокируем прокрутку
-        document.body.style.overflow = 'hidden'
-        document.body.style.touchAction = 'none' // Для мобильных устройств
-    }, [])
+  useEffect(() => {
+    if (typeof window === 'undefined') return
 
-    const stopLoading = useCallback(() => {
-        setIsLoading(false)
-        document.body.style.cursor = ''
-        document.body.style.pointerEvents = ''
-        // Разблокируем прокрутку
-        document.body.style.overflow = ''
-        document.body.style.touchAction = ''
-    }, [])
+    const handleStart = (href: string) => {
+      try {
+        const url = typeof href === 'string' ? new URL(href, window.location.origin) : null
+        const currentUrl = new URL(window.location.href)
 
-    // Отслеживаем клики по ссылкам
-    useEffect(() => {
-        const handleClick = (e: MouseEvent) => {
-            const target = e.target as HTMLElement
-            const link = target.closest('a')
-            if (link?.href && !link.target && !e.ctrlKey && !e.metaKey) {
-                const url = new URL(link.href)
-                const currentUrl = new URL(window.location.href)
-                
-                if (url.origin === window.location.origin && 
-                    (url.pathname !== currentUrl.pathname || url.search !== currentUrl.search)) {
-                    startLoading()
-                }
-            }
+        if (url && url.origin === window.location.origin && url.pathname !== currentUrl.pathname) {
+          setIsLoading(true)
         }
+      } catch (error) {
+        console.error('Error in navigation loading:', error)
+      }
+    }
 
-        document.addEventListener('click', handleClick)
-        return () => document.removeEventListener('click', handleClick)
-    }, [pathname, startLoading])
+    const handleComplete = () => {
+      setIsLoading(false)
+    }
 
-    // Перехватываем программную навигацию
-    useEffect(() => {
-        const originalPush = router.push
-        router.push = (...args: Parameters<typeof router.push>) => {
-            const [href] = args
-            const url = typeof href === 'string' ? new URL(href, window.location.origin) : null
-            const currentUrl = new URL(window.location.href)
+    // Обработка кликов по ссылкам
+    const handleClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      const link = target.closest('a')
+      if (link?.href && !link.target && !e.ctrlKey && !e.metaKey) {
+        handleStart(link.href)
+      }
+    }
 
-            if (url && (url.pathname !== currentUrl.pathname || url.search !== currentUrl.search)) {
-                startLoading()
-            }
-            return originalPush.apply(router, args)
-        }
+    document.addEventListener('click', handleClick)
+    window.addEventListener('beforeunload', handleComplete)
+    window.addEventListener('popstate', handleComplete)
 
-        return () => {
-            router.push = originalPush
-        }
-    }, [router, startLoading])
+    return () => {
+      document.removeEventListener('click', handleClick)
+      window.removeEventListener('beforeunload', handleComplete)
+      window.removeEventListener('popstate', handleComplete)
+    }
+  }, [])
 
-    // Останавливаем загрузку при завершении навигации
-    useEffect(() => {
-        const timer = setTimeout(stopLoading, 100)
-        return () => clearTimeout(timer)
-    }, [pathname, searchParams, stopLoading])
+  useEffect(() => {
+    setIsLoading(false)
+  }, [pathname, searchParams])
 
-    return isLoading
-} 
+  return isLoading
+}
+
+export default useNavigationLoading 

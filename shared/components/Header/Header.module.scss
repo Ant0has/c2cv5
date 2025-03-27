@@ -1,6 +1,8 @@
 .header {
   width: 100%;
   background: var(--white);
+  // position: fixed;
+  // z-index: 2;
 
   .container {
     max-width: calc(var(--header-footer-width) + 40px);
@@ -46,12 +48,14 @@
 
     .phone {
       display: flex;
+      align-items: center;
       gap: 24px;
 
       .block {
         display: flex;
         flex-direction: column;
-        align-items: end;
+        align-items: flex-end;
+        gap: 4px;
       }
     }
 
@@ -83,9 +87,10 @@
 
     @media (max-width: 650px) {
       & {
-        padding: 24px;
+        padding: 16px;
         display: grid;
         grid-template-columns: 24px auto 24px;
+        row-gap: 12px;
         grid-template-areas:
           "a b c"
           "d d d";
@@ -142,8 +147,8 @@
 .content {
   display: flex;
   flex-direction: column;
-  align-items: end;
-  gap: 4px;
+  align-items: flex-end;
+  gap: 12px;
 }
 
 // burger menu
