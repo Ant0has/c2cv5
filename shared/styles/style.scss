@@ -3,3 +3,38 @@
   align-items: center;
   gap: 8px;
 }
+
+.address-select {
+  height: 60px !important;
+  .ant-select-selector {
+    padding: 16px 20px !important;
+    border-radius: 16px 0px 0px 16px !important;
+    border: none !important;
+  }
+}
+
+.departure-select {
+  .ant-select-selector {
+    border-radius: 16px 0px 0px 16px !important;
+  }
+}
+
+.arrival-select {
+  .ant-select-selector {
+    border-radius: 0px 16px 16px 0px !important;
+  }
+}
+
+@media (max-width: 775px) {
+  .departure-select {
+    .ant-select-selector {
+      border-radius: 16px 16px 0px 0px !important;
+    }
+  }
+
+  .arrival-select {
+    .ant-select-selector {
+      border-radius: 0px 0px 16px 16px !important;
+    }
+  }
+}

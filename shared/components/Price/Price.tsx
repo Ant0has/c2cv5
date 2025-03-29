@@ -2,16 +2,17 @@
 
 import { Prices } from "@/shared/types/enums";
 import { Tabs, TabsProps } from "antd";
-import { FC, LegacyRef } from "react";
+import { FC, useState } from "react";
 import AddressSelect from "./AddressSelect/AddressSelect";
 import s from './Price.module.scss';
 import PriceContent from "./PriceContent/PriceContent";
 
 interface IProps {
-  orderRef: LegacyRef<HTMLDivElement>
+
 }
 
-const Price: FC<IProps> = ({ orderRef }) => {
+const Price: FC<IProps> = () => {
+  const [selectedPlan, setSelectedPlan] = useState<Prices>(Prices.COMFORT)
 
   const tabs: TabsProps['items'] = [
     {
@@ -44,8 +45,6 @@ const Price: FC<IProps> = ({ orderRef }) => {
       label: 'Доставка',
       children: <PriceContent type={Prices.DELIVERY} />
     },
-
-
   ]
   return (
     <div className='container-40'>
@@ -55,14 +54,9 @@ const Price: FC<IProps> = ({ orderRef }) => {
       </div>
 
 
-      <Tabs items={tabs} />
+      <Tabs items={tabs} onChange={(key) => setSelectedPlan(key as Prices)} activeKey={selectedPlan} />
 
-      {/* <PriceOptions
-        title="Тариф Стандарт"
-        options={standardOptions}
-      /> */}
-
-      <AddressSelect orderRef={orderRef} />
+      <AddressSelect selectedPlan={selectedPlan} />
     </div>
 
   )

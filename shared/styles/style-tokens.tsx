@@ -59,6 +59,12 @@ export const tokens: ThemeConfig = {
       inputFontSize: 16,
       activeBorderColor: 'none'
     },
+
+    Select: {
+      activeBorderColor: 'none',
+      activeOutlineColor: 'none',
+      hoverBorderColor: 'none'
+    },
   }
 }
 

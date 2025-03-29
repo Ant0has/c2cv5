@@ -7,7 +7,8 @@
   margin-bottom: 32px;
 }
 .selection {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 32px 1fr;
   margin-bottom: 24px;
 
   .part:first-of-type .input {
@@ -21,6 +22,7 @@
 .part {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   flex-grow: 1;
 }
 
@@ -42,6 +44,7 @@
   align-self: flex-end;
   background-color: #fff;
   height: 60px;
+  z-index: 2;
 }
 
 .swapButton {
@@ -104,6 +107,7 @@
 
 @media (max-width: 775px) {
   .selection {
+    display: flex;
     flex-direction: column;
 
     .part:first-of-type .input {
@@ -136,6 +140,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    z-index: 2;
   }
 }
 

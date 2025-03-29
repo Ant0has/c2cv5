@@ -86,4 +86,9 @@
       filter: brightness(95%);
     }
   }
+
+  &.disable {
+    pointer-events: none !important;
+    filter: brightness(60%) !important;
+  }
 }

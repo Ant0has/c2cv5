@@ -6,6 +6,7 @@ import 'dayjs/locale/ru';
 import { FC } from "react";
 import Button from "../../ui/Button/Button";
 import s from './OrderForm.module.scss';
+import Link from "next/link";
 
 interface IProps {
   title?: unknown;
@@ -110,7 +111,7 @@ const OrderForm: FC<IProps> = ({ form }) => {
 
       <div className={s.bottom}>
         <Button type={ButtonTypes.PRIMARY} text={'Заказать поездку'} />
-        <p className="font-14-normal">Нажимая на кнопку, вы соглашаетесь на обработку <a className="font-14-normal orange-color" href="orange-color">персональных данных</a></p>
+        <p className="font-14-normal">Нажимая на кнопку, вы соглашаетесь на обработку <Link className="font-14-normal orange-color" href="privacy-policy">персональных данных</Link></p>
       </div>
     </Form>
   )

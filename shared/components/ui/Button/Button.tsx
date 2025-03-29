@@ -12,6 +12,7 @@ interface IButtonProps {
   icon?: ReactElement
   text?: string
   className?: string,
+  disabled?: boolean,
   handleClick?: () => void
 }
 
@@ -21,7 +22,9 @@ const Button: FC<IButtonProps> = (props) => {
     icon,
     text,
     className,
-    handleClick } = props
+    disabled,
+    handleClick
+  } = props
 
   if (type === ButtonTypes.LINK) {
     return <a
@@ -35,10 +38,11 @@ const Button: FC<IButtonProps> = (props) => {
   }
 
   return (
-    <button className={clsx(s.button, s[type], 'font-16-medium')} onClick={handleClick}>
+    <button className={clsx(s.button, s[type], 'font-16-medium', { [s.disable]: disabled })} onClick={() => !disabled && handleClick && handleClick()
+    }>
       {icon && <i className={s.icon}>{icon}</i>}
       {text && <span className={clsx('font-16-medium', s.text)}>{text}</span>}
-    </button>
+    </button >
   )
 }
 

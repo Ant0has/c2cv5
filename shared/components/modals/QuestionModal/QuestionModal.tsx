@@ -29,7 +29,9 @@ const QuestionModal: FC<IProps> = () => {
       footer={false}
       width={588}
     >
-      <QuestionForm form={form} buttonText='Получить консультацию' />
+      <QuestionForm handleClickLink={() => {
+        setIsOpenQuestionModal(false)
+      }} form={form} buttonText='Получить консультацию' />
     </Modal>
   )
 }

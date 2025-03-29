@@ -4,6 +4,7 @@ import { ConfigProvider } from "antd"
 import { Dispatch, PropsWithChildren, SetStateAction, createContext, useState } from "react"
 import { tokens } from "../shared/styles/style-tokens"
 import { IRegion } from "@/shared/types/types"
+import { YMaps } from "@pbe/react-yandex-maps"
 
 interface ProvidersProps extends PropsWithChildren {
 	regions: IRegion[]
@@ -26,24 +27,28 @@ export function Providers({ children, regions }: ProvidersProps) {
 	const [isOpenOrderModal, setIsOpenOrderModal] = useState<boolean>(false)
 
 	return (
-		<ConfigProvider
-			wave={{ disabled: true }}
-			theme={{
-				components: tokens.components,
-				token: tokens.token
-			}}
-		>
-			<RegionsContext.Provider value={regions}>
-				<ModalContext.Provider value={{
-					isOpenQuestionModal,
-					setIsOpenQuestionModal,
+		<YMaps query={{
+			apikey: process.env.NEXT_PUBLIC_YANDEX_MAPS_API_KEY
+		}}>
+			<ConfigProvider
+				wave={{ disabled: true }}
+				theme={{
+					components: tokens.components,
+					token: tokens.token
+				}}
+			>
+				<RegionsContext.Provider value={regions}>
+					<ModalContext.Provider value={{
+						isOpenQuestionModal,
+						setIsOpenQuestionModal,
 
-					isOpenOrderModal,
-					setIsOpenOrderModal
-				}}>
-					{children}
-				</ModalContext.Provider>
-			</RegionsContext.Provider>
-		</ConfigProvider >
+						isOpenOrderModal,
+						setIsOpenOrderModal
+					}}>
+						{children}
+					</ModalContext.Provider>
+				</RegionsContext.Provider>
+			</ConfigProvider >
+		</YMaps>
 	)
 }

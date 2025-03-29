@@ -5,14 +5,16 @@ import { Form, FormInstance, Input } from "antd";
 import { FC } from "react";
 import Button from "../../ui/Button/Button";
 import s from './QuestionForm.module.scss';
+import Link from "next/link";
 
 interface IProps {
   buttonText?: string
   className?: string
   form?: FormInstance
+  handleClickLink?: () => void
 }
 
-const QuestionForm: FC<IProps> = ({ buttonText, className, form }) => {
+const QuestionForm: FC<IProps> = ({ buttonText, className, form, handleClickLink }) => {
   return (
     <Form
       form={form}
@@ -57,7 +59,7 @@ const QuestionForm: FC<IProps> = ({ buttonText, className, form }) => {
 
       <div className={s.bottom}>
         <Button type={ButtonTypes.PRIMARY} text={buttonText ?? 'Задать вопрос'} />
-        <p className="font-14-normal">Нажимая на кнопку, вы соглашаетесь на обработку <a className="font-14-normal orange-color" href="orange-color">персональных данных</a></p>
+        <p className="font-14-normal">Нажимая на кнопку, вы соглашаетесь на обработку <Link onClick={handleClickLink} className="font-14-normal orange-color" href="privacy-policy">персональных данных</Link></p>
       </div>
     </Form>
   );

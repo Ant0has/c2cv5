@@ -1,22 +1,24 @@
 'use client'
 
-import s from './Footer.module.scss'
-import clsx from 'clsx';
+import { ModalContext, RegionsContext } from '@/app/providers';
 import LogoLightIcon from '@/public/icons/LogoLightIcon';
-import { EMAIL_ADDRESS, PHONE_NUMBER_FIRST, PHONE_NUMBER_SECOND, TELEGRAM_LINK, WHATS_UP_LINK } from '@/shared/constants';
-import { formatPhoneNumber } from '@/shared/services/formate-phone-number';
-import Button from '../ui/Button/Button';
-import { ButtonTypes } from '@/shared/types/enums';
 import TelegramIcon from '@/public/icons/TelegramIcon';
 import WhatsUpIcon from '@/public/icons/WhatsUpIcon';
-import Link from 'next/link';
-import { useContext, useMemo } from 'react';
-import { RegionsContext } from '@/app/providers';
+import { EMAIL_ADDRESS, PHONE_NUMBER_FIRST, TELEGRAM_LINK, WHATS_UP_LINK } from '@/shared/constants';
+import { formatPhoneNumber } from '@/shared/services/formate-phone-number';
 import { getSelectedRegion } from '@/shared/services/get-selected-region';
+import { goToOrder } from '@/shared/services/go-to-order';
+import { ButtonTypes } from '@/shared/types/enums';
+import clsx from 'clsx';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useContext, useMemo } from 'react';
+import Button from '../ui/Button/Button';
+import s from './Footer.module.scss';
 
 const Footer = () => {
   const regions = useContext(RegionsContext)
+  const { setIsOpenQuestionModal } = useContext(ModalContext)
   const pathname = usePathname()
 
   const regionData = useMemo(() => {
@@ -32,12 +34,14 @@ const Footer = () => {
     {
       id: 2,
       label: 'Рассчитать',
-      route: ''
+      route: '',
+      handleClick: () => goToOrder()
     },
     {
       id: 3,
       label: 'Консультация',
-      route: ''
+      route: '',
+      handleClick: () => setIsOpenQuestionModal(true)
     },
     {
       id: 4,
@@ -47,7 +51,7 @@ const Footer = () => {
     {
       id: 5,
       label: 'Оферта для юр.лиц',
-      route: ''
+      route: 'oferta'
     },
   ]
 
@@ -63,12 +67,13 @@ const Footer = () => {
           </div>
           <div className={s.navigationBlock}>
             <div className={s.navigation}>
-              {navList.map(link => (
+              {navList.map(link => !link?.handleClick ? (
                 <Link
-
                   key={link.id}
                   className='white-color font-18-medium'
                   href={link.route}>{link.label}</Link>
+              ) : (
+                <a onClick={link?.handleClick} className='white-color font-18-medium cursor-pointer'>{link.label}</a>
               ))}
             </div>
             {regionData?.address && <p className='white-color'>{regionData?.address}</p>}

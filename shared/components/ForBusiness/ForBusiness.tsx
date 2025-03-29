@@ -1,15 +1,17 @@
-import { FC } from "react";
-import s from './ForBusiness.module.scss'
-import ForBusinessContent from "./ForBusinessContent/ForBusinessContent";
-import clsx from "clsx";
-import Button from "../ui/Button/Button";
+import { ModalContext } from "@/app/providers";
 import { ButtonTypes } from "@/shared/types/enums";
+import clsx from "clsx";
+import { FC, useContext } from "react";
+import Button from "../ui/Button/Button";
+import s from './ForBusiness.module.scss';
+import ForBusinessContent from "./ForBusinessContent/ForBusinessContent";
 
 interface IProps {
- title?:unknown;
+  title?: unknown;
 }
 
 const ForBusiness: FC<IProps> = () => {
+  const { setIsOpenQuestionModal } = useContext(ModalContext)
 
   return (
     <div className={s.wrapper}>
@@ -17,7 +19,7 @@ const ForBusiness: FC<IProps> = () => {
         <div className={s.content}>
           <ForBusinessContent />
           <div className={s.block}>
-            <Button type={ButtonTypes.PRIMARY} text="Трансферы Сотрудников и Руководителей" />
+            <Button type={ButtonTypes.PRIMARY} text="Трансферы Сотрудников и Руководителей" handleClick={() => setIsOpenQuestionModal(true)} />
 
             <ul className={s.advantages}>
               <li className={s.advantage}>Оплата <span>по Счету</span></li>
@@ -25,8 +27,8 @@ const ForBusiness: FC<IProps> = () => {
               <li className={s.advantage}>Доставка <span>срочных грузов и документов</span></li>
             </ul>
 
-            <Button type={ButtonTypes.SECONDARY} text="Работа по ЭДО.Диадок" />
-            <Button type={ButtonTypes.PRIMARY} text="Рассчет для Юрлиц" />
+            <Button type={ButtonTypes.SECONDARY} text="Работа по ЭДО.Диадок" handleClick={() => setIsOpenQuestionModal(true)} />
+            <Button type={ButtonTypes.PRIMARY} text="Рассчет для Юрлиц" handleClick={() => setIsOpenQuestionModal(true)} />
           </div>
 
         </div>
