@@ -14,6 +14,7 @@ export interface IRouteData {
     }
     from_city?: string
     to_city?: string
+    city_seo_data?: string
     price?: number
     distance?: number
     duration?: string

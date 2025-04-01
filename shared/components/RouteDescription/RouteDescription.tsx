@@ -9,7 +9,7 @@ const RouteDescription: FC<IProps> = ({ title, text }) => {
   return (
     <div className="container-40">
       <div className="title title-m-32">
-        Маршрут <span>{title}</span>
+        Маршрут <span>{title?.replace(',', ' в ')}</span>
       </div>
       <div className='default-tag' dangerouslySetInnerHTML={{ __html: text }} />
     </div>

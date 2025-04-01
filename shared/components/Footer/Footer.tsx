@@ -23,7 +23,7 @@ const Footer = () => {
 
   const regionData = useMemo(() => {
     return getSelectedRegion({ regions, pathname })
-  }, [])
+  }, [pathname])
 
   const navList = [
     {

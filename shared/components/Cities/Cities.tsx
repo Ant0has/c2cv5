@@ -29,7 +29,7 @@ const Cities: FC<IProps> = ({ routes }) => {
 
       <div className={s.slide}>
         {
-          routes ? getPaginatedList(routes, page, 10).map((region) => (
+          routes ? getPaginatedList(routes, page, 20).map((region) => (
             <div
               key={region.ID}
               className={clsx(s.region, 'font-16-medium')}
@@ -38,7 +38,7 @@ const Cities: FC<IProps> = ({ routes }) => {
             >
               {region?.title}
             </div>
-          )) : getPaginatedList(regions, page, 10).map((region) => (
+          )) : getPaginatedList(regions, page, 20).map((region) => (
             <div
               key={region.ID}
               className={clsx(s.region, 'font-16-medium')}
@@ -54,9 +54,9 @@ const Cities: FC<IProps> = ({ routes }) => {
 
       <Pagination
         align="center"
-        pageSize={10}
+        pageSize={20}
         current={page + 1}
-        defaultPageSize={10}
+        defaultPageSize={20}
         defaultCurrent={1}
         total={routes ? routes.length : regions.length}
         onChange={(qqq) => setPage(qqq - 1)}

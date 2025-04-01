@@ -16,7 +16,6 @@ interface Props {
 }
 
 export function Home({ routeData }: Props) {
-
 	return (
 		<>
 			<Welcome handleGoToOrder={() => goToOrder()} city={routeData?.regions_data.meta_value} />
@@ -28,7 +27,7 @@ export function Home({ routeData }: Props) {
 			<ForBusiness />
 			{routeData?.content && <RouteDescription
 				text={routeData?.content}
-				title={routeData?.title}
+				title={routeData?.city_seo_data}
 			/>}
 
 		</>

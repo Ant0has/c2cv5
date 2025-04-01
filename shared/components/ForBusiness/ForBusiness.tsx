@@ -27,7 +27,7 @@ const ForBusiness: FC<IProps> = () => {
               <li className={s.advantage}>Доставка <span>срочных грузов и документов</span></li>
             </ul>
 
-            <Button type={ButtonTypes.SECONDARY} text="Работа по ЭДО.Диадок" handleClick={() => setIsOpenQuestionModal(true)} />
+            <Button className={s.green} type={ButtonTypes.SECONDARY} text="Работа по ЭДО.Диадок" handleClick={() => setIsOpenQuestionModal(true)} />
             <Button type={ButtonTypes.PRIMARY} text="Рассчет для Юрлиц" handleClick={() => setIsOpenQuestionModal(true)} />
           </div>
 
