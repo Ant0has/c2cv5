@@ -1,6 +1,6 @@
 'use client'
 
-import { ModalContext, RegionsContext } from '@/app/providers';
+import { ModalContext, RouteContext } from '@/app/providers';
 import LogoLightIcon from '@/public/icons/LogoLightIcon';
 import TelegramIcon from '@/public/icons/TelegramIcon';
 import WhatsUpIcon from '@/public/icons/WhatsUpIcon';
@@ -8,22 +8,18 @@ import { EMAIL_ADDRESS, PHONE_NUMBER_FIRST, TELEGRAM_LINK, WHATS_UP_LINK } from 
 import { formatPhoneNumber } from '@/shared/services/formate-phone-number';
 import { getSelectedRegion } from '@/shared/services/get-selected-region';
 import { goToOrder } from '@/shared/services/go-to-order';
-import { ButtonTypes } from '@/shared/types/enums';
+import { Blocks, ButtonTypes } from '@/shared/types/enums';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useContext, useMemo } from 'react';
+import { useContext } from 'react';
 import Button from '../ui/Button/Button';
 import s from './Footer.module.scss';
 
 const Footer = () => {
-  const regions = useContext(RegionsContext)
-  const { setIsOpenQuestionModal } = useContext(ModalContext)
-  const pathname = usePathname()
+  const { route } = useContext(RouteContext)
+  const { setQuestionModalData } = useContext(ModalContext)
 
-  const regionData = useMemo(() => {
-    return getSelectedRegion({ regions, pathname })
-  }, [pathname])
+  const regionData = getSelectedRegion(route)
 
   const navList = [
     {
@@ -41,7 +37,7 @@ const Footer = () => {
       id: 3,
       label: 'Консультация',
       route: '',
-      handleClick: () => setIsOpenQuestionModal(true)
+      handleClick: () => setQuestionModalData({ status: true, blockFrom: Blocks.FOOTER })
     },
     {
       id: 4,
@@ -73,7 +69,7 @@ const Footer = () => {
                   className='white-color font-18-medium'
                   href={link.route}>{link.label}</Link>
               ) : (
-                <a onClick={link?.handleClick} className='white-color font-18-medium cursor-pointer'>{link.label}</a>
+                <a key={link.id} onClick={link?.handleClick} className='white-color font-18-medium cursor-pointer'>{link.label}</a>
               ))}
             </div>
             {regionData?.address && <p className='white-color'>{regionData?.address}</p>}

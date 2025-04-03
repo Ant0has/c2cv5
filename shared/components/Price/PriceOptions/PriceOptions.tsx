@@ -6,12 +6,13 @@ import clsx from "clsx";
 interface IProps {
   title: string
   options: IPriceOptions[]
+  isMilitary?: boolean
 }
 
-const PriceOptions: FC<IProps> = ({ title, options }) => {
+const PriceOptions: FC<IProps> = ({ title, options, isMilitary }) => {
 
   return (
-    <div className={s.options}>
+    <div className={clsx(s.options, { [s.military]: isMilitary })}>
       <h3 className={clsx(s.title, 'font-24-medium')}>{title}</h3>
 
       <div className={s.table}>

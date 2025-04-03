@@ -17,6 +17,7 @@ export interface IReviewData {
   city: string
   rate: number,
   date: number
+  route?: string
   review: string
 }
 
@@ -30,4 +31,20 @@ export interface IRegion {
   url: string | null;
   address: string | null;
   phone_number: string | null;
+}
+
+export interface IMailRequest {
+  name?: string;
+  phone?: string;
+  block?: string;
+  trip_type?: string;
+  device_info?: string;
+  trip_date?: string;
+  additional_info?: string;
+  auto_class?: string;
+  order_from?: string;
+  order_to?: string;
+  trip_price_from?: string;
+
+  status?: boolean
 }

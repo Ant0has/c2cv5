@@ -10,21 +10,32 @@ import RouteDescription from "@/shared/components/RouteDescription/RouteDescript
 import Welcome from "@/shared/components/Welcome/Welcome"
 import { goToOrder } from "@/shared/services/go-to-order"
 import { IRouteData } from "@/shared/types/route.interface"
+import { useContext, useEffect } from "react"
+import { RouteContext } from "../providers"
 
 interface Props {
 	routeData?: IRouteData
 }
 
 export function Home({ routeData }: Props) {
+	const { setRoute } = useContext(RouteContext)
+	useEffect(() => {
+		routeData && setRoute(routeData)
+	}, [routeData])
+
+	console.log('routeData', routeData)
+	const isMilitary = true
+
 	return (
 		<>
-			<Welcome handleGoToOrder={() => goToOrder()} city={routeData?.regions_data.meta_value} />
-			<Price />
-			<OrderSteps />
+			<Welcome isMilitary={isMilitary} handleGoToOrder={() => goToOrder()} city={routeData?.city_seo_data} />
+			<Price isMilitary={isMilitary} title={routeData?.city_seo_data} />
+			<OrderSteps isMilitary={isMilitary} />
 			<Reviews />
-			<Questions />
+			<Questions isMilitary={isMilitary} />
 			<Cities routes={routeData?.routes} />
-			<ForBusiness />
+			{!isMilitary && <ForBusiness />}
+
 			{routeData?.content && <RouteDescription
 				text={routeData?.content}
 				title={routeData?.city_seo_data}

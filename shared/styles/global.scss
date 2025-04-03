@@ -6,7 +6,8 @@
   --white: #fefefe;
   --orange: #ff9c00;
   --link-button: #f5f5f5;
-
+  --green: #00bea2;
+  --blue: #012256;
   --container-width: 1200px;
   --header-footer-width: 1792px;
 
@@ -74,7 +75,7 @@ body {
 input,
 button,
 textarea {
-  font-family: inherit;
+  font-family: "Inter", sans-serif;
 }
 input::-ms-clear {
   display: none;
@@ -129,7 +130,7 @@ textarea::placeholder,
 textarea,
 input::placeholder,
 input {
-  font-family: "Inter", sans-serif;
+  font-family: "Inter", sans-serif !important;
   font-weight: 400;
   font-size: 16px;
   letter-spacing: -0.02em;
@@ -154,7 +155,6 @@ input {
 .font-14-normal {
   font-weight: 400;
   font-size: 14px;
-  letter-spacing: -0.01em;
 }
 
 .font-14-medium {
@@ -312,7 +312,7 @@ input {
   letter-spacing: -0.05em;
 
   span {
-    color: var(--orange);
+    color: var(--orange) !important;
     font-weight: 500;
     font-size: 56px;
     letter-spacing: -0.05em;
@@ -419,8 +419,6 @@ input {
 }
 
 .default-tag {
-  line-height: 150% !important;
-  white-space: pre-wrap;
   * {
     line-height: 150% !important;
     white-space: pre-wrap;
@@ -517,5 +515,59 @@ input {
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
+  }
+}
+
+:root {
+  --scrollbar-width: calc(100vw - 100%);
+}
+
+// html {
+//   padding-right: 10px;
+//   margin-right: -10px;
+// }
+
+html:has(.ant-modal-mask) {
+  // pointer-events: none;
+  overflow-y: hidden;
+  padding-right: 10px;
+}
+
+/* Элегантный скроллбар */
+/* Для Chrome, Safari, Edge */
+*::-webkit-scrollbar {
+  width: 6px; /* Толщина вертикального скроллбара */
+  height: 6px; /* Толщина горизонтального скроллбара */
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent; /* Полностью прозрачная дорожка */
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3); /* Цвет ползунка */
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.5); /* Цвет при наведении */
+}
+
+/* Убираем кнопки (стрелки) скроллбара */
+*::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--orange) transparent;
+}
+
+@supports (-webkit-touch-callout: none) {
+  html:has(.ant-modal-mask) {
+    padding-right: 0px !important;
   }
 }

@@ -34,3 +34,12 @@
     display: none;
   }
 }
+
+.military {
+  background: var(--blue);
+  h2,
+  p,
+  span {
+    color: var(--white);
+  }
+}

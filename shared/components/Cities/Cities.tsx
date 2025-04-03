@@ -1,14 +1,15 @@
 'use client';
 
-import { FC, useContext, useState } from "react";
-import s from './Cities.module.scss'
+import { RegionsContext } from "@/app/providers";
+import { getPaginatedList } from "@/shared/services/get-paginated-list";
+import { IRoute } from "@/shared/types/route.interface";
 import { IRegion } from "@/shared/types/types";
 import { Pagination } from "antd";
-import { getPaginatedList } from "@/shared/services/get-paginated-list";
 import clsx from "clsx";
-import { RegionsContext } from "@/app/providers";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { IRoute } from "@/shared/types/route.interface";
+import { FC, useContext, useState } from "react";
+import s from './Cities.module.scss';
 
 interface IProps {
   routes?: IRoute[]
@@ -30,23 +31,27 @@ const Cities: FC<IProps> = ({ routes }) => {
       <div className={s.slide}>
         {
           routes ? getPaginatedList(routes, page, 20).map((region) => (
-            <div
+            <Link
+              href={region.url || ''}
               key={region.ID}
               className={clsx(s.region, 'font-16-medium')}
               onClick={() => handleRegionClick(region)}
               style={{ cursor: 'pointer' }}
             >
+
+
               {region?.title}
-            </div>
+            </Link>
           )) : getPaginatedList(regions, page, 20).map((region) => (
-            <div
+            <Link
+              href={region.url || ''}
               key={region.ID}
               className={clsx(s.region, 'font-16-medium')}
               onClick={() => handleRegionClick(region)}
               style={{ cursor: 'pointer' }}
             >
               {`Такси ${region?.meta_value}`}
-            </div>
+            </Link>
           ))
         }
 

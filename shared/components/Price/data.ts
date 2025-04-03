@@ -1,3 +1,5 @@
+import { Prices } from "@/shared/types/enums"
+
 export const standardOptions = [
   {
     id: 1,
@@ -147,3 +149,12 @@ export const additionalServices = [
   { id: 8, label: 'Собака от 20 кг', value: '4000 руб.' },
   { id: 9, label: 'Дополнительный адрес', value: '500 руб.' }
 ]
+
+export const planLabel = {
+  [Prices.STANDARD]: 'Стандарт',
+  [Prices.COMFORT]: 'Комфорт',
+  [Prices.COMFORT_PLUS]: 'Комфорт+',
+  [Prices.BUSINESS]: 'Бизнес',
+  [Prices.MINIVAN]: 'Минивэн',
+  [Prices.DELIVERY]: 'Доставка',
+}

@@ -7,9 +7,10 @@ import TimeIcon from "@/public/icons/TimeIcon";
 import WalletIcon from "@/public/icons/WalletIcon";
 import { COEFFICIENT_100, COEFFICIENT_100_150, COEFFICIENT_150_200, COEFFICIENT_200, prices, SPEED } from "@/shared/constants";
 import { yandexMapsService } from "@/shared/services/yandex-maps.service";
-import { ButtonTypes, Prices } from "@/shared/types/enums";
+import { Blocks, ButtonTypes, Prices } from "@/shared/types/enums";
 import { Map, RoutePanel } from "@pbe/react-yandex-maps";
 import clsx from "clsx";
+import Link from "next/link";
 import { FC, useContext, useEffect, useRef, useState } from "react";
 import Button from "../../ui/Button/Button";
 import SearchInput from "../../ui/SearchInput/SearchInput";
@@ -17,9 +18,10 @@ import s from './AddressSelect.module.scss';
 
 interface IProps {
   selectedPlan: Prices
+  isMilitary?: boolean
 }
 
-const AddressSelect: FC<IProps> = ({ selectedPlan }) => {
+const AddressSelect: FC<IProps> = ({ selectedPlan, isMilitary }) => {
   const map = useRef<any>()
 
   const [departurePoint, setDeparturePoint] = useState<string>()
@@ -31,7 +33,7 @@ const AddressSelect: FC<IProps> = ({ selectedPlan }) => {
   const [price, setPrice] = useState<string>('от — руб.')
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const { setIsOpenOrderModal } = useContext(ModalContext)
+  const { setOrderModalData } = useContext(ModalContext)
 
   const handleClickSwapAddress = () => {
     setDeparturePoint(arrivalPoint)
@@ -142,7 +144,7 @@ const AddressSelect: FC<IProps> = ({ selectedPlan }) => {
   ]
 
   return (
-    <div id="order" className={s.wrapper}>
+    <div id="order" className={clsx(s.wrapper, { [s.military]: isMilitary })}>
       <div className={clsx(s.title, 'font-24-medium white-color')}>Укажите куда вам надо?</div>
 
       <div className={s.selection}>
@@ -199,11 +201,18 @@ const AddressSelect: FC<IProps> = ({ selectedPlan }) => {
             type={ButtonTypes.PRIMARY}
             text="Рассчитать поездку"
             handleClick={handleCalculate} />
-          <Button type={ButtonTypes.SECONDARY} text="Заказать поездку" handleClick={() => setIsOpenOrderModal(true)} />
+          <Button type={ButtonTypes.SECONDARY} text="Заказать поездку" handleClick={() => setOrderModalData({
+            status: true,
+            auto_class: selectedPlan,
+            order_from: departurePoint,
+            order_to: arrivalPoint,
+            trip_price_from: price,
+            block: Blocks.CALCULATOR
+          })} />
         </div>
 
         <div className={clsx(s.warning, 'font-14-normal white-color')}>
-          Расчеты носят информационно-справочный характер, нажмите Заказать, чтобы узнать точную стоимость. Нажимая на кнопку, вы соглашаетесь на <span className={clsx(s.policy, 'font-14-normal orange-color')}>обработку персональных данных</span>.
+          Расчеты носят информационно-справочный характер, нажмите Заказать, чтобы узнать точную стоимость. Нажимая на кнопку, вы соглашаетесь на <Link href='privacy-policy' className={clsx(s.policy, 'font-14-normal orange-color')}>обработку персональных данных</Link>.
         </div>
       </div>
 

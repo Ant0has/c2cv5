@@ -13,3 +13,14 @@ export enum Prices {
   MINIVAN = 'minivan',
   DELIVERY = 'delivery'
 }
+
+export enum Blocks {
+  WELCOME = 'Первый блок',
+  CALCULATOR = 'Калькулятор',
+  ORDER_STEPS = '3 шага для заказа такси',
+  QUESTIONS = 'Остались вопросы ?',
+  TRANSFERS_EMPLOYEES_MANAGERS = 'Трансферы для сотрудников и руководителей',
+  EDO_DYADOK = 'Работа по Эдо.Диадок',
+  LEGAL_ENTITIES = 'Расчет для юр.лиц',
+  FOOTER = 'Футер',
+}

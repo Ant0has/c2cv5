@@ -1,0 +1,151 @@
+.wrapper {
+  display: grid;
+  grid-auto-flow: row dense;
+  grid-auto-columns: 1fr;
+  grid-template-columns: 300px 1fr;
+  grid-template-rows: auto auto 1fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "a b"
+    "c d"
+    "e e";
+  padding: 20px;
+  gap: 16px;
+}
+
+.plans {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  .container {
+    display: flex;
+    gap: 32px;
+  }
+
+  .button {
+    border-radius: 16px;
+    width: 300px;
+    padding: 8px 12px;
+    border: 1px solid var(--gray);
+    transition-duration: 0.15s;
+    line-height: 100%;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      border-color: var(--orange);
+    }
+  }
+
+  .selected {
+    .button {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: white;
+      font-weight: 600;
+    }
+  }
+
+  .input {
+    width: 70px;
+    border-radius: 16px;
+    padding: 12px;
+    border: 1px solid var(--gray);
+    display: flex;
+    align-items: center;
+  }
+}
+
+.selection {
+  display: grid;
+  grid-template-columns: 1fr 32px 1fr;
+  margin-bottom: 24px;
+  height: fit-content;
+  background: var(--gray);
+  padding: 20px;
+  border-radius: 20px;
+
+  .part:first-of-type .input {
+    border-radius: 16px 0px 0px 16px;
+  }
+
+  .part:last-of-type .input {
+    border-radius: 0px 16px 16px 0px;
+  }
+}
+
+.part {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex-grow: 1;
+}
+
+.label {
+  margin-bottom: 16px;
+}
+
+.input {
+  padding: 20px 24px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 100%;
+}
+
+.swapButtonWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-end;
+  background-color: #fff;
+  height: 60px;
+  z-index: 2;
+}
+
+.swapButton {
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--light-gray);
+  background-color: #fff;
+}
+
+.info {
+  margin: 20px 0px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.priceGrid {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.priceElement {
+  text-align: center;
+  padding: 0px 8px;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid var(--gray);
+  gap: 12px;
+}
+
+.priceElement:first-child {
+  border: none;
+}
+
+.priceValue {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.map {
+  grid-area: e;
+}

@@ -11,7 +11,7 @@ interface IProps {
 }
 
 const OrderModal: FC<IProps> = () => {
-  const { isOpenOrderModal, setIsOpenOrderModal } = useContext(ModalContext)
+  const { orderModalData, setOrderModalData } = useContext(ModalContext)
 
   const [form] = Form.useForm();
 
@@ -20,16 +20,18 @@ const OrderModal: FC<IProps> = () => {
       centered
       forceRender
       destroyOnClose
-      open={isOpenOrderModal}
+      open={orderModalData.status}
       onCancel={() => {
-        setIsOpenOrderModal(false)
+        setOrderModalData({ status: false })
         form.resetFields()
       }}
       title={<ModalTitle title="Заказать такси" description="Надежные пассажирские перевозки" />}
       footer={false}
       width={588}
     >
-      <OrderForm form={form} buttonText='Получить консультацию' />
+      <OrderForm orderModalData={orderModalData} handleClickLink={() => {
+        setOrderModalData({ status: false })
+      }} form={form} />
     </Modal>
   )
 }

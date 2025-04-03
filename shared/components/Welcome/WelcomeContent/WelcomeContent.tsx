@@ -1,6 +1,7 @@
-import { FC } from "react";
-import s from './WelcomeContent.module.scss'
+import { getTitle } from "@/shared/services/getTitle";
 import clsx from "clsx";
+import { FC } from "react";
+import s from './WelcomeContent.module.scss';
 
 interface IProps {
   city?: string
@@ -31,8 +32,8 @@ const WelcomeContent: FC<IProps> = ({ city }) => {
     <>
       <h1 className={clsx(s.title, 'font-40-semibold black-color')}>
         {'Такси '}
-        {city && <span className="font-40-semibold orange-color">{city}</span>}
-        {' межгород'}
+        {city && <span className="font-40-semibold orange-color">{getTitle(city)}</span>}
+        {!city && ' межгород'}
       </h1>
       <h4 className={clsx(s.description, 'font-18-normal black-color')}>
         Услуги качественного сервиса заказа такси в России

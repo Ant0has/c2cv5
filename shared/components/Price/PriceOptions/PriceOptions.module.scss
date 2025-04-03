@@ -40,3 +40,14 @@
     }
   }
 }
+
+.military {
+  background: var(--blue);
+  * {
+    color: var(--white);
+  }
+
+  .row {
+    border-bottom: 1px solid rgba(254, 254, 254, 0.3);
+  }
+}

@@ -39,10 +39,11 @@ import 'swiper/css/pagination';
 import s from './PriceContent.module.scss';
 
 interface IProps {
-  type: Prices
+  type: Prices,
+  isMilitary?: boolean
 }
 
-const PriceContent: FC<IProps> = ({ type }) => {
+const PriceContent: FC<IProps> = ({ type, isMilitary }) => {
 
   const contentByType: {
     [key in Prices]: {
@@ -120,10 +121,10 @@ const PriceContent: FC<IProps> = ({ type }) => {
   }
 
   return (
-    <div className={s.content}>
+    <div className={clsx(s.content, { [s.military]: isMilitary })}>
       <div className={s.top}>
         <div className={s.options}>
-          <PriceOptions title={contentByType[type].title} options={contentByType[type].options} />
+          <PriceOptions isMilitary={isMilitary} title={contentByType[type].title} options={contentByType[type].options} />
         </div>
 
         <div className={s.swiper}>

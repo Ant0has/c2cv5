@@ -1,10 +1,10 @@
 .card {
-  // box-shadow: 0px 0px 80px 0px #1212121c;
   padding: 24px;
   border-radius: 32px;
-  background-color: var(--light-gray);
   height: 100%;
+  background: var(--light-gray);
   // max-width: 30%;
+  min-width: 0;
 }
 
 .top {
@@ -33,16 +33,15 @@
 }
 
 .review {
-  line-height: 150%;
+  display: -webkit-box;
+  -webkit-line-clamp: 7; /* Ограничиваем количество строк */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: calc(1.5em * 7); /* Примерная высота 7 строк */
+  line-height: 1.5; /* Межстрочный интервал */
 }
-// .card::before,
-// .card::after {
-//   content: "";
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   right: 0;
-//   bottom: 0;
-//   box-shadow: 0px 0px 80px 0px #1212121c;
-//   z-index: -1;
-// }
+
+.route {
+  margin: 16px 0px;
+}

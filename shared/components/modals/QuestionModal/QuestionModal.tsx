@@ -11,7 +11,7 @@ interface IProps {
 }
 
 const QuestionModal: FC<IProps> = () => {
-  const { isOpenQuestionModal, setIsOpenQuestionModal } = useContext(ModalContext)
+  const { questionModalData, setQuestionModalData } = useContext(ModalContext)
 
   const [form] = Form.useForm();
 
@@ -20,17 +20,23 @@ const QuestionModal: FC<IProps> = () => {
       centered
       forceRender
       destroyOnClose
-      open={isOpenQuestionModal}
+      open={questionModalData.status}
       onCancel={() => {
-        setIsOpenQuestionModal(false)
+        setQuestionModalData({
+          status: false,
+          blockFrom: null
+        })
         form.resetFields()
       }}
       title={<ModalTitle title="Получить консультацию" description="Услуги качественного сервиса заказа такси в России" />}
       footer={false}
       width={588}
     >
-      <QuestionForm handleClickLink={() => {
-        setIsOpenQuestionModal(false)
+      <QuestionForm blockFrom={questionModalData.blockFrom} handleClickLink={() => {
+        setQuestionModalData({
+          status: false,
+          blockFrom: null
+        })
       }} form={form} buttonText='Получить консультацию' />
     </Modal>
   )

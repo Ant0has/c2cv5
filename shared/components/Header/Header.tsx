@@ -1,37 +1,31 @@
 'use client'
 
-import { FC, useState, useContext } from 'react';
-import s from './Header.module.scss'
+import { RouteContext } from '@/app/providers';
 import LogoIcon from '@/public/icons/LogoIcon';
-import MarkerIcon from '@/public/icons/MarkerIcon';
-import Button from '../ui/Button/Button';
-import { ButtonTypes } from '@/shared/types/enums';
-import { EMAIL_ADDRESS, PHONE_NUMBER_FIRST, PHONE_NUMBER_SECOND, TELEGRAM_LINK, WHATS_UP_LINK } from '@/shared/constants';
+import PhoneIcon from '@/public/icons/PhoneIcon';
 import TelegramIcon from '@/public/icons/TelegramIcon';
 import WhatsUpIcon from '@/public/icons/WhatsUpIcon';
+import { EMAIL_ADDRESS, PHONE_NUMBER_FIRST, TELEGRAM_LINK, WHATS_UP_LINK } from '@/shared/constants';
 import { formatPhoneNumber } from '@/shared/services/formate-phone-number';
-import clsx from 'clsx';
-import PhoneIcon from '@/public/icons/PhoneIcon';
-import { Popover } from 'antd';
-import Link from 'next/link';
-import MenuContent from '../MenuContent/MenuContent';
-import { RegionsContext } from '@/app/providers';
-import { usePathname } from 'next/navigation';
 import { getSelectedRegion } from '@/shared/services/get-selected-region';
+import { ButtonTypes } from '@/shared/types/enums';
+import { Popover } from 'antd';
+import clsx from 'clsx';
+import Link from 'next/link';
+import { FC, useContext, useState } from 'react';
+import MenuContent from '../MenuContent/MenuContent';
+import Button from '../ui/Button/Button';
+import s from './Header.module.scss';
 
 interface IHeaderProps {
 
 }
 
 const Header: FC<IHeaderProps> = () => {
-  const regions = useContext(RegionsContext)
-
-  const pathname = usePathname()
+  const { route } = useContext(RouteContext)
   const [isOpenPhone, setIsOpenPhone] = useState<boolean>(false)
 
-  const regionData = getSelectedRegion({ regions, pathname })
-
-  console.log('regionData', regionData)
+  const regionData = getSelectedRegion(route)
 
   return (
     <header className={s.header}>

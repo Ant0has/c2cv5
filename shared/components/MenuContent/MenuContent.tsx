@@ -4,7 +4,7 @@ import { Popover } from "antd";
 import { FC, useContext, useMemo, useState, useEffect } from "react";
 import s from './MenuContent.module.scss'
 import MarkerIcon from "@/public/icons/MarkerIcon";
-import { RegionsContext } from "@/app/providers";
+import { RegionsContext, RouteContext } from "@/app/providers";
 import { IRegion } from "@/shared/types/types";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -21,7 +21,41 @@ const getValidName = (region: IRegion) => {
 const MenuContent: FC = () => {
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false)
   const [isMobile, setIsMobile] = useState<boolean>(false)
-  const regions = useContext(RegionsContext)
+  const regionsFull = useContext(RegionsContext)
+  const { route } = useContext(RouteContext)
+
+
+  const { regions, moscow, piter, krym } = useMemo(() => {
+    const regionsCopy = [...regionsFull]
+    let moscow: IRegion = {} as IRegion
+    let piter: IRegion = {} as IRegion
+    let krym: IRegion = {} as IRegion
+    const updatedRegions = regionsCopy.reduce((acc: IRegion[], region) => {
+      if (region.url === 'taxi777-mezhgorod-moscow') {
+        moscow = region
+        return acc;
+      }
+
+      if (region.url === 'taxi78-mezhgorod-piter') {
+        piter = region
+        return acc;
+      }
+
+      if (region.url === '82-mezhgorod-krym') {
+        krym = region
+        return acc;
+      }
+      acc.push(region);
+      return acc;
+    }, []);
+    return {
+      regions: updatedRegions,
+      moscow,
+      piter,
+      krym
+    }
+  }, [regionsFull])
+
   const pathname = usePathname()
 
   useEffect(() => {
@@ -103,7 +137,7 @@ const MenuContent: FC = () => {
             {groupedData[letter].map((region) => (
               <Link
                 onClick={() => setIsOpenMenu(false)}
-                className={clsx('black-color', { ['orange-color']: region.url === pathname?.replace('/', '') })}
+                className={clsx('black-color', { ['orange-color']: region.url === route?.regions_data?.url })}
                 href={`/${region.url || ''}`}
                 key={region.meta_id}
               >
@@ -119,19 +153,46 @@ const MenuContent: FC = () => {
   return (
     <Popover
       content={
-        <Swiper
-          modules={[Pagination]}
-          pagination={{ clickable: true }}
-          spaceBetween={30}
-          style={{ maxWidth: isMobile ? '300px' : '620px' }}
-          className={s.swiper}
-        >
-          {pages.map((page, index) => (
-            <SwiperSlide key={index}>
-              {renderPage(page)}
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        <>
+          <div className={s.block}>
+            <Link
+              onClick={() => setIsOpenMenu(false)}
+              className={clsx('black-color', { ['orange-color']: moscow.url === route?.regions_data?.url })}
+              href={`/${moscow.url || ''}`}
+            >
+              {getValidName(moscow)}
+            </Link>
+            <Link
+              onClick={() => setIsOpenMenu(false)}
+              className={clsx('black-color', { ['orange-color']: piter.url === route?.regions_data?.url })}
+              href={`/${piter.url || ''}`}
+            >
+              {getValidName(piter)}
+            </Link>
+            <Link
+              onClick={() => setIsOpenMenu(false)}
+              className={clsx('black-color', { ['orange-color']: krym.url === route?.regions_data?.url })}
+              href={`/${krym.url || ''}`}
+            >
+              {getValidName(krym)}
+            </Link>
+          </div>
+
+          <Swiper
+            modules={[Pagination]}
+            pagination={{ clickable: true }}
+            spaceBetween={30}
+            style={{ maxWidth: isMobile ? '300px' : '620px' }}
+            className={s.swiper}
+          >
+            {pages.map((page, index) => (
+              <SwiperSlide key={index}>
+                {renderPage(page)}
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </>
+
       }
       trigger="click"
       open={isOpenMenu}

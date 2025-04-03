@@ -12,7 +12,6 @@
 .ant-collapse-header-text {
   font-weight: 500 !important;
   font-size: 18px !important;
-  letter-spacing: -0.05em !important;
   line-height: 100% !important;
 }
 
@@ -23,7 +22,6 @@
 .ant-input {
   font-weight: 400 !important;
   font-size: 16px !important;
-  letter-spacing: -0.05em !important;
   line-height: 100% !important;
   background: var(--light-gray) !important;
   border: none !important;
@@ -36,7 +34,6 @@
 .ant-input::placeholder {
   font-weight: 400 !important;
   font-size: 16px !important;
-  letter-spacing: -0.05em !important;
   line-height: 100% !important;
 }
 
@@ -140,3 +137,8 @@
   background: var(--light-gray) !important;
   padding: 20px 24px !important;
 }
+
+/* .ant-radio-wrapper {
+  display: flex !important;
+  align-items: center !important;
+} */

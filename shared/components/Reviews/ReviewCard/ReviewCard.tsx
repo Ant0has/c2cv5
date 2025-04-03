@@ -2,20 +2,21 @@ import { formatDate } from '@/shared/services/formate-date';
 import { IReviewData } from '@/shared/types/types';
 import { Rate } from 'antd';
 import clsx from 'clsx';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import { FC } from 'react';
 import s from './ReviewCard.module.scss';
 
 interface IProps {
-  review: IReviewData
+  review: IReviewData,
+  avatar: StaticImageData
 }
 
-const ReviewCard: FC<IProps> = ({ review }) => {
+const ReviewCard: FC<IProps> = ({ review, avatar }) => {
   return (
     <div className={s.card}>
       <div className={s.top}>
         <div className={s.avatar}>
-          <Image src={review.avatar} alt='avatar' width={64} height={64} />
+          <Image src={avatar} alt='avatar' width={100} height={100} />
         </div>
         <div className={s.info}>
           <div className={clsx(s.username, 'font-16-medium')}>{review.username}</div>
@@ -25,6 +26,8 @@ const ReviewCard: FC<IProps> = ({ review }) => {
           <div className={clsx(s.date, 'font-14-normal gray-color')}>{formatDate(review.date)}</div>
         </div>
       </div>
+
+      <div className={clsx(s.route, 'font-18-medium')}>{review.route}</div>
 
       <div className={clsx(s.review, 'font-16-normal')}>{review.review}</div>
     </div>

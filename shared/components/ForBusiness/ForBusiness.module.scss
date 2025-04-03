@@ -38,6 +38,12 @@
   }
 }
 
+.green {
+  span {
+    color: var(--green) !important;
+  }
+}
+
 @media (max-width: 760px) {
   .content {
     max-width: 100%;
@@ -58,11 +64,5 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-  }
-}
-
-.green {
-  span {
-    color: #00bea2 !important;
   }
 }

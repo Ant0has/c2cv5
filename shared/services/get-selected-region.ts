@@ -1,19 +1,11 @@
-import { PHONE_NUMBER_FIRST } from "../constants"
-import { IRegion } from "../types/types"
+import { IRouteData } from './../types/route.interface';
 
-export const getSelectedRegion = ({
-  regions,
-  pathname
-}: {
-  regions: IRegion[],
-  pathname?: string
-}) => {
-  const currentRegion = regions?.find(region => region.url === pathname?.replace('/', ''))
+export const getSelectedRegion = (route: IRouteData) => {
 
-  if (currentRegion) {
+  if (route) {
     return {
-      phoneNumber: currentRegion.phone_number?.replace(/[\s\(\)-]/g, '') ?? PHONE_NUMBER_FIRST,
-      address: currentRegion.address
+      phoneNumber: route?.regions_data?.phone_number?.replace(/[\s\(\)-]/g, ''),
+      address: route?.regions_data?.address
     }
   }
 }

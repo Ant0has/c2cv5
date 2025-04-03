@@ -38,7 +38,7 @@ const Button: FC<IButtonProps> = (props) => {
   }
 
   return (
-    <button className={clsx(s.button, s[type], 'font-16-medium', { [s.disable]: disabled },className)} onClick={() => !disabled && handleClick && handleClick()
+    <button className={clsx(s.button, s[type], 'font-16-medium', { [s.disable]: disabled }, className)} onClick={() => !disabled && handleClick && handleClick()
     }>
       {icon && <i className={s.icon}>{icon}</i>}
       {text && <span className={clsx('font-16-medium', s.text)}>{text}</span>}

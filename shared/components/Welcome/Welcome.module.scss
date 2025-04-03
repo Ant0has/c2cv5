@@ -62,3 +62,12 @@
     padding: 24px;
   }
 }
+
+.military {
+  background: url("/images/military/welcome-background.png") 0 0 / cover no-repeat;
+
+  .content {
+    background-image: url("/images/military/flag.jpg");
+    background-size: 100% 100%;
+  }
+}

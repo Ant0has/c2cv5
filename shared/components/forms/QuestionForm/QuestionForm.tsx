@@ -1,26 +1,39 @@
 'use client';
 
-import { ButtonTypes } from "@/shared/types/enums";
+import { mailService } from "@/shared/services/mail.service";
+import { Blocks, ButtonTypes } from "@/shared/types/enums";
+import { IMailRequest } from "@/shared/types/types";
 import { Form, FormInstance, Input } from "antd";
+import Link from "next/link";
 import { FC } from "react";
 import Button from "../../ui/Button/Button";
 import s from './QuestionForm.module.scss';
-import Link from "next/link";
 
 interface IProps {
   buttonText?: string
   className?: string
-  form?: FormInstance
+  form?: FormInstance,
+  blockFrom: Blocks | null
   handleClickLink?: () => void
 }
 
-const QuestionForm: FC<IProps> = ({ buttonText, className, form, handleClickLink }) => {
+const QuestionForm: FC<IProps> = ({ buttonText, className, form, blockFrom, handleClickLink }) => {
+  const handleSubmitForm = () => {
+    const requestBody: IMailRequest = {
+      ...form?.getFieldsValue(),
+      block: blockFrom
+    }
+
+    delete requestBody.status
+    mailService.sendMail(requestBody)
+  }
+
   return (
     <Form
       form={form}
       name="questionForm"
       layout="vertical"
-      onFinish={() => undefined}
+      onFinish={handleSubmitForm}
       onFinishFailed={() => undefined}
       // style={{ maxWidth: 485 }}
       requiredMark={false}
@@ -28,7 +41,7 @@ const QuestionForm: FC<IProps> = ({ buttonText, className, form, handleClickLink
     >
       <Form.Item
         label={<span className="font-14-normal">Введите ваше ФИО<span className="font-14-normal orange-color" >*</span></span>}
-        name="fullName1"
+        name="name"
         rules={[
           {
             required: true,
@@ -41,7 +54,7 @@ const QuestionForm: FC<IProps> = ({ buttonText, className, form, handleClickLink
 
       <Form.Item
         label={<span className="font-14-normal">Ваш номер телефона<span className="font-14-normal orange-color" >*</span></span>}
-        name="phoneNumber1"
+        name="phone"
         rules={[
           {
             required: true,

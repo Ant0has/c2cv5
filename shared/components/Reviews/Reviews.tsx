@@ -8,12 +8,17 @@ import ReviewCard from "./ReviewCard/ReviewCard";
 import s from './Reviews.module.scss';
 import ReviewTitle from "./ReviewTitle/ReviewTitle";
 
+import avatar1 from '@/public/images/avatar-1.png';
+import avatar2 from '@/public/images/avatar-2.png';
+import avatar3 from '@/public/images/avatar-3.png';
+
 import 'swiper/css';
 interface IProps {
- title?:unknown;
+  title?: unknown;
 }
 
 const Reviews: FC<IProps> = () => {
+  const avatars = [avatar1, avatar2, avatar3]
   return (
     <>
       <div className='container-40'>
@@ -40,7 +45,7 @@ const Reviews: FC<IProps> = () => {
         >
           {reviews.map(review => (
             <SwiperSlide key={review.id}>
-              <ReviewCard review={review} />
+              <ReviewCard review={review} avatar={avatars[review.id & 2]} />
             </SwiperSlide>
           ))}
         </Swiper>
