@@ -16,10 +16,11 @@ interface IProps {
   orderModalData: IOrderModalData
   form?: FormInstance
   handleClickLink: () => void
+  handleClose?: () => void
 }
 
 
-const OrderForm: FC<IProps> = ({ form, orderModalData, handleClickLink }) => {
+const OrderForm: FC<IProps> = ({ form, orderModalData, handleClickLink, handleClose }) => {
   const handleSubmitForm = () => {
     const requestBody: IMailRequest = {
       ...form?.getFieldsValue(),
@@ -29,6 +30,7 @@ const OrderForm: FC<IProps> = ({ form, orderModalData, handleClickLink }) => {
     }
 
     delete requestBody.status
+
     mailService.sendMail(requestBody)
   }
 

@@ -5,8 +5,6 @@ export interface IRouteData {
     content: string
     title: string
     description: string
-    // Добавьте другие поля, которые приходят с сервера
-    // Это примерная структура, дополните её в соответствии с реальными данными
     meta?: {
         title?: string
         description?: string
@@ -20,7 +18,7 @@ export interface IRouteData {
     duration?: string
     regions_data: IRegionData,
     routes: IRoute[]
-    // Другие поля...
+    is_military?: boolean
 }
 
 export interface IRegionData {

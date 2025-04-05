@@ -29,9 +29,16 @@ const OrderModal: FC<IProps> = () => {
       footer={false}
       width={588}
     >
-      <OrderForm orderModalData={orderModalData} handleClickLink={() => {
-        setOrderModalData({ status: false })
-      }} form={form} />
+      <OrderForm
+        form={form}
+        orderModalData={orderModalData}
+        handleClickLink={() => {
+          setOrderModalData({ status: false })
+        }}
+        handleClose={() => {
+          setOrderModalData({ status: false })
+          form.resetFields()
+        }} />
     </Modal>
   )
 }

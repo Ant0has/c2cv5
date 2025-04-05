@@ -166,7 +166,7 @@ const Calculator: FC<IProps> = () => {
     <div className={clsx("container", s.wrapper)}>
       <div className={s.plans}>
         {plans.map(plan => (
-          <div key={plan.key} className={clsx(s.container, { [s.selected]: selectedPlan === plan.key })} onClick={() => setSelectedPlan(plan.key)}>
+          <div key={plan.key} className={clsx(s.container)}>
             <div className={s.button}>{plan.label}</div>
             <input className={s.input} type="number" value={plan.coefficient} onChange={e => setPlanCoefficient(prev => ({
               ...prev,
@@ -227,6 +227,7 @@ const Calculator: FC<IProps> = () => {
             {price ? price?.map((el, id) => <div className={s.priceElement}>
               <div className={s.pricePlan}>{plans[id].label}</div>
               <div className={s.priceValue}>{el}р</div>
+              <div className={s.pricePlan}>{plans[id].coefficient}р за км</div>
             </div>) : <span className="font-18-semibold">-</span>}
           </div>
 

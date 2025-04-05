@@ -31,10 +31,6 @@
     line-height: 100%;
     display: flex;
     align-items: center;
-
-    &:hover {
-      border-color: var(--orange);
-    }
   }
 
   .selected {
@@ -129,7 +125,7 @@
 
 .priceElement {
   text-align: center;
-  padding: 0px 8px;
+  padding: 0px 10px;
   display: flex;
   flex-direction: column;
   border-left: 1px solid var(--gray);
@@ -137,7 +133,7 @@
 }
 
 .priceElement:first-child {
-  border: none;
+  border-left: none;
 }
 
 .priceValue {
@@ -148,4 +144,79 @@
 
 .map {
   grid-area: e;
+}
+
+@media (max-width: 775px) {
+  .selection {
+    display: flex;
+    flex-direction: column;
+
+    .part:first-of-type .input {
+      border-radius: 16px 16px 0px 0px;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .part:last-of-type .input {
+      border-radius: 0px 0px 16px 16px;
+    }
+
+    .part:last-child {
+      flex-direction: column-reverse;
+
+      .label {
+        margin-top: 16px;
+        margin-bottom: 0px;
+      }
+    }
+    position: relative;
+  }
+
+  .swapButtonWrapper {
+    display: contents;
+  }
+
+  .swapButton {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+  }
+
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 421px) and (max-width: 1000px) {
+  .priceGrid {
+    row-gap: 16px;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .priceElement:nth-child(4) {
+    border: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .info:last-child {
+    flex-direction: column;
+  }
+
+  .priceGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .priceElement:nth-child(3),
+  .priceElement:nth-child(5) {
+    border-left: none;
+  }
+
+  .priceElement {
+    padding: 10px;
+    border-bottom: 1px solid var(--gray);
+  }
 }

@@ -10,7 +10,7 @@ import RouteDescription from "@/shared/components/RouteDescription/RouteDescript
 import Welcome from "@/shared/components/Welcome/Welcome"
 import { goToOrder } from "@/shared/services/go-to-order"
 import { IRouteData } from "@/shared/types/route.interface"
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useState } from "react"
 import { RouteContext } from "../providers"
 
 interface Props {
@@ -19,12 +19,14 @@ interface Props {
 
 export function Home({ routeData }: Props) {
 	const { setRoute } = useContext(RouteContext)
+	const [isMilitary, setIsMilitary] = useState<boolean>(false)
 	useEffect(() => {
 		routeData && setRoute(routeData)
+		setIsMilitary(!!routeData?.is_military)
 	}, [routeData])
 
 	console.log('routeData', routeData)
-	const isMilitary = true
+
 
 	return (
 		<>
