@@ -15,11 +15,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!data) {
     return {};
   }
-  
+
   const siteName = "City2City";
   const page = `https://city2city.ru/${params.region}.html`;
-  const title = `Такси %%${data?.seoTitle}%% %%${page}%% межгород ЦЕНА за Трансфер! Заказать междугороднее такси %%${siteName}%%`;
-  const description = `⭐️⭐️⭐️⭐️⭐️ Заказать междугороднее такси City2City по маршруту %%${data?.seoTitle}%% %%${page}%%. Отличная цена, комфортные автомобили, проверенные водители. Заказ по телефонам: +7 (938) 156-87-578`;
+  const title =
+    data?.seo_title ||
+    `Такси %%${data?.seo_title}%% %%${page}%% межгород ЦЕНА за Трансфер! Заказать междугороднее такси %%${siteName}%%`;
+  const description =
+    data?.seo_description ||
+    `⭐️⭐️⭐️⭐️⭐️ Заказать междугороднее такси City2City по маршруту %%${data?.seo_title}%% %%${page}%%. Отличная цена, комфортные автомобили, проверенные водители. Заказ по телефонам: +7 (938) 156-87-578`;
 
   return {
     title,
