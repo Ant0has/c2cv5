@@ -14,7 +14,7 @@ interface IProps {
   className?: string
   form?: FormInstance,
   blockFrom: Blocks | null
-  handleClickLink: () => void
+  handleClickLink?: () => void
   handleClose?: (isResetForm?: boolean) => void
 }
 
