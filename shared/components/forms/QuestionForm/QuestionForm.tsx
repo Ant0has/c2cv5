@@ -3,9 +3,9 @@
 import { mailService } from "@/shared/services/mail.service";
 import { Blocks, ButtonTypes } from "@/shared/types/enums";
 import { IMailRequest } from "@/shared/types/types";
-import { Form, FormInstance, Input } from "antd";
+import { Form, FormInstance, Input, notification } from "antd";
 import Link from "next/link";
-import { FC } from "react";
+import { FC, useState } from "react";
 import Button from "../../ui/Button/Button";
 import s from './QuestionForm.module.scss';
 
@@ -14,67 +14,101 @@ interface IProps {
   className?: string
   form?: FormInstance,
   blockFrom: Blocks | null
-  handleClickLink?: () => void
+  handleClickLink: () => void
+  handleClose?: (isResetForm?: boolean) => void
 }
 
-const QuestionForm: FC<IProps> = ({ buttonText, className, form, blockFrom, handleClickLink }) => {
-  const handleSubmitForm = () => {
-    const requestBody: IMailRequest = {
-      ...form?.getFieldsValue(),
-      block: blockFrom
-    }
+const QuestionForm: FC<IProps> = ({ buttonText, className, form, blockFrom, handleClickLink, handleClose }) => {
+  const [api, contextHolder] = notification.useNotification();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-    delete requestBody.status
-    mailService.sendMail(requestBody)
+  const handleSubmitForm = async () => {
+    try {
+      setIsSubmitting(true);
+      const requestBody: IMailRequest = {
+        ...form?.getFieldsValue(),
+        type: 'question'
+      }
+      delete requestBody.status
+      await mailService.sendMail(requestBody);
+
+      api.success({
+        message: 'Вопрос успешно отправлен',
+        description: 'Мы свяжемся с вами в ближайшее время',
+        placement: 'topRight',
+      });
+
+      if (handleClose) {
+        handleClose(true);
+      }
+    } catch (error: unknown) {
+      api.error({
+        message: 'Ошибка при отправке вопроса',
+        placement: 'topRight',
+      });
+
+      if (handleClose) {
+        handleClose();
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
-    <Form
-      form={form}
-      name="questionForm"
-      layout="vertical"
-      onFinish={handleSubmitForm}
-      onFinishFailed={() => undefined}
-      // style={{ maxWidth: 485 }}
-      requiredMark={false}
-      className={className}
-    >
-      <Form.Item
-        label={<span className="font-14-normal">Введите ваше ФИО<span className="font-14-normal orange-color" >*</span></span>}
-        name="name"
-        rules={[
-          {
-            required: true,
-            message: <span className="font-14-normal orange-color">Пожалуйста, введите ваше полное имя</span>
-          },
-        ]}
+    <>
+      {contextHolder}
+      <Form
+        form={form}
+        name="questionForm"
+        layout="vertical"
+        onFinish={handleSubmitForm}
+        onFinishFailed={() => undefined}
+        // style={{ maxWidth: 485 }}
+        requiredMark={false}
+        className={className}
       >
-        <Input placeholder="Ваше имя" />
-      </Form.Item>
+        <Form.Item
+          label={<span className="font-14-normal">Введите ваше ФИО<span className="font-14-normal orange-color" >*</span></span>}
+          name="name"
+          rules={[
+            {
+              required: true,
+              message: <span className="font-14-normal orange-color">Пожалуйста, введите ваше полное имя</span>
+            },
+          ]}
+        >
+          <Input placeholder="Ваше имя" />
+        </Form.Item>
 
-      <Form.Item
-        label={<span className="font-14-normal">Ваш номер телефона<span className="font-14-normal orange-color" >*</span></span>}
-        name="phone"
-        rules={[
-          {
-            required: true,
-            message: <span className="font-14-normal orange-color">Пожалуйста, введите ваш номер телефона</span>
-          },
-          {
-            pattern: /^[0-9+()]+$/,
-            message: <span className="font-14-normal orange-color">Введите корректный номер телефона</span>
-          },
-        ]}
-      >
-        <Input
-          placeholder="Номер телефона" />
-      </Form.Item>
+        <Form.Item
+          label={<span className="font-14-normal">Ваш номер телефона<span className="font-14-normal orange-color" >*</span></span>}
+          name="phone"
+          rules={[
+            {
+              required: true,
+              message: <span className="font-14-normal orange-color">Пожалуйста, введите ваш номер телефона</span>
+            },
+            {
+              pattern: /^[0-9+()]+$/,
+              message: <span className="font-14-normal orange-color">Введите корректный номер телефона</span>
+            },
+          ]}
+        >
+          <Input
+            placeholder="Номер телефона" />
+        </Form.Item>
 
-      <div className={s.bottom}>
-        <Button type={ButtonTypes.PRIMARY} text={buttonText ?? 'Задать вопрос'} />
-        <p className="font-14-normal">Нажимая на кнопку, вы соглашаетесь на обработку <Link onClick={handleClickLink} className="font-14-normal orange-color" href="privacy-policy">персональных данных</Link></p>
-      </div>
-    </Form>
+        <div className={s.bottom}>
+          <Button
+            type={ButtonTypes.PRIMARY}
+            text={buttonText ?? 'Задать вопрос'}
+            loading={isSubmitting}
+          />
+          <p className="font-14-normal">Нажимая на кнопку, вы соглашаетесь на обработку <Link onClick={handleClickLink} className="font-14-normal orange-color" href="privacy-policy">персональных данных</Link></p>
+        </div>
+      </Form>
+    </>
   );
 };
 

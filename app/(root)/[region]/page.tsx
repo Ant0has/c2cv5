@@ -20,10 +20,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const page = `https://city2city.ru/${params.region}.html`;
   const title =
     data?.seo_title ||
-    `Такси ${data?.seo_title} ${page} межгород ЦЕНА за Трансфер! Заказать междугороднее такси ${siteName}`;
+    `Такси %%${data?.seo_title}%% %%${page}%% межгород ЦЕНА за Трансфер! Заказать междугороднее такси %%${siteName}%%`;
   const description =
     data?.seo_description ||
-    `⭐️⭐️⭐️⭐️⭐️ Заказать междугороднее такси City2City по маршруту ${data?.seo_title} ${page}. Отличная цена, комфортные автомобили, проверенные водители. Заказ по телефонам: +7 (938) 156-87-578`;
+    `⭐️⭐️⭐️⭐️⭐️ Заказать междугороднее такси City2City по маршруту %%${data?.seo_title}%% %%${page}%%. Отличная цена, комфортные автомобили, проверенные водители. Заказ по телефонам: +7 (938) 156-87-578`;
 
   return {
     title,

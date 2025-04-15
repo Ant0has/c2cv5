@@ -13,6 +13,7 @@ interface IButtonProps {
   text?: string
   className?: string,
   disabled?: boolean,
+  loading?: boolean,
   handleClick?: () => void
 }
 
@@ -23,6 +24,7 @@ const Button: FC<IButtonProps> = (props) => {
     text,
     className,
     disabled,
+    loading,
     handleClick
   } = props
 
@@ -38,11 +40,16 @@ const Button: FC<IButtonProps> = (props) => {
   }
 
   return (
-    <button className={clsx(s.button, s[type], 'font-16-medium', { [s.disable]: disabled }, className)} onClick={() => !disabled && handleClick && handleClick()
-    }>
+    <button 
+      className={clsx(s.button, s[type], 'font-16-medium', { 
+        [s.disable]: disabled,
+        [s.loading]: loading 
+      }, className)} 
+      onClick={() => !disabled && !loading && handleClick && handleClick()}
+    >
       {icon && <i className={s.icon}>{icon}</i>}
       {text && <span className={clsx('font-16-medium', s.text)}>{text}</span>}
-    </button >
+    </button>
   )
 }
 

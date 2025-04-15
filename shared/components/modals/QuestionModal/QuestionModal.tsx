@@ -32,12 +32,21 @@ const QuestionModal: FC<IProps> = () => {
       footer={false}
       width={588}
     >
-      <QuestionForm blockFrom={questionModalData.blockFrom} handleClickLink={() => {
-        setQuestionModalData({
-          status: false,
-          blockFrom: null
-        })
-      }} form={form} buttonText='Получить консультацию' />
+      <QuestionForm
+        blockFrom={questionModalData.blockFrom}
+        handleClickLink={() => {
+          setQuestionModalData({
+            status: false,
+            blockFrom: null
+          })
+        }}
+        form={form}
+        buttonText='Получить консультацию'
+        handleClose={(isResetForm?: boolean) => {
+          setQuestionModalData({ status: false, blockFrom: null })
+          isResetForm && form.resetFields()
+        }}
+      />
     </Modal>
   )
 }

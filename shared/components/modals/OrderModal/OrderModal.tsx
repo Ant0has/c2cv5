@@ -35,9 +35,9 @@ const OrderModal: FC<IProps> = () => {
         handleClickLink={() => {
           setOrderModalData({ status: false })
         }}
-        handleClose={() => {
+        handleClose={(isResetForm?: boolean) => {
           setOrderModalData({ status: false })
-          form.resetFields()
+          isResetForm && form.resetFields()
         }} />
     </Modal>
   )

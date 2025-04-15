@@ -30,6 +30,27 @@
   transition-duration: var(--transition-duration);
   flex-shrink: 0;
 
+  &.loading {
+    opacity: 0.7;
+    cursor: not-allowed;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 1s linear infinite;
+    }
+
+    span {
+      opacity: 0;
+    }
+  }
+
   .text {
     transition-duration: var(--transition-duration);
   }
@@ -90,5 +111,11 @@
   &.disable {
     pointer-events: none !important;
     filter: brightness(60%) !important;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
