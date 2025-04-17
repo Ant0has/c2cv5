@@ -28,6 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description,
+    robots: "index, follow",
     keywords: data.metaKeywords,
     alternates: {
       canonical: page,

@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /admin/calculator
+Allow: / 
+
+Sitemap: https://n.city2city.ru/sitemap.xml

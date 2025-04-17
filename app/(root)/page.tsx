@@ -3,7 +3,8 @@ import { Home } from './Home'
 
 
 export const metadata: Metadata = {
-  title: 'Такси'
+  title: 'Такси',
+  robots: "index, follow",
 }
 
 export const revalidate = 60
