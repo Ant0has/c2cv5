@@ -18,7 +18,7 @@ interface IProps {
   handleClose?: (isResetForm?: boolean) => void
 }
 
-const QuestionForm: FC<IProps> = ({ buttonText, className, form, blockFrom, handleClickLink, handleClose }) => {
+const QuestionForm: FC<IProps> = ({ buttonText, className, form, handleClickLink, handleClose }) => {
   const [api, contextHolder] = notification.useNotification();
   const [isSubmitting, setIsSubmitting] = useState(false);
 

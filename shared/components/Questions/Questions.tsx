@@ -20,7 +20,7 @@ const Questions = ({ isMilitary }: { isMilitary?: boolean }) => {
             Отправьте заявку и наш менеджер свяжется с Вами в течении 5-ти
             минут.
           </p>
-          <QuestionForm blockFrom={Blocks.QUESTIONS} className="white-input" />
+          <QuestionForm blockFrom={Blocks.QUESTIONS} className="white-input" handleClickLink={()=>undefined} />
         </div>
         <div className={s.right}>
           <Image
