@@ -11,47 +11,21 @@ interface IProps {
 }
 
 const SearchInput: FC<IProps> = (props) => {
-
-  return (
-    <CustomSelect
-    {...props}
-    // className={className}
-    // showSearch
-    // value={value}
-    // placeholder={placeholder}
-    // defaultActiveFirstOption={false}
-    // suffixIcon={null}
-    // filterOption={false}
-    // onSearch={handleSearch}
-    // onChange={handleChange}
-    // notFoundContent={null}
-    // options={(data || []).map((d) => ({
-    //   value: d,
-    //   label: d,
-    // }))}
-    />
-  );
-};
-
-export default SearchInput;
-
-const CustomSelect: FC<IProps> = (props) => {
-  const { className, placeholder, value, data, handleSearch, handleChange } =
+  const { data, value, className, placeholder, handleChange, handleSearch } =
     props;
-
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState("");
 
-  const handleSelectChange = (val:string) => {
+  const handleSelectChange = (val: string) => {
     setInputValue(val);
-    handleChange(val)
+    handleChange(val);
   };
 
   const handleEditClick = () => {
     setIsEditing(true);
   };
 
-  const handleInputChange = (e:ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
@@ -62,21 +36,6 @@ const CustomSelect: FC<IProps> = (props) => {
   useEffect(() => {
     setInputValue(value ?? "");
   }, [value]);
-
-  // className={className}
-  // showSearch
-  // value={value}
-  // placeholder={placeholder}
-  // defaultActiveFirstOption={false}
-  // suffixIcon={null}
-  // filterOption={false}
-  // onSearch={handleSearch}
-  // onChange={handleChange}
-  // notFoundContent={null}
-  // options={(data || []).map((d) => ({
-  //   value: d,
-  //   label: d,
-  // }))}
 
   return (
     <Select
@@ -95,13 +54,28 @@ const CustomSelect: FC<IProps> = (props) => {
         <div>
           {menu}
           {isEditing ? (
+            <div style={{
+              display:'grid',
+              gridTemplateColumns:'70% 30%',
+              alignItems:'center'
+            }}>
             <Input
               value={inputValue}
               onChange={handleInputChange}
-              onBlur={handleInputBlur}
+              // onBlur={handleInputBlur}
               autoFocus
+              onKeyDown={(e)=>{
+                if(e.key==='Enter'){
+                  handleChange(inputValue)
+                }
+              }}
               style={{ margin: "8px", width: "90%" }}
             />
+            <div style={{cursor:'pointer'}} onClick={()=>{
+              handleChange(inputValue)
+              setIsEditing(false);
+            }}>Сохранить</div>
+            </div>
           ) : (
             <div
               style={{
@@ -118,17 +92,13 @@ const CustomSelect: FC<IProps> = (props) => {
         </div>
       )}
       style={{ width: "100%" }}
-          options={(data || []).map((d) => ({
-      value: d,
-      label: d,
-    }))}
+      options={(data || []).map((d) => ({
+        value: d,
+        label: d,
+      }))}
     >
-      {/* <Option value="Длинное название маршрута 1">
-        Длинное название маршрута 1
-      </Option>
-      <Option value="Длинное название маршрута 2">
-        Длинное название маршрута 2
-      </Option> */}
     </Select>
   );
 };
+
+export default SearchInput;
