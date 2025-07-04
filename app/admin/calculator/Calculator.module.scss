@@ -220,3 +220,11 @@
     border-bottom: 1px solid var(--gray);
   }
 }
+
+.returnDefault{
+  cursor: pointer;
+
+  &:hover{
+    color:var(--orange)
+  }
+}
