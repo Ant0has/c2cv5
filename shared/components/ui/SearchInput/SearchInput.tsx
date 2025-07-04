@@ -1,5 +1,5 @@
 import { Input, Select } from "antd";
-import { FC, useEffect, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 
 interface IProps {
   placeholder: string;
@@ -51,7 +51,7 @@ const CustomSelect: FC<IProps> = (props) => {
     setIsEditing(true);
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e:ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
