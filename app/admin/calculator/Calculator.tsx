@@ -39,7 +39,7 @@ interface IProps {
 const PLAN_COEFFICINT = "PLAN_COEFFICINT";
 
 const Calculator: FC<IProps> = () => {
-  const map = useRef();
+  const map = useRef<any>();
 
   const storagedData = localStorage.getItem(PLAN_COEFFICINT);
 
