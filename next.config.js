@@ -21,22 +21,22 @@ const nextConfig = {
       },
     ]
   },
-  async redirects() {
-    return [
-      {
-        // с / редиректим на /index.html
-        source: '/',
-        destination: '/index.html',
-        permanent: true,
-      },
-      {
-        // редиректим только если нет .html на конце
-        source: '/:path((?!.*\\.html$).*)',
-        destination: '/:path.html',
-        permanent: true,
-      },
-    ]
-  },
+  // async redirects() {
+  //   return [
+  //     {
+  //       // с / редиректим на /index.html
+  //       source: '/',
+  //       destination: '/index.html',
+  //       permanent: true,
+  //     },
+  //     {
+  //       // редиректим только если нет .html на конце
+  //       source: '/:path((?!.*\\.html$).*)',
+  //       destination: '/:path.html',
+  //       permanent: true,
+  //     },
+  //   ]
+  // },
 }
 
 module.exports = nextConfig
