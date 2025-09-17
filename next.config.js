@@ -7,20 +7,20 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['heavy-package'],
   },
-  async rewrites() {
-    return [
-      {
-        // index.html → корень
-        source: '/index.html',
-        destination: '/',
-      },
-      {
-        // любые другие .html → рендерим без него
-        source: '/:path*.html',
-        destination: '/:path*',
-      },
-    ]
-  },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       // index.html → корень
+  //       source: '/index.html',
+  //       destination: '/',
+  //     },
+  //     {
+  //       // любые другие .html → рендерим без него
+  //       source: '/:path*.html',
+  //       destination: '/:path*',
+  //     },
+  //   ]
+  // },
   // async redirects() {
   //   return [
   //     {
