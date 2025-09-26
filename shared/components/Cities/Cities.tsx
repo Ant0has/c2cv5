@@ -38,8 +38,6 @@ const Cities: FC<IProps> = ({ routes }) => {
               onClick={() => handleRegionClick(region)}
               style={{ cursor: 'pointer' }}
             >
-
-
               {region?.title}
             </Link>
           )) : getPaginatedList(regions, page, 20).map((region) => (

@@ -22,7 +22,7 @@ const Welcome: FC<IWelcomeProps> = ({ city, isMilitary, handleGoToOrder }) => {
       <div className="container-24">
         <div className={clsx(s.content)}>
           <div className={s.left}>
-            <WelcomeContent city={city} />
+            <WelcomeContent city={city} isMilitary={isMilitary} />
             <div className={s.buttons}>
               <Button type={ButtonTypes.PRIMARY} text='Заказать поездку' handleClick={handleGoToOrder} />
               <Button type={ButtonTypes.DEFAULT} text='Получить консультацию' handleClick={() => setQuestionModalData({ status: true, blockFrom: Blocks.WELCOME })} />

@@ -27,8 +27,8 @@ export function Home({ routeData }: Props) {
 
 	return (
 		<>
-			<Welcome isMilitary={isMilitary} handleGoToOrder={() => goToOrder()} city={routeData?.city_seo_data} />
-			<Price isMilitary={isMilitary} title={routeData?.city_seo_data} />
+			<Welcome isMilitary={isMilitary} handleGoToOrder={() => goToOrder()} city={routeData?.title} />
+			<Price isMilitary={isMilitary} title={routeData?.title} />
 			<OrderSteps isMilitary={isMilitary} />
 			<Reviews />
 			<Questions isMilitary={isMilitary} />

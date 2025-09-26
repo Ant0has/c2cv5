@@ -1,17 +1,19 @@
-.title {
-  margin-bottom: 12px;
+.title{
+  min-height: 80px;
 }
 
-.description {
-  margin-bottom: 32px;
+.listWrapper{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .advantages {
+  width: 100%;
+  max-width: 480px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
-  margin-bottom: 24px;
-  width: 100%;
 }
 
 .advantage {
@@ -46,7 +48,7 @@
 
   .description {
     font-size: 16px;
-    margin-bottom: 24px;
+    color:var(--dark);
   }
 }
 

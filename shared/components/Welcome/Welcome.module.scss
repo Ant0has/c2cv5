@@ -17,8 +17,13 @@
 }
 
 .left {
-  flex-basis: 480px;
+  flex-basis: 580px;
   flex-shrink: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
 }
 
 .right {

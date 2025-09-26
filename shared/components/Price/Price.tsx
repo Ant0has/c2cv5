@@ -52,7 +52,7 @@ const Price: FC<IProps> = ({ title, isMilitary }) => {
   return (
     <div className='container-40'>
       <div className={s.top}>
-        <h2 className="black-color font-56-medium">Цена такси {getTitle(title)}</h2>
+        <h2 className="black-color font-56-medium">Цена такси {title}</h2>
         <p className="black-color font-16-normal">Комфорт, Бизнес и Минивэн - поездки на любой случай</p>
       </div>
 

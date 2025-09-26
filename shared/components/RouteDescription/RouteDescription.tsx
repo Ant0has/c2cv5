@@ -1,4 +1,5 @@
 import { FC } from "react";
+import s from './RouteDescription.module.scss';
 interface IProps {
   title?: string
   text: string
@@ -11,7 +12,7 @@ const RouteDescription: FC<IProps> = ({ title, text }) => {
       <div className="title title-m-32">
         Маршрут <span>{title?.replace(',', ' в ')}</span>
       </div>
-      <div className='default-tag' dangerouslySetInnerHTML={{ __html: text }} />
+      <div className={s.description} dangerouslySetInnerHTML={{ __html: text }} />
     </div>
   )
 }
