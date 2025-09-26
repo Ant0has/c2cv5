@@ -30,6 +30,9 @@ async function getRegions() {
   return regions
 }
 
+export const revalidate = 86400 // 24 часа
+
+
 export default async function RootLayout({
   children
 }: Readonly<{
