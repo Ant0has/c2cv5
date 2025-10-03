@@ -1,8 +1,8 @@
 export const getCurrentKey = (): string => {
     const API_KEYS = [
-        process.env.NEXT_PUBLIC_YANDEX_MAPS_API_KEY ,
-    process.env.NEXT_PUBLIC_YANDEX_MAPS_API_KEY_1,
+        process.env.NEXT_PUBLIC_YANDEX_MAPS_API_KEY_1,
     process.env.NEXT_PUBLIC_YANDEX_MAPS_API_KEY_2,
+    process.env.NEXT_PUBLIC_YANDEX_MAPS_API_KEY_3,
     ];
     if (!API_KEYS[0] || !API_KEYS[1] || !API_KEYS[2]) {
         return '';
