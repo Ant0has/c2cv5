@@ -18,7 +18,8 @@ class YandexMapsService {
 
   async getSuggestions(query: string): Promise<string[]> {
     try {
-      const apiKey = this.getCurrentKey();
+      // const apiKey = this.getCurrentKey();
+      const apiKey = '7c930d71-0c0a-49a5-af7d-62c6245257cc';
       if (!apiKey) throw new Error('No API key available');
 
       const params = new URLSearchParams({
