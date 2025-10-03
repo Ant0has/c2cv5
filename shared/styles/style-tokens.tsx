@@ -34,7 +34,7 @@ export const tokens: ThemeConfig = {
       labelRequiredMarkColor: 'var(--orange)'
     },
     Input: {
-      activeBg: 'var(--light-gray)',
+      activeBg: '#fff',
       activeBorderColor: 'none',
       activeShadow: 'none',
       errorActiveShadow: 'none',
@@ -43,8 +43,10 @@ export const tokens: ThemeConfig = {
       warningActiveShadow: 'none',
       inputFontSize: 16,
       paddingBlock: 20,
-      paddingInline: 24
+      paddingInline: 24,
+      colorBgBase:'#fff',
     },
+    
     Pagination: {
       itemSize: 22,
       itemBg: 'var(--light-gray)',

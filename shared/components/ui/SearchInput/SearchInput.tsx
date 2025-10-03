@@ -1,4 +1,4 @@
-import { Input, Select } from "antd";
+import { Input, AutoComplete } from "antd";
 import { ChangeEvent, FC, useEffect, useState } from "react";
 
 interface IProps {
@@ -11,93 +11,74 @@ interface IProps {
 }
 
 const SearchInput: FC<IProps> = (props) => {
-  const { data, value, className, placeholder, handleChange, handleSearch } =
-    props;
-  const [isEditing, setIsEditing] = useState(false);
+  const { data, value, className, placeholder, handleChange, handleSearch } = props;
   const [inputValue, setInputValue] = useState("");
+  const [options, setOptions] = useState<{ value: string }[]>([]);
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
-  const handleSelectChange = (val: string) => {
+  const handleInputChange = (val: string) => {
+    setInputValue(val);
+    handleSearch(val);
+    setIsDropdownVisible(true);
+  };
+
+  const handleSelect = (val: string) => {
     setInputValue(val);
     handleChange(val);
-  };
-
-  const handleEditClick = () => {
-    setIsEditing(true);
-  };
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+    setIsDropdownVisible(false);
   };
 
   const handleInputBlur = () => {
-    setIsEditing(false);
+    setIsDropdownVisible(false);
+  };
+
+  const handleInputFocus = () => {
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleChange(inputValue);
+    }
   };
 
   useEffect(() => {
     setInputValue(value ?? "");
   }, [value]);
 
+  useEffect(() => {
+    // Преобразуем данные в формат для AutoComplete
+    if (data && data.length > 0) {
+      setOptions(data.map(item => ({ value: item })));
+    } else {
+      setOptions([]);
+    }
+  }, [data]);
+
   return (
-    <Select
+    <AutoComplete
       className={className}
-      showSearch
-      value={value}
-      onChange={handleSelectChange}
-      placeholder={placeholder}
-      defaultActiveFirstOption={false}
-      suffixIcon={null}
+      value={inputValue}
+      options={options}
+      onChange={handleInputChange}
+      onSelect={handleSelect}
+      onFocus={handleInputFocus}
+      onBlur={handleInputBlur}
+      open={isDropdownVisible && options.length > 0}
       filterOption={false}
-      onSearch={handleSearch}
-      // onChange={handleChange}
-      notFoundContent={null}
-      dropdownRender={(menu) => (
-        <div>
-          {menu}
-          {isEditing ? (
-            <div style={{
-              display:'grid',
-              gridTemplateColumns:'70% 30%',
-              alignItems:'center'
-            }}>
-            <Input
-              value={inputValue}
-              onChange={handleInputChange}
-              // onBlur={handleInputBlur}
-              autoFocus
-              onKeyDown={(e)=>{
-                if(e.key==='Enter'){
-                  handleChange(inputValue)
-                }
-              }}
-              style={{ margin: "8px", width: "90%" }}
-            />
-            <div style={{cursor:'pointer'}} onClick={()=>{
-              handleChange(inputValue)
-              setIsEditing(false);
-            }}>Сохранить</div>
-            </div>
-          ) : (
-            <div
-              style={{
-                padding: "8px",
-                cursor: "pointer",
-                textAlign: "center",
-                background: "#fafafa",
-              }}
-              onClick={handleEditClick}
-            >
-              Редактировать
-            </div>
-          )}
-        </div>
-      )}
-      style={{ width: "100%" }}
-      options={(data || []).map((d) => ({
-        value: d,
-        label: d,
-      }))}
+      style={{
+        width: "100%",
+        height:76,
+      }}
     >
-    </Select>
+      <Input
+        placeholder={placeholder}
+        onKeyDown={handleKeyDown}
+        style={{
+          fontSize:20,
+        }}
+        allowClear
+      />
+    </AutoComplete>
   );
 };
 
