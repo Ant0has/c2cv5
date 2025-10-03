@@ -10,6 +10,7 @@
   display: grid;
   grid-template-columns: 1fr 32px 1fr;
   margin-bottom: 24px;
+  gap: 10px;
 
   .part:first-of-type .input {
     border-radius: 16px 0px 0px 16px;
@@ -42,8 +43,7 @@
   align-items: center;
   justify-content: center;
   align-self: flex-end;
-  background-color: #fff;
-  height: 60px;
+  height: 78px;
   z-index: 2;
 }
 
