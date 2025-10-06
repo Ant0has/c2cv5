@@ -1,5 +1,5 @@
 class RouteService {
-    private BASE_URL = 'https://n.city2city.ru/api'
+    private BASE_URL = 'https://city2city.ru/api'
 
     async getRouteByUrl(url?: string) {
         try {
