@@ -8,7 +8,8 @@ import WalletIcon from "@/public/icons/WalletIcon";
 import { COEFFICIENT_100, COEFFICIENT_100_150, COEFFICIENT_150_200, COEFFICIENT_200, prices, SPEED } from "@/shared/constants";
 import { yandexMapsService } from "@/shared/services/yandex-maps.service";
 import { Blocks, ButtonTypes, Prices } from "@/shared/types/enums";
-import { Map, RoutePanel } from "@pbe/react-yandex-maps";
+import { FullscreenControl, Map, RoutePanel, TrafficControl, YMaps, ZoomControl } from "@pbe/react-yandex-maps";
+import { getCurrentKey } from "@/shared/services/get-current-key";
 import clsx from "clsx";
 import Link from "next/link";
 import { FC, useContext, useEffect, useRef, useState } from "react";
@@ -22,7 +23,7 @@ interface IProps {
 }
 
 const AddressSelect: FC<IProps> = ({ selectedPlan, isMilitary }) => {
-  const map = useRef<any>()
+  const routePanelRef = useRef<any>()
 
   const [departurePoint, setDeparturePoint] = useState<string>()
   const [departurePointData, setDeparturePointData] = useState<string[]>([])
@@ -47,80 +48,109 @@ const AddressSelect: FC<IProps> = ({ selectedPlan, isMilitary }) => {
   }
 
   const handleSearchDeparturePoint = async (value: string) => {
+    console.log("Searching departure:", value);
     const response = await yandexMapsService.getSuggestions(value)
+    console.log("Response:", response);
     const uniqueData = [...new Set(response)];
     setDeparturePointData(uniqueData)
   }
-
-  //-----
 
   const handleChangeArrivalPoint = (value: string) => {
     setArrivalPoint(value)
   }
 
   const handleSearchArrivalPoint = async (value: string) => {
+    console.log("Searching arrival:", value);
     const response = await yandexMapsService.getSuggestions(value)
+    console.log("Response:", response);
     const uniqueData = [...new Set(response)];
     setArrivalPointData(uniqueData)
   }
 
-
   const handleCalculate = async () => {
-    setIsLoading(true)
-    if (map?.current) {
-      const control = await map.current.routePanel.getRouteAsync();
-      const activeRoute = control.getActiveRoute();
-      if (activeRoute) {
-        const distance = activeRoute.properties.get("distance")
-        if (distance?.value) {
-          const distanceValue = Math.ceil((distance?.value / 1000) / 10) * 10;
-
-          const convertHoursToRoundedTime = (hours: number): string => {
-            let totalMinutes = Math.ceil(hours * 60 / 30) * 30;
-
-            let totalHours = Math.floor(totalMinutes / 60);
-            let weeks = Math.floor(totalHours / (24 * 7));
-            let remainingHoursAfterWeeks = totalHours % (24 * 7);
-            let days = Math.floor(remainingHoursAfterWeeks / 24);
-            let roundedHours = remainingHoursAfterWeeks % 24;
-            let roundedMinutes = totalMinutes % 60;
-
-            let result = [];
-            if (weeks > 0) result.push(`${weeks} нед`);
-            if (days > 0) result.push(`${days} дн`);
-            if (roundedHours > 0) result.push(`${roundedHours} ч`);
-            if (roundedMinutes > 0) result.push(`${roundedMinutes} мин`);
-
-            return result.join(" ");
-          };
-
-          const getCoefficient = (distance: number) => {
-            if (distance < 100) return COEFFICIENT_100
-            if (distance >= 100 && distance < 150) return COEFFICIENT_100_150
-            if (distance >= 150 && distance < 200) return COEFFICIENT_150_200
-            return COEFFICIENT_200
-          }
-
-          const getPrice = () => {
-            const initialPrice = distanceValue * prices[selectedPlan] * getCoefficient(distanceValue)
-            return Math.ceil(initialPrice / 500) * 500;
-          }
-
-          const timeValue = convertHoursToRoundedTime(distanceValue / SPEED)
-
-          setDistance(`${distanceValue} км`)
-          setTime(timeValue)
-          setPrice(`от ${getPrice()}р`)
-        }
-      }
+    if (!departurePoint || !arrivalPoint) {
+      console.log("Missing departure or arrival point");
+      return;
     }
-    setIsLoading(false)
-    if (!departurePoint || !arrivalPoint) return;
-  };
 
-  useEffect(() => {
-    handleCalculate()
-  }, [selectedPlan])
+    setIsLoading(true);
+
+    try {
+      if (routePanelRef.current) {
+        routePanelRef.current.routePanel.state.set({
+          from: departurePoint,
+          to: arrivalPoint,
+        });
+      }
+
+      setTimeout(async () => {
+        try {
+          if (routePanelRef.current) {
+            const control = await routePanelRef.current.routePanel.getRouteAsync();
+            if (control) {
+              const activeRoute = control.getActiveRoute();
+              if (activeRoute) {
+                const distance = activeRoute.properties.get("distance");
+                if (distance?.value) {
+                  const distanceValue = Math.ceil((distance.value / 1000) / 10) * 10;
+                  const convertHoursToRoundedTime = (hours: number): string => {
+                    let totalMinutes = Math.ceil(hours * 60 / 30) * 30;
+                    let totalHours = Math.floor(totalMinutes / 60);
+                    let weeks = Math.floor(totalHours / (24 * 7));
+                    let remainingHoursAfterWeeks = totalHours % (24 * 7);
+                    let days = Math.floor(remainingHoursAfterWeeks / 24);
+                    let roundedHours = remainingHoursAfterWeeks % 24;
+                    let roundedMinutes = totalMinutes % 60;
+
+                    let result = [];
+                    if (weeks > 0) result.push(`${weeks} нед`);
+                    if (days > 0) result.push(`${days} дн`);
+                    if (roundedHours > 0) result.push(`${roundedHours} ч`);
+                    if (roundedMinutes > 0) result.push(`${roundedMinutes} мин`);
+                    return result.join(" ");
+                  };
+
+                  const getCoefficient = (distance: number) => {
+                    if (distance < 100) return COEFFICIENT_100;
+                    if (distance >= 100 && distance < 150) return COEFFICIENT_100_150;
+                    if (distance >= 150 && distance < 200) return COEFFICIENT_150_200;
+                    return COEFFICIENT_200;
+                  };
+
+                  const getPrice = () => {
+                    const initialPrice = distanceValue * prices[selectedPlan] * getCoefficient(distanceValue);
+                    return Math.ceil(initialPrice / 500) * 500;
+                  };
+
+                  const timeValue = convertHoursToRoundedTime(distanceValue / SPEED);
+
+                  setDistance(`${distanceValue} км`);
+                  setTime(timeValue);
+                  setPrice(`от ${getPrice()}р`);
+                } else {
+                  console.log("No distance data in activeRoute");
+                }
+              } else {
+                console.log("No active route available");
+              }
+            } else {
+              console.log("Control is undefined");
+            }
+          } else {
+            console.log("routePanelRef.current is undefined");
+          }
+        } catch (error) {
+          console.error("Error calculating route:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      }, 2000);
+
+    } catch (error) {
+      console.error("Error setting route:", error);
+      setIsLoading(false);
+    }
+  };
 
   const infoData = [
     {
@@ -168,7 +198,6 @@ const AddressSelect: FC<IProps> = ({ selectedPlan, isMilitary }) => {
           </div>
         </div>
 
-
         <div className={s.part}>
           <div className={clsx(s.label, 'font-16-normal white-color')}>Точка прибытия<span className="orange-color">*</span></div>
           <SearchInput
@@ -199,7 +228,7 @@ const AddressSelect: FC<IProps> = ({ selectedPlan, isMilitary }) => {
           <Button
             disabled={!departurePoint || !arrivalPoint || isLoading}
             type={ButtonTypes.PRIMARY}
-            text="Рассчитать поездку"
+            text={isLoading ? "Рассчитывается..." : "Рассчитать поездку"}
             handleClick={handleCalculate} />
           <Button type={ButtonTypes.SECONDARY} text="Заказать поездку" handleClick={() => setOrderModalData({
             status: true,
@@ -216,32 +245,36 @@ const AddressSelect: FC<IProps> = ({ selectedPlan, isMilitary }) => {
         </div>
       </div>
 
-      <Map style={{
-        display: 'none'
-      }} width={1000} height={0} defaultState={{
-        center: [55.751574, 37.573856],
-        zoom: 9,
-        controls: [],
-      }}>
-        <RoutePanel
-          options={{ float: "right" }}
-          instanceRef={(ref: any) => {
-            map.current = ref
-            if (ref) {
-              ref.routePanel.state.set({
-                from: departurePoint || '',
-                to: arrivalPoint || ''
-              });
-
-              ref.routePanel.options.set({
-                autoSelect: true,
-
-              });
-            }
-          }}
-        />
-      </Map>
-
+      <YMaps query={{ apikey: getCurrentKey() }}>
+        <Map
+          style={{ display: 'none', height: 0 }}
+          width={0}
+          height={0}
+          defaultState={{
+            center: [55.751574, 37.573856],
+            zoom: 9,
+            controls: [],
+          }}>
+          <RoutePanel
+            instanceRef={(ref: any) => {
+              routePanelRef.current = ref;
+              if (ref) {
+                ref.routePanel.options.set({
+                  visible: false,
+                  float: 'none',
+                  showHeader: false,
+                  autoSelect: false,
+                });
+              }
+            }}
+            options={{
+              visible: false,
+              float: 'none',
+              showHeader: false,
+            }}
+          />
+        </Map>
+      </YMaps>
     </div>
   )
 }
