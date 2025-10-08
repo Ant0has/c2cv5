@@ -79,3 +79,44 @@ export function Providers({ children, regions }: ProvidersProps) {
 		</YMaps>
 	)
 }
+
+
+import { YandexMetrika } from '@koiztech/next-yandex-metrika'
+import { usePathname } from 'next/navigation'
+
+export default function YandexMetrikaWrapper() {
+  const pathname = usePathname()
+  const yid = Number(process.env.NEXT_PUBLIC_YANDEX_ID || 0)
+  const isProduction = process.env.NEXT_PUBLIC_STAGE === 'production'
+  
+  // Регулярные выражения для исключаемых путей
+  const excludedPatterns = [
+    /^\/admin\/calculator/,
+    /^\/admin(\/|$)/, // все страницы admin
+    /^\/test/,
+    /\/preview/,
+  ]
+  
+  const isExcludedPath = excludedPatterns.some(pattern => 
+    pattern.test(pathname)
+  )
+  
+  const shouldRenderMetrika = 
+    isProduction && 
+    yid > 0 && 
+    !isExcludedPath
+  
+  if (!shouldRenderMetrika) {
+    return null
+  }
+  
+  return (
+    <YandexMetrika 
+      clickmap={true} 
+      yid={yid} 
+      trackLinks={true} 
+      accurateTrackBounce={true} 
+      webvisor={false} 
+    />
+  )
+}
