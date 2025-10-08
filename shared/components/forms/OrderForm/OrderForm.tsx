@@ -11,6 +11,7 @@ import { FC, useState } from "react";
 import { planLabel } from "../../Price/data";
 import Button from "../../ui/Button/Button";
 import s from './OrderForm.module.scss';
+import dayjs from "dayjs";
 
 interface IProps {
   orderModalData: IOrderModalData
@@ -22,6 +23,22 @@ interface IProps {
 const OrderForm: FC<IProps> = ({ form, orderModalData, handleClickLink, handleClose }) => {
   const [api, contextHolder] = notification.useNotification();
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [tripType, setTripType] = useState<string>('');
+
+  const handleTripTypeChange = (e: any) => {
+    const selectedType = e.target.value;
+    setTripType(selectedType);
+
+    if (selectedType === 'Сейчас') {
+      // Устанавливаем текущую дату и время
+      const now = dayjs();
+      form?.setFieldValue('trip_date', now);
+    } else {
+      // Очищаем поле даты при выборе "Предзаказ"
+      form?.setFieldValue('trip_date', null);
+    }
+  };
 
   const handleSubmitForm = async () => {
     try {
@@ -114,6 +131,7 @@ const OrderForm: FC<IProps> = ({ form, orderModalData, handleClickLink, handleCl
           ]}
         >
           <Radio.Group
+           onChange={handleTripTypeChange}
             options={[
               { value: 'Сейчас', label: 'Сейчас' },
               { value: 'Предзаказ', label: 'Предзаказ' },
@@ -134,6 +152,7 @@ const OrderForm: FC<IProps> = ({ form, orderModalData, handleClickLink, handleCl
           <DatePicker
             format={'DD.MM.YYYY : HH.mm'}
             locale={ru_RU}
+            disabled={tripType === 'Сейчас'}
             showTime={{
               showSecond: false
             }}

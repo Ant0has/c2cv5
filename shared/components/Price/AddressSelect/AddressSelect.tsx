@@ -32,9 +32,10 @@ const AddressSelect: FC<IProps> = ({ selectedPlan, isMilitary, cityData }) => {
 
   const initialPoints = ( () => {
     const pointsArray = cityData?.split(',')
+    const arrivalPoint = pointsArray?.[0] || ''
     return  {
       departurePoint: getDeparturePoint(pointsArray?.[0] || ''),
-      arrivalPoint: getDeparturePoint(pointsArray?.[1] || '')
+      arrivalPoint: arrivalPoint === '-' ? '' : arrivalPoint
     }
   })()
   

@@ -4,7 +4,7 @@
   }
 
   export const getDeparturePoint = (point: string) => {
-    if(point === 'из Белгорода') return 'Белгород'
+    if(point === 'из Белгорода' || point === 'Белгорода') return 'Белгород'
     if(point === 'из Москвы' || point === 'Москвы') return 'Москва'
     if(point === 'из Краснодара' || point === 'Краснодара') return 'Краснодар'
     if(point === 'из Екатеринбурга' || point === 'Екатеринбурга') return 'Екатеринбург'
