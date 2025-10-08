@@ -40,9 +40,9 @@ export function Home({ routeData }: Props) {
 			<Cities routes={routeData?.routes} />
 			{!isMilitary && <ForBusiness />}
 
-			{routeData?.content && <RouteDescription
+			{<RouteDescription
 				text={routeData?.content}
-				title={routeData?.city_seo_data}
+				title={routeData?.city_seo_data || 'такси межгород'}
 			/>}
 
 		</>
