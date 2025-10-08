@@ -5,9 +5,10 @@ import { Blocks, ButtonTypes } from "@/shared/types/enums";
 import { IMailRequest } from "@/shared/types/types";
 import { Form, FormInstance, Input, notification } from "antd";
 import Link from "next/link";
-import { FC, useState } from "react";
+import { FC, useContext, useState } from "react";
 import Button from "../../ui/Button/Button";
 import s from './QuestionForm.module.scss';
+import { ModalContext } from "@/app/providers";
 
 interface IProps {
   buttonText?: string
@@ -20,13 +21,17 @@ interface IProps {
 
 const QuestionForm: FC<IProps> = ({ buttonText, className, form, handleClickLink, handleClose }) => {
   const [api, contextHolder] = notification.useNotification();
+  const { orderModalData, setOrderModalData } = useContext(ModalContext)
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmitForm = async () => {
     try {
       setIsSubmitting(true);
       const requestBody: IMailRequest = {
+        ...orderModalData,
         ...form?.getFieldsValue(),
+        order_from: orderModalData.order_from || 'Не указано',
+        order_to: orderModalData.order_to || 'Не указано',
         type: 'question'
       }
       delete requestBody.status

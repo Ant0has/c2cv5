@@ -46,6 +46,8 @@ const OrderForm: FC<IProps> = ({ form, orderModalData, handleClickLink, handleCl
       const requestBody: IMailRequest = {
         ...form?.getFieldsValue(),
         ...orderModalData,
+        order_from: orderModalData.order_from || 'Не указано',
+        order_to: orderModalData.order_to || 'Не указано',
         trip_date: form?.getFieldValue('trip_date')?.format('DD.MM.YYYY HH:mm'),
         auto_class: orderModalData.auto_class ? planLabel[orderModalData.auto_class as Prices] : undefined
       }
