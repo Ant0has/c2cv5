@@ -17,7 +17,7 @@ import { FC, useContext, useRef, useState } from "react";
 import Button from "../../ui/Button/Button";
 import SearchInput from "../../ui/SearchInput/SearchInput";
 import s from './AddressSelect.module.scss';
-import { checkString } from "./utils";
+import { checkString, getDeparturePoint } from "./utils";
 
 interface IProps {
   selectedPlan: Prices
@@ -25,22 +25,23 @@ interface IProps {
   cityData?: string
 }
 
+
+
 const AddressSelect: FC<IProps> = ({ selectedPlan, isMilitary, cityData }) => {
   const routePanelRef = useRef<any>()
 
   const initialPoints = ( () => {
     const pointsArray = cityData?.split(',')
     return  {
-      departurePoint: (pointsArray?.[0] || '').replace(/^Из\s+/i, '').trim(),
-      // departurePoint: await findBestMatchPoint(pointsArray?.[0] || ''),
-      arrivalPoint: checkString(pointsArray?.[1] || '')
+      departurePoint: getDeparturePoint(pointsArray?.[0] || ''),
+      arrivalPoint: getDeparturePoint(pointsArray?.[1] || '')
     }
   })()
   
 
   const [departurePoint, setDeparturePoint] = useState<string>(initialPoints.departurePoint)
   const [departurePointData, setDeparturePointData] = useState<string[]>([])
-  const [arrivalPoint, setArrivalPoint] = useState<string>('')
+  const [arrivalPoint, setArrivalPoint] = useState<string>(initialPoints.arrivalPoint)
   const [arrivalPointData, setArrivalPointData] = useState<string[]>([])
   const [distance, setDistance] = useState<string>('от 10 км')
   const [time, setTime] = useState<string>('1 ч')
