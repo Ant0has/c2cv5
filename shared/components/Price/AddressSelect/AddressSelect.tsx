@@ -6,28 +6,41 @@ import SwapIcon from "@/public/icons/SwapIcon";
 import TimeIcon from "@/public/icons/TimeIcon";
 import WalletIcon from "@/public/icons/WalletIcon";
 import { COEFFICIENT_100, COEFFICIENT_100_150, COEFFICIENT_150_200, COEFFICIENT_200, prices, SPEED } from "@/shared/constants";
+import { getCurrentKey } from "@/shared/services/get-current-key";
 import { yandexMapsService } from "@/shared/services/yandex-maps.service";
 import { Blocks, ButtonTypes, Prices } from "@/shared/types/enums";
-import { FullscreenControl, Map, RoutePanel, TrafficControl, YMaps, ZoomControl } from "@pbe/react-yandex-maps";
-import { getCurrentKey } from "@/shared/services/get-current-key";
+import { Map, RoutePanel, YMaps } from "@pbe/react-yandex-maps";
+import { message } from "antd";
 import clsx from "clsx";
 import Link from "next/link";
-import { FC, useContext, useEffect, useRef, useState } from "react";
+import { FC, useContext, useRef, useState } from "react";
 import Button from "../../ui/Button/Button";
 import SearchInput from "../../ui/SearchInput/SearchInput";
 import s from './AddressSelect.module.scss';
+import { checkString } from "./utils";
 
 interface IProps {
   selectedPlan: Prices
   isMilitary?: boolean
+  cityData?: string
 }
 
-const AddressSelect: FC<IProps> = ({ selectedPlan, isMilitary }) => {
+const AddressSelect: FC<IProps> = ({ selectedPlan, isMilitary, cityData }) => {
   const routePanelRef = useRef<any>()
 
-  const [departurePoint, setDeparturePoint] = useState<string>()
+  const initialPoints = ( () => {
+    const pointsArray = cityData?.split(',')
+    return  {
+      departurePoint: (pointsArray?.[0] || '').replace(/^Из\s+/i, '').trim(),
+      // departurePoint: await findBestMatchPoint(pointsArray?.[0] || ''),
+      arrivalPoint: checkString(pointsArray?.[1] || '')
+    }
+  })()
+  
+
+  const [departurePoint, setDeparturePoint] = useState<string>(initialPoints.departurePoint)
   const [departurePointData, setDeparturePointData] = useState<string[]>([])
-  const [arrivalPoint, setArrivalPoint] = useState<string>()
+  const [arrivalPoint, setArrivalPoint] = useState<string>('')
   const [arrivalPointData, setArrivalPointData] = useState<string[]>([])
   const [distance, setDistance] = useState<string>('от 10 км')
   const [time, setTime] = useState<string>('1 ч')
@@ -70,6 +83,7 @@ const AddressSelect: FC<IProps> = ({ selectedPlan, isMilitary }) => {
   const handleCalculate = async () => {
     if (!departurePoint || !arrivalPoint) {
       console.log("Missing departure or arrival point");
+      message.error("Нет активной точки отправления или прибытия");
       return;
     }
 
@@ -129,18 +143,23 @@ const AddressSelect: FC<IProps> = ({ selectedPlan, isMilitary }) => {
                   setPrice(`от ${getPrice()}р`);
                 } else {
                   console.log("No distance data in activeRoute");
+                  message.error("Нет активной точки отправления или прибытия");
                 }
               } else {
                 console.log("No active route available");
+                message.error("Нет активной точки отправления или прибытия");
               }
             } else {
               console.log("Control is undefined");
+              message.error("Нет активной точки отправления или прибытия");
             }
           } else {
             console.log("routePanelRef.current is undefined");
+            message.error("Нет активной точки отправления или прибытия");
           }
         } catch (error) {
           console.error("Error calculating route:", error);
+          message.error("Нет активной точки отправления или прибытия");
         } finally {
           setIsLoading(false);
         }
@@ -148,6 +167,7 @@ const AddressSelect: FC<IProps> = ({ selectedPlan, isMilitary }) => {
 
     } catch (error) {
       console.error("Error setting route:", error);
+      message.error("Нет активной точки отправления или прибытия");
       setIsLoading(false);
     }
   };

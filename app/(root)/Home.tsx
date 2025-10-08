@@ -20,6 +20,9 @@ interface Props {
 export function Home({ routeData }: Props) {
 	const { setRoute } = useContext(RouteContext)
 	const [isMilitary, setIsMilitary] = useState<boolean>(false)
+
+	const cityTitle = (routeData?.title || '').replace(/Такси\s+/gi, '').trim()
+	
 	useEffect(() => {
 		routeData && setRoute(routeData)
 		setIsMilitary(!!routeData?.is_military)
@@ -27,8 +30,8 @@ export function Home({ routeData }: Props) {
 
 	return (
 		<>
-			<Welcome isMilitary={isMilitary} handleGoToOrder={() => goToOrder()} city={routeData?.title} />
-			<Price isMilitary={isMilitary} title={routeData?.title} />
+			<Welcome isMilitary={isMilitary} handleGoToOrder={() => goToOrder()} city={cityTitle} />
+			<Price isMilitary={isMilitary} title={cityTitle} cityData={routeData?.city_seo_data} />
 			<OrderSteps isMilitary={isMilitary} />
 			<Reviews />
 			<Questions isMilitary={isMilitary} />

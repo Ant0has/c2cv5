@@ -10,8 +10,9 @@ export interface IRouteData {
         description?: string
         keywords?: string
     }
-    from_city?: string
-    to_city?: string
+    // from_city?: string
+    // to_city?: string
+    city_data?: string
     city_seo_data?: string
     price?: number
     distance?: number

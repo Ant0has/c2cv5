@@ -1,6 +1,5 @@
 'use-client'
 
-import { getTitle } from "@/shared/services/getTitle";
 import { Prices } from "@/shared/types/enums";
 import { Tabs, TabsProps } from "antd";
 import { FC, useState } from "react";
@@ -12,9 +11,10 @@ import PriceContent from "./PriceContent/PriceContent";
 interface IProps {
   title?: string
   isMilitary?: boolean
+  cityData?: string
 }
 
-const Price: FC<IProps> = ({ title, isMilitary }) => {
+const Price: FC<IProps> = ({ title, isMilitary, cityData }) => {
   const [selectedPlan, setSelectedPlan] = useState<Prices>(Prices.COMFORT)
 
   const tabs: TabsProps['items'] = [
@@ -65,7 +65,11 @@ const Price: FC<IProps> = ({ title, isMilitary }) => {
         activeKey={selectedPlan}
       />
 
-      <AddressSelect isMilitary={isMilitary} selectedPlan={selectedPlan} />
+      <AddressSelect 
+        isMilitary={isMilitary} 
+        selectedPlan={selectedPlan} 
+        cityData={cityData} 
+      />
     </div>
 
   )
