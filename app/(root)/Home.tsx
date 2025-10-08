@@ -28,8 +28,6 @@ export function Home({ routeData }: Props) {
 		setIsMilitary(!!routeData?.is_military)
 	}, [routeData])
 
-	console.log(routeData, '--routeData')
-
 	return (
 		<>
 			<Welcome isMilitary={isMilitary} handleGoToOrder={() => goToOrder()} city={cityTitle} />
