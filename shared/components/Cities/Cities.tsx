@@ -21,7 +21,7 @@ const Cities: FC<IProps> = ({ routes }) => {
   const router = useRouter()
 
   const handleRegionClick = (region: IRegion | IRoute) => {
-    router.push(`/${region.url}`)
+    router.push(`/${region.url}.html`)
   }
 
   return (
@@ -32,7 +32,7 @@ const Cities: FC<IProps> = ({ routes }) => {
         {
           routes ? getPaginatedList(routes, page, 20).map((region) => (
             <Link
-              href={region.url || ''}
+              href={`${region.url || ''}.html`}
               key={region.ID}
               className={clsx(s.region, 'font-16-medium')}
               onClick={() => handleRegionClick(region)}
@@ -42,7 +42,7 @@ const Cities: FC<IProps> = ({ routes }) => {
             </Link>
           )) : getPaginatedList(regions, page, 20).map((region) => (
             <Link
-              href={region.url || ''}
+              href={`${region.url || ''}.html`}
               key={region.ID}
               className={clsx(s.region, 'font-16-medium')}
               onClick={() => handleRegionClick(region)}
