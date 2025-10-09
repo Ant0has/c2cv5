@@ -5,8 +5,12 @@ import { IRouteData } from "@/shared/types/route.interface"
 import { IMailRequest, IRegion } from "@/shared/types/types"
 import { YMaps } from "@pbe/react-yandex-maps"
 import { ConfigProvider } from "antd"
+import Head from "next/head"
+import Script from "next/script"
 import { Dispatch, PropsWithChildren, SetStateAction, createContext, useState } from "react"
 import { tokens } from "../shared/styles/style-tokens"
+import { usePathname } from "next/navigation"
+import { YandexMetrika } from "@koiztech/next-yandex-metrika"
 
 interface ProvidersProps extends PropsWithChildren {
 	regions: IRegion[]
@@ -81,42 +85,56 @@ export function Providers({ children, regions }: ProvidersProps) {
 }
 
 
-import { YandexMetrika } from '@koiztech/next-yandex-metrika'
-import { usePathname } from 'next/navigation'
 
-export default function YandexMetrikaWrapper() {
-  const pathname = usePathname()
-  const yid = Number(process.env.NEXT_PUBLIC_YANDEX_ID || 0)
-  const isProduction = process.env.NEXT_PUBLIC_STAGE === 'production'
-  
-  // Регулярные выражения для исключаемых путей
+export const  YandexMetrikaWrapper = () => {
+  const pathname = usePathname();
+  const yid = Number(process.env.NEXT_PUBLIC_YANDEX_ID || 0);
+  const isProduction = process.env.NEXT_PUBLIC_STAGE === 'production';
+
   const excludedPatterns = [
     /^\/admin\/calculator/,
-    /^\/admin(\/|$)/, // все страницы admin
+    /^\/admin(\/|$)/,
     /^\/test/,
     /\/preview/,
-  ]
-  
-  const isExcludedPath = excludedPatterns.some(pattern => 
-    pattern.test(pathname)
-  )
-  
-  const shouldRenderMetrika = 
-    isProduction && 
-    yid > 0 && 
-    !isExcludedPath
-  
+  ];
+
+  const isExcludedPath = excludedPatterns.some(pattern => pattern.test(pathname || ''));
+
+  const shouldRenderMetrika = isProduction && yid > 0 && !isExcludedPath;
+
   if (!shouldRenderMetrika) {
-    return null
+    return null;
   }
-  
+
   return (
-    <YandexMetrika 
-      clickmap={true} 
-      yid={yid} 
-      trackLinks={true} 
-      accurateTrackBounce={true} 
-      webvisor={false} 
-    />
-  )
+    <>
+        <Script
+          id="yandex-metrika"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+              m[i].l=1*new Date();
+              for (var j = 0; j < document.scripts.length; j++) { if (document.scripts[j].src === r) { return; } }
+              k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k,a)})
+              (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+              ym(${yid}, "init", {
+                clickmap: true,
+                trackLinks: true,
+                accurateTrackBounce: true,
+                webvisor: false
+              });
+            `,
+          }}
+        />
+      {/* Fallback для react-yandex-metrika, если нужно */}
+      <YandexMetrika
+        clickmap={true}
+        yid={yid}
+        trackLinks={true}
+        accurateTrackBounce={true}
+        webvisor={false}
+      />
+    </>
+  );
 }
