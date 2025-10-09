@@ -1,4 +1,3 @@
-// next.config.js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -14,36 +13,27 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['heavy-package'],
   },
-  async rewrites() {
-    return [
-      {
-        // index.html → корень
-        source: '/index.html',
-        destination: '/',
-      },
-      {
-        // любые другие .html → рендерим без него
-        source: '/:path*.html',
-        destination: '/:path*',
-      },
-    ]
-  },
-  async redirects() {
-    return [
-      {
-        // с / редиректим на /index.html
-        source: '/',
-        destination: '/index.html',
-        permanent: true,
-      },
-      {
-        // редиректим только если нет .html на конце
-        source: '/:path((?!.*\\.html$).*)',
-        destination: '/:path.html',
-        permanent: true,
-      },
-    ]
-  },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: '/index.html',
+  //       destination: '/',
+  //     },
+  //     {
+  //       source: '/:path*.html',
+  //       destination: '/:path*',
+  //     },
+  //   ]
+  // },
+  // async redirects() {
+  //   return [
+  //     {
+  //       source: '/:path+((?!.*\\.html$).*)', // Исключаем корень и пути с .html
+  //       destination: '/:path.html',
+  //       permanent: true,
+  //     },
+  //   ]
+  // },
 }
 
 module.exports = nextConfig

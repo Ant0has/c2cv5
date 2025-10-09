@@ -10,14 +10,15 @@ interface Props {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const data = await routeService.getRouteByUrl(params.region);
+  const region = params.region.replace(/\.html$/, ""); // Удаляем .html
+  const data = await routeService.getRouteByUrl(region);
 
   if (!data) {
     return {};
   }
 
   const siteName = "City2City";
-  const page = `https://city2city.ru/${params.region}.html`;
+  const page = `https://city2city.ru/${region}.html`;
   const title =
     data?.seo_title ||
     `Такси %%${data?.seo_title}%% %%${page}%% межгород ЦЕНА за Трансфер! Заказать междугороднее такси %%${siteName}%%`;
@@ -48,7 +49,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function RegionPage({ params }: Props) {
-  const data = await routeService.getRouteByUrl(params.region);
+  const region = params.region.replace(/\.html$/, ""); // Удаляем .html
+  const data = await routeService.getRouteByUrl(region);
 
   if (data === null) {
     notFound();

@@ -1,0 +1,44 @@
+@use 'sass:math';
+
+
+
+.main {
+  display: flex;
+  justify-content: center;
+  padding: 48px 16px;
+
+  .title {
+    text-align: center;
+    margin-bottom: 32px;
+
+    @media (max-width: 480px) {
+      font-size: 32px;
+    }
+  }
+}
+
+.content {
+  max-width: calc(var(--container-width) * 0.6); // ~720px
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 32px;
+
+  .buttonPrimary {
+    background-color: var(--blue);
+    border-color: var(--blue);
+    &:hover {
+      background-color: darken(#012256, 10%);
+      border-color: darken(#012256, 10%);
+    }
+  }
+}
+
+
+
+

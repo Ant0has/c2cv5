@@ -12,7 +12,6 @@ import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import clsx from "clsx";
-import { usePathname } from 'next/navigation'
 
 const getValidName = (region: IRegion) => {
   return region.region_value || region.meta_value || region.url || ''
@@ -55,8 +54,6 @@ const MenuContent: FC = () => {
       krym
     }
   }, [regionsFull])
-
-  const pathname = usePathname()
 
   useEffect(() => {
     const checkMobile = () => {
@@ -138,7 +135,7 @@ const MenuContent: FC = () => {
               <Link
                 onClick={() => setIsOpenMenu(false)}
                 className={clsx('black-color', { ['orange-color']: region.url === route?.regions_data?.url })}
-                href={`/${region.url || ''}`}
+                href={`/${region.url || ''}.html`}
                 key={region.meta_id}
               >
                 {getValidName(region)}
@@ -158,21 +155,21 @@ const MenuContent: FC = () => {
             <Link
               onClick={() => setIsOpenMenu(false)}
               className={clsx('black-color', { ['orange-color']: moscow.url === route?.regions_data?.url })}
-              href={`/${moscow.url || ''}`}
+              href={`/${moscow.url || ''}.html`}
             >
               {getValidName(moscow)}
             </Link>
             <Link
               onClick={() => setIsOpenMenu(false)}
               className={clsx('black-color', { ['orange-color']: piter.url === route?.regions_data?.url })}
-              href={`/${piter.url || ''}`}
+              href={`/${piter.url || ''}.html`}
             >
               {getValidName(piter)}
             </Link>
             <Link
               onClick={() => setIsOpenMenu(false)}
               className={clsx('black-color', { ['orange-color']: krym.url === route?.regions_data?.url })}
-              href={`/${krym.url || ''}`}
+              href={`/${krym.url || ''}.html`}
             >
               {getValidName(krym)}
             </Link>

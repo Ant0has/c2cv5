@@ -26,7 +26,7 @@ const Header = () => {
           </div>
 
           <div className={s.logo}>
-            <Link href='/index.html'>
+            <Link href='/'>
               <LogoIcon />
             </Link>
 
