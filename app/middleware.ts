@@ -4,16 +4,21 @@ import type { NextRequest } from 'next/server';
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Пропускаем корень и пути, уже содержащие .html
+  // 1️⃣ Если путь — /index.html → редиректим на /
+  if (pathname === '/index.html') {
+    return NextResponse.redirect(new URL('/', request.url));
+  }
+
+  // 2️⃣ Пропускаем корень и любые пути, уже оканчивающиеся на .html
   if (pathname === '/' || pathname.endsWith('.html')) {
     return NextResponse.next();
   }
 
-  // Редиректим на путь с .html
+  // 3️⃣ Иначе добавляем .html
   return NextResponse.redirect(new URL(`${pathname}.html`, request.url));
 }
 
-// Применяем middleware только к путям /:region
+// Применяем middleware ко всем путям, кроме корня и .html
 export const config = {
-  matcher: ['/:path((?!.*\\.html$|^$).+)'],
+  matcher: ['/index.html', '/:path((?!.*\\.html$|^$).+)'],
 };

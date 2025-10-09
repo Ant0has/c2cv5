@@ -13,12 +13,13 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['heavy-package'],
   },
-  // async rewrites() {
+  // async redirects() {
   //   return [
   //     {
   //       source: '/index.html',
   //       destination: '/',
-  //     },
+  //     }
+  //   ]}
   //     {
   //       source: '/:path*.html',
   //       destination: '/:path*',
@@ -34,6 +35,16 @@ const nextConfig = {
   //     },
   //   ]
   // },
+
+  async redirects() {
+    return [
+      {
+        source: '/index.html',
+        destination: '/',
+        permanent: true,
+      },
+    ];
+  },
 }
 
 module.exports = nextConfig
