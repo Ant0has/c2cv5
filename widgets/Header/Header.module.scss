@@ -237,3 +237,11 @@
 .open .menu:after {
   top: 0;
 }
+
+.phones {
+  display: none;
+
+  @media (max-width: 1120px) {
+    display: block;
+  }
+}
