@@ -4,7 +4,7 @@ import cn from 'classnames';
 import styles from './NotFound.module.scss';
 import Image from 'next/image';
 
-export const NotFound = () => {
+export const NotFoundPage = () => {
   return (
     <div className={cn(styles.container)}>
       {/* Header */}
@@ -36,4 +36,4 @@ export const NotFound = () => {
   );
 };
 
-export default NotFound;
+export default NotFoundPage;
