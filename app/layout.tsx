@@ -6,12 +6,7 @@ import type { Metadata } from 'next';
 import { Inter as FontSans } from "next/font/google";
 import { Suspense } from "react";
 import { Providers, YandexMetrikaWrapper } from './providers';
-
 import OrderModal from "@/shared/components/modals/OrderModal/OrderModal";
-import '@/shared/styles/ant-design-styles.css';
-import '@/shared/styles/global.scss';
-import '@/shared/styles/style.scss';
-import Head from "next/head";
 
 export const metadata: Metadata = {
   title: {
@@ -43,9 +38,6 @@ export default async function RootLayout({
 
   return (
     <html lang='ru'>
-      <Head>
-        <YandexMetrikaWrapper />
-      </Head>
       <body className={inter.className}>
 
         <Providers regions={regions}>
@@ -60,6 +52,7 @@ export default async function RootLayout({
             </main>
           </div>
         </Providers>
+        <YandexMetrikaWrapper />
       </body>
     </html>
   )
