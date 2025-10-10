@@ -6,7 +6,11 @@ import type { Metadata } from 'next';
 import { Inter as FontSans } from "next/font/google";
 import { Suspense } from "react";
 import { Providers, YandexMetrikaWrapper } from './providers';
+
 import OrderModal from "@/shared/components/modals/OrderModal/OrderModal";
+import '@/shared/styles/ant-design-styles.css';
+import '@/shared/styles/global.scss';
+import '@/shared/styles/style.scss';
 
 export const metadata: Metadata = {
   title: {
