@@ -81,60 +81,52 @@ export function Providers({ children, regions }: ProvidersProps) {
 	)
 }
 
-
-
-
-
 export const YandexMetrikaWrapper = () => {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const yid = Number(process.env.NEXT_PUBLIC_YANDEX_ID || 0);
-  const isProduction = process.env.NEXT_PUBLIC_STAGE === "production";
-
-  const excludedPatterns = [
-    /^\/admin(\/|$)/,
-    /^\/test/,
-    /\/preview/,
-  ];
-
-  const isExcludedPath = excludedPatterns.some((pattern) =>
-    pattern.test(pathname || "")
-  );
-
-  const shouldRender = isProduction && yid > 0 && !isExcludedPath;
-
-  // 👉 Отправка "хита" при изменении маршрута (SPA-навигация)
+  const yandexId = process.env.NEXT_PUBLIC_YANDEX_ID || '';
+  // Extend the Window interface to include ym to fix TypeScript errors
   useEffect(() => {
-    if (!shouldRender || typeof window === "undefined") return;
-    // @ts-expect-error: ym is injected by Yandex Metrika script
-    if (typeof window.ym !== "function") return;
-    const url = pathname + (searchParams.toString() ? `?${searchParams}` : "");
-    // @ts-expect-error: ym is injected by Yandex Metrika script
-    window.ym(yid, "hit", url);
-  }, [pathname, searchParams, shouldRender, yid]);
-
-  if (!shouldRender) return null;
+    if (typeof window !== 'undefined' && (window as any).ym) {
+      (window as any).ym(yandexId, 'hit', pathname);
+    }
+  }, [pathname]);
 
   return (
-    <Script
-      id="yandex-metrika"
-      strategy="afterInteractive"
-      dangerouslySetInnerHTML={{
-        __html: `
-          (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-          m[i].l=1*new Date();
-          for (var j = 0; j < document.scripts.length; j++) { if (document.scripts[j].src === r) { return; } }
-          k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-          (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-          ym(${yid}, "init", {
-            clickmap:true,
-            trackLinks:true,
-            accurateTrackBounce:true,
-            webvisor:false
-          });
-        `,
-      }}
-    />
+    <>
+      <Script
+        id="yandex-metrika"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            (function(m,e,t,r,i,k,a){
+                m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+                m[i].l=1*new Date();
+                for (var j = 0; j < document.scripts.length; j++) {
+                    if (document.scripts[j].src === r) { return; }
+                }
+                k=e.createElement(t),a=e.getElementsByTagName(t)[0];
+                k.async=1;k.src=r;a.parentNode.insertBefore(k,a);
+            })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+            ym(${yandexId}, 'init', {
+                clickmap:true,
+                trackLinks:true,
+                accurateTrackBounce:true,
+                webvisor:true,
+                ecommerce:"dataLayer"
+            });
+          `,
+        }}
+      />
+      <noscript>
+        <div>
+          <img
+            src="https://mc.yandex.ru/watch/${yandexId}"
+            style={{ position: 'absolute', left: '-9999px' }}
+            alt=""
+          />
+        </div>
+      </noscript>
+    </>
   );
 };
