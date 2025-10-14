@@ -45,6 +45,7 @@ export interface IMailRequest {
   order_from?: string;
   order_to?: string;
   trip_price_from?: string;
+  current_route?: string;
 
   status?: boolean
 }
