@@ -1,5 +1,4 @@
 "use client"
-
 import { ModalContext } from "@/app/providers";
 import RoadIcon from "@/public/icons/RoadIcon";
 import SwapIcon from "@/public/icons/SwapIcon";
@@ -20,7 +19,6 @@ import s from './AddressSelect.module.scss';
 import { checkString, getDeparturePoint } from "./utils";
 
 interface IProps {
-  title?: string
   selectedPlan: Prices
   isMilitary?: boolean
   cityData?: string
@@ -28,7 +26,7 @@ interface IProps {
 
 
 
-const AddressSelect: FC<IProps> = ({ selectedPlan, isMilitary, cityData, title }) => {
+const AddressSelect: FC<IProps> = ({ selectedPlan, isMilitary, cityData }) => {
   const routePanelRef = useRef<any>()
 
   const initialPoints = ( () => {
@@ -260,7 +258,7 @@ const AddressSelect: FC<IProps> = ({ selectedPlan, isMilitary, cityData, title }
             order_to: arrivalPoint,
             trip_price_from: price,
             block: Blocks.CALCULATOR,
-            current_route: title
+            current_route: window.location.href || ''
           })} />
         </div>
 

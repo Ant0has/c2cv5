@@ -66,7 +66,6 @@ const Price: FC<IProps> = ({ title, isMilitary, cityData }) => {
       />
 
       <AddressSelect 
-        title={title || 'такси межгород'}
         isMilitary={isMilitary} 
         selectedPlan={selectedPlan} 
         cityData={cityData} 
