@@ -31,6 +31,7 @@ class MailService {
     const requestBody = {
       ...payload,
       device_info: this.getDeviceInfo(),
+      сurrent_route: window?.location?.href || ''
     };
 
     try {

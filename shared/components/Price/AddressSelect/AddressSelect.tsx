@@ -257,8 +257,7 @@ const AddressSelect: FC<IProps> = ({ selectedPlan, isMilitary, cityData }) => {
             order_from: departurePoint,
             order_to: arrivalPoint,
             trip_price_from: price,
-            block: Blocks.CALCULATOR,
-            сurrent_route: window.location.href || ''
+            block: Blocks.CALCULATOR
           })} />
         </div>
 
