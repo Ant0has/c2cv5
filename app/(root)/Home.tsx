@@ -1,48 +1,112 @@
 'use client'
 
-import Cities from "@/shared/components/Cities/Cities"
-import ForBusiness from "@/shared/components/ForBusiness/ForBusiness"
-import OrderSteps from "@/shared/components/OrderSteps/OrderSteps"
-import Price from "@/shared/components/Price/Price"
-import Questions from "@/shared/components/Questions/Questions"
-import Reviews from "@/shared/components/Reviews/Reviews"
-import RouteDescription from "@/shared/components/RouteDescription/RouteDescription"
+import { LoadingSkeleton } from "@/shared/components/loadingSkeleton/LoadingSkeleton"
 import Welcome from "@/shared/components/Welcome/Welcome"
 import { goToOrder } from "@/shared/services/go-to-order"
 import { IRouteData } from "@/shared/types/route.interface"
-import { useContext, useEffect, useState } from "react"
+import dynamic from "next/dynamic"
+import { Suspense, useContext, useEffect, useLayoutEffect, useState } from "react"
 import { RouteContext } from "../providers"
 
 interface Props {
 	routeData?: IRouteData
 }
 
+const PriceSection = dynamic(
+	() => import("@/shared/components/Price/Price").then((mod) => mod.default),
+	{
+		loading: () => <LoadingSkeleton height="80vh" />,
+		ssr: false,
+	}
+);
+
+const OrderStepsSection = dynamic(
+	() => import("@/shared/components/OrderSteps/OrderSteps").then((mod) => mod.default),
+	{
+		loading: () => <LoadingSkeleton height="80vh" />,
+		ssr: false,
+	}
+);
+
+const ReviewsSection = dynamic(
+	() => import("@/shared/components/Reviews/Reviews").then((mod) => mod.default),
+	{
+		loading: () => <LoadingSkeleton height="80vh" />,
+		ssr: false,
+	}
+);
+
+const QuestionsSection = dynamic(
+
+	() => import("@/shared/components/Questions/Questions").then((mod) => mod.default),
+	{
+		loading: () => <LoadingSkeleton height="80vh" />,
+		ssr: false,
+	}
+);
+
+const CitiesSection = dynamic(
+	() => import("@/shared/components/Cities/Cities").then((mod) => mod.default),
+	{
+		loading: () => <LoadingSkeleton height="80vh" />,
+		ssr: false,
+	}
+)
+
+const ForBusinessSection = dynamic(
+	() => import("@/shared/components/ForBusiness/ForBusiness").then((mod) => mod.default),
+	{
+		loading: () => <LoadingSkeleton height="80vh" />,
+		ssr: false,
+	}
+)
+
+const RouteDescriptionSection = dynamic(
+	() => import("@/shared/components/RouteDescription/RouteDescription").then((mod) => mod.default),
+	{
+		loading: () => <LoadingSkeleton height="80vh" />,
+		ssr: false,
+	}
+)
+
 export function Home({ routeData }: Props) {
 	const { setRoute } = useContext(RouteContext)
-	const [isMilitary, setIsMilitary] = useState<boolean>(false)
 
 	const cityTitle = (routeData?.title || '').replace(/Такси\s+/gi, '').trim()
-	
-	useEffect(() => {
+
+	useLayoutEffect(() => {
 		routeData && setRoute(routeData)
-		setIsMilitary(!!routeData?.is_military)
 	}, [routeData])
 
 	return (
 		<>
-			<Welcome isMilitary={isMilitary} handleGoToOrder={() => goToOrder()} city={cityTitle} />
-			<Price isMilitary={isMilitary} title={cityTitle} cityData={routeData?.city_seo_data} />
-			<OrderSteps isMilitary={isMilitary} />
-			<Reviews />
-			<Questions isMilitary={isMilitary} />
-			<Cities routes={routeData?.routes} />
-			{!isMilitary && <ForBusiness />}
+			<Welcome isMilitary={routeData?.is_military} handleGoToOrder={() => goToOrder()} city={cityTitle} />
+			<Suspense>
+				<PriceSection isMilitary={routeData?.is_military} title={cityTitle} cityData={routeData?.city_seo_data} />
+			</Suspense>
 
-			{<RouteDescription
-				text={routeData?.content}
-				title={routeData?.city_seo_data || 'такси межгород'}
-			/>}
+			<Suspense>
+				<OrderStepsSection isMilitary={routeData?.is_military} />
+			</Suspense>
+			<Suspense>
+				<ReviewsSection />
+			</Suspense>
+			<Suspense>
+				<QuestionsSection isMilitary={routeData?.is_military} />
+			</Suspense>
+			<Suspense>
+				<CitiesSection routes={routeData?.routes}/>
+			</Suspense>
 
+			{!routeData?.is_military && (
+				<Suspense>
+					<ForBusinessSection />
+				</Suspense>
+			)}
+
+			<Suspense>
+				<RouteDescriptionSection text={routeData?.content} title={routeData?.city_seo_data || 'такси межгород'} />
+			</Suspense>
 		</>
 	)
 }

@@ -12,29 +12,12 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ['heavy-package'],
+    optimizeCss: true,
   },
-  // async redirects() {
-  //   return [
-  //     {
-  //       source: '/index.html',
-  //       destination: '/',
-  //     }
-  //   ]}
-  //     {
-  //       source: '/:path*.html',
-  //       destination: '/:path*',
-  //     },
-  //   ]
-  // },
-  // async redirects() {
-  //   return [
-  //     {
-  //       source: '/:path+((?!.*\\.html$).*)', // Исключаем корень и пути с .html
-  //       destination: '/:path.html',
-  //       permanent: true,
-  //     },
-  //   ]
-  // },
+
+  compiler: {
+    removeConsole: process.env.NEXT_PUBLIC_STAGE === 'production', // Удалите console.log в продакшене
+  },
 
   async redirects() {
     return [
