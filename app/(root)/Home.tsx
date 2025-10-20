@@ -5,15 +5,16 @@ import Welcome from "@/shared/components/Welcome/Welcome"
 import { goToOrder } from "@/shared/services/go-to-order"
 import { IRouteData } from "@/shared/types/route.interface"
 import dynamic from "next/dynamic"
-import { Suspense, useContext, useEffect, useLayoutEffect, useState } from "react"
+import { Suspense, useContext, useLayoutEffect } from "react"
 import { RouteContext } from "../providers"
+import { attractions } from "@/pages-list/home/data";
 
 interface Props {
 	routeData?: IRouteData
 }
 
 const PriceSection = dynamic(
-	() => import("@/shared/components/Price/Price").then((mod) => mod.default),
+	() => import("@/pages-list/home/ui/Price/Price").then((mod) => mod.default),
 	{
 		loading: () => <LoadingSkeleton height="80vh" />,
 		ssr: false,
@@ -21,7 +22,7 @@ const PriceSection = dynamic(
 );
 
 const OrderStepsSection = dynamic(
-	() => import("@/shared/components/OrderSteps/OrderSteps").then((mod) => mod.default),
+	() => import("@/pages-list/home/ui/OrderSteps/OrderSteps").then((mod) => mod.default),
 	{
 		loading: () => <LoadingSkeleton height="80vh" />,
 		ssr: false,
@@ -29,7 +30,7 @@ const OrderStepsSection = dynamic(
 );
 
 const ReviewsSection = dynamic(
-	() => import("@/shared/components/Reviews/Reviews").then((mod) => mod.default),
+	() => import("@/pages-list/home/ui/Reviews/Reviews").then((mod) => mod.default),
 	{
 		loading: () => <LoadingSkeleton height="80vh" />,
 		ssr: false,
@@ -38,7 +39,7 @@ const ReviewsSection = dynamic(
 
 const QuestionsSection = dynamic(
 
-	() => import("@/shared/components/Questions/Questions").then((mod) => mod.default),
+	() => import("@/pages-list/home/ui/Questions/Questions").then((mod) => mod.default),
 	{
 		loading: () => <LoadingSkeleton height="80vh" />,
 		ssr: false,
@@ -46,7 +47,7 @@ const QuestionsSection = dynamic(
 );
 
 const CitiesSection = dynamic(
-	() => import("@/shared/components/Cities/Cities").then((mod) => mod.default),
+	() => import("@/pages-list/home/ui/Cities/Cities").then((mod) => mod.default),
 	{
 		loading: () => <LoadingSkeleton height="80vh" />,
 		ssr: false,
@@ -54,7 +55,7 @@ const CitiesSection = dynamic(
 )
 
 const ForBusinessSection = dynamic(
-	() => import("@/shared/components/ForBusiness/ForBusiness").then((mod) => mod.default),
+	() => import("@/pages-list/home/ui/ForBusiness/ForBusiness").then((mod) => mod.default),
 	{
 		loading: () => <LoadingSkeleton height="80vh" />,
 		ssr: false,
@@ -62,7 +63,15 @@ const ForBusinessSection = dynamic(
 )
 
 const RouteDescriptionSection = dynamic(
-	() => import("@/shared/components/RouteDescription/RouteDescription").then((mod) => mod.default),
+	() => import("@/pages-list/home/ui/RouteDescription/RouteDescription").then((mod) => mod.default),
+	{
+		loading: () => <LoadingSkeleton height="80vh" />,
+		ssr: false,
+	}
+)
+
+const AttractionsSection = dynamic(
+	() => import("@/pages-list/home/ui/attractions/Attractions").then((mod) => mod.default),
 	{
 		loading: () => <LoadingSkeleton height="80vh" />,
 		ssr: false,
@@ -89,7 +98,10 @@ export function Home({ routeData }: Props) {
 				<OrderStepsSection isMilitary={routeData?.is_military} />
 			</Suspense>
 			<Suspense>
-				<ReviewsSection />
+				<ReviewsSection title={cityTitle} />
+			</Suspense>
+			<Suspense>
+				<AttractionsSection title="Достопримечательности" titlePrimary="Москвы" cards={[...attractions,...attractions,...attractions]} />
 			</Suspense>
 			<Suspense>
 				<QuestionsSection isMilitary={routeData?.is_military} />

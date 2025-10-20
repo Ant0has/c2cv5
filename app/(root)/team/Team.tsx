@@ -1,6 +1,6 @@
 'use client'
 
-import ForBusiness from "@/shared/components/ForBusiness/ForBusiness";
+import ForBusiness from "@/pages-list/home/ui/ForBusiness/ForBusiness";
 import TeamWork from "@/shared/components/TeamWork/TeamWork";
 import Link from "next/link";
 import { FC } from "react";

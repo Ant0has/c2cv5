@@ -1,7 +1,7 @@
 "use-client";
 
 import Image from "next/image";
-import QuestionForm from "../forms/QuestionForm/QuestionForm";
+import QuestionForm from "../../../../shared/components/forms/QuestionForm/QuestionForm";
 import s from "./Questions.module.scss";
 import man from "@/public/images/man.png";
 import manMilitary from "@/public/images/military/man.png";

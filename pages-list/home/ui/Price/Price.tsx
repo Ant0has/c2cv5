@@ -7,7 +7,7 @@ import AddressSelect from "./AddressSelect/AddressSelect";
 import { planLabel } from "./data";
 import s from './Price.module.scss';
 import PriceContent from "./PriceContent/PriceContent";
-
+import { HomeLayout, HomeLayoutTitle } from "@/shared/layouts/homeLayout/HomeLayout";
 interface IProps {
   title?: string
   isMilitary?: boolean
@@ -50,13 +50,7 @@ const Price: FC<IProps> = ({ title, isMilitary, cityData }) => {
     },
   ]
   return (
-    <div className='container-40'>
-      <div className={s.top}>
-        <h2 className="black-color font-56-medium">Цена такси {title}</h2>
-        <p className="black-color font-16-normal">Комфорт, Бизнес и Минивэн - поездки на любой случай</p>
-      </div>
-
-
+    <HomeLayout className={s.container} top={<HomeLayoutTitle title="Цена такси" titlePrimary={title} description="Комфорт, Бизнес и Минивэн - поездки на любой случай" />}>
       <Tabs
         items={tabs}
         onChange={(key) => {
@@ -70,7 +64,7 @@ const Price: FC<IProps> = ({ title, isMilitary, cityData }) => {
         selectedPlan={selectedPlan} 
         cityData={cityData} 
       />
-    </div>
+    </HomeLayout>
 
   )
 }

@@ -13,8 +13,8 @@ import { message } from "antd";
 import clsx from "clsx";
 import Link from "next/link";
 import { FC, useContext, useRef, useState } from "react";
-import Button from "../../ui/Button/Button";
-import SearchInput from "../../ui/SearchInput/SearchInput";
+import Button from "../../../../../shared/components/ui/Button/Button";
+import SearchInput from "../../../../../shared/components/ui/SearchInput/SearchInput";
 import s from './AddressSelect.module.scss';
 import { checkString, getDeparturePoint } from "./utils";
 

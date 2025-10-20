@@ -5,14 +5,13 @@ import { Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { reviews } from "./data";
 import ReviewCard from "./ReviewCard/ReviewCard";
-import s from './Reviews.module.scss';
-import ReviewTitle from "./ReviewTitle/ReviewTitle";
 
 import avatar1 from '@/public/images/avatar-1.png';
 import avatar2 from '@/public/images/avatar-2.png';
 import avatar3 from '@/public/images/avatar-3.png';
 
 import 'swiper/css';
+import { HomeLayout, HomeLayoutTitle } from "@/shared/layouts/homeLayout/HomeLayout";
 interface IProps {
   title?: unknown;
 }
@@ -21,13 +20,12 @@ const Reviews: FC<IProps> = () => {
   const avatars = [avatar1, avatar2, avatar3]
   return (
     <>
-      <div className='container-40'>
-        <ReviewTitle />
-
+      <HomeLayout top={<HomeLayoutTitle
+        title="Отзывы - Междугороднее такси" titlePrimary="«CITY 2 CITY»" description="Комфорт, Бизнес и Минивэн - поездки на любой случай" />}
+      >
         <Swiper
           spaceBetween={24}
           slidesPerView={1}
-          className={s.swiper}
           loop
           modules={[Autoplay]}
           autoplay={{
@@ -49,7 +47,7 @@ const Reviews: FC<IProps> = () => {
             </SwiperSlide>
           ))}
         </Swiper>
-      </div >
+      </HomeLayout>
     </>
   )
 }

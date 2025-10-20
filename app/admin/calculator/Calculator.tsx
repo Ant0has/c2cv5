@@ -1,7 +1,7 @@
 "use client";
 
 import SwapIcon from "@/public/icons/SwapIcon";
-import { planLabel } from "@/shared/components/Price/data";
+import { planLabel } from "@/pages-list/home/ui/Price/data";
 import Button from "@/shared/components/ui/Button/Button";
 import SearchInput from "@/shared/components/ui/SearchInput/SearchInput";
 import {

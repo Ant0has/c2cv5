@@ -8,7 +8,7 @@ import TextArea from "antd/es/input/TextArea";
 import 'dayjs/locale/ru';
 import Link from "next/link";
 import { FC, useState } from "react";
-import { planLabel } from "../../Price/data";
+import { planLabel } from "../../../../pages-list/home/ui/Price/data";
 import Button from "../../ui/Button/Button";
 import s from './OrderForm.module.scss';
 import dayjs from "dayjs";

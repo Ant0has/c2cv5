@@ -1,0 +1,131 @@
+.attractionsWrapper {
+    width: 100%;
+    overflow-x: auto;
+
+    .attractionsContainer {
+        display: flex;
+        flex-direction: row;
+        gap: 24px;
+        padding: 16px 0 24px 0;
+        width: max-content;
+
+        list-style: none;
+        margin: 0;
+        padding-left: 0;
+
+        .attractionsItem {
+            flex: 0 0 auto;
+        }
+    }
+}
+
+.attractionsWrapper::-webkit-scrollbar {
+    height: 4px;
+}
+
+.attractionsWrapper::-webkit-scrollbar-track {
+    // background: var(--light-gray); // Серая область скроллбара
+    border-radius: 3px;
+    margin: 0 24px;
+}
+
+.attractionsWrapper::-webkit-scrollbar-thumb {
+    background: var(--orange);
+    border-radius: 3px;
+
+    &:active {
+        background: var(--orange);
+    }
+}
+
+.attractionsWrapper { 
+    scrollbar-width: thin;
+    scrollbar-color: var(--orange) var(--light-gray);
+
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+.attractionsWrapper::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+.attractionsWrapper::-webkit-scrollbar-button:start:decrement,
+.attractionsWrapper::-webkit-scrollbar-button:end:increment {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+.attractionsWrapper::-webkit-scrollbar-button:single-button {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+.attractionsWrapper::-webkit-scrollbar-corner {
+    display: none;
+    background: transparent;
+}
+
+.cardWrapper {
+    max-width: 588px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 24px;
+
+    box-shadow: 0px 16px 40px 0px #1212120A;
+
+    gap: 32px;
+
+    .cardContainer {
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+
+        .imageWrapper {
+            position: relative;
+            width: 540px;
+            height: 300px;
+            border-radius: inherit;
+            overflow: hidden;
+
+            .cardTags {
+                position: absolute;
+                top: 16px;
+                left: 16px;
+                display: flex;
+                gap: 8px;
+
+                .cardTag {
+                    padding: 8px 16px;
+                    border-radius: 16px;
+                    background: var(--white);
+                    color: var(--black);
+                    font-size: 12px;
+                    font-weight: 500;
+                }
+
+                .primary {
+                    background: var(--orange);
+                    color: var(--white);
+                }
+            }
+        }
+
+        .cardContent {
+            padding: 0 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+
+            .cardTop {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+    }
+}

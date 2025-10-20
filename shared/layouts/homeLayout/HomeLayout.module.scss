@@ -1,0 +1,51 @@
+.titleContainer {
+    display: flex;
+    gap: 48px;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 48px;
+  }
+  
+  .title {
+    flex: 1 0 690px;
+  }
+
+  .description{
+    max-width: 228px;
+    text-align: right;
+  }
+
+  @media (max-width: 993px) {
+    .titleContainer {
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+  
+    .title {
+      flex-basis: 100%;
+    }
+  
+    .title,
+    .title span {
+      font-size: 48px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .titleContainer {
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .title,
+    .title span {
+      font-size: 32px;
+    }
+  
+    .description {
+      display: none;
+    }
+  }
+  

@@ -2,7 +2,7 @@ import { ModalContext } from "@/app/providers";
 import { Blocks, ButtonTypes } from "@/shared/types/enums";
 import clsx from "clsx";
 import { FC, useContext } from "react";
-import Button from "../ui/Button/Button";
+import Button from "../../../../shared/components/ui/Button/Button";
 import s from './ForBusiness.module.scss';
 import ForBusinessContent from "./ForBusinessContent/ForBusinessContent";
 

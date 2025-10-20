@@ -6,7 +6,7 @@ import { Blocks, ButtonTypes } from "@/shared/types/enums";
 import clsx from "clsx";
 import Image from "next/image";
 import { FC, useContext } from "react";
-import Button from "../ui/Button/Button";
+import Button from "../../../../shared/components/ui/Button/Button";
 import s from "./OrderSteps.module.scss";
 import OrderStepsContent from "./OrderStepsContent/OrderStepsContent";
 
