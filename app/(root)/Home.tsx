@@ -7,7 +7,7 @@ import { IRouteData } from "@/shared/types/route.interface"
 import dynamic from "next/dynamic"
 import { Suspense, useContext, useLayoutEffect } from "react"
 import { RouteContext } from "../providers"
-import { attractions } from "@/pages-list/home/data";
+import { moscowAttractions, regionAttractions } from "@/pages-list/home/data";
 
 interface Props {
 	routeData?: IRouteData
@@ -91,7 +91,9 @@ export function Home({ routeData }: Props) {
 		<>
 			<Welcome isMilitary={routeData?.is_military} handleGoToOrder={() => goToOrder()} city={cityTitle} />
 			<Suspense>
-				<PriceSection isMilitary={routeData?.is_military} title={cityTitle} cityData={routeData?.city_seo_data} />
+				<PriceSection isMilitary={routeData?.is_military}
+					title={cityTitle} cityData={routeData?.city_seo_data}
+				/>
 			</Suspense>
 
 			<Suspense>
@@ -101,13 +103,25 @@ export function Home({ routeData }: Props) {
 				<ReviewsSection title={cityTitle} />
 			</Suspense>
 			<Suspense>
-				<AttractionsSection title="Достопримечательности" titlePrimary="Москвы" cards={[...attractions,...attractions,...attractions]} />
+				<AttractionsSection
+					title="Достопримечательности"
+					titlePrimary="Москвы"
+					cards={[...moscowAttractions, ...moscowAttractions, ...moscowAttractions]}
+				/>
+			</Suspense>
+			<Suspense>
+				<AttractionsSection
+					title="Достопримечательности"
+					titlePrimary="Региона"
+					isHorizontal={true}
+					cards={[...regionAttractions, ...regionAttractions, ...regionAttractions]}
+				/>
 			</Suspense>
 			<Suspense>
 				<QuestionsSection isMilitary={routeData?.is_military} />
 			</Suspense>
 			<Suspense>
-				<CitiesSection routes={routeData?.routes}/>
+				<CitiesSection routes={routeData?.routes} />
 			</Suspense>
 
 			{!routeData?.is_military && (
@@ -117,7 +131,9 @@ export function Home({ routeData }: Props) {
 			)}
 
 			<Suspense>
-				<RouteDescriptionSection text={routeData?.content} title={routeData?.city_seo_data || 'такси межгород'} />
+				<RouteDescriptionSection
+					text={routeData?.content} title={routeData?.city_seo_data || 'такси межгород'}
+				/>
 			</Suspense>
 		</>
 	)

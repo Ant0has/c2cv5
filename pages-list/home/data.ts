@@ -1,4 +1,4 @@
-export const attractions = [
+export const moscowAttractions = [
 	{
 		title: "Красная площадь",
 		subTitle: "Красная площадь, Москва",
@@ -28,5 +28,20 @@ export const attractions = [
 				name: "Храм",
 			},
 		],
+	},
+]
+
+export const regionAttractions = [
+	{
+		title: "Приокско-Террасный заповедник",
+		subTitle: "Деревня Данки",
+		description: "Экскурсия и прогулка по резервату – отличная возможность познакомиться с природой Южного Подмосковья. Побывайте в зубровом питомнике и музее природы. ",
+		image: "/images/attractions/attraction-3.png",
+	},
+	{
+		title: "Приокско-Террасный заповедник",
+		subTitle: "с. Саввинская Слобода",
+		description: "Мужская обитель была основана в 1398 году, упразднена в 1919 году и вновь открыта 1995-м. На территории — собор Рождества Божией Матери, несколько храмов и дворец царя. ",
+		image: "/images/attractions/attraction-4.png",
 	},
 ]

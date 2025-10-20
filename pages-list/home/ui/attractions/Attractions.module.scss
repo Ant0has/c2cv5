@@ -128,4 +128,31 @@
             }
         }
     }
+
+
 }
+
+.horizontalCardWrapper {
+    & .cardContainer {
+         flex-direction: row;
+
+         .imageWrapper {
+            width: 258px;
+            height: 258px;
+            flex-shrink: 0;
+         }
+
+         .cardContent {
+            padding: 0;
+            gap: 24px;
+
+            .cardTop {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+
+            }
+         }
+     }
+     
+ }

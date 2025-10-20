@@ -15,12 +15,20 @@ interface IProps {
 }
 
 const AttractionCard = ({ title, subTitle, isHorizontal, description, image, tags }: IProps) => {
+
+    const getImageSize = () => {
+        if (isHorizontal) {
+            return "(max-width: 640px) 100vw, (max-width: 768px) 258px, (max-width: 1024px) 258px, 258px"
+        }
+        return "(max-width: 640px) 100vw, (max-width: 768px) 540px, (max-width: 1024px) 540px, 540px"
+    }
+
     return (
         <div className={clsx(s.cardWrapper, isHorizontal && s.horizontalCardWrapper)}>
             <div className={s.cardContainer}>
                 <div className={s.imageWrapper}>
                     <Image src={image} alt={title} fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 768px) 540px, (max-width: 1024px) 540px, 540px"
+                        sizes={getImageSize()}
                     />
                     {tags && tags.length > 0 && (
                         <ul className={s.cardTags}>{

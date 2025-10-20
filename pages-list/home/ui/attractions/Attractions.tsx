@@ -5,19 +5,20 @@ import AttractionCard from "./AttractionCard";
 interface IAttractionsProps {
 	title: string;
 	titlePrimary?: string;
+	isHorizontal?: boolean;
 	cards:Array<{
 		title:string
 		subTitle:string
 		description:string
 		image:string
-		tags:Array<{
+		tags?:Array<{
 			name:string
 			isPrimary?:boolean
 		}>
 	}>
 }
 
-const Attractions = ({ title, titlePrimary,cards }: IAttractionsProps) => {
+const Attractions = ({ title, titlePrimary,cards, isHorizontal }: IAttractionsProps) => {
 	return (
 		<>
 			<HomeLayout
@@ -28,7 +29,7 @@ const Attractions = ({ title, titlePrimary,cards }: IAttractionsProps) => {
 					<ul className={s.attractionsContainer}>
 						{cards.map((attraction, index) => (
 							<li className={s.attractionsItem} key={index}>
-								<AttractionCard {...attraction} />
+								<AttractionCard isHorizontal={isHorizontal} {...attraction} />
 							</li>
 						))}
 					</ul>
