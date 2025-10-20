@@ -12,12 +12,18 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ['heavy-package'],
-    optimizeCss: true,
   },
 
+  // Добавьте форматы для автоматической конвертации PNG в современные форматы
+  formats: ['image/webp', 'image/avif'],
+
   compiler: {
-    removeConsole: process.env.NEXT_PUBLIC_STAGE === 'production', // Удалите console.log в продакшене
+    removeConsole: process.env.NEXT_PUBLIC_STAGE === 'production',
   },
+
+  output: 'standalone',
+  compress: true,
+  swcMinify: true,
 
   async redirects() {
     return [
