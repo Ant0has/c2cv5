@@ -1,0 +1,33 @@
+.customScrollbar {
+    position: relative;
+    width: 100%;
+    height: 6px;
+    background: #f0f0f0;
+    border-radius: 3px;
+    margin-top: 8px;
+    overflow: hidden;
+  }
+  
+  .scrollbarTrack {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .scrollbarThumb {
+    position: absolute;
+    height: 100%;
+    background: var(--orange);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    
+    &:hover {
+      opacity: .8;
+    }
+    
+    &:active {
+      background: var(--orange);
+    }
+  }
+  

@@ -1,6 +1,15 @@
+import { LoadingSkeleton } from "@/shared/components/loadingSkeleton/LoadingSkeleton";
 import { HomeLayout, HomeLayoutTitle } from "@/shared/layouts/homeLayout/HomeLayout";
-import s from './Attractions.module.scss';
-import AttractionCard from "./AttractionCard";
+import dynamic from "next/dynamic";
+
+// Ленивая загрузка с помощью Next.js dynamic
+const AttractionCardListLazy = dynamic(
+	() => import('./AttractionCardList/AttractionCardList'),
+	{
+	  ssr: false,
+	  loading: () => <LoadingSkeleton height="200px" />,
+	}
+  );
 
 interface IAttractionsProps {
 	title: string;
@@ -25,15 +34,7 @@ const Attractions = ({ title, titlePrimary,cards, isHorizontal }: IAttractionsPr
 				top={<HomeLayoutTitle title={title} titlePrimary={titlePrimary} 
 				description="Комфорт, Бизнес и Минивэн - поездки на любой случай" />}
 			>
-				<div className={s.attractionsWrapper}>
-					<ul className={s.attractionsContainer}>
-						{cards.map((attraction, index) => (
-							<li className={s.attractionsItem} key={index}>
-								<AttractionCard isHorizontal={isHorizontal} {...attraction} />
-							</li>
-						))}
-					</ul>
-				</div>
+				<AttractionCardListLazy cards={cards} isHorizontal={isHorizontal} />
 			</HomeLayout>
 		</>
 	)

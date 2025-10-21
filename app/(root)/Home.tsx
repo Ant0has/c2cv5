@@ -16,7 +16,7 @@ interface Props {
 const PriceSection = dynamic(
 	() => import("@/pages-list/home/ui/Price/Price").then((mod) => mod.default),
 	{
-		loading: () => <LoadingSkeleton height="80vh" />,
+		loading: () => <LoadingSkeleton height="300px" />,
 		ssr: false,
 	}
 );
@@ -24,7 +24,7 @@ const PriceSection = dynamic(
 const OrderStepsSection = dynamic(
 	() => import("@/pages-list/home/ui/OrderSteps/OrderSteps").then((mod) => mod.default),
 	{
-		loading: () => <LoadingSkeleton height="80vh" />,
+		loading: () => <LoadingSkeleton height="300px" />,
 		ssr: false,
 	}
 );
@@ -32,7 +32,7 @@ const OrderStepsSection = dynamic(
 const ReviewsSection = dynamic(
 	() => import("@/pages-list/home/ui/Reviews/Reviews").then((mod) => mod.default),
 	{
-		loading: () => <LoadingSkeleton height="80vh" />,
+		loading: () => <LoadingSkeleton height="300px" />,
 		ssr: false,
 	}
 );
@@ -41,7 +41,7 @@ const QuestionsSection = dynamic(
 
 	() => import("@/pages-list/home/ui/Questions/Questions").then((mod) => mod.default),
 	{
-		loading: () => <LoadingSkeleton height="80vh" />,
+		loading: () => <LoadingSkeleton height="300px" />,
 		ssr: false,
 	}
 );
@@ -49,7 +49,7 @@ const QuestionsSection = dynamic(
 const CitiesSection = dynamic(
 	() => import("@/pages-list/home/ui/Cities/Cities").then((mod) => mod.default),
 	{
-		loading: () => <LoadingSkeleton height="80vh" />,
+		loading: () => <LoadingSkeleton height="300px" />,
 		ssr: false,
 	}
 )
@@ -57,7 +57,7 @@ const CitiesSection = dynamic(
 const ForBusinessSection = dynamic(
 	() => import("@/pages-list/home/ui/ForBusiness/ForBusiness").then((mod) => mod.default),
 	{
-		loading: () => <LoadingSkeleton height="80vh" />,
+		loading: () => <LoadingSkeleton height="300px" />,
 		ssr: false,
 	}
 )
@@ -65,7 +65,7 @@ const ForBusinessSection = dynamic(
 const RouteDescriptionSection = dynamic(
 	() => import("@/pages-list/home/ui/RouteDescription/RouteDescription").then((mod) => mod.default),
 	{
-		loading: () => <LoadingSkeleton height="80vh" />,
+		loading: () => <LoadingSkeleton height="300px" />,
 		ssr: false,
 	}
 )
@@ -73,7 +73,7 @@ const RouteDescriptionSection = dynamic(
 const AttractionsSection = dynamic(
 	() => import("@/pages-list/home/ui/attractions/Attractions").then((mod) => mod.default),
 	{
-		loading: () => <LoadingSkeleton height="80vh" />,
+			loading: () => <LoadingSkeleton height="300px" />,
 		ssr: false,
 	}
 )
@@ -104,17 +104,17 @@ export function Home({ routeData }: Props) {
 			</Suspense>
 			<Suspense>
 				<AttractionsSection
-					title="Достопримечательности"
+					title="Интересные места"
 					titlePrimary="Москвы"
-					cards={[...moscowAttractions, ...moscowAttractions, ...moscowAttractions]}
+					cards={moscowAttractions}
 				/>
 			</Suspense>
 			<Suspense>
 				<AttractionsSection
-					title="Достопримечательности"
+					title="Интересные места"
 					titlePrimary="Региона"
 					isHorizontal={true}
-					cards={[...regionAttractions, ...regionAttractions, ...regionAttractions]}
+					cards={regionAttractions}
 				/>
 			</Suspense>
 			<Suspense>
