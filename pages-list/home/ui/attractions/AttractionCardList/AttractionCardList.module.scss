@@ -32,7 +32,10 @@
 }
 
 .swiperSlide {
+    padding-bottom:16px;
+    
     @media (min-width: 480px) {
+        padding-left: 16px;
         width: auto !important;
     }
 
@@ -47,7 +50,7 @@
     height: 6px;
     background: #f0f0f0;
     border-radius: 3px;
-    margin-top: 16px;
+    margin-top: 10px;
     overflow: hidden;
     cursor: pointer;
 }
