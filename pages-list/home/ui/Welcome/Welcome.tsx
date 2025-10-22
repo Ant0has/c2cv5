@@ -1,12 +1,9 @@
-'use client'
-
-import { ModalContext } from '@/app/providers';
-import { Blocks, ButtonTypes } from '@/shared/types/enums';
 import clsx from 'clsx';
-import { FC, useContext } from 'react';
-import Button from '../ui/Button/Button';
+import { FC } from 'react';
 import s from './Welcome.module.scss';
+import WelcomeButtons from './WelcomeButtons';
 import WelcomeContent from './WelcomeContent/WelcomeContent';
+import Image from 'next/image';
 
 interface IWelcomeProps {
   city?: string
@@ -15,7 +12,6 @@ interface IWelcomeProps {
 }
 
 const Welcome: FC<IWelcomeProps> = ({ city, isMilitary, handleGoToOrder }) => {
-  const { setQuestionModalData } = useContext(ModalContext)
 
   return (
     <div className={clsx(s.wrapper, { [s.military]: isMilitary })}>
@@ -23,16 +19,17 @@ const Welcome: FC<IWelcomeProps> = ({ city, isMilitary, handleGoToOrder }) => {
         <div className={clsx(s.content)}>
           <div className={s.left}>
             <WelcomeContent city={city} isMilitary={isMilitary} />
-            <div className={s.buttons}>
-              <Button type={ButtonTypes.PRIMARY} text='Заказать поездку' handleClick={handleGoToOrder} />
-              <Button type={ButtonTypes.DEFAULT} text='Получить консультацию' handleClick={() => setQuestionModalData({ status: true, blockFrom: Blocks.WELCOME })} />
-            </div>
+            <WelcomeButtons handleGoToOrder={handleGoToOrder} />
           </div>
           <div className={s.right}>
-            <img
-              src={`/images${isMilitary ? '/military' : ''}/welcome-image.png`}
+          <Image
+              priority
+              width={600}
+              height={400}
+              quality={85}
+              className={s.image}
               alt="welcome city2city"
-              loading='lazy'
+              src={`/images${isMilitary ? '/military' : ''}/welcome-image.png`}
             />
           </div>
         </div>

@@ -1,13 +1,22 @@
 'use-client'
-
 import { Prices } from "@/shared/types/enums";
 import { Tabs, TabsProps } from "antd";
-import { FC, useState } from "react";
-import AddressSelect from "./AddressSelect/AddressSelect";
+import { FC, useEffect, useRef, useState } from "react";
 import { planLabel } from "./data";
 import s from './Price.module.scss';
 import PriceContent from "./PriceContent/PriceContent";
 import { HomeLayout, HomeLayoutTitle } from "@/shared/layouts/homeLayout/HomeLayout";
+import dynamic from "next/dynamic";
+import { LoadingSkeleton } from "@/shared/components/loadingSkeleton/LoadingSkeleton";
+
+const AddressSelect = dynamic(
+  () => import("./AddressSelect/AddressSelect"),
+  {
+    loading: () => <LoadingSkeleton height="500px" />,
+    ssr: false
+  }
+);
+
 interface IProps {
   title?: string
   isMilitary?: boolean
@@ -16,6 +25,8 @@ interface IProps {
 
 const Price: FC<IProps> = ({ title, isMilitary, cityData }) => {
   const [selectedPlan, setSelectedPlan] = useState<Prices>(Prices.COMFORT)
+  const [showMap, setShowMap] = useState(false)
+  const sectionRef = useRef<HTMLDivElement>(null)
 
   const tabs: TabsProps['items'] = [
     {
@@ -49,8 +60,31 @@ const Price: FC<IProps> = ({ title, isMilitary, cityData }) => {
       children: <PriceContent isMilitary={isMilitary} type={Prices.DELIVERY} />
     },
   ]
+
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShowMap(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.1 } // Сработает когда 10% секции будет видно
+    )
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
+  
   return (
-    <HomeLayout className={s.container} top={<HomeLayoutTitle title="Цена такси" titlePrimary={title} description="Комфорт, Бизнес и Минивэн - поездки на любой случай" />}>
+    <HomeLayout className={s.container}
+      top={<HomeLayoutTitle title="Цена такси"
+        titlePrimary={title} description="Комфорт, Бизнес и Минивэн - поездки на любой случай" />}
+    >
       <Tabs
         items={tabs}
         onChange={(key) => {
@@ -59,11 +93,14 @@ const Price: FC<IProps> = ({ title, isMilitary, cityData }) => {
         activeKey={selectedPlan}
       />
 
-      <AddressSelect 
-        isMilitary={isMilitary} 
-        selectedPlan={selectedPlan} 
-        cityData={cityData} 
-      />
+      {/* Карта загрузится только когда секция станет видимой */}
+      {showMap && (
+          <AddressSelect
+            isMilitary={isMilitary}
+            selectedPlan={selectedPlan}
+            cityData={cityData}
+          />
+        )}
     </HomeLayout>
 
   )
