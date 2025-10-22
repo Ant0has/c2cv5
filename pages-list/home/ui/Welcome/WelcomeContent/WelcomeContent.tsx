@@ -23,7 +23,7 @@ const WelcomeContent: FC<IProps> = ({ city,isMilitary }) => {
     },
     {
       id: 3,
-      title: '+8 500',
+      title: '+12 500',
       description: 'Поездок по России'
     }
   ]

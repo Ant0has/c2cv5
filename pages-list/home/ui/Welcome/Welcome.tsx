@@ -5,6 +5,9 @@ import WelcomeButtons from './WelcomeButtons';
 import WelcomeContent from './WelcomeContent/WelcomeContent';
 import Image from 'next/image';
 
+import welcomeImage from '@/public/images/welcome-image.png';
+import militaryImage from '@/public/images/military/welcome-image.png';
+
 interface IWelcomeProps {
   city?: string
   isMilitary?: boolean
@@ -29,7 +32,7 @@ const Welcome: FC<IWelcomeProps> = ({ city, isMilitary, handleGoToOrder }) => {
               quality={85}
               className={s.image}
               alt="welcome city2city"
-              src={`/images${isMilitary ? '/military' : ''}/welcome-image.png`}
+              src={isMilitary ? militaryImage : welcomeImage}
             />
           </div>
         </div>
