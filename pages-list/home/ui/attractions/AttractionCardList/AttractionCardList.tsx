@@ -134,7 +134,7 @@ const AttractionCardList = ({ cards, isHorizontal }: IAttractionCardListProps) =
         <div className={s.swiperWrapper}>
             <Swiper
                 modules={[Navigation]}
-                spaceBetween={24}
+                spaceBetween={36}
                 slidesPerView={'auto'}
                 speed={300}
                 resistance={true}

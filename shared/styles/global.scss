@@ -400,6 +400,10 @@ input {
   }
 }
 
+.bg-gray{
+  background: var(--light-gray);
+}
+
 .default-tag {
   * {
     line-height: 150% !important;

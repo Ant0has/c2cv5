@@ -1,5 +1,6 @@
 import { LoadingSkeleton } from "@/shared/components/loadingSkeleton/LoadingSkeleton";
 import { HomeLayout, HomeLayoutTitle } from "@/shared/layouts/homeLayout/HomeLayout";
+import clsx from "clsx";
 import dynamic from "next/dynamic";
 
 // Ленивая загрузка с помощью Next.js dynamic
@@ -29,14 +30,14 @@ interface IAttractionsProps {
 
 const Attractions = ({ title, titlePrimary,cards, isHorizontal }: IAttractionsProps) => {
 	return (
-		<>
+		<div className={clsx(isHorizontal ? 'bg-gray' : '')}>
 			<HomeLayout
 				top={<HomeLayoutTitle title={title} titlePrimary={titlePrimary} 
 				description="Комфорт, Бизнес и Минивэн - поездки на любой случай" />}
 			>
 				<AttractionCardListLazy cards={cards} isHorizontal={isHorizontal} />
 			</HomeLayout>
-		</>
+		</div>
 	)
 }
 

@@ -73,7 +73,7 @@ const RouteDescriptionSection = dynamic(
 const AttractionsSection = dynamic(
 	() => import("@/pages-list/home/ui/attractions/Attractions").then((mod) => mod.default),
 	{
-			loading: () => <LoadingSkeleton height="300px" />,
+		loading: () => <LoadingSkeleton height="300px" />,
 		ssr: false,
 	}
 )
@@ -100,9 +100,6 @@ export function Home({ routeData }: Props) {
 				<OrderStepsSection isMilitary={routeData?.is_military} />
 			</Suspense>
 			<Suspense>
-				<ReviewsSection title={cityTitle} />
-			</Suspense>
-			<Suspense>
 				<AttractionsSection
 					title="Интересные места"
 					titlePrimary="Москвы"
@@ -116,6 +113,9 @@ export function Home({ routeData }: Props) {
 					isHorizontal={true}
 					cards={regionAttractions}
 				/>
+			</Suspense>
+			<Suspense>
+				<ReviewsSection title={cityTitle} />
 			</Suspense>
 			<Suspense>
 				<QuestionsSection isMilitary={routeData?.is_military} />
