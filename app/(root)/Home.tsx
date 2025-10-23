@@ -14,14 +14,6 @@ interface Props {
 	routeData?: IRouteData
 }
 
-const PriceSection = dynamic(
-	() => import("@/pages-list/home/ui/Price/Price").then((mod) => mod.default),
-	{
-		loading: () => <LoadingSkeleton height="300px" />,
-		ssr: false,
-	}
-);
-
 const OrderStepsSection = dynamic(
 	() => import("@/pages-list/home/ui/OrderSteps/OrderSteps").then((mod) => mod.default),
 	{
@@ -71,14 +63,6 @@ const RouteDescriptionSection = dynamic(
 	}
 )
 
-const AttractionsSection = dynamic(
-	() => import("@/pages-list/home/ui/attractions/Attractions").then((mod) => mod.default),
-	{
-		loading: () => <LoadingSkeleton height="300px" />,
-		ssr: false,
-	}
-)
-
 export function Home({ routeData }: Props) {
 	const { setRoute } = useContext(RouteContext)
 
@@ -91,17 +75,12 @@ export function Home({ routeData }: Props) {
 	return (
 		<>
 			<Welcome isMilitary={routeData?.is_military} handleGoToOrder={() => goToOrder()} city={cityTitle} />
-			{/* <Suspense>
-				<PriceSection isMilitary={routeData?.is_military}
-					title={cityTitle} cityData={routeData?.city_seo_data}
-				/>
-			</Suspense> */}
 			<Price isMilitary={routeData?.is_military} title={cityTitle} cityData={routeData?.city_seo_data} />
 
 			<Suspense>
 				<OrderStepsSection isMilitary={routeData?.is_military} />
 			</Suspense>
-			<Suspense>
+			{/* <Suspense>
 				<AttractionsSection
 					title="Интересные места"
 					titlePrimary="Москвы"
@@ -115,7 +94,7 @@ export function Home({ routeData }: Props) {
 					isHorizontal={true}
 					cards={regionAttractions}
 				/>
-			</Suspense>
+			</Suspense> */}
 			<Suspense>
 				<ReviewsSection title={cityTitle} />
 			</Suspense>

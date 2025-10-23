@@ -79,7 +79,7 @@ const Price: FC<IProps> = ({ title, isMilitary, cityData }) => {
 
     return () => observer.disconnect()
   }, [])
-  
+
   return (
     <HomeLayout className={s.container}
       top={<HomeLayoutTitle title="Цена такси"
@@ -93,14 +93,18 @@ const Price: FC<IProps> = ({ title, isMilitary, cityData }) => {
         activeKey={selectedPlan}
       />
 
-      {/* Карта загрузится только когда секция станет видимой */}
-      {showMap && (
+      <div className={s.mapWrapper} ref={sectionRef}>
+        {showMap && (
           <AddressSelect
             isMilitary={isMilitary}
             selectedPlan={selectedPlan}
             cityData={cityData}
           />
         )}
+      </div>
+
+      {/* Карта загрузится только когда секция станет видимой */}
+
     </HomeLayout>
 
   )
