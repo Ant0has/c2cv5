@@ -55,6 +55,9 @@ export default async function RootLayout({
 
   return (
     <html lang='ru'>
+       <head>
+        <meta name="yandex-verification" content="61a5dd0587349a58" />
+      </head>
       <body className={inter.className}>
         <Providers regions={regions}>
           <div className="app-layout">
