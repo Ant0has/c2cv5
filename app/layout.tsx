@@ -32,6 +32,44 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://city2city.ru/',
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    url: 'https://city2city.ru/',
+    type: 'website',
+  },
+  twitter: {
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    card: 'summary_large_image',
+  },
+  verification: {
+    yandex: '61a5dd0587349a58',
+  },
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+  },
+  keywords: 'междугороднее такси, заказ такси межгород, такси по России, такси между городами, City2City',
+  authors: [{ name: 'City2City', url: 'https://city2city.ru/' }],
+  creator: 'City2City',
+  publisher: 'City2City',
+  category: 'travel',
+  applicationName: 'City2City',
+  formatDetection: {
+    email: false,
+  },
+  metadataBase: new URL('https://city2city.ru/'),
+  appleWebApp: {
+    title: SITE_NAME,
+    statusBarStyle: 'black-translucent',
+  },
 }
 
 const inter = FontSans({
