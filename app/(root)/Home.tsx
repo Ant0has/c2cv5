@@ -1,14 +1,13 @@
 'use client'
 
-import { LoadingSkeleton } from "@/shared/components/loadingSkeleton/LoadingSkeleton"
+import Price from "@/pages-list/home/ui/Price/Price"
 import Welcome from "@/pages-list/home/ui/Welcome/Welcome"
+import { LoadingSkeleton } from "@/shared/components/loadingSkeleton/LoadingSkeleton"
 import { goToOrder } from "@/shared/services/go-to-order"
 import { IRouteData } from "@/shared/types/route.interface"
 import dynamic from "next/dynamic"
 import { Suspense, useContext, useLayoutEffect } from "react"
 import { RouteContext } from "../providers"
-import { moscowAttractions, regionAttractions } from "@/pages-list/home/data";
-import Price from "@/pages-list/home/ui/Price/Price"
 
 interface Props {
 	routeData?: IRouteData
@@ -113,7 +112,7 @@ export function Home({ routeData }: Props) {
 
 			<Suspense>
 				<RouteDescriptionSection
-					text={routeData?.content} title={routeData?.city_seo_data || 'такси межгород'}
+					text={routeData?.content} title={cityTitle || 'такси межгород'}
 				/>
 			</Suspense>
 		</>
