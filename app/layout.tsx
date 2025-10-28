@@ -17,6 +17,17 @@ export const metadata: Metadata = {
     absolute: SITE_NAME,
     template: `%s | ${SITE_NAME}`
   },
+  manifest: "/manifest.json",
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png" },
+    ],
+  },
   description: SITE_DESCRIPTION
 }
 
@@ -43,7 +54,6 @@ export default async function RootLayout({
   return (
     <html lang='ru'>
       <body className={inter.className}>
-
         <Providers regions={regions}>
           <div className="app-layout">
             <main className="app-main">
