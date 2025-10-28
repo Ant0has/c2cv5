@@ -28,7 +28,7 @@ const nextConfig = {
   async redirects() {
     return [
       {
-        source: '/index.(html|htm|ht|h|php)',
+        source: '/index.:ext*',
         destination: '/',
         permanent: true,
       },
