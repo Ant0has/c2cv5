@@ -2,6 +2,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import s from './YandexShare.module.scss';
 
 declare global {
   interface Window {
@@ -15,7 +16,15 @@ const YandexShare = ({
   url = '',
   title = '',
   description = '',
-  services = ['vkontakte', 'telegram', 'twitter', 'whatsapp']
+  services = [
+    'vkontakte', 
+    'telegram', 
+    'whatsapp',
+    'viber',
+    'ok',
+    'facebook',
+    'skype'
+  ]
 }) => {
   const shareRef = useRef<HTMLDivElement>(null);
 
@@ -98,7 +107,7 @@ const YandexShare = ({
     };
   }, [url, title, description, services]);
 
-  return <div ref={shareRef} />;
+  return <div className={s.yandexShare} ref={shareRef} />;
 };
 
 export default YandexShare;
