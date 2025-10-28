@@ -18,6 +18,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_NAME}`
   },
   manifest: "/manifest.json",
+  description: SITE_DESCRIPTION,
   icons: {
     icon: [
       { url: "/favicon.ico" },
@@ -25,10 +26,12 @@ export const metadata: Metadata = {
       { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
     ],
     apple: [
-      { url: "/apple-touch-icon.png" },
-    ],
+      { url: "/apple-touch-icon.png" }
+    ]
   },
-  description: SITE_DESCRIPTION
+  alternates: {
+    canonical: 'https://city2city.ru/',
+  },
 }
 
 const inter = FontSans({
@@ -42,7 +45,6 @@ async function getRegions() {
 }
 
 export const revalidate = 86400 // 24 часа
-
 
 export default async function RootLayout({
   children
