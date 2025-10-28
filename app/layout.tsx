@@ -94,6 +94,7 @@ export default async function RootLayout({
   return (
     <html lang='ru'>
        <head>
+        <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
         <meta name="yandex-verification" content="61a5dd0587349a58" />
       </head>
       <body className={inter.className}>
