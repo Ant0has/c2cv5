@@ -1,6 +1,7 @@
 import { FC } from "react";
 import s from './RouteDescription.module.scss';
-import YandexShare from "@/feature/YandexShare/YandexShare";
+import { YandexShare } from "@/feature/YandexShare";
+
 interface IProps {
   title?: string
   text?: string
