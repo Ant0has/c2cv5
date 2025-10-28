@@ -1,3 +1,4 @@
+import Breadcrumbs from "@/shared/components/Breadcrumbs/Breadcrumbs";
 import clsx from "clsx";
 import { FC } from "react";
 
@@ -9,6 +10,7 @@ const Oferta: FC<IProps> = () => {
 
   return (
     <div className={clsx("container")}>
+      <Breadcrumbs />
       <article className="default-tag" >
 
         <h2>Публичная Оферта для Юридических Лиц</h2>

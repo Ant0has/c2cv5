@@ -386,20 +386,6 @@ input {
   }
 }
 
-.breadcrumbs {
-  display: flex;
-  gap: 24px;
-  margin: 43px 0px 32px;
-}
-
-@media (max-width: 480px) {
-  .breadcrumbs {
-    display: flex;
-    gap: 24px;
-    margin: 24px 0px;
-  }
-}
-
 .bg-gray{
   background: var(--light-gray);
 }

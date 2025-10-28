@@ -11,6 +11,7 @@ import CreditCardIcon from "@/public/icons/CreditCardIcon";
 import PaperIcon from "@/public/icons/PaperIcon";
 import TeamWork from "@/shared/components/TeamWork/TeamWork";
 import Addresses from "@/shared/components/Addresses/Addresses";
+import Breadcrumbs from "@/shared/components/Breadcrumbs/Breadcrumbs";
 
 interface IProps {
   title?:unknown
@@ -20,13 +21,7 @@ const Contacts: FC<IProps> = () => {
 
   return (
     <div className={clsx(s.container, "container")}>
-      <div className='breadcrumbs'>
-        <Link href='/'>
-          Главная
-        </Link>
-        <span>—</span>
-        <span className="gray-color">Контакты</span>
-      </div>
+      <Breadcrumbs />
 
       <div className="title title-m-32">Контакты</div>
 
