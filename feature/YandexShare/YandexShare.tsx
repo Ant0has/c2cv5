@@ -17,13 +17,7 @@ const YandexShare = ({
   title = '',
   description = '',
   services = [
-    'vkontakte', 
-    'telegram', 
-    'whatsapp',
-    'viber',
-    'ok',
-    'facebook',
-    'skype'
+    'messenger','vkontakte','odnoklassniki','telegram','twitter','viber','whatsapp','moimir','pinterest'
   ]
 }) => {
   const shareRef = useRef<HTMLDivElement>(null);
