@@ -10,49 +10,71 @@ interface Props {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const region = params.region.replace(/\.html$/, ""); // Удаляем .html
-  const data = await routeService.getRouteByUrl(region);
+  const regionSlug = params.region.replace(/\.html$/, "");
+  const data = await routeService.getRouteByUrl(regionSlug);
 
+  // Если данные не найдены - возвращаем notFound()
   if (!data) {
-    return {};
+    notFound();
   }
 
   const siteName = "City2City";
-  const page = `https://city2city.ru/${region}.html`;
-  const title =
-    data?.seo_title ||
-    `Такси %%${data?.seo_title}%% %%${page}%% межгород ЦЕНА за Трансфер! Заказать междугороднее такси %%${siteName}%%`;
-  const description =
-    data?.seo_description ||
-    `⭐️⭐️⭐️⭐️⭐️ Заказать междугороднее такси City2City по маршруту %%${data?.seo_title}%% %%${page}%%. Отличная цена, комфортные автомобили, проверенные водители. Заказ по телефонам: +7 (938) 156-87-578`;
+  
+  const canonicalUrl = `https://city2city.ru/${regionSlug}.html`;
+  
+  const title = data?.seo_title || 
+    `Такси ${data?.seo_title} - междугородние перевозки | City2City`;
+  
+  const description = data?.seo_description || 
+    `Заказать междугороднее такси ${data?.seo_title}. Комфортные автомобили, опытные водители, фиксированные цены. Тел: +7 (938) 156-87-57`;
+
+  const keywords = data?.meta?.keywords || 
+    `такси ${data?.seo_title}, междугороднее такси, заказ такси ${data?.seo_title}`;
 
   return {
     title,
     description,
+    keywords,
     robots: "index, follow",
-    keywords: data.metaKeywords,
+    
     alternates: {
-      canonical: page,
+      canonical: canonicalUrl,
     },
+    
     openGraph: {
       title,
       description,
-      url: page,
+      url: canonicalUrl,
+      siteName,
+      locale: "ru_RU",
       type: "website",
+      // Добавьте изображение для OG
+      images: [
+        {
+          url: "/og-image.jpg",
+          width: 1200,
+          height: 630,
+          alt: `Такси ${data?.seo_title} - City2City`,
+        },
+      ],
     },
+    
     twitter: {
+      card: "summary_large_image",
       title,
       description,
-      card: "summary_large_image",
+      // Добавьте изображение для Twitter
+      images: ["/twitter-image.jpg"],
     },
+ 
   };
 }
 
 export default async function RegionPage({ params }: Props) {
-  const region = params.region.replace(/\.html$/, ""); // Удаляем .html
-  const data = await routeService.getRouteByUrl(region);
+  const regionSlug = params.region.replace(/\.html$/, "");
+  const data = await routeService.getRouteByUrl(regionSlug);
 
-  if (data === null) {
+  if (!data) {
     notFound();
   }
 
