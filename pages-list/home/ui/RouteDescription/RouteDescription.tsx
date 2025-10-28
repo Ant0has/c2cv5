@@ -1,5 +1,6 @@
 import { FC } from "react";
 import s from './RouteDescription.module.scss';
+import YandexShare from "@/feature/YandexShare/YandexShare";
 interface IProps {
   title?: string
   text?: string
@@ -30,6 +31,7 @@ const RouteDescription: FC<IProps> = ({ title, text }) => {
           <p>Не упустите возможность путешествовать с комфортом и безопасностью. Закажите междугороднее такси City2City и насладитесь прекрасной поездкой, полной удовольствия и впечатлений.</p>
         </div>
       )}
+      <YandexShare url={window.location.href} title={title} description={text} />
     </div>
   )
 }
