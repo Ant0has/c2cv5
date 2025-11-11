@@ -10,19 +10,21 @@ const HeaderAdress = () => {
     const { route } = useContext(RouteContext)
     const regionData = getSelectedRegion(route)
 
+    const {markedPhone:markedPhoneFirst,phone:phoneFirst} = formatPhoneNumber(PHONE_NUMBER_FIRST)
+
     return (
         <address className={s.phone}>
             {regionData?.address && <p>{regionData.address}</p>}
 
             <div className={s.block}>
                 {regionData?.phoneNumber && (
-                    <a href={`tel:+${regionData.phoneNumber}`} className='font-18-semibold'>
-                        {formatPhoneNumber(regionData.phoneNumber)}
+                    <a href={`tel:${phoneFirst}`} className='font-18-semibold'>
+                        {markedPhoneFirst}
                     </a>
                 )}
 
-                <a href={`tel:+${PHONE_NUMBER_FIRST}`} className='font-18-semibold'>
-                    {formatPhoneNumber(PHONE_NUMBER_FIRST)}
+                <a href={`tel:${phoneFirst}`} className='font-18-semibold'>
+                    {markedPhoneFirst}
                 </a>
                 <a href={`mailto:${EMAIL_ADDRESS}`} className='font-14-medium orange-color'>
                     {EMAIL_ADDRESS}

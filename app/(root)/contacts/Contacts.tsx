@@ -19,6 +19,8 @@ interface IProps {
 
 const Contacts: FC<IProps> = () => {
 
+  const {markedPhone:markedPhoneFirst,phone:phoneFirst} = formatPhoneNumber(PHONE_NUMBER_FIRST)
+
   return (
     <div className={clsx(s.container, "container")}>
       <Breadcrumbs />
@@ -34,15 +36,8 @@ const Contacts: FC<IProps> = () => {
         <div className={s.right}>
           <div className={s.contact}>
             <PhoneContactsIcon />
-            <a href={`tel:+${PHONE_NUMBER_FIRST}`} className='font-32-semibold'>
-              {formatPhoneNumber(PHONE_NUMBER_FIRST)}
-            </a>
-          </div>
-
-          <div className={s.contact}>
-            <PhoneContactsIcon />
-            <a href={`tel:+${PHONE_NUMBER_SECOND}`} className='font-32-semibold'>
-              {formatPhoneNumber(PHONE_NUMBER_SECOND)}
+            <a href={`tel:${phoneFirst}`} className='font-32-semibold'>
+              {markedPhoneFirst}
             </a>
           </div>
 

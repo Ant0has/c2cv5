@@ -16,16 +16,17 @@ const FooterContacts = () => {
   const { route } = useContext(RouteContext)
 
   const regionData = useMemo(() => getSelectedRegion(route), [route])
+  const {markedPhone:markedPhoneFirst,phone:phoneFirst} = formatPhoneNumber(PHONE_NUMBER_FIRST)
 
   return (
     <div className={s.contacts}>
       {regionData?.phoneNumber && (
-        <a href={`tel:+${regionData?.phoneNumber}`} className='font-32-semibold white-color'>
-          {formatPhoneNumber(regionData?.phoneNumber)}
+        <a href={`tel:${phoneFirst}`} className='font-32-semibold white-color'>
+          {markedPhoneFirst}
         </a>
       )}
-      <a href={`tel:+${PHONE_NUMBER_FIRST}`} className='font-32-semibold white-color'>
-        {formatPhoneNumber(PHONE_NUMBER_FIRST)}
+      <a href={`tel:${phoneFirst}`} className='font-32-semibold white-color'>
+        {markedPhoneFirst}
       </a>
       <div>
         <p className={clsx(s.phoneDescription, 'font-14-normal white-color')}>8:00 - 23:00 МСК Бесплатно по России</p>

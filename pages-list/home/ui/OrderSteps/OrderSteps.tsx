@@ -21,6 +21,8 @@ interface IProps {
 const OrderSteps: FC<IProps> = ({ isMilitary }) => {
   const { setQuestionModalData } = useContext(ModalContext);
 
+  const {markedPhone:markedPhoneFirst,phone:phoneFirst} = formatPhoneNumber(PHONE_NUMBER_FIRST)
+
   return (
     <div className={s.wrapper}>
       <div className={clsx(s.container, "container-24")}>
@@ -42,10 +44,10 @@ const OrderSteps: FC<IProps> = ({ isMilitary }) => {
               Закажите такси онлайн или по телефону{" "}
             </span>{" "}
             <a
-              href={`tel:+${PHONE_NUMBER_FIRST}`}
+              href={`tel:${phoneFirst}`}
               className="font-14-normal orange-color"
             >
-              {formatPhoneNumber(PHONE_NUMBER_FIRST)}
+              {markedPhoneFirst}
             </a>
           </div>
         </div>

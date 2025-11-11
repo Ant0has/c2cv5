@@ -1,4 +1,4 @@
-export const formatPhoneNumber = (phoneNumber: string) => {
+export const formatPhoneNumber = (phoneNumber: string): {markedPhone: string, phone: string} => {
   const cleaned = ('' + phoneNumber).replace(/\D/g, '');
   
   // Если номер начинается с 7, добавляем +, иначе оставляем как есть
@@ -11,17 +11,21 @@ export const formatPhoneNumber = (phoneNumber: string) => {
     const secondPart = match[4];
     const thirdPart = match[5];
     
-    // Если номер начинается с 7, добавляем +, иначе выводим без плюса
-    if (countryCode === '7') {
-      return `+7 (${areaCode}) ${firstPart}-${secondPart}-${thirdPart}`;
-    } else if (countryCode === '8') {
-      // Для номеров, начинающихся с 8, можно либо убрать 8, либо оставить
-      return `+7 (${areaCode}) ${firstPart}-${secondPart}-${thirdPart}`;
+    if (countryCode === '7' || countryCode==='8') {
+      return {
+        markedPhone:`+7 (${areaCode}) ${firstPart}-${secondPart}-${thirdPart}`,
+        phone:`+7${areaCode}${firstPart}${secondPart}${thirdPart}`
+      }
     } else {
-      // Для номеров без кода страны (10 цифр)
-      return `${areaCode} ${firstPart}-${secondPart}-${thirdPart}`;
+      return {
+        markedPhone:`${areaCode} ${firstPart}-${secondPart}-${thirdPart}`,
+        phone:`${areaCode}${firstPart}${secondPart}${thirdPart}`
+      }
     }
   }
   
-  return phoneNumber;
+  return {
+    markedPhone:phoneNumber,
+    phone:phoneNumber
+  }
 }

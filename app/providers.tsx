@@ -86,10 +86,30 @@ export const YandexMetrikaWrapper = () => {
   const yandexId = process.env.NEXT_PUBLIC_YANDEX_ID || '';
   // Extend the Window interface to include ym to fix TypeScript errors
   useEffect(() => {
-    if (typeof window !== 'undefined' && (window as any).ym) {
-      (window as any).ym(yandexId, 'hit', pathname);
-    }
-  }, [pathname]);
+    const trackPageView = () => {
+      if (typeof window !== 'undefined' && (window as any).ym && yandexId) {
+        console.log('Yandex Metrika: Tracking page view', pathname);
+        (window as any).ym(yandexId, 'hit', pathname);
+      }
+    };
+
+    // Отслеживаем с задержкой для гарантии инициализации
+    const timer = setTimeout(trackPageView, 1000);
+    
+    // Также отслеживаем при уходе со страницы
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        trackPageView();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [pathname, yandexId]);
 
   return (
     <>
