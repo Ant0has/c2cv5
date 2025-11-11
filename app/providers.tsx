@@ -141,7 +141,7 @@ export const YandexMetrikaWrapper = () => {
       <noscript>
         <div>
           <img
-            src="https://mc.yandex.ru/watch/${yandexId}"
+            src={`https://mc.yandex.ru/watch/${yandexId}`}
             style={{ position: 'absolute', left: '-9999px' }}
             alt=""
           />
