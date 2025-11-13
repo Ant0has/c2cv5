@@ -11,6 +11,7 @@ const HeaderAdress = () => {
     const regionData = getSelectedRegion(route)
 
     const {markedPhone:markedPhoneFirst,phone:phoneFirst} = formatPhoneNumber(PHONE_NUMBER_FIRST)
+    const {markedPhone:markedPhoneRegion,phone:phoneRegion} = formatPhoneNumber(regionData?.phoneNumber || '')
 
     return (
         <address className={s.phone}>
@@ -18,8 +19,8 @@ const HeaderAdress = () => {
 
             <div className={s.block}>
                 {regionData?.phoneNumber && (
-                    <a href={`tel:${phoneFirst}`} className='font-18-semibold'>
-                        {markedPhoneFirst}
+                    <a href={`tel:${phoneRegion}`} className='font-18-semibold'>
+                        {markedPhoneRegion}
                     </a>
                 )}
 
