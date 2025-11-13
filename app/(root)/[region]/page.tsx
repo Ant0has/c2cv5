@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { Home } from "../Home";
 import { routeService } from "@/shared/services/route.service";
 import { Metadata } from "next";
+import { excludesPages } from "@/shared/data/excludes-page";
 
 interface Props {
   params: {
@@ -12,6 +13,9 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const regionSlug = params.region.replace(/\.html$/, "");
   const data = await routeService.getRouteByUrl(regionSlug);
+
+  const shouldAddNoIndex = (regionSlug.includes('bryansk')) && 
+  !excludesPages.find(page => page.includes(regionSlug))
 
   // Если данные не найдены - возвращаем notFound()
   if (!data) {
@@ -35,7 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title,
     description,
     keywords,
-    robots: "index, follow",
+    robots: shouldAddNoIndex ? "noindex, nofollow" : "index, follow",
     
     alternates: {
       canonical: canonicalUrl,

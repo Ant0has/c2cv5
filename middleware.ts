@@ -1,17 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { excludesPages } from './shared/data/excludes-page'
 
 export function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl
-  
+
+  const isBryanskRegion = (pathname.includes('bryansk')) &&
+    !excludesPages.find(page => page.includes(pathname))
+
   // Удаляем параметр ttpage из всех URL
   if (searchParams.has('ttpage')) {
     const newSearchParams = new URLSearchParams(searchParams)
     newSearchParams.delete('ttpage')
-    
+
     const newUrl = new URL(request.url)
     newUrl.search = newSearchParams.toString()
-    
+
     return NextResponse.redirect(newUrl, 301)
+  }
+
+  if (isBryanskRegion) {
+    const response = NextResponse.next()
+
+    response.headers.set('x-robots-tag', 'noindex, nofollow')
+
+    response.cookies.set('need-noindex', 'true')
+
+    return response
   }
 
   return NextResponse.next()
