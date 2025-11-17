@@ -81,35 +81,144 @@ export function Providers({ children, regions }: ProvidersProps) {
 	)
 }
 
-export const YandexMetrikaWrapper = () => {
+declare global {
+  interface Window {
+    ym: YandexMetrikaFunction;
+    initialReferrer?: string;
+    yandexMetrikaCallback?: () => void;
+  }
+}
+
+type YandexMetrikaFunction = (
+  counterId: string | number,
+  method: string,
+  ...args: any[]
+) => void;
+
+interface YandexMetrikaInitParams {
+  clickmap?: boolean;
+  trackLinks?: boolean;
+  accurateTrackBounce?: boolean | number;
+  webvisor?: boolean;
+  ecommerce?: string | boolean | any[];
+  trackHash?: boolean;
+  triggerEvent?: boolean;
+  ut?: string;
+  params?: boolean | any[];
+}
+
+interface YandexMetrikaHitOptions {
+  referer?: string;
+  title?: string;
+  utm?: string;
+}
+
+export const YandexMetrikaWrapper = (): JSX.Element => {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const yandexId = process.env.NEXT_PUBLIC_YANDEX_ID || '';
-  // Extend the Window interface to include ym to fix TypeScript errors
+  const [isYmReady, setIsYmReady] = useState<boolean>(false);
+
+  // Сохраняем исходный referrer при первой загрузке
   useEffect(() => {
-    const trackPageView = () => {
-      if (typeof window !== 'undefined' && (window as any).ym && yandexId) {
-        console.log('Yandex Metrika: Tracking page view', pathname);
-        (window as any).ym(yandexId, 'hit', pathname);
+    if (typeof window !== 'undefined' && !window.initialReferrer) {
+      window.initialReferrer = document.referrer;
+    }
+  }, []);
+
+  // Инициализация проверки готовности Яндекс.Метрики
+  useEffect(() => {
+    const checkYmReady = (): boolean => {
+      if (typeof window !== 'undefined' && typeof window.ym === 'function') {
+        setIsYmReady(true);
+        return true;
       }
+      return false;
     };
 
-    // Отслеживаем с задержкой для гарантии инициализации
-    const timer = setTimeout(trackPageView, 1000);
+    let attempts = 0;
+    const maxAttempts = 10;
     
-    // Также отслеживаем при уходе со страницы
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'hidden') {
-        trackPageView();
+    const tryInitialize = (): void => {
+      if (checkYmReady() || attempts >= maxAttempts) {
+        clearInterval(intervalId);
+        if (attempts < maxAttempts) {
+          trackPageView();
+        }
       }
+      attempts++;
     };
 
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    
-    return () => {
-      clearTimeout(timer);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    const intervalId = setInterval(tryInitialize, 500);
+    // Первая проверка сразу
+    tryInitialize();
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  // Отслеживание изменения страницы
+  useEffect(() => {
+    if (isYmReady && yandexId) {
+      trackPageView();
+    }
+  }, [pathname, isYmReady, yandexId, searchParams]);
+
+  /**
+   * Трекает просмотр страницы в Яндекс.Метрике
+   */
+  const trackPageView = (): void => {
+    if (typeof window !== 'undefined' && window.ym && yandexId) {
+      console.log('Yandex Metrika: Tracking page view', pathname);
+      
+      // Сохраняем UTM-метки и исходный referrer
+      const urlParams = new URLSearchParams(window.location.search);
+      const utmSource = urlParams.get('utm_source') || 
+                       (window.initialReferrer && new URL(window.initialReferrer).hostname) || 
+                       document.referrer;
+      
+      const hitOptions: YandexMetrikaHitOptions = {
+        referer: window.initialReferrer || document.referrer,
+        title: document.title,
+        utm: utmSource
+      };
+      
+      // Отправляем hit с дополнительными параметрами
+      window.ym(yandexId, 'hit', window.location.href, hitOptions);
+    }
+  };
+
+  /**
+   * Генерирует скрипт инициализации Яндекс.Метрики
+   */
+  const getYandexMetrikaScript = (): string => {
+    const initParams: YandexMetrikaInitParams = {
+      clickmap: true,
+      trackLinks: true,
+      accurateTrackBounce: true,
+      webvisor: true,
+      ecommerce: "dataLayer",
+      trackHash: true,
+      triggerEvent: true,
+      ut: "noindex",
+      params: true
     };
-  }, [pathname, yandexId]);
+
+    return `
+      (function(m,e,t,r,i,k,a){
+          m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+          m[i].l=1*new Date();
+          k=e.createElement(t),a=e.getElementsByTagName(t)[0];
+          k.async=1;k.src=r;a.parentNode.insertBefore(k,a);
+      })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+      ym(${yandexId}, 'init', ${JSON.stringify(initParams)});
+    `;
+  };
+
+  if (!yandexId) {
+    console.warn('Yandex Metrika: Counter ID not provided');
+    return <></>;
+  }
 
   return (
     <>
@@ -117,25 +226,7 @@ export const YandexMetrikaWrapper = () => {
         id="yandex-metrika"
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
-          __html: `
-            (function(m,e,t,r,i,k,a){
-                m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-                m[i].l=1*new Date();
-                for (var j = 0; j < document.scripts.length; j++) {
-                    if (document.scripts[j].src === r) { return; }
-                }
-                k=e.createElement(t),a=e.getElementsByTagName(t)[0];
-                k.async=1;k.src=r;a.parentNode.insertBefore(k,a);
-            })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
-
-            ym(${yandexId}, 'init', {
-                clickmap:true,
-                trackLinks:true,
-                accurateTrackBounce:true,
-                webvisor:true,
-                ecommerce:"dataLayer"
-            });
-          `,
+          __html: getYandexMetrikaScript(),
         }}
       />
       <noscript>
@@ -150,3 +241,6 @@ export const YandexMetrikaWrapper = () => {
     </>
   );
 };
+
+// Вспомогательные типы для использования в других частях приложения
+export type { YandexMetrikaInitParams, YandexMetrikaHitOptions };
