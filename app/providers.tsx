@@ -119,14 +119,12 @@ export const YandexMetrikaWrapper = (): JSX.Element => {
   const yandexId = process.env.NEXT_PUBLIC_YANDEX_ID || '';
   const [isYmReady, setIsYmReady] = useState<boolean>(false);
 
-  // Сохраняем исходный referrer при первой загрузке
   useEffect(() => {
     if (typeof window !== 'undefined' && !window.initialReferrer) {
       window.initialReferrer = document.referrer;
     }
   }, []);
 
-  // Инициализация проверки готовности Яндекс.Метрики
   useEffect(() => {
     const checkYmReady = (): boolean => {
       if (typeof window !== 'undefined' && typeof window.ym === 'function') {
@@ -150,7 +148,6 @@ export const YandexMetrikaWrapper = (): JSX.Element => {
     };
 
     const intervalId = setInterval(tryInitialize, 500);
-    // Первая проверка сразу
     tryInitialize();
 
     return () => clearInterval(intervalId);
@@ -164,13 +161,11 @@ export const YandexMetrikaWrapper = (): JSX.Element => {
   }, [pathname, isYmReady, yandexId, searchParams]);
 
   /**
-   * Трекает просмотр страницы в Яндекс.Метрике
    */
   const trackPageView = (): void => {
     if (typeof window !== 'undefined' && window.ym && yandexId) {
       console.log('Yandex Metrika: Tracking page view', pathname);
       
-      // Сохраняем UTM-метки и исходный referrer
       const urlParams = new URLSearchParams(window.location.search);
       const utmSource = urlParams.get('utm_source') || 
                        (window.initialReferrer && new URL(window.initialReferrer).hostname) || 
@@ -182,14 +177,10 @@ export const YandexMetrikaWrapper = (): JSX.Element => {
         utm: utmSource
       };
       
-      // Отправляем hit с дополнительными параметрами
       window.ym(yandexId, 'hit', window.location.href, hitOptions);
     }
   };
 
-  /**
-   * Генерирует скрипт инициализации Яндекс.Метрики
-   */
   const getYandexMetrikaScript = (): string => {
     const initParams: YandexMetrikaInitParams = {
       clickmap: true,
@@ -242,5 +233,4 @@ export const YandexMetrikaWrapper = (): JSX.Element => {
   );
 };
 
-// Вспомогательные типы для использования в других частях приложения
 export type { YandexMetrikaInitParams, YandexMetrikaHitOptions };
