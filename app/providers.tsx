@@ -1,15 +1,15 @@
 'use client'
 
-import { useEffect } from "react";
-import Script from "next/script";
+import { useEffect, useState, Suspense } from "react";
 import { ConfigProvider } from "antd"
 import { YMaps } from "@pbe/react-yandex-maps"
 import { Blocks } from "@/shared/types/enums"
 import { IRouteData } from "@/shared/types/route.interface"
 import { IMailRequest, IRegion } from "@/shared/types/types"
 import { usePathname, useSearchParams } from "next/navigation";
-import { Dispatch, PropsWithChildren, SetStateAction, createContext, useState } from "react"
+import { Dispatch, PropsWithChildren, SetStateAction, createContext } from "react"
 import { tokens } from "../shared/styles/style-tokens"
+import Script from "next/script";
 
 interface ProvidersProps extends PropsWithChildren {
 	regions: IRegion[]
@@ -113,7 +113,8 @@ interface YandexMetrikaHitOptions {
   utm?: string;
 }
 
-export const YandexMetrikaWrapper = (): JSX.Element => {
+// Внутренний компонент с useSearchParams
+const YandexMetrikaContent = (): JSX.Element => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const yandexId = process.env.NEXT_PUBLIC_YANDEX_ID || '';
@@ -160,8 +161,6 @@ export const YandexMetrikaWrapper = (): JSX.Element => {
     }
   }, [pathname, isYmReady, yandexId, searchParams]);
 
-  /**
-   */
   const trackPageView = (): void => {
     if (typeof window !== 'undefined' && window.ym && yandexId) {
       console.log('Yandex Metrika: Tracking page view', pathname);
@@ -230,6 +229,15 @@ export const YandexMetrikaWrapper = (): JSX.Element => {
         </div>
       </noscript>
     </>
+  );
+};
+
+// Основной компонент с Suspense boundary
+export const YandexMetrikaWrapper = (): JSX.Element => {
+  return (
+    <Suspense fallback={null}>
+      <YandexMetrikaContent />
+    </Suspense>
   );
 };
 
