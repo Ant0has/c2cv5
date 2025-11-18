@@ -1,15 +1,14 @@
 'use client'
 
-import { useEffect, useState, Suspense } from "react";
-import { ConfigProvider } from "antd"
-import { YMaps } from "@pbe/react-yandex-maps"
-import { Blocks } from "@/shared/types/enums"
-import { IRouteData } from "@/shared/types/route.interface"
-import { IMailRequest, IRegion } from "@/shared/types/types"
+import { Blocks } from "@/shared/types/enums";
+import { IRouteData } from "@/shared/types/route.interface";
+import { IMailRequest, IRegion } from "@/shared/types/types";
+import { YMaps } from "@pbe/react-yandex-maps";
+import { ConfigProvider } from "antd";
 import { usePathname, useSearchParams } from "next/navigation";
-import { Dispatch, PropsWithChildren, SetStateAction, createContext } from "react"
-import { tokens } from "../shared/styles/style-tokens"
 import Script from "next/script";
+import { Dispatch, PropsWithChildren, SetStateAction, createContext, useEffect, useState } from "react";
+import { tokens } from "../shared/styles/style-tokens";
 
 interface ProvidersProps extends PropsWithChildren {
 	regions: IRegion[]
@@ -17,6 +16,12 @@ interface ProvidersProps extends PropsWithChildren {
 interface IQuestionModalData {
 	status: boolean,
 	blockFrom: Blocks | null
+}
+
+declare global {
+  interface Window {
+    ym: (id: number, method: string, ...args: any[]) => void;
+  }
 }
 
 export interface IOrderModalData extends IMailRequest {
@@ -81,134 +86,23 @@ export function Providers({ children, regions }: ProvidersProps) {
 	)
 }
 
-declare global {
-  interface Window {
-    ym: YandexMetrikaFunction;
-    initialReferrer?: string;
-    yandexMetrikaCallback?: () => void;
-  }
-}
-
-type YandexMetrikaFunction = (
-  counterId: string | number,
-  method: string,
-  ...args: any[]
-) => void;
-
-interface YandexMetrikaInitParams {
-  clickmap?: boolean;
-  trackLinks?: boolean;
-  accurateTrackBounce?: boolean | number;
-  webvisor?: boolean;
-  ecommerce?: string | boolean | any[];
-  trackHash?: boolean;
-  triggerEvent?: boolean;
-  ut?: string;
-  params?: boolean | any[];
-}
-
-interface YandexMetrikaHitOptions {
-  referer?: string;
-  title?: string;
-  utm?: string;
-}
-
-// Внутренний компонент с useSearchParams
-const YandexMetrikaContent = (): JSX.Element => {
+export const YandexMetrikaWrapper = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const yandexId = process.env.NEXT_PUBLIC_YANDEX_ID || '';
-  const [isYmReady, setIsYmReady] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && !window.initialReferrer) {
-      window.initialReferrer = document.referrer;
-    }
-  }, []);
-
-  useEffect(() => {
-    const checkYmReady = (): boolean => {
-      if (typeof window !== 'undefined' && typeof window.ym === 'function') {
-        setIsYmReady(true);
-        return true;
-      }
-      return false;
-    };
-
-    let attempts = 0;
-    const maxAttempts = 10;
-    
-    const tryInitialize = (): void => {
-      if (checkYmReady() || attempts >= maxAttempts) {
-        clearInterval(intervalId);
-        if (attempts < maxAttempts) {
-          trackPageView();
-        }
-      }
-      attempts++;
-    };
-
-    const intervalId = setInterval(tryInitialize, 500);
-    tryInitialize();
-
-    return () => clearInterval(intervalId);
-  }, []);
-
-  // Отслеживание изменения страницы
-  useEffect(() => {
-    if (isYmReady && yandexId) {
-      trackPageView();
-    }
-  }, [pathname, isYmReady, yandexId, searchParams]);
-
-  const trackPageView = (): void => {
-    if (typeof window !== 'undefined' && window.ym && yandexId) {
-      console.log('Yandex Metrika: Tracking page view', pathname);
-      
-      const urlParams = new URLSearchParams(window.location.search);
-      const utmSource = urlParams.get('utm_source') || 
-                       (window.initialReferrer && new URL(window.initialReferrer).hostname) || 
-                       document.referrer;
-      
-      const hitOptions: YandexMetrikaHitOptions = {
-        referer: window.initialReferrer || document.referrer,
-        title: document.title,
-        utm: utmSource
-      };
-      
-      window.ym(yandexId, 'hit', window.location.href, hitOptions);
-    }
-  };
-
-  const getYandexMetrikaScript = (): string => {
-    const initParams: YandexMetrikaInitParams = {
-      clickmap: true,
-      trackLinks: true,
-      accurateTrackBounce: true,
-      webvisor: true,
-      ecommerce: "dataLayer",
-      trackHash: true,
-      triggerEvent: true,
-      ut: "noindex",
-      params: true
-    };
-
-    return `
-      (function(m,e,t,r,i,k,a){
-          m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-          m[i].l=1*new Date();
-          k=e.createElement(t),a=e.getElementsByTagName(t)[0];
-          k.async=1;k.src=r;a.parentNode.insertBefore(k,a);
-      })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
-
-      ym(${yandexId}, 'init', ${JSON.stringify(initParams)});
-    `;
-  };
+  const yandexId = process.env.NEXT_PUBLIC_YANDEX_ID;
 
   if (!yandexId) {
-    console.warn('Yandex Metrika: Counter ID not provided');
-    return <></>;
+    console.warn('Yandex Metrika ID not found');
+    return null;
   }
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.ym) {
+      const url = pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : '');
+      console.log('Yandex Metrika hit:', url);
+      window.ym(parseInt(yandexId), 'hit', url);
+    }
+  }, [pathname, searchParams, yandexId]);
 
   return (
     <>
@@ -216,7 +110,23 @@ const YandexMetrikaContent = (): JSX.Element => {
         id="yandex-metrika"
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
-          __html: getYandexMetrikaScript(),
+          __html: `
+            (function(m,e,t,r,i,k,a){
+                m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+                m[i].l=1*new Date();
+                k=e.createElement(t),a=e.getElementsByTagName(t)[0];
+                k.async=1;k.src=r;a.parentNode.insertBefore(k,a);
+            })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+            ym(${yandexId}, 'init', {
+                clickmap: true,
+                trackLinks: true,
+                accurateTrackBounce: true,
+                webvisor: true,
+                trackHash: true,
+                ecommerce: "dataLayer"
+            });
+          `,
         }}
       />
       <noscript>
@@ -231,14 +141,3 @@ const YandexMetrikaContent = (): JSX.Element => {
     </>
   );
 };
-
-// Основной компонент с Suspense boundary
-export const YandexMetrikaWrapper = (): JSX.Element => {
-  return (
-    <Suspense fallback={null}>
-      <YandexMetrikaContent />
-    </Suspense>
-  );
-};
-
-export type { YandexMetrikaInitParams, YandexMetrikaHitOptions };
