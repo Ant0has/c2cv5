@@ -1,7 +1,7 @@
 import NavigationLoader from '@/shared/components/NavigationLoader/NavigationLoader';
 import { SITE_DESCRIPTION, SITE_NAME } from '@/shared/constants/seo.constants';
 import { regionService } from '@/shared/services/region.service';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter as FontSans } from "next/font/google";
 import { Suspense } from "react";
 import { Providers, YandexMetrikaWrapper } from './providers';
@@ -49,12 +49,6 @@ export const metadata: Metadata = {
   verification: {
     yandex: '61a5dd0587349a58',
   },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-  },
   keywords: 'междугороднее такси, заказ такси межгород, такси по России, такси между городами, City2City',
   authors: [{ name: 'City2City', url: 'https://city2city.ru/' }],
   creator: 'City2City',
@@ -69,6 +63,13 @@ export const metadata: Metadata = {
     title: SITE_NAME,
     statusBarStyle: 'black-translucent',
   },
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 }
 
 const inter = FontSans({

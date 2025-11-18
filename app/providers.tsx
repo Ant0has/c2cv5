@@ -5,10 +5,10 @@ import { IRouteData } from "@/shared/types/route.interface";
 import { IMailRequest, IRegion } from "@/shared/types/types";
 import { YMaps } from "@pbe/react-yandex-maps";
 import { ConfigProvider } from "antd";
-import { usePathname, useSearchParams } from "next/navigation";
-import Script from "next/script";
 import { Dispatch, PropsWithChildren, SetStateAction, createContext, useEffect, useState } from "react";
 import { tokens } from "../shared/styles/style-tokens";
+import { usePathname } from "next/navigation";
+import Script from "next/script";
 
 interface ProvidersProps extends PropsWithChildren {
 	regions: IRegion[]
@@ -87,22 +87,22 @@ export function Providers({ children, regions }: ProvidersProps) {
 }
 
 export const YandexMetrikaWrapper = () => {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const yandexId = process.env.NEXT_PUBLIC_YANDEX_ID;
+  const pathname = usePathname()
+  const yandexId = process.env.NEXT_PUBLIC_YANDEX_ID
 
   if (!yandexId) {
-    console.warn('Yandex Metrika ID not found');
-    return null;
+    console.warn('Yandex Metrika ID not found')
+    return null
   }
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.ym) {
-      const url = pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : '');
-      console.log('Yandex Metrika hit:', url);
-      window.ym(parseInt(yandexId), 'hit', url);
+      // Используем полный URL из window.location (включая query параметры)
+      const fullUrl = window.location.pathname + window.location.search
+      console.log('Yandex Metrika hit:', fullUrl)
+      window.ym(parseInt(yandexId), 'hit', fullUrl)
     }
-  }, [pathname, searchParams, yandexId]);
+  }, [pathname, yandexId]) 
 
   return (
     <>
@@ -139,5 +139,5 @@ export const YandexMetrikaWrapper = () => {
         </div>
       </noscript>
     </>
-  );
-};
+  )
+}
