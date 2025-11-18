@@ -1,4 +1,3 @@
-import QuestionModal from "@/shared/components/modals/QuestionModal/QuestionModal";
 import NavigationLoader from '@/shared/components/NavigationLoader/NavigationLoader';
 import { SITE_DESCRIPTION, SITE_NAME } from '@/shared/constants/seo.constants';
 import { regionService } from '@/shared/services/region.service';
@@ -7,10 +6,10 @@ import { Inter as FontSans } from "next/font/google";
 import { Suspense } from "react";
 import { Providers, YandexMetrikaWrapper } from './providers';
 
-import OrderModal from "@/shared/components/modals/OrderModal/OrderModal";
 import '@/shared/styles/ant-design-styles.css';
 import '@/shared/styles/global.scss';
 import '@/shared/styles/style.scss';
+import ModalsWrapper from "@/shared/components/modals/ModalsWrapper";
 
 export const metadata: Metadata = {
   title: {
@@ -93,20 +92,19 @@ export default async function RootLayout({
 
   return (
     <html lang='ru'>
-       <head>
-        <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+      <head>
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <meta name="yandex-verification" content="61a5dd0587349a58" />
       </head>
-      <body className={inter.className}>
+      <body className={inter.className} suppressHydrationWarning>
         <Providers regions={regions}>
           <div className="app-layout">
             <main className="app-main">
-              <Suspense>
+              <Suspense fallback={<div className="loading-fallback">Загрузка...</div>}>
                 <NavigationLoader />
               </Suspense>
               {children}
-              <QuestionModal />
-              <OrderModal />
+              <ModalsWrapper />
             </main>
           </div>
         </Providers>
