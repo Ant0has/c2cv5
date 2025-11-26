@@ -98,7 +98,7 @@ export default async function RootLayout({
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <meta name="yandex-verification" content="61a5dd0587349a58" />
 
-        <Script
+        <Script defer
           id="yandex-metrika"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{
@@ -115,7 +115,8 @@ export default async function RootLayout({
           trackLinks:true,
           accurateTrackBounce:true,
           webvisor:true,
-          trackHash:true
+          trackHash:true,
+          deferEvents: true
         });
       `,
           }}
