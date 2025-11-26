@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import s from './Attractions.module.scss';
 import clsx from 'clsx';
+import { BASE_URL } from '@/shared/constants';
 
 interface IProps {
     title: string;
@@ -27,7 +28,7 @@ const AttractionCard = ({ title, subTitle, isHorizontal, description, image, tag
         <div className={clsx(s.cardWrapper, isHorizontal && s.horizontalCardWrapper)}>
             <div className={s.cardContainer}>
                 <div className={s.imageWrapper}>
-                    <Image src={image} alt={title} fill
+                    <Image src={`${BASE_URL}/static-images${image}`} alt={title} fill
                         sizes={getImageSize()}
                     />
                     {tags && tags.length > 0 && (
@@ -45,7 +46,7 @@ const AttractionCard = ({ title, subTitle, isHorizontal, description, image, tag
                         {subTitle && <span className={clsx('font-14-medium gray-color')}>{subTitle}</span>}
 
                     </div>
-                    <div className={clsx('font-16-normal')}>{description}</div>
+                    <div className={clsx('font-16-normal',s.attractionDescription)} dangerouslySetInnerHTML={{ __html: description }} />
                 </div>
             </div>
         </div>

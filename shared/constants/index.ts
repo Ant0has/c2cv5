@@ -6,6 +6,9 @@ export const PHONE_NUMBER_FIRST = '79381568757'
 export const PHONE_NUMBER_SECOND = '88006007775'
 export const EMAIL_ADDRESS = 'zakaz@city2city.ru'
 
+export const BASE_URL = 'https://city2city.ru'
+export const BASE_URL_API = 'https://city2city.ru/api'
+
 export const SPEED = 80
 
 export const COEFFICIENT_100 = 1.5

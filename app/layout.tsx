@@ -4,12 +4,13 @@ import { regionService } from '@/shared/services/region.service';
 import type { Metadata, Viewport } from 'next';
 import { Inter as FontSans } from "next/font/google";
 import { Suspense } from "react";
-import { Providers, YandexMetrikaWrapper } from './providers';
+import { Providers, YandexHit } from './providers';
 
+import ModalsWrapper from "@/shared/components/modals/ModalsWrapper";
 import '@/shared/styles/ant-design-styles.css';
 import '@/shared/styles/global.scss';
 import '@/shared/styles/style.scss';
-import ModalsWrapper from "@/shared/components/modals/ModalsWrapper";
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: {
@@ -96,9 +97,33 @@ export default async function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <meta name="yandex-verification" content="61a5dd0587349a58" />
+
+        <Script
+          id="yandex-metrika"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+        (function(m,e,t,r,i,k,a){
+          m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+          m[i].l=1*new Date();
+          k=e.createElement(t),a=e.getElementsByTagName(t)[0];
+          k.async=1;k.src=r;a.parentNode.insertBefore(k,a)
+        })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(${process.env.NEXT_PUBLIC_YANDEX_ID}, "init", {
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          webvisor:true,
+          trackHash:true
+        });
+      `,
+          }}
+        />
       </head>
       <body className={inter.className} suppressHydrationWarning>
         <Providers regions={regions}>
+          <YandexHit />
           <div className="app-layout">
             <main className="app-main">
               <Suspense fallback={<div className="loading-fallback">Загрузка...</div>}>
@@ -109,7 +134,7 @@ export default async function RootLayout({
             </main>
           </div>
         </Providers>
-        <YandexMetrikaWrapper />
+        {/* <YandexMetrikaWrapper /> */}
       </body>
     </html>
   )

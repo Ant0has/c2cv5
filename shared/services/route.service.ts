@@ -1,9 +1,10 @@
+import { BASE_URL_API } from "../constants"
+
 class RouteService {
-    private BASE_URL = 'https://city2city.ru/api'
 
     async getRouteByUrl(url?: string) {
         try {
-            const response = await fetch(`${this.BASE_URL}/routes/${url}`, {
+            const response = await fetch(`${BASE_URL_API}/routes/${url}`, {
                 next: { revalidate: 3600 } // Кэшируем на час
             })
 

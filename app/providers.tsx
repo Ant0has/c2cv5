@@ -7,7 +7,7 @@ import { YMaps } from "@pbe/react-yandex-maps";
 import { ConfigProvider } from "antd";
 import { Dispatch, PropsWithChildren, SetStateAction, createContext, useEffect, useState } from "react";
 import { tokens } from "../shared/styles/style-tokens";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import Script from "next/script";
 
 interface ProvidersProps extends PropsWithChildren {
@@ -140,4 +140,21 @@ export const YandexMetrikaWrapper = () => {
       </noscript>
     </>
   )
+}
+
+export function YandexHit() {
+  const pathname = usePathname()
+  const search = useSearchParams()
+
+  useEffect(() => {
+    if (typeof window === "undefined") return
+    if (typeof window.ym !== "function") return
+
+    const qs = search.toString()
+    const url = qs ? `${pathname}?${qs}` : pathname
+
+    window.ym(Number(process.env.NEXT_PUBLIC_YANDEX_ID), "hit", url)
+  }, [pathname, search])
+
+  return null
 }

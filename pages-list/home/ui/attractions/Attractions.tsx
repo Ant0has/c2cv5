@@ -2,6 +2,7 @@ import { LoadingSkeleton } from "@/shared/components/loadingSkeleton/LoadingSkel
 import { HomeLayout, HomeLayoutTitle } from "@/shared/layouts/homeLayout/HomeLayout";
 import clsx from "clsx";
 import dynamic from "next/dynamic";
+import { IAttraction } from "@/shared/types/route.interface";
 
 // Ленивая загрузка с помощью Next.js dynamic
 const AttractionCardListLazy = dynamic(
@@ -16,16 +17,7 @@ interface IAttractionsProps {
 	title: string;
 	titlePrimary?: string;
 	isHorizontal?: boolean;
-	cards:Array<{
-		title:string
-		subTitle:string
-		description:string
-		image:string
-		tags?:Array<{
-			name:string
-			isPrimary?:boolean
-		}>
-	}>
+	cards:IAttraction[]	
 }
 
 const Attractions = ({ title, titlePrimary,cards, isHorizontal }: IAttractionsProps) => {

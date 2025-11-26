@@ -20,6 +20,18 @@ export interface IRouteData {
     regions_data: IRegionData,
     routes: IRoute[]
     is_military?: boolean
+    attractions: IAttraction[]
+}
+
+export interface IAttraction{
+    id: number
+    regionId: number
+    regionCode: string
+    imageDesktop: string
+    imageMobile: string
+    name: string
+    description: string
+    createdAt: string
 }
 
 export interface IRegionData {

@@ -1,12 +1,9 @@
 import { UAParser } from "ua-parser-js";
 import { IMailRequest } from "../types/types";
+import { BASE_URL_API } from "../constants";
 
 
 class MailService {
-  private BASE_URL = 'https://city2city.ru/api'
-
-
-  // Получаем информацию об устройстве
   private getDeviceInfo(req?: Request): string {
     let userAgent: string;
 
@@ -35,7 +32,7 @@ class MailService {
     };
 
     try {
-      const response = await fetch(`${this.BASE_URL}/mail`, {
+      const response = await fetch(`${BASE_URL_API}/mail`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

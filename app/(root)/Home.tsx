@@ -62,6 +62,14 @@ const RouteDescriptionSection = dynamic(
 	}
 )
 
+const AttractionsSection = dynamic(
+	() => import("@/pages-list/home/ui/attractions/Attractions").then((mod) => mod.default),
+	{
+		loading: () => <LoadingSkeleton height="300px" />,
+		ssr: false,
+	}
+)
+
 export function Home({ routeData }: Props) {
 	const { setRoute } = useContext(RouteContext)
 
@@ -70,6 +78,8 @@ export function Home({ routeData }: Props) {
 	useLayoutEffect(() => {
 		routeData && setRoute(routeData)
 	}, [routeData])
+
+	console.log(routeData?.attractions, '------routeData?.attractions')
 
 	return (
 		<>
@@ -83,17 +93,20 @@ export function Home({ routeData }: Props) {
 				<AttractionsSection
 					title="Интересные места"
 					titlePrimary="Москвы"
-					cards={moscowAttractions}
-				/>
-			</Suspense>
-			<Suspense>
-				<AttractionsSection
-					title="Интересные места"
-					titlePrimary="Региона"
-					isHorizontal={true}
-					cards={regionAttractions}
+					cards={routeData?.attractions || []}
 				/>
 			</Suspense> */}
+			{
+				routeData?.region_id===1 && routeData?.attractions && routeData?.attractions.length > 0 && (
+					<Suspense>
+						<AttractionsSection
+							title="Интересные места"
+							titlePrimary="Региона"
+							cards={routeData?.attractions || []}
+						/>
+					</Suspense>
+				)
+			}
 			<Suspense>
 				<ReviewsSection title={cityTitle} />
 			</Suspense>

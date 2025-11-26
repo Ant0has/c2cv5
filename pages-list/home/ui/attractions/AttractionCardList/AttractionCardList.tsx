@@ -13,14 +13,10 @@ import 'swiper/css/scrollbar';
 import { useEffect, useRef, useState } from 'react';
 import AttractionCard from '../AttractionCard';
 import { useResize } from '@/shared/hooks/useResize';
+import { IAttraction } from '@/shared/types/route.interface';
 
 interface IAttractionCardListProps {
-    cards: Array<{
-        title: string;
-        subTitle: string;
-        description: string;
-        image: string;
-    }>;
+    cards: IAttraction[];
     isHorizontal?: boolean;
 }
 
@@ -158,7 +154,13 @@ const AttractionCardList = ({ cards, isHorizontal }: IAttractionCardListProps) =
             >
                 {cards.map((attraction, index) => (
                     <SwiperSlide key={index} className={s.swiperSlide}>
-                        <AttractionCard {...attraction} isHorizontal={isHorizontal} />
+                        <AttractionCard
+                            title={attraction.name}
+                            subTitle={''}
+                            description={attraction.description}
+                            image={attraction.imageDesktop}
+                            isHorizontal={isHorizontal}
+                        />
                     </SwiperSlide>
                 ))}
             </Swiper>
