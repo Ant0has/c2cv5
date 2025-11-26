@@ -144,17 +144,14 @@ export const YandexMetrikaWrapper = () => {
 
 export function YandexHit() {
   const pathname = usePathname()
-  const search = useSearchParams()
 
   useEffect(() => {
-    if (typeof window === "undefined") return
-    if (typeof window.ym !== "function") return
-
-    const qs = search.toString()
-    const url = qs ? `${pathname}?${qs}` : pathname
-
+    if (typeof window === 'undefined') return
+    if (!window.ym) return
+  
+    const url = window.location.pathname + window.location.search
     window.ym(Number(process.env.NEXT_PUBLIC_YANDEX_ID), "hit", url)
-  }, [pathname, search])
+  }, [pathname])
 
   return null
 }
