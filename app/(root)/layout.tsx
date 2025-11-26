@@ -6,6 +6,7 @@ export default function AppLayout({
   children: React.ReactNode;
 }) {
   return <>
+  
     <div className="app-layout">
       <Header />
       <main className="app-main">

@@ -11,7 +11,6 @@ import '@/shared/styles/ant-design-styles.css';
 import '@/shared/styles/global.scss';
 import '@/shared/styles/style.scss';
 import Script from 'next/script';
-import { YandexMetrika } from '@koiztech/next-yandex-metrika';
 
 export const metadata: Metadata = {
   title: {
@@ -95,7 +94,7 @@ export default async function RootLayout({
 
   return (
     <html lang='ru'>
-      {/* <head>
+      <head>
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <meta name="yandex-verification" content="61a5dd0587349a58" />
 
@@ -121,10 +120,10 @@ export default async function RootLayout({
       `,
           }}
         />
-      </head> */}
+      </head>
       <body className={inter.className} suppressHydrationWarning>
         <Providers regions={regions}>
-          {/* <YandexHit /> */}
+          <YandexHit />
           <div className="app-layout">
             <main className="app-main">
               <Suspense fallback={<div className="loading-fallback">Загрузка...</div>}>
@@ -136,13 +135,13 @@ export default async function RootLayout({
           </div>
         </Providers>
         {/* <YandexMetrikaWrapper /> */}
-        <YandexMetrika
+        {/* <YandexMetrika
           yid={Number(process.env.NEXT_PUBLIC_YANDEX_ID)}
+          webvisor
           clickmap
           trackLinks
           accurateTrackBounce
-          webvisor
-        />
+        /> */}
       </body>
     </html>
   )
