@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const data = await routeService.getRouteByUrl(regionSlug);
 
   const shouldAddNoIndex = (regionSlug.includes('bryansk')) &&
-    !excludesPages.find(page => page.includes(regionSlug))
+    !excludesPages.find(page => page.includes(regionSlug)) || data?.is_indexable !== 1;
 
   // Если данные не найдены - возвращаем notFound()
   if (!data) {
@@ -43,11 +43,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const keywords = data?.meta?.keywords ||
     `такси ${data?.seo_title}, междугороднее такси, заказ такси ${data?.seo_title}`;
 
+  // const shouldAddNoIndex = data?.is_indexable === false;
+
+  console.log(shouldAddNoIndex, '------shouldAddNoIndex')
+  console.log(data?.is_indexable, '------data?.is_indexable')
+
   return {
     title,
     description,
     keywords,
-    robots: shouldAddNoIndex ? "noindex, nofollow" : "index, follow",
+    robots: shouldAddNoIndex ? "noindex, follow" : "index, follow",
 
     alternates: {
       canonical: canonicalUrl,
