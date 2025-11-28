@@ -10,12 +10,14 @@ interface Props {
   };
 }
 
+const excludedPagesLocal = ['kemerovo-kemerovo','ekaterinburg-ekaterinburg'];
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const regionSlug = params.region.replace(/\.html$/, "");
   const data = await routeService.getRouteByUrl(regionSlug);
 
   const shouldAddNoIndex = (regionSlug.includes('bryansk')) &&
-    !excludesPages.find(page => page.includes(regionSlug)) || data?.is_indexable !== 1;
+    !excludesPages.find(page => page.includes(regionSlug)) || data?.is_indexable !== 1 || excludedPagesLocal.includes(regionSlug);
 
   // Если данные не найдены - возвращаем notFound()
   if (!data) {
