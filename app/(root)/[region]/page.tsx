@@ -26,10 +26,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const siteName = "City2City";
 
-  const canonicalUrl = `https://city2city.ru/${regionSlug}.html`;
+  const canonicalUrl = data?.canonical_url
+  ? `https://city2city.ru/${data?.canonical_url}.html`
+  : `https://city2city.ru/${data?.url}.html`;
 
-  const title = data?.seo_title ||
-    `Такси ${data?.seo_title} - междугородние перевозки | City2City`;
+
+  const title = data?.seo_title ?
+    `Такси ${data?.seo_title} - междугородние перевозки | City2City` : `Такси ${data?.title} - междугородние перевозки | City2City`;
 
   let description = data?.seo_description ||
     `Заказать междугороднее такси ${data?.seo_title}. Комфортные автомобили, опытные водители, фиксированные цены. Тел: +7 (938) 156-87-57`;
@@ -39,7 +42,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description = description.substring(1).trim();
   }
 
-  // Добавляем желтую звезду в начало
   description = `⭐ ${description}`;
 
   const keywords = data?.meta?.keywords ||

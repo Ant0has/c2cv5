@@ -127,7 +127,7 @@ export default async function RootLayout({
           <YandexHit />
           <div className="app-layout">
             <main className="app-main">
-              <Suspense fallback={<div className="loading-fallback">Загрузка...</div>}>
+              <Suspense>
                 <NavigationLoader />
               </Suspense>
               {children}

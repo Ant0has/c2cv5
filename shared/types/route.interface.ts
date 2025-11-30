@@ -4,6 +4,7 @@ export interface IRouteData {
     region_id: number
     content: string
     title: string
+    url: string
     description: string
     meta?: {
         title?: string
@@ -14,6 +15,8 @@ export interface IRouteData {
     // to_city?: string
     city_data?: string
     city_seo_data?: string
+    seo_title?: string
+    seo_description?: string
     price?: number
     distance?: number
     duration?: string
@@ -21,6 +24,8 @@ export interface IRouteData {
     routes: IRoute[]
     is_military?: boolean
     attractions: IAttraction[]
+    is_indexable?: number
+    canonical_url:string | null
 }
 
 export interface IAttraction{

@@ -1,8 +1,9 @@
 import { BASE_URL_API } from "../constants"
+import { IRouteData } from "../types/route.interface"
 
 class RouteService {
 
-    async getRouteByUrl(url?: string) {
+    async getRouteByUrl(url?: string): Promise<IRouteData | null> {
         try {
             const response = await fetch(`${BASE_URL_API}/routes/${url}`, {
                 next: { revalidate: 3600 } // Кэшируем на час
