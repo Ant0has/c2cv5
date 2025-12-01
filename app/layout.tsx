@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
   },
   verification: {
-    yandex: '61a5dd0587349a58',
+    yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION || '',
   },
   keywords: 'междугороднее такси, заказ такси межгород, такси по России, такси между городами, City2City',
   authors: [{ name: 'City2City', url: 'https://city2city.ru/' }],
@@ -96,7 +96,7 @@ export default async function RootLayout({
     <html lang='ru'>
       <head>
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-        <meta name="yandex-verification" content="61a5dd0587349a58" />
+        <meta name="yandex-verification" content={process.env.NEXT_PUBLIC_YANDEX_VERIFICATION || ''} />
 
         <Script defer
           id="yandex-metrika"
