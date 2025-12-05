@@ -21,14 +21,6 @@ const OrderStepsSection = dynamic(
 	}
 );
 
-const ReviewsSection = dynamic(
-	() => import("@/pages-list/home/ui/Reviews/Reviews").then((mod) => mod.default),
-	{
-		loading: () => <LoadingSkeleton height="300px" />,
-		ssr: false,
-	}
-);
-
 const QuestionsSection = dynamic(
 
 	() => import("@/pages-list/home/ui/Questions/Questions").then((mod) => mod.default),
@@ -107,9 +99,6 @@ export function Home({ routeData }: Props) {
 					</Suspense>
 				)
 			}
-			<Suspense>
-				<ReviewsSection title={cityTitle} />
-			</Suspense>
 			<Suspense>
 				<QuestionsSection isMilitary={routeData?.is_military} />
 			</Suspense>
