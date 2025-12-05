@@ -26,6 +26,18 @@ export interface IRouteData {
     attractions: IAttraction[]
     is_indexable?: number
     canonical_url:string | null
+
+    city_from?: string;
+    city_to?: string;
+    distance_km: number;
+    price_economy: number;
+    price_comfort?: number;
+    faq1_q: string | null;
+    faq1_a: string | null;
+    faq2_q: string | null;
+    faq2_a: string | null;
+    faq3_q: string | null;
+    faq3_a: string | null;
 }
 
 export interface IAttraction{
