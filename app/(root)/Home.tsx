@@ -1,5 +1,4 @@
 'use client'
-
 import Price from "@/pages-list/home/ui/Price/Price"
 import Welcome from "@/pages-list/home/ui/Welcome/Welcome"
 import { LoadingSkeleton } from "@/shared/components/loadingSkeleton/LoadingSkeleton"
