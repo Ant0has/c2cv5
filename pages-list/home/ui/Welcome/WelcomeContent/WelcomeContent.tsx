@@ -1,30 +1,53 @@
 import clsx from "clsx";
 import { FC } from "react";
 import s from './WelcomeContent.module.scss';
+import { IRouteData } from "@/shared/types/route.interface";
+import { calcTripsCount } from "@/shared/services/seo-utils";
 
 interface IProps {
   city?: string
   isMilitary?:boolean
+  route?: IRouteData
 }
 
-const WelcomeContent: FC<IProps> = ({ city,isMilitary }) => {
+const WelcomeContent: FC<IProps> = ({ city,isMilitary,route }) => {
 
-  const advantages = [
+  const hasData = route && route.distance_km && route.distance_km > 0;
+
+  const trips = route && route.url ? calcTripsCount(route.url, route.is_whitelist || false) : 0;
+
+  const advantages = hasData ? [
     {
       id: 1,
-      title: '6 лет',
-      description: 'На рынке пассажирских перевозок',
-      isWide: true
+      title: `${route.distance_km} км`,
+      description: 'Расстояние',
     },
     {
       id: 2,
-      title: '>70',
-      description: 'Регионов присутствия'
+      title: `~${route.duration_hours || 0} ч`,
+      description: 'В пути'
     },
     {
       id: 3,
-      title: '+12 500',
-      description: 'Поездок по России'
+      title: `${trips}+`,
+      description: `Поездок из ${city}`
+    }
+  ] : [
+    {
+      id: 1,
+      title: '24/7',
+      description: 'Приём заказов',
+    },
+    {
+      id: 2,
+      title: '5 мин',
+      description: 'Подтверждение',
+      isWide: true
+    },
+    {
+      id: 3,
+      title: `${trips}+`,
+      description: `Поездок из ${city}`
     }
   ]
 

@@ -7,21 +7,23 @@ import Image from 'next/image';
 
 import welcomeImage from '@/public/images/welcome-image.png';
 import militaryImage from '@/public/images/military/welcome-image.png';
+import { IRouteData } from '@/shared/types/route.interface';
 
 interface IWelcomeProps {
   city?: string
   isMilitary?: boolean
   handleGoToOrder: () => void,
+  route?: IRouteData
 }
 
-const Welcome: FC<IWelcomeProps> = ({ city, isMilitary, handleGoToOrder }) => {
+const Welcome: FC<IWelcomeProps> = ({ city, isMilitary,route, handleGoToOrder  }) => {
 
   return (
     <div className={clsx(s.wrapper, { [s.military]: isMilitary })}>
       <div className="container-24">
         <div className={clsx(s.content)}>
           <div className={s.left}>
-            <WelcomeContent city={city} isMilitary={isMilitary} />
+            <WelcomeContent city={city} isMilitary={isMilitary} route={route} />
             <WelcomeButtons handleGoToOrder={handleGoToOrder} />
           </div>
           <div className={s.right}>

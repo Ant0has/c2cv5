@@ -62,6 +62,13 @@ const AttractionsSection = dynamic(
 	}
 )
 
+const FaqSection = dynamic(
+	() => import("@/pages-list/home/ui/faq/Faq").then((mod) => mod.default),
+	{
+		loading: () => <LoadingSkeleton height="300px" />,
+		ssr: false,
+	}
+)
 export function Home({ routeData }: Props) {
 	const { setRoute } = useContext(RouteContext)
 
@@ -71,11 +78,10 @@ export function Home({ routeData }: Props) {
 		routeData && setRoute(routeData)
 	}, [routeData])
 
-	console.log(routeData?.attractions, '------routeData?.attractions')
-
 	return (
 		<>
-			<Welcome isMilitary={routeData?.is_military} handleGoToOrder={() => goToOrder()} city={cityTitle} />
+			<Welcome route={routeData} isMilitary={routeData?.is_military} handleGoToOrder={() => goToOrder()} city={cityTitle} />
+
 			<Price isMilitary={routeData?.is_military} title={cityTitle} cityData={routeData?.city_seo_data} />
 
 			<Suspense>
@@ -89,7 +95,7 @@ export function Home({ routeData }: Props) {
 				/>
 			</Suspense> */}
 			{
-				routeData?.region_id===1 && routeData?.attractions && routeData?.attractions.length > 0 && (
+				routeData?.region_id === 1 && routeData?.attractions && routeData?.attractions.length > 0 && (
 					<Suspense>
 						<AttractionsSection
 							title="Интересные места"
@@ -106,11 +112,19 @@ export function Home({ routeData }: Props) {
 				<CitiesSection routes={routeData?.routes} />
 			</Suspense>
 
+			{routeData && (
+				<Suspense>
+					<FaqSection route={routeData} />
+				</Suspense>
+			)}
+
 			{!routeData?.is_military && (
 				<Suspense>
 					<ForBusinessSection />
 				</Suspense>
 			)}
+
+
 
 			<Suspense>
 				<RouteDescriptionSection
@@ -120,3 +134,5 @@ export function Home({ routeData }: Props) {
 		</>
 	)
 }
+
+

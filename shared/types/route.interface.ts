@@ -19,6 +19,7 @@ export interface IRouteData {
     seo_description?: string
     price?: number
     distance?: number
+    duration_hours?: number
     duration?: string
     regions_data: IRegionData,
     routes: IRoute[]
@@ -26,6 +27,7 @@ export interface IRouteData {
     attractions: IAttraction[]
     is_indexable?: number
     canonical_url:string | null
+    is_whitelist?: boolean
 
     city_from?: string;
     city_to?: string;

@@ -50,9 +50,10 @@ export function formatPrice(price: number): string {
 }
 
 export function formatDuration(hours: number): string {
-  return hours === Math.floor(hours)
-    ? `${hours} ч`
-    : `${hours.toFixed(1).replace('.', ',')} ч`;
+  const numb = Number(hours);
+  return numb === Math.floor(numb)
+    ? `${numb} ч`
+    : `${numb.toFixed(1).replace('.', ',')} ч`;
 }
 
 export function roundUpTo5(km: number): number {
