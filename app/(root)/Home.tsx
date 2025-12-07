@@ -104,9 +104,7 @@ export function Home({ routeData }: Props) {
 					</Suspense>
 				)
 			}
-			<Suspense>
-				<QuestionsSection isMilitary={routeData?.is_military} />
-			</Suspense>
+
 			<Suspense>
 				<CitiesSection routes={routeData?.routes} />
 			</Suspense>
@@ -129,6 +127,10 @@ export function Home({ routeData }: Props) {
 				<RouteDescriptionSection
 					text={routeData?.content} title={cityTitle || 'такси межгород'}
 				/>
+			</Suspense>
+
+			<Suspense>
+				<QuestionsSection isMilitary={routeData?.is_military} />
 			</Suspense>
 		</>
 	)

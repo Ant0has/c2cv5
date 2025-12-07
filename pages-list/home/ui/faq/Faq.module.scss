@@ -1,3 +1,8 @@
+  .wrapper {
+    padding: 40px 0;
+    background: var(--light-gray);
+  }
+  
   .container {
       display: flex;
       flex-direction: column;
@@ -12,7 +17,6 @@
   }
 
   .item {
-      background: #ffffff; // белый фон
       border-radius: 16px;
       padding: 16px 0;
       flex-direction: column;
