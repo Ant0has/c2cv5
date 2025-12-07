@@ -33,7 +33,7 @@ const Faq: FC<IProps> = ({ route }) => {
 
                 <div className={s.list}>
                     {faqItems.map((item, index) => (
-                        <FaqItem key={index} question={item.q!} answer={item.a!} />
+                        <FaqItem key={index} question={item.q as string} answer={item.a as string} />
                     ))}
                 </div>
             </div>
@@ -41,7 +41,7 @@ const Faq: FC<IProps> = ({ route }) => {
     );
 };
 
-const FaqItem: FC<{ question: string; answer: string }> = ({ question, answer }) => {
+const FaqItem: FC<{ question: string | null; answer: string | null }> = ({ question, answer }) => {
     const [open, setOpen] = useState(false);
 
     return (
