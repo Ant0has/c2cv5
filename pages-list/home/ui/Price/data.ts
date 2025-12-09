@@ -151,7 +151,6 @@ export const additionalServices = [
 ]
 
 export const planLabel = {
-  [Prices.STANDARD]: 'Стандарт',
   [Prices.COMFORT]: 'Комфорт',
   [Prices.COMFORT_PLUS]: 'Комфорт+',
   [Prices.BUSINESS]: 'Бизнес',
