@@ -160,7 +160,7 @@ const AddressSelect: FC<IProps> = ({ selectedPlan, cityData, routeData }) => {
                   };
 
                   const getPrice = () => {
-                    const initialPrice = distanceValue * prices[selectedPlan] * getCoefficient(distanceValue);
+                    const initialPrice = distanceValue * prices[selectedPlan as keyof typeof prices] * getCoefficient(distanceValue);
                     return Math.ceil(initialPrice / 500) * 500;
                   };
 

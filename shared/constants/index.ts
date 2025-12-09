@@ -21,6 +21,7 @@ export const DEFAULT_PRICE = 2000
 export const DEFAULT_DISTANCE = 10
 
 export const prices = {
+  [Prices.STANDARD]: 25,
   [Prices.COMFORT]: 30,
   [Prices.COMFORT_PLUS]: 40,
   [Prices.BUSINESS]: 70,

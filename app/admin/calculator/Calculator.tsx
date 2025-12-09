@@ -60,6 +60,11 @@ const Calculator: FC<IProps> = () => {
 
   const plans = [
     {
+      key: Prices.STANDARD,
+      label: planLabel[Prices.STANDARD],
+      coefficient: planCoefficient[Prices.STANDARD],
+    },
+    {
       key: Prices.COMFORT,
       label: planLabel[Prices.COMFORT],
       coefficient: planCoefficient[Prices.COMFORT],
@@ -254,7 +259,7 @@ const Calculator: FC<IProps> = () => {
         <div
           className={s.returnDefault}
           onClick={() => {
-            setPlanCoefficient(prices);
+            setPlanCoefficient(prices as Record<Prices, number>);
             if (typeof window !== "undefined") {
               localStorage.setItem(PLAN_COEFFICIENT, JSON.stringify(prices));
             }
