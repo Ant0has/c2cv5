@@ -52,14 +52,7 @@ interface IProps {
 }
 
 const PriceContent: FC<IProps> = ({ type, isMilitary }) => {
-  const contentByType: {
-    [key in Prices]: {
-      title: string;
-      options: IPriceOptions[];
-      carsImages: StaticImageData[];
-      additionalServices?: CollapseProps["items"];
-    };
-  } = {
+  const contentByType = {
     [Prices.COMFORT]: {
       title: "Тариф Комфорт",
       options: comfortOptions,
@@ -132,8 +125,8 @@ const PriceContent: FC<IProps> = ({ type, isMilitary }) => {
         <div className={s.options}>
           <PriceOptions
             isMilitary={isMilitary}
-            title={contentByType[type].title}
-            options={contentByType[type].options}
+            title={contentByType[type as keyof typeof contentByType].title}
+            options={contentByType[type as keyof typeof contentByType].options}
           />
         </div>
 
@@ -152,7 +145,7 @@ const PriceContent: FC<IProps> = ({ type, isMilitary }) => {
             modules={[Autoplay, Pagination, Navigation]}
             spaceBetween={48}
           >
-            {contentByType[type].carsImages.map(
+            {contentByType[type as keyof typeof contentByType].carsImages.map(
               (image: StaticImageData, id: number) => (
                 <SwiperSlide
                   key={id}
@@ -181,7 +174,7 @@ const PriceContent: FC<IProps> = ({ type, isMilitary }) => {
         <Collapse
           expandIconPosition="end"
           ghost
-          items={contentByType[type].additionalServices}
+          items={contentByType[type as keyof typeof contentByType].additionalServices}
           expandIcon={(panelProps) => {
             return (
               <div
