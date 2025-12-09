@@ -2,6 +2,7 @@ import { Prices } from "../types/enums"
 
 export const TELEGRAM_LINK = 'https://t.me/taxi_city2city'
 export const WHATS_UP_LINK = 'https://wa.me/79381568757'
+export const MAX_LINK = 'https://max.ru/id616606322786_bot'
 export const PHONE_NUMBER_FIRST = '79381568757'
 export const PHONE_NUMBER_SECOND = '88006007775'
 export const EMAIL_ADDRESS = 'zakaz@city2city.ru'

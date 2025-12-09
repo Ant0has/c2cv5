@@ -3,7 +3,7 @@
 import { RouteContext } from '@/app/providers'
 import TelegramIcon from '@/public/icons/TelegramIcon'
 import WhatsUpIcon from '@/public/icons/WhatsUpIcon'
-import { EMAIL_ADDRESS, PHONE_NUMBER_FIRST, TELEGRAM_LINK, WHATS_UP_LINK } from '@/shared/constants'
+import { EMAIL_ADDRESS, MAX_LINK, PHONE_NUMBER_FIRST, TELEGRAM_LINK, WHATS_UP_LINK } from '@/shared/constants'
 import { formatPhoneNumber } from '@/shared/services/formate-phone-number'
 import { getSelectedRegion } from '@/shared/services/get-selected-region'
 import { ButtonTypes } from '@/shared/types/enums'
@@ -11,6 +11,7 @@ import clsx from 'clsx'
 import { useContext, useMemo } from 'react'
 import Button from '@/shared/components/ui/Button/Button'
 import s from '../Footer.module.scss'
+import MaxIcon from '@/public/icons/MaxIcon'
 
 const FooterContacts = () => {
   const { route } = useContext(RouteContext)
@@ -48,6 +49,12 @@ const FooterContacts = () => {
           type={ButtonTypes.LINK}
           link={WHATS_UP_LINK}
           icon={<WhatsUpIcon />}
+          className={s.roundLink}
+        />
+        <Button
+          type={ButtonTypes.LINK}
+          link={MAX_LINK}
+          icon={<MaxIcon />}
           className={s.roundLink}
         />
       </div>
