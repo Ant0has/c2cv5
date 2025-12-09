@@ -73,18 +73,20 @@ export function Home({ routeData }: Props) {
 
 	const cityTitle = (routeData?.title || '').replace(/Такси\s+/gi, '').trim()
 
+	const isMilitary = routeData?.is_svo === 1
+
 	useLayoutEffect(() => {
 		routeData && setRoute(routeData)
 	}, [routeData])
 
 	return (
 		<>
-			<Welcome route={routeData} isMilitary={routeData?.is_military} handleGoToOrder={() => goToOrder()} city={cityTitle} />
+			<Welcome route={routeData} isMilitary={isMilitary} handleGoToOrder={() => goToOrder()} city={cityTitle} />
 
-			<Price isMilitary={routeData?.is_military} title={cityTitle} cityData={routeData?.city_seo_data} />
+			<Price routeData={routeData} title={cityTitle} cityData={routeData?.city_seo_data} />
 
 			<Suspense>
-				<OrderStepsSection isMilitary={routeData?.is_military} />
+				<OrderStepsSection isMilitary={isMilitary} />
 			</Suspense>
 			{/* <Suspense>
 				<AttractionsSection
@@ -115,7 +117,7 @@ export function Home({ routeData }: Props) {
 				</Suspense>
 			)}
 
-			{!routeData?.is_military && (
+			{!isMilitary && (
 				<Suspense>
 					<ForBusinessSection />
 				</Suspense>
@@ -130,7 +132,7 @@ export function Home({ routeData }: Props) {
 			</Suspense>
 
 			<Suspense>
-				<QuestionsSection isMilitary={routeData?.is_military} />
+				<QuestionsSection isMilitary={isMilitary} />
 			</Suspense>
 		</>
 	)

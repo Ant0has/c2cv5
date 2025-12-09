@@ -4,7 +4,7 @@ import RoadIcon from "@/public/icons/RoadIcon";
 import SwapIcon from "@/public/icons/SwapIcon";
 import TimeIcon from "@/public/icons/TimeIcon";
 import WalletIcon from "@/public/icons/WalletIcon";
-import { COEFFICIENT_100, COEFFICIENT_100_150, COEFFICIENT_150_200, COEFFICIENT_200, prices, SPEED } from "@/shared/constants";
+import { COEFFICIENT_100, COEFFICIENT_100_150, COEFFICIENT_150_200, COEFFICIENT_200, DEFAULT_DISTANCE, DEFAULT_PRICE, prices, SPEED } from "@/shared/constants";
 import { getCurrentKey } from "@/shared/services/get-current-key";
 import { yandexMapsService } from "@/shared/services/yandex-maps.service";
 import { Blocks, ButtonTypes, Prices } from "@/shared/types/enums";
@@ -12,21 +12,22 @@ import { Map, RoutePanel, YMaps } from "@pbe/react-yandex-maps";
 import { message } from "antd";
 import clsx from "clsx";
 import Link from "next/link";
-import { FC, useContext, useRef, useState } from "react";
+import { FC, useContext, useEffect, useRef, useState } from "react";
 import Button from "../../../../../shared/components/ui/Button/Button";
 import SearchInput from "../../../../../shared/components/ui/SearchInput/SearchInput";
 import s from './AddressSelect.module.scss';
-import { checkString, getDeparturePoint } from "./utils";
+import { getDeparturePoint } from "./utils";
+import { IRouteData } from "@/shared/types/route.interface";
 
 interface IProps {
   selectedPlan: Prices
-  isMilitary?: boolean
   cityData?: string
+  routeData?: IRouteData  
 }
 
 
 
-const AddressSelect: FC<IProps> = ({ selectedPlan, isMilitary, cityData }) => {
+const AddressSelect: FC<IProps> = ({ selectedPlan, cityData, routeData }) => {
   const routePanelRef = useRef<any>()
 
   const initialPoints = ( () => {
@@ -37,18 +38,44 @@ const AddressSelect: FC<IProps> = ({ selectedPlan, isMilitary, cityData }) => {
       arrivalPoint: arrivalPoint === '-' ? '' : arrivalPoint
     }
   })()
+
+  const getInitialPrice = () => {
+    switch (selectedPlan) {
+      case Prices.COMFORT:
+        return routeData?.price_comfort || DEFAULT_PRICE
+      case Prices.COMFORT_PLUS:
+        return routeData?.price_comfort_plus || DEFAULT_PRICE
+      case Prices.BUSINESS:
+        return routeData?.price_business || DEFAULT_PRICE
+      case Prices.MINIVAN:
+        return routeData?.price_minivan || DEFAULT_PRICE
+      case Prices.DELIVERY:
+        return routeData?.price_delivery || DEFAULT_PRICE
+      default:
+        return DEFAULT_PRICE
+    }
+  }
+
+  const getInitialDistance = () => {
+    return routeData?.distance_km || DEFAULT_DISTANCE
+  }
   
 
   const [departurePoint, setDeparturePoint] = useState<string>(initialPoints.departurePoint)
   const [departurePointData, setDeparturePointData] = useState<string[]>([])
   const [arrivalPoint, setArrivalPoint] = useState<string>(initialPoints.arrivalPoint)
   const [arrivalPointData, setArrivalPointData] = useState<string[]>([])
-  const [distance, setDistance] = useState<string>('от 10 км')
+  const [distance, setDistance] = useState<string>(`от ${getInitialDistance()} км`)
   const [time, setTime] = useState<string>('1 ч')
-  const [price, setPrice] = useState<string>('от — руб.')
+  const [price, setPrice] = useState<string>(`от ${getInitialPrice()} руб.`)
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const { setOrderModalData } = useContext(ModalContext)
+
+  useEffect(() => {
+    setPrice(`от ${getInitialPrice()} руб.`)
+    setDistance(`от ${getInitialDistance()} км`)
+  }, [getInitialPrice, getInitialDistance, selectedPlan, routeData])
 
   const handleClickSwapAddress = () => {
     setDeparturePoint(arrivalPoint)
@@ -195,7 +222,7 @@ const AddressSelect: FC<IProps> = ({ selectedPlan, isMilitary, cityData }) => {
   ]
 
   return (
-    <div id="order" className={clsx(s.wrapper, { [s.military]: isMilitary })}>
+    <div id="order" className={clsx(s.wrapper, { [s.military]: routeData?.is_svo === 1 })}>
       <div className={clsx(s.title, 'font-24-medium white-color')}>Укажите куда вам надо?</div>
 
       <div className={s.selection}>

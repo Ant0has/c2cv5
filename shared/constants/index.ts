@@ -16,8 +16,10 @@ export const COEFFICIENT_100_150 = 1.2
 export const COEFFICIENT_150_200 = 1.1
 export const COEFFICIENT_200 = 1
 
+export const DEFAULT_PRICE = 2000
+export const DEFAULT_DISTANCE = 10
+
 export const prices = {
-  [Prices.STANDARD]: 25,
   [Prices.COMFORT]: 30,
   [Prices.COMFORT_PLUS]: 40,
   [Prices.BUSINESS]: 70,

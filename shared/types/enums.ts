@@ -6,7 +6,6 @@ export enum ButtonTypes {
 }
 
 export enum Prices {
-  STANDARD = 'standard',
   COMFORT = 'comfort',
   COMFORT_PLUS = 'comfort-plus',
   BUSINESS = 'business',

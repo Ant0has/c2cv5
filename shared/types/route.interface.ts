@@ -23,7 +23,6 @@ export interface IRouteData {
     duration?: string
     regions_data: IRegionData,
     routes: IRoute[]
-    is_military?: boolean
     attractions: IAttraction[]
     is_indexable?: number
     canonical_url:string | null
@@ -32,14 +31,19 @@ export interface IRouteData {
     city_from?: string;
     city_to?: string;
     distance_km: number;
-    price_economy: number;
+    price_economy?: number;
     price_comfort?: number;
+    price_comfort_plus?: number;
+    price_business?: number;
+    price_minivan?: number;
+    price_delivery?: number;
     faq1_q: string | null;
     faq1_a: string | null;
     faq2_q: string | null;
     faq2_a: string | null;
     faq3_q: string | null;
     faq3_a: string | null;
+    is_svo?: 0 | 1;
 }
 
 export interface IAttraction{

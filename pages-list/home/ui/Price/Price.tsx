@@ -8,6 +8,7 @@ import PriceContent from "./PriceContent/PriceContent";
 import { HomeLayout, HomeLayoutTitle } from "@/shared/layouts/homeLayout/HomeLayout";
 import dynamic from "next/dynamic";
 import { LoadingSkeleton } from "@/shared/components/loadingSkeleton/LoadingSkeleton";
+import { IRouteData } from "@/shared/types/route.interface";
 
 const AddressSelect = dynamic(
   () => import("./AddressSelect/AddressSelect"),
@@ -19,21 +20,18 @@ const AddressSelect = dynamic(
 
 interface IProps {
   title?: string
-  isMilitary?: boolean
   cityData?: string
+  routeData?: IRouteData
 }
 
-const Price: FC<IProps> = ({ title, isMilitary, cityData }) => {
+const Price: FC<IProps> = ({ title, cityData, routeData }) => {
   const [selectedPlan, setSelectedPlan] = useState<Prices>(Prices.COMFORT)
   const [showMap, setShowMap] = useState(false)
   const sectionRef = useRef<HTMLDivElement>(null)
 
+  const isMilitary = routeData?.is_svo === 1
+
   const tabs: TabsProps['items'] = [
-    {
-      key: Prices.STANDARD,
-      label: planLabel[Prices.STANDARD],
-      children: <PriceContent isMilitary={isMilitary} type={Prices.STANDARD} />
-    },
     {
       key: Prices.COMFORT,
       label: planLabel[Prices.COMFORT],
@@ -96,9 +94,9 @@ const Price: FC<IProps> = ({ title, isMilitary, cityData }) => {
       <div className={s.mapWrapper} ref={sectionRef}>
         {showMap && (
           <AddressSelect
-            isMilitary={isMilitary}
             selectedPlan={selectedPlan}
             cityData={cityData}
+            routeData={routeData}
           />
         )}
       </div>

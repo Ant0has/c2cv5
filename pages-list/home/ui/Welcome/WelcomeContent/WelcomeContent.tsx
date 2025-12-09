@@ -10,46 +10,76 @@ interface IProps {
   route?: IRouteData
 }
 
+interface IAdvantage {
+  id: number
+  title: string
+  description: string
+  isWide?: boolean
+}
+
+const defaultAdvantages: IAdvantage[] = [
+  {
+    id: 1,
+    title: '24/7',
+    description: 'Приём заказов',
+  },
+  {
+    id: 2,
+    title: '5 мин',
+    description: 'Подтверждение',
+  },
+]
+
 const WelcomeContent: FC<IProps> = ({ city,isMilitary,route }) => {
 
   const hasData = route && route.distance_km && route.distance_km > 0;
 
   const trips = route && route.url ? calcTripsCount(route.url, route.is_whitelist || false) : 0;
 
-  const advantages = hasData ? [
-    {
-      id: 1,
-      title: `${route.distance_km} км`,
-      description: 'Расстояние',
-    },
-    {
-      id: 2,
-      title: `~${route.duration_hours || 0} ч`,
-      description: 'В пути'
-    },
-    {
-      id: 3,
-      title: `${trips}+`,
-      description: `Поездок из ${city}`
-    }
-  ] : [
-    {
-      id: 1,
-      title: '24/7',
-      description: 'Приём заказов',
-    },
-    {
-      id: 2,
-      title: '5 мин',
-      description: 'Подтверждение',
-      isWide: true
-    },
-    {
-      id: 3,
-      title: `${trips}+`,
-      description: `Поездок из ${city}`
-    }
-  ]
+  const getAdvantages = (): IAdvantage[] => {
+      const result = []
+
+      if(route){
+        if(route.distance_km){
+          result.push({
+            id: 1,
+            title: `${route.distance_km} км`,
+            description: 'Расстояние',
+          })
+        }
+        if(route.duration_hours && route.duration_hours > 0){
+          result.push({
+            id: 2,
+            title: `~${route.duration_hours} ч`,
+            description: 'В пути'
+          })
+        }
+        if(route.url){
+          const trips = calcTripsCount(route.url, route.is_whitelist || false)
+          result.push({
+            id: 3,
+            title: `${trips}+`,
+            description: `Поездок из ${city}`
+          })
+        }
+
+        if(result.length < 3){
+          for(let i = 0; i < defaultAdvantages.length; i++){
+            if(result.length < 3){
+              result.push(defaultAdvantages[i])
+            }
+          }
+        }
+
+
+      }else{
+        result.push(...defaultAdvantages)
+      }
+      
+      return result;
+  }
+
+  const advantages = getAdvantages()
 
   return (
     <>
@@ -67,7 +97,7 @@ const WelcomeContent: FC<IProps> = ({ city,isMilitary,route }) => {
         </h4>
         <ul className={s.advantages}>
           {advantages.map(advantage => (
-            <li key={advantage.id} className={clsx(s.advantage, { [s.wide]: advantage.isWide })}>
+            <li key={advantage.id} className={clsx(s.advantage)}>
               <span className="font-32-semibold orange-color">{advantage.title}</span>
               <span className="font-14-normal black-color">{advantage.description}</span>
             </li>

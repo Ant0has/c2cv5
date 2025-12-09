@@ -60,19 +60,6 @@ const PriceContent: FC<IProps> = ({ type, isMilitary }) => {
       additionalServices?: CollapseProps["items"];
     };
   } = {
-    [Prices.STANDARD]: {
-      title: "Тариф Стандарт",
-      options: standardOptions,
-      carsImages: [standard1],
-      additionalServices: [
-        {
-          key: "1",
-          label: "Дополнительные услуги",
-          children: <AdditionalServices services={additionalServices} />,
-        },
-      ],
-    },
-
     [Prices.COMFORT]: {
       title: "Тариф Комфорт",
       options: comfortOptions,
