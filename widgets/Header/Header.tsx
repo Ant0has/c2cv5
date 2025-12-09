@@ -1,7 +1,7 @@
 import LogoIcon from '@/public/icons/LogoIcon';
 import TelegramIcon from '@/public/icons/TelegramIcon';
 import WhatsUpIcon from '@/public/icons/WhatsUpIcon';
-import { TELEGRAM_LINK, WHATS_UP_LINK } from '@/shared/constants';
+import { MAX_LINK, TELEGRAM_LINK, WHATS_UP_LINK } from '@/shared/constants';
 import { ButtonTypes } from '@/shared/types/enums';
 import clsx from 'clsx';
 import Link from 'next/link';
@@ -11,6 +11,7 @@ import HeaderAdress from './ui/HeaderAdress';
 import HeaderPhones from './ui/HeaderPhones';
 import s from './Header.module.scss';
 import { Suspense } from 'react';
+import MaxIcon from '@/public/icons/MaxIcon';
 
 const Header = () => {
   return (
@@ -50,6 +51,12 @@ const Header = () => {
               text='Написать'
               link={WHATS_UP_LINK}
               icon={<WhatsUpIcon />}
+            />
+            <Button
+              type={ButtonTypes.LINK}
+              text='Написать'
+              link={MAX_LINK}
+              icon={<MaxIcon />}
             />
           </div>
           <HeaderAdress />
