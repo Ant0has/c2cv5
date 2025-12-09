@@ -60,11 +60,6 @@ const Calculator: FC<IProps> = () => {
 
   const plans = [
     {
-      key: Prices.STANDARD,
-      label: planLabel[Prices.STANDARD],
-      coefficient: planCoefficient[Prices.STANDARD],
-    },
-    {
       key: Prices.COMFORT,
       label: planLabel[Prices.COMFORT],
       coefficient: planCoefficient[Prices.COMFORT],
@@ -155,7 +150,6 @@ const Calculator: FC<IProps> = () => {
               
               if (activeRoute) {
                 const distance = activeRoute.properties.get("distance");
-                const time = activeRoute.properties.get("duration");
                 
                 if (distance?.value) {
                   const distanceValue = Math.ceil(distance.value / 1000);
