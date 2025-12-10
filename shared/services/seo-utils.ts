@@ -1,11 +1,5 @@
-// ============================================================================
-// SEO & CONTENT UTILITIES
-// City2City | Шаг 3 SEO-оптимизации
-// ============================================================================
 
 import { IRouteData } from "../types/route.interface";
-
-// === КОНФИГУРАЦИЯ ===
 export const CONFIG = {
   LAUNCH_DATE: new Date('2024-01-01'),
   SPEED_KMH: 70,
@@ -13,7 +7,6 @@ export const CONFIG = {
 };
 
 
-// === 1. СТАБИЛЬНЫЙ ХЭШ ===
 export function stableHash(str: string): number {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
@@ -24,7 +17,6 @@ export function stableHash(str: string): number {
   return Math.abs(hash % 1000);
 }
 
-// === 2. КОЛИЧЕСТВО ПОЕЗДОК ===
 export function calcTripsCount(url: string, isWhitelist: boolean): number {
   const now = new Date();
   const weeksSinceLaunch = Math.floor(
@@ -43,7 +35,6 @@ export function calcTripsCount(url: string, isWhitelist: boolean): number {
   return baseTrips + weeklyGrowth * weeksSinceLaunch;
 }
 
-// === 3. ФОРМАТИРОВАНИЕ ===
 
 export function formatPrice(price: number): string {
   return price.toLocaleString('ru-RU');
@@ -60,7 +51,6 @@ export function roundUpTo5(km: number): number {
   return Math.ceil(km / 5) * 5;
 }
 
-// === Расчёты ===
 export function calcDuration(distanceKm: number): number {
   const hours = distanceKm / CONFIG.SPEED_KMH;
   return Math.max(1, Math.round(hours * 2) / 2);
@@ -75,8 +65,6 @@ export function calcPriceComfort(distanceKm: number): number {
   const value = Math.max(4000, distanceKm * 18);
   return Math.round(value / 100) * 100;
 }
-
-// === 4. SCHEMA.ORG ===
 
 export function generateSchemaOrg(route: IRouteData) {
   return {
@@ -121,5 +109,100 @@ export function generateFAQSchema(route: IRouteData) {
         acceptedAnswer: { "@type": "Answer", text: route.faq3_a }
       }
     ]
+  };
+}
+
+export function generateOrganizationSchemaOrg() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "City2City",
+    "alternateName": "Сити2Сити",
+    "url": "https://city2city.ru",
+    "logo": "https://city2city.ru/logo.png",
+    "description": "Служба заказа междугороднего такси по России. Комфортные трансферы между городами, фиксированные цены, профессиональные водители.",
+    "telephone": "+7-938-156-87-57",
+    "email": "zakaz@city2city.ru",
+    "foundingDate": "2020",
+    "areaServed": {
+      "@type": "Country",
+      "name": "Россия"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+7-938-156-87-57",
+      "contactType": "customer service",
+      "availableLanguage": "Russian",
+      "hoursAvailable": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        "opens": "08:00",
+        "closes": "23:00"
+      }
+    },
+    "sameAs": [
+      "https://t.me/taxi_city2city",
+      "https://wa.me/79381568757"
+    ]
+  };
+}
+
+export function generateBreadcrumbSchemaOrg() {
+  const items = [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Контакты",
+      "item": "https://city2city.ru/contacts"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Публичная Оферта для Юридических Лиц",
+      "item": "https://city2city.ru/oferta"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Работа команды",
+      "item": "https://city2city.ru/team"
+    }
+  ];
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": items
+  };
+}
+
+export function generateHubSchemaOrg(city: string, region: string) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": `City2City — Междугороднее такси ${city}`,
+    "description": `Служба заказа междугороднего такси в ${city}. Трансферы по ${region || 'России'}. Комфортные автомобили, фиксированные цены.`,
+    "telephone": "+7-938-156-87-57",
+    "email": "zakaz@city2city.ru",
+    "url": "https://city2city.ru",
+    "priceRange": "₽₽",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": city,
+      "addressCountry": "RU"
+    },
+    "geo": {
+      "@type": "GeoCoordinates"
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "opens": "08:00",
+      "closes": "23:00"
+    },
+    "areaServed": {
+      "@type": "Place",
+      "name": region || city
+    }
   };
 }

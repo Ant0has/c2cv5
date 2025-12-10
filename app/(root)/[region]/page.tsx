@@ -5,10 +5,10 @@ import { Metadata } from "next";
 import { excludesPages } from "@/shared/data/excludes-page";
 import Script from "next/script";
 
-// Импорт функций из твоего utils файла
 import {
   generateSchemaOrg,
   generateFAQSchema,
+  generateHubSchemaOrg,
 } from "@/shared/services/seo-utils";
 
 interface Props {
@@ -100,28 +100,28 @@ export default async function RegionPage({ params }: Props) {
   if (!data) {
     notFound();
   }
-
-  // ------------ schema generation -----------
-
-  // Получаем города (если нужно — можешь заменить логикой из своей базы)
-  const [cityFrom, cityTo] = data.city_data
-    ? data.city_data.split(",")
-    : ["", ""];
-
+  
   const taxiSchema = generateSchemaOrg(data);
 
   const faqSchema = generateFAQSchema(data);
 
+  const hubSchema = generateHubSchemaOrg(data.city_from || '', data.city_to || '');
+
+  const getValidSchema = () => {
+    if(data?.region_id === data?.regions_data?.ID) {
+      return hubSchema;
+    }
+    return taxiSchema;
+  }
+
   return (
     <>
-      {/* TaxiService JSON-LD */}
       <Script
         id="schema-taxi-service"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(taxiSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(getValidSchema()) }}
       />
 
-      {/* FAQ JSON-LD */}
       <Script
         id="schema-faq"
         type="application/ld+json"

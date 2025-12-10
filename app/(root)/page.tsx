@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import { Home } from './Home'
+import { generateOrganizationSchemaOrg } from '@/shared/services/seo-utils'
+import Script from 'next/script'
 
 export const metadata: Metadata = {
   manifest: "/manifest.json",
@@ -30,5 +32,15 @@ export const metadata: Metadata = {
 export const revalidate = 60
 
 export default function Page() {
-  return <Home />
+  return (
+    <>
+    {/* Main Page Schema.org */}
+    <Script
+        id="schema-main-page"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(generateOrganizationSchemaOrg()) }}
+      />
+    <Home />
+    </>
+  )
 }
