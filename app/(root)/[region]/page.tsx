@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     : `https://city2city.ru/${data?.url}.html`;
 
   const title = data?.seo_title
-    ? `Такси ${data?.seo_title} - междугородние перевозки | City2City`
+    ? `${data?.seo_title}`
     : `Такси ${data?.title} - междугородние перевозки | City2City`;
 
   let description =

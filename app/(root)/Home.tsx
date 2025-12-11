@@ -124,12 +124,16 @@ export function Home({ routeData }: Props) {
 			)}
 
 
-
-			<Suspense>
-				<RouteDescriptionSection
-					text={routeData?.content} title={cityTitle || 'такси межгород'}
-				/>
-			</Suspense>
+			{
+				routeData?.main_text && (
+					<Suspense>
+						<RouteDescriptionSection
+							text={routeData?.main_text}
+							title={cityTitle || 'такси межгород'}
+						/>
+					</Suspense>
+				)
+			}
 
 			<Suspense>
 				<QuestionsSection isMilitary={isMilitary} />

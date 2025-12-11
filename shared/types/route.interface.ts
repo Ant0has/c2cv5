@@ -44,6 +44,8 @@ export interface IRouteData {
     faq3_q: string | null;
     faq3_a: string | null;
     is_svo?: 0 | 1;
+
+    main_text: string | null;
 }
 
 export interface IAttraction{
