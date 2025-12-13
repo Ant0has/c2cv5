@@ -8,7 +8,8 @@ export const PHONE_NUMBER_SECOND = '88006007775'
 export const EMAIL_ADDRESS = 'zakaz@city2city.ru'
 
 export const BASE_URL = 'https://city2city.ru'
-export const BASE_URL_API = 'https://city2city.ru/api'
+// export const BASE_URL_API = 'https://city2city.ru/api'
+export const BASE_URL_API = 'http://51.250.45.81:4200/api'
 
 export const SPEED = 80
 
