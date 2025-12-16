@@ -20,6 +20,7 @@ const FooterNavigation = () => {
     { id: 3, label: 'Консультация', route: '', handleClick: () => setQuestionModalData({ status: true, blockFrom: Blocks.FOOTER }) },
     { id: 4, label: 'Наша команда', route: 'team' },
     { id: 5, label: 'Оферта для юр.лиц', route: 'oferta' },
+    { id: 6, label: 'Для бизнеса', route: 'dlya-biznesa' },
   ]), [setQuestionModalData])
 
   return (

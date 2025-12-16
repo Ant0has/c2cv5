@@ -1,0 +1,373 @@
+$orange: #f5a623;
+$dark-bg: #1a1a1a;
+$dark-card: #2a2a2a;
+$white: #ffffff;
+$gray: #999999;
+
+.page {
+  min-height: 100vh;
+  background: $dark-bg;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.hero {
+  background-image: url('/images/for-business-bg-h.jpg');
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+  background-color: #101010;
+  min-height: 90vh;
+  padding: 60px 40px;
+  display: flex;
+  align-items: center;
+}
+
+.heroContent {
+  max-width: 700px;
+
+  h1 {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+}
+
+.white {
+  color: $white;
+}
+
+.orange {
+  color: $orange;
+}
+
+.orangeText {
+  color: $orange;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: $gray;
+  margin-bottom: 32px;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+.statsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.statItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.statNumber {
+  background: $orange;
+  color: $dark-bg;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.statLabel {
+  color: $white;
+  font-size: 18px;
+}
+
+.partners {
+  margin-bottom: 24px;
+
+  p {
+    margin: 4px 0;
+    font-size: 14px;
+    text-transform: uppercase;
+  }
+}
+
+.partnerLabel {
+  color: $white;
+}
+
+.partnerText {
+  color: $white;
+  font-weight: 600;
+}
+
+.features {
+  display: flex;
+  gap: 32px;
+  margin: 24px 0;
+  flex-wrap: wrap;
+}
+
+.featureItem {
+  font-size: 14px;
+}
+
+.featureLabel {
+  color: $white;
+}
+
+.buttons {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+// Секции ниже
+.services {
+  padding: 60px 0;
+
+  h2 {
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 40px;
+    color: $orange;
+  }
+}
+
+.servicesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.serviceCard {
+  background: $dark-card;
+  padding: 32px;
+  border-radius: 12px;
+  border: 1px solid #3a3a3a;
+  transition: transform 0.2s, border-color 0.2s;
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: $orange;
+  }
+
+  h3 {
+    font-size: 22px;
+    color: $white;
+    margin-bottom: 12px;
+  }
+
+  p {
+    color: $gray;
+    line-height: 1.6;
+  }
+}
+
+.benefits {
+  padding: 60px 0;
+  background: $dark-card;
+  margin: 0 -20px;
+  padding-left: 20px;
+  padding-right: 20px;
+
+  h2 {
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 40px;
+    color: $orange;
+  }
+}
+
+.benefitsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.benefitItem {
+  text-align: center;
+  padding: 24px;
+
+  h3 {
+    font-size: 18px;
+    color: $white;
+    margin-bottom: 8px;
+  }
+
+  p {
+    color: $gray;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}
+
+.benefitIcon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.addresses {
+  padding: 60px 0;
+
+  h2 {
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 32px;
+    color: $orange;
+  }
+}
+
+.addressList {
+  list-style: none;
+  padding: 0;
+  max-width: 600px;
+  margin: 0 auto;
+
+  li {
+    background: $dark-card;
+    padding: 16px 24px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    border: 1px solid #3a3a3a;
+    color: $white;
+    position: relative;
+    padding-left: 48px;
+
+    &::before {
+      content: '📍';
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+}
+
+.cta {
+  background: linear-gradient(135deg, $dark-card 0%, #1a1a1a 100%);
+  text-align: center;
+  padding: 60px 40px;
+  border-radius: 16px;
+  margin-bottom: 60px;
+  border: 1px solid $orange;
+
+  h2 {
+    font-size: 32px;
+    margin-bottom: 16px;
+    color: $white;
+  }
+
+  p {
+    font-size: 18px;
+    color: $gray;
+    margin-bottom: 32px;
+  }
+}
+
+.seoText {
+  background: $dark-card;
+  padding: 48px;
+  border-radius: 12px;
+  margin-bottom: 0;
+  border: 1px solid #3a3a3a;
+
+  h2 {
+    font-size: 28px;
+    color: $orange;
+    margin-bottom: 24px;
+  }
+
+  p {
+    color: $gray;
+    line-height: 1.8;
+    font-size: 16px;
+    margin-bottom: 16px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .benefitsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .heroContent h1 {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 760px) {
+  .servicesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    background: $dark-bg;
+    padding: 40px 24px;
+    min-height: auto;
+  }
+
+  .heroContent h1 {
+    font-size: 28px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .features {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .buttons {
+    flex-direction: column;
+  }
+
+  .seoText {
+    padding: 32px 24px;
+
+    h2 {
+      font-size: 24px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .benefitsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .cta {
+    padding: 40px 24px;
+
+    h2 {
+      font-size: 24px;
+    }
+  }
+
+  .statNumber {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+
+  .statLabel {
+    font-size: 14px;
+  }
+}
