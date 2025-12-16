@@ -135,19 +135,17 @@ export default async function RootLayout({
             </main>
           </div>
         </Providers>
-
-        {/* Chat Widget */}
-        <Script
-          id="chat-widget"
-          strategy="lazyOnload"
-          src="https://chat.city2city.ru/widget.js"
-          data-source="city2city.ru"
-          data-brand="City2City"
-          data-color="#FFD700"
-          data-bg-color="#000"
-          data-tooltip="Не работает WhatsApp/Telegram? Пиши СЮДА!"
-        />
+        {/* <YandexMetrikaWrapper /> */}
+        {/* <YandexMetrika
+          yid={Number(process.env.NEXT_PUBLIC_YANDEX_ID)}
+          webvisor
+          clickmap
+          trackLinks
+          accurateTrackBounce
+        /> */}
       </body>
     </html>
   )
 }
+// Добавляем в конец файла - виджет чата
+// Вставить перед закрывающим тегом body в RootLayout
