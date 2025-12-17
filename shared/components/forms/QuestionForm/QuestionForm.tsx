@@ -20,7 +20,6 @@ interface IProps {
 }
 
 const QuestionForm: FC<IProps> = ({ buttonText, className, form, handleClickLink, handleClose }) => {
-  const [api, contextHolder] = notification.useNotification();
   const { orderModalData, setOrderModalData } = useContext(ModalContext)
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -37,7 +36,7 @@ const QuestionForm: FC<IProps> = ({ buttonText, className, form, handleClickLink
       delete requestBody.status
       await mailService.sendMail(requestBody);
 
-      api.success({
+      notification.success({
         message: 'Вопрос успешно отправлен',
         description: 'Мы свяжемся с вами в ближайшее время',
         placement: 'topRight',
@@ -47,7 +46,7 @@ const QuestionForm: FC<IProps> = ({ buttonText, className, form, handleClickLink
         handleClose(true);
       }
     } catch (error: unknown) {
-      api.error({
+      notification.error({
         message: 'Ошибка при отправке вопроса',
         placement: 'topRight',
       });
@@ -62,7 +61,6 @@ const QuestionForm: FC<IProps> = ({ buttonText, className, form, handleClickLink
 
   return (
     <>
-      {contextHolder}
       <Form
         form={form}
         name="questionForm"

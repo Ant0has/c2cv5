@@ -7,6 +7,7 @@ import { IRouteData } from "@/shared/types/route.interface"
 import dynamic from "next/dynamic"
 import { Suspense, useContext, useLayoutEffect } from "react"
 import { RouteContext } from "../providers"
+import { Button, notification } from "antd"
 
 interface Props {
 	routeData?: IRouteData
@@ -84,6 +85,16 @@ export function Home({ routeData }: Props) {
 			<Welcome route={routeData} isMilitary={isMilitary} handleGoToOrder={() => goToOrder()} city={cityTitle} />
 
 			<Price routeData={routeData} title={cityTitle} cityData={routeData?.city_seo_data} />
+
+			<div>
+				Test notification
+				<Button type="primary" onClick={() => notification.success({
+					message: 'Тестовое уведомление',
+					description: 'Это тестовое уведомление',
+				})}>
+					Показать уведомление
+				</Button>
+			</div>
 
 			<Suspense>
 				<OrderStepsSection isMilitary={isMilitary} />

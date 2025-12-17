@@ -4,7 +4,7 @@ import { Blocks } from "@/shared/types/enums";
 import { IRouteData } from "@/shared/types/route.interface";
 import { IMailRequest, IRegion } from "@/shared/types/types";
 import { YMaps } from "@pbe/react-yandex-maps";
-import { ConfigProvider } from "antd";
+import { ConfigProvider, notification } from "antd";
 import { Dispatch, PropsWithChildren, SetStateAction, createContext, useEffect, useState } from "react";
 import { tokens } from "../shared/styles/style-tokens";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -53,6 +53,15 @@ export function Providers({ children, regions }: ProvidersProps) {
 	})
 	const [orderModalData, setOrderModalData] = useState<IOrderModalData>({ status: false })
 	const [route, setRoute] = useState<IRouteData>({} as IRouteData)
+
+  useEffect(() => {
+    // Глобальная настройка уведомлений
+    notification.config({
+      duration: 3, 
+      placement: 'topRight',
+      maxCount: 3, 
+    });
+  }, []);
 
 	return (
 		<YMaps query={{

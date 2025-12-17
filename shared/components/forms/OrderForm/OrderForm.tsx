@@ -5,13 +5,13 @@ import { IMailRequest } from "@/shared/types/types";
 import { DatePicker, Form, FormInstance, Input, Radio, notification } from "antd";
 import ru_RU from 'antd/es/date-picker/locale/ru_RU';
 import TextArea from "antd/es/input/TextArea";
+import dayjs from "dayjs";
 import 'dayjs/locale/ru';
 import Link from "next/link";
 import { FC, useState } from "react";
 import { planLabel } from "../../../../pages-list/home/ui/Price/data";
 import Button from "../../ui/Button/Button";
 import s from './OrderForm.module.scss';
-import dayjs from "dayjs";
 
 interface IProps {
   orderModalData: IOrderModalData
@@ -21,7 +21,6 @@ interface IProps {
 }
 
 const OrderForm: FC<IProps> = ({ form, orderModalData, handleClickLink, handleClose }) => {
-  const [api, contextHolder] = notification.useNotification();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [tripType, setTripType] = useState<string>('');
@@ -56,17 +55,18 @@ const OrderForm: FC<IProps> = ({ form, orderModalData, handleClickLink, handleCl
 
       await mailService.sendMail(requestBody);
 
-      api.success({
+      notification.success({
         message: 'Заказ успешно оформлен',
         description: 'Мы свяжемся с вами в ближайшее время',
         placement: 'topRight',
+
       });
 
       if (handleClose) {
         handleClose(true);
       }
     } catch (error: unknown) {
-      api.error({
+      notification.error({
         message: 'Ошибка при оформлении заказа',
         description: 'Пожалуйста, попробуйте позже или свяжитесь с нами по телефону',
         placement: 'topRight',
@@ -82,7 +82,6 @@ const OrderForm: FC<IProps> = ({ form, orderModalData, handleClickLink, handleCl
 
   return (
     <>
-      {contextHolder}
       <Form
         form={form}
         name="orrdeForm"

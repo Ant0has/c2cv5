@@ -1,12 +1,12 @@
 'use client'
 
-import styles from './dlya-biznesa.module.scss'
-import Button from '@/shared/components/ui/Button/Button'
-import { useContext, useState } from 'react'
 import { ModalContext } from '@/app/providers'
-import { ButtonTypes, Blocks } from '@/shared/types/enums'
+import Button from '@/shared/components/ui/Button/Button'
 import { mailService } from '@/shared/services/mail.service'
+import { Blocks, ButtonTypes } from '@/shared/types/enums'
 import { Form, Input, notification } from 'antd'
+import { useContext, useState } from 'react'
+import styles from './dlya-biznesa.module.scss'
 
 // SVG Icons
 const IconCheck = () => (
@@ -133,7 +133,6 @@ export default function DlyaBiznesa() {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
   const [form] = Form.useForm()
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [api, contextHolder] = notification.useNotification()
 
   const handleOrderClick = () => {
     setQuestionModalData({ status: true, blockFrom: Blocks.WELCOME })
@@ -153,7 +152,7 @@ export default function DlyaBiznesa() {
         additional_info: 'Запрос расчёта для юрлиц'
       })
 
-      api.success({
+      notification.success({
         message: 'Заявка отправлена!',
         description: 'Мы свяжемся с вами в течение 15 минут',
         placement: 'topRight',
@@ -161,7 +160,7 @@ export default function DlyaBiznesa() {
 
       form.resetFields()
     } catch (error) {
-      api.error({
+      notification.error({
         message: 'Ошибка при отправке',
         description: 'Попробуйте позвонить нам',
         placement: 'topRight',
@@ -244,9 +243,6 @@ export default function DlyaBiznesa() {
 
   return (
     <div className={styles.page}>
-      {contextHolder}
-
-      {/* Hero Section */}
       <section className={styles.hero}>
         <div className={styles.heroContent}>
           <div className={styles.heroBadge}>Для корпоративных клиентов</div>
