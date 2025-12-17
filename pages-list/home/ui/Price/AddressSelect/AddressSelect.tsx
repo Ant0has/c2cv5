@@ -12,7 +12,7 @@ import { Map, RoutePanel, YMaps } from "@pbe/react-yandex-maps";
 import { message } from "antd";
 import clsx from "clsx";
 import Link from "next/link";
-import { FC, useContext, useEffect, useRef, useState } from "react";
+import { FC, useCallback, useContext, useEffect, useRef, useState } from "react";
 import Button from "../../../../../shared/components/ui/Button/Button";
 import SearchInput from "../../../../../shared/components/ui/SearchInput/SearchInput";
 import s from './AddressSelect.module.scss';
@@ -24,8 +24,6 @@ interface IProps {
   cityData?: string
   routeData?: IRouteData  
 }
-
-
 
 const AddressSelect: FC<IProps> = ({ selectedPlan, cityData, routeData }) => {
   const routePanelRef = useRef<any>()
@@ -39,7 +37,7 @@ const AddressSelect: FC<IProps> = ({ selectedPlan, cityData, routeData }) => {
     }
   })()
 
-  const getInitialPrice = () => {
+  const getInitialPrice = useCallback(() => {
     switch (selectedPlan) {
       case Prices.COMFORT:
         return routeData?.price_comfort || DEFAULT_PRICE
@@ -54,12 +52,11 @@ const AddressSelect: FC<IProps> = ({ selectedPlan, cityData, routeData }) => {
       default:
         return DEFAULT_PRICE
     }
-  }
+  }, [selectedPlan, routeData?.price_comfort, routeData?.price_comfort_plus, routeData?.price_business, routeData?.price_minivan, routeData?.price_delivery])
 
-  const getInitialDistance = () => {
+  const getInitialDistance = useCallback(() => {
     return routeData?.distance_km || DEFAULT_DISTANCE
-  }
-  
+  }, [routeData?.distance_km])
 
   const [departurePoint, setDeparturePoint] = useState<string>(initialPoints.departurePoint)
   const [departurePointData, setDeparturePointData] = useState<string[]>([])
@@ -75,7 +72,7 @@ const AddressSelect: FC<IProps> = ({ selectedPlan, cityData, routeData }) => {
   useEffect(() => {
     setPrice(`от ${getInitialPrice()} руб.`)
     setDistance(`от ${getInitialDistance()} км`)
-  }, [getInitialPrice, getInitialDistance, selectedPlan, routeData])
+  }, [getInitialPrice, getInitialDistance, selectedPlan, routeData?.distance_km, routeData?.price_comfort, routeData?.price_comfort_plus, routeData?.price_business, routeData?.price_minivan, routeData?.price_delivery])
 
   const handleClickSwapAddress = () => {
     setDeparturePoint(arrivalPoint)
@@ -199,6 +196,8 @@ const AddressSelect: FC<IProps> = ({ selectedPlan, cityData, routeData }) => {
       setIsLoading(false);
     }
   };
+
+  console.log(distance, time, price)
 
   const infoData = [
     {
