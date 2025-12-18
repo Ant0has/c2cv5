@@ -3,7 +3,6 @@
 import { FC } from "react";
 import { Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from "swiper/react";
-import { reviews } from "./data";
 import ReviewCard from "./ReviewCard/ReviewCard";
 
 import avatar1 from '@/public/images/avatar-1.png';
@@ -12,12 +11,15 @@ import avatar3 from '@/public/images/avatar-3.png';
 
 import 'swiper/css';
 import { HomeLayout, HomeLayoutTitle } from "@/shared/layouts/homeLayout/HomeLayout";
+import { IReview } from "@/shared/types/types";
 interface IProps {
   title?: unknown;
+  reviews: IReview[];
 }
 
-const Reviews: FC<IProps> = () => {
+const Reviews: FC<IProps> = ({ reviews }) => {
   const avatars = [avatar1, avatar2, avatar3]
+  if (!reviews.length) return null
   return (
     <>
       <HomeLayout top={<HomeLayoutTitle
@@ -43,7 +45,7 @@ const Reviews: FC<IProps> = () => {
         >
           {reviews.map(review => (
             <SwiperSlide key={review.id}>
-              <ReviewCard review={review} avatar={avatars[review.id & 2]} />
+              <ReviewCard review={review} avatar={avatars[2]} />
             </SwiperSlide>
           ))}
         </Swiper>

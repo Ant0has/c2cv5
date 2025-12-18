@@ -58,7 +58,7 @@ const AttractionsSection = dynamic(
 	{
 		loading: () => <LoadingSkeleton height="300px" />,
 		ssr: false,
-	}
+}
 )
 
 const FaqSection = dynamic(
@@ -68,6 +68,15 @@ const FaqSection = dynamic(
 		ssr: false,
 	}
 )
+
+const ReviewsSection = dynamic(
+	() => import("@/pages-list/home/ui/Reviews/Reviews").then((mod) => mod.default),
+	{
+		loading: () => <LoadingSkeleton height="300px" />,
+		ssr: false,
+	}
+)
+
 export function Home({ routeData }: Props) {
 	const { setRoute } = useContext(RouteContext)
 
@@ -122,6 +131,10 @@ export function Home({ routeData }: Props) {
 					<ForBusinessSection />
 				</Suspense>
 			)}
+
+			<Suspense>
+				<ReviewsSection reviews={routeData?.reviews?.data || []} />
+			</Suspense>
 
 
 			{

@@ -49,3 +49,22 @@ export interface IMailRequest {
 
   status?: boolean
 }
+
+export interface IReview {
+  id: number
+  route_url: string
+  username: string
+  city: string
+  rate: number
+  route_display: string
+  review_text: string
+  review_date: string
+  created_at: string
+}
+
+export interface IPagination {
+  total: number
+  limit: number
+  offset: number
+  hasMore: boolean
+}

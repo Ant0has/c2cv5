@@ -1,5 +1,5 @@
 import { formatDate } from "@/shared/services/formate-date";
-import { IReviewData } from "@/shared/types/types";
+import { IReview, IReviewData } from "@/shared/types/types";
 import { Rate } from "antd";
 import clsx from "clsx";
 import Image, { StaticImageData } from "next/image";
@@ -7,7 +7,7 @@ import { FC } from "react";
 import s from "./ReviewCard.module.scss";
 
 interface IProps {
-  review: IReviewData;
+  review: IReview;
   avatar: StaticImageData;
 }
 
@@ -35,14 +35,15 @@ const ReviewCard: FC<IProps> = ({ review, avatar }) => {
             <Rate disabled value={review.rate} />
           </div>
           <div className={clsx(s.date, "font-14-normal gray-color")}>
-            {formatDate(review.date)}
+            {/* {formatDate(review.review_date as unknown as number)} */}
+            {review.review_date}
           </div>
         </div>
       </div>
 
-      <div className={clsx(s.route, "font-18-medium")}>{review.route}</div>
+      {/* <div className={clsx(s.route, "font-18-medium")}>{review.username}</div> */}
 
-      <div className={clsx(s.review, "font-16-normal")}>{review.review}</div>
+      <div className={clsx(s.review, "font-16-normal")}>{review.review_text }</div>
     </div>
   );
 };

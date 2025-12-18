@@ -1,3 +1,5 @@
+import { IReview, IPagination } from "./types"
+
 export interface IRouteData {
     ID: number
     post_id: number
@@ -46,6 +48,11 @@ export interface IRouteData {
     is_svo?: 0 | 1;
 
     main_text: string | null;
+
+    "reviews": {
+        "data": Array<IReview> 
+        "pagination": IPagination
+    }
 }
 
 export interface IAttraction{
