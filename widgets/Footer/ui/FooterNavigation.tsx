@@ -16,15 +16,16 @@ const FooterNavigation = () => {
   const regionData = useMemo(() => getSelectedRegion(route), [route])
 
   const navList = useMemo(() => ([
-    { id: 2, label: 'Рассчитать', route: '', handleClick: goToOrder },
-    { id: 3, label: 'Консультация', route: '', handleClick: () => setQuestionModalData({ status: true, blockFrom: Blocks.FOOTER }) },
     { id: 4, label: 'О компании', route: routesConfig.getAboutRoute() },
+    { id: 7, label: 'Контакты', route: routesConfig.getContactsRoute() },
+    { id: 2, label: 'Рассчитать', route: '', handleClick: goToOrder },
     { id: 6, label: 'Для бизнеса', route: routesConfig.getForBusinessRoute() },
+    { id: 3, label: 'Консультация', route: '', handleClick: () => setQuestionModalData({ status: true, blockFrom: Blocks.FOOTER }) },
   ]), [setQuestionModalData, goToOrder])
 
   const legalInfoNavList = useMemo(() => ([
-    { id: 7, label: 'Контакты', route: routesConfig.getContactsRoute() },
-    { id: 8, label: 'Оферта для юр.лиц', route: routesConfig.getForBusinessRoute() },
+    
+    { id: 8, label: 'Оферта для юр.лиц', route: routesConfig.getOfertaRoute() },
     { id: 9, label: 'Пользовательское соглашение', route: routesConfig.getTermsRoute() },
     { id: 10, label: 'Политика конфиденциальности', route: routesConfig.getPrivacyPolicyRoute() },
     { id: 11, label: 'Условия отмены и возврата', route: routesConfig.getCancellationRoute() },

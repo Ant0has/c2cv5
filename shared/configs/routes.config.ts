@@ -5,6 +5,7 @@ class RoutesConfig {
   private readonly PRIVACY_POLICY = '/privacy-policy';
   private readonly CANCELLATION = '/cancellation';
   private readonly FOR_BUSINESS = '/dlya-biznesa';
+  private readonly OFERTA = '/oferta';
 
     public getAboutRoute(): string {
         return this.ABOUT;
@@ -28,6 +29,10 @@ class RoutesConfig {
 
     public getForBusinessRoute(): string {
         return this.FOR_BUSINESS;
+    }
+
+    public getOfertaRoute(): string {
+        return this.OFERTA;
     }
 }
 

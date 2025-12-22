@@ -1,15 +1,11 @@
 import type { Metadata } from 'next'
-import Oferta from './Oferta'
-
-
+import OfertaPage from '@/pages-list/oferta'
 
 export const metadata: Metadata = {
-  title: 'Оферта для юр.лиц'
-}
+  title: "Публичная Оферта для Юридических Лиц — City2City",
+  description: "Публичная оферта на оказание услуг трансфера для юридических лиц. Условия перевозки, права и обязанности сторон, порядок расчетов.",
+};
 
-// export const revalidate = 60
-
-
-export default async function OfertaPage() {
-  return <Oferta />
+export default async function Page() {
+  return <OfertaPage />
 }
