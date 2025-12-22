@@ -28,6 +28,10 @@
       }
     }
 
+    .addressMobile {
+      display: none;
+    }
+
     .navigationBlock {
       display: flex;
       flex-direction: column;
@@ -89,6 +93,13 @@
 
       .description>p {
         display: none;
+      }
+
+      .addressMobile {
+        display: block;
+
+        text-align: center;
+        margin-top: 24px;
       }
 
       .navigation {

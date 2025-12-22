@@ -1,19 +1,16 @@
 'use client'
 
-import { ModalContext, RouteContext } from '@/app/providers'
+import { ModalContext } from '@/app/providers'
+import { routesConfig } from '@/shared/configs/routes.config'
+import { goToOrder } from '@/shared/services/go-to-order'
+import { Blocks } from '@/shared/types/enums'
+import { IRouteData } from '@/shared/types/route.interface'
 import Link from 'next/link'
 import { useCallback, useContext, useMemo } from 'react'
 import s from '../Footer.module.scss'
-import { getSelectedRegion } from '@/shared/services/get-selected-region'
-import { goToOrder } from '@/shared/services/go-to-order'
-import { Blocks } from '@/shared/types/enums'
-import { routesConfig } from '@/shared/configs/routes.config'
 
-const FooterNavigation = () => {
-  const { route } = useContext(RouteContext)
+const FooterNavigation = ({route}: {route: IRouteData}) => {
   const { setQuestionModalData } = useContext(ModalContext)
-
-  const regionData = useMemo(() => getSelectedRegion(route), [route])
 
   const navList = useMemo(() => ([
     { id: 4, label: 'О компании', route: routesConfig.getAboutRoute() },
@@ -53,7 +50,6 @@ const FooterNavigation = () => {
         </div>
 
       </div>
-      {regionData?.address && <p className='white-color'>{regionData?.address}</p>}
     </div>
   );
 };
