@@ -117,7 +117,7 @@ export function Home({ routeData }: Props) {
 			}
 
 			<Suspense>
-				<CitiesSection routes={routeData?.routes} />
+				<CitiesSection routes={routeData?.routes} routeData={routeData} />
 			</Suspense>
 
 			{routeData && (

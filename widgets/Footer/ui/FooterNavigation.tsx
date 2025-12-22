@@ -23,11 +23,11 @@ const FooterNavigation = () => {
   ]), [setQuestionModalData, goToOrder])
 
   const legalInfoNavList = useMemo(() => ([
-    { id: 1, label: 'Контакты', route: routesConfig.getContactsRoute() },
-    { id: 1, label: 'Оферта для юр.лиц', route: routesConfig.getForBusinessRoute() },
-    { id: 2, label: 'Пользовательское соглашение', route: routesConfig.getTermsRoute() },
-    { id: 0, label: 'Политика конфиденциальности', route: routesConfig.getPrivacyPolicyRoute() },
-    { id: 3, label: 'Условия отмены и возврата', route: routesConfig.getCancellationRoute() },
+    { id: 7, label: 'Контакты', route: routesConfig.getContactsRoute() },
+    { id: 8, label: 'Оферта для юр.лиц', route: routesConfig.getForBusinessRoute() },
+    { id: 9, label: 'Пользовательское соглашение', route: routesConfig.getTermsRoute() },
+    { id: 10, label: 'Политика конфиденциальности', route: routesConfig.getPrivacyPolicyRoute() },
+    { id: 11, label: 'Условия отмены и возврата', route: routesConfig.getCancellationRoute() },
   ]), [])
 
   const showNavlist = useCallback((list: Array<{ id: number, label: string, route: string, handleClick?: () => void }>) => {
