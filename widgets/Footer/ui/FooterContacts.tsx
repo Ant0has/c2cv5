@@ -17,8 +17,8 @@ const FooterContacts = () => {
   const { route } = useContext(RouteContext)
 
   const regionData = useMemo(() => getSelectedRegion(route), [route])
-  const {markedPhone:markedPhoneFirst,phone:phoneFirst} = formatPhoneNumber(PHONE_NUMBER_FIRST)
-  const {markedPhone:markedPhoneRegion,phone:phoneRegion} = formatPhoneNumber(regionData?.phoneNumber || '')
+  const { markedPhone: markedPhoneFirst, phone: phoneFirst } = formatPhoneNumber(PHONE_NUMBER_FIRST)
+  const { markedPhone: markedPhoneRegion, phone: phoneRegion } = formatPhoneNumber(regionData?.phoneNumber || '')
 
   return (
     <div className={s.contacts}>
@@ -58,6 +58,10 @@ const FooterContacts = () => {
           className={s.roundLink}
         />
       </div>
+      <div>
+        <p className='font-16-normal white-color'>© {new Date().getFullYear()} city2city. Все права защищены  </p>
+      </div>
+
     </div>
   )
 }

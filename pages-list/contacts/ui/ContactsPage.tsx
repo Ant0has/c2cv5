@@ -1,25 +1,23 @@
-import clsx from "clsx";
-import { FC } from "react";
-import s from './contacts.module.scss'
-import Link from "next/link";
-import PhoneContactsIcon from "@/public/icons/PhoneContactsIcon";
-import { PHONE_NUMBER_FIRST, PHONE_NUMBER_SECOND, EMAIL_ADDRESS } from "@/shared/constants";
-import { formatPhoneNumber } from "@/shared/services/formate-phone-number";
-import MailContactsIcon from "@/public/icons/MailContactsIcon";
-import WalletIcon from "@/public/icons/WalletIcon";
 import CreditCardIcon from "@/public/icons/CreditCardIcon";
+import MailContactsIcon from "@/public/icons/MailContactsIcon";
 import PaperIcon from "@/public/icons/PaperIcon";
-import TeamWork from "@/shared/components/TeamWork/TeamWork";
+import PhoneContactsIcon from "@/public/icons/PhoneContactsIcon";
+import WalletIcon from "@/public/icons/WalletIcon";
 import Addresses from "@/shared/components/Addresses/Addresses";
 import Breadcrumbs from "@/shared/components/Breadcrumbs/Breadcrumbs";
+import { EMAIL_ADDRESS, PHONE_NUMBER_FIRST } from "@/shared/constants";
+import { formatPhoneNumber } from "@/shared/services/formate-phone-number";
+import clsx from "clsx";
+import { FC } from "react";
+import s from './contactsPage.module.scss';
 
 interface IProps {
-  title?:unknown
+  title?: unknown
 }
 
-const Contacts: FC<IProps> = () => {
+const ContactsPage: FC<IProps> = () => {
 
-  const {markedPhone:markedPhoneFirst,phone:phoneFirst} = formatPhoneNumber(PHONE_NUMBER_FIRST)
+  const { markedPhone: markedPhoneFirst, phone: phoneFirst } = formatPhoneNumber(PHONE_NUMBER_FIRST)
 
   return (
     <div className={clsx(s.container, "container")}>
@@ -85,8 +83,6 @@ const Contacts: FC<IProps> = () => {
 
       <div className="title title-m-32">Работа команды</div>
 
-      <TeamWork />
-
       <div className="title title-m-32">Адреса наших филиалов</div>
 
       <Addresses />
@@ -94,4 +90,4 @@ const Contacts: FC<IProps> = () => {
   )
 }
 
-export default Contacts;
+export default ContactsPage;

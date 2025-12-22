@@ -5,7 +5,7 @@ interface IProps {
   title?: unknown
 }
 
-const Oferta: FC<IProps> = () => {
+const PrivacyPolicyPage: FC<IProps> = () => {
 
   return (
     <div className={clsx("container")}>
@@ -89,4 +89,4 @@ const Oferta: FC<IProps> = () => {
   )
 }
 
-export default Oferta;
+export default PrivacyPolicyPage;

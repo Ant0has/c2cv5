@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import PrivacyPolicy from './PrivacyPolicy'
+import PrivacyPolicy from '../../../pages-list/privacy-policy/PrivacyPolicy'
 
 
 
@@ -10,6 +10,6 @@ export const metadata: Metadata = {
 // export const revalidate = 60
 
 
-export default async function OfertaPage() {
+export default async function Page() {
   return <PrivacyPolicy />
 }

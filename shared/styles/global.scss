@@ -31,6 +31,7 @@
   touch-action: manipulation;
 
 }
+
 *,
 *:before,
 *:after {
@@ -38,20 +39,24 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
+
 :focus,
 :active {
   outline: none;
 }
+
 a:focus,
 a:active {
   outline: none;
 }
+
 nav,
 footer,
 header,
 aside {
   display: block;
 }
+
 html,
 body {
   overflow-x: hidden !important;
@@ -64,21 +69,26 @@ body {
   // -moz-text-size-adjust: 100%;
   // -webkit-text-size-adjust: 100%;
 }
+
 input,
 button,
 textarea {
   font-family: "Inter", sans-serif;
 }
+
 input::-ms-clear {
   display: none;
 }
+
 button {
   cursor: pointer;
 }
+
 button::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
+
 a,
 a:visited {
   text-decoration: none;
@@ -101,12 +111,15 @@ a:active {
 ul li {
   list-style: none;
 }
+
 i {
   display: flex;
 }
+
 img {
   vertical-align: top;
 }
+
 h1,
 h2,
 h3,
@@ -118,6 +131,7 @@ address {
   font-weight: 400;
   font-style: normal;
 }
+
 textarea::placeholder,
 textarea,
 input::placeholder,
@@ -152,62 +166,61 @@ input {
 .font-14-medium {
   font-weight: 500;
   font-size: 14px;
-  letter-spacing: -0.02em;
+  line-height: 24px;
 }
 
 .font-16-normal {
   font-weight: 400;
   font-size: 16px;
-  line-height: 150%;
-  letter-spacing: -0.02em;
+  line-height: 24px;
 }
 
 .font-16-medium {
   font-weight: 500;
   font-size: 16px;
-  letter-spacing: -0.02em;
+  line-height: 24px;
 }
 
 .font-18-normal {
   font-weight: 400;
   font-size: 18px;
-  letter-spacing: -0.02em;
+  line-height: 24px;
 }
 
 .font-18-medium {
   font-weight: 500;
   font-size: 18px;
-  letter-spacing: -0.02em;
+  line-height: 24px;
 }
 
 .font-18-semibold {
   font-weight: 600;
   font-size: 18px;
-  letter-spacing: 0%;
+  line-height: 24px;
 }
 
 .font-24-medium {
   font-weight: 500;
   font-size: 24px;
-  letter-spacing: -0.02em;
+  line-height: 32px;
 }
 
 .font-32-semibold {
   font-weight: 600;
   font-size: 32px;
-  letter-spacing: -0.02em;
+  line-height: 40px;
 }
 
 .font-40-semibold {
   font-weight: 600;
   font-size: 40px;
-  letter-spacing: -0.02em;
+  line-height: 48px;
 }
 
 .font-56-medium {
   font-weight: 500;
   font-size: 56px;
-  letter-spacing: -0.02em;
+  line-height: 56px;
 }
 
 .black-color {
@@ -294,6 +307,7 @@ input {
   .container-24 {
     padding: 24px 16px;
   }
+
   .container-40 {
     padding: 40px 16px;
   }
@@ -317,6 +331,16 @@ input {
 }
 
 .title-m-32 {
+  margin-bottom: 32px;
+}
+
+.sub-title {
+  font-weight: 500;
+  font-size: 36px;
+  letter-spacing: -0.02em;
+}
+
+.sub-title-m-32 {
   margin-bottom: 32px;
 }
 
@@ -389,7 +413,7 @@ input {
   }
 }
 
-.bg-gray{
+.bg-gray {
   background: var(--light-gray);
 }
 
@@ -398,6 +422,7 @@ input {
     line-height: 150% !important;
     white-space: pre-wrap;
   }
+
   p {
     display: block;
     margin-block-start: 1em;
@@ -415,6 +440,7 @@ input {
     margin-bottom: 0.67em;
     font-weight: bold;
   }
+
   h2 {
     display: block;
     font-size: 1.5em;
@@ -422,6 +448,7 @@ input {
     margin-bottom: 0.83em;
     font-weight: bold;
   }
+
   h3 {
     display: block;
     font-size: 1.17em;
@@ -434,6 +461,7 @@ input {
   strong {
     font-weight: bold;
   }
+
   i,
   em {
     font-style: italic;
@@ -447,6 +475,7 @@ input {
     margin-bottom: 1em;
     padding-left: 40px;
   }
+
   li {
     list-style: inherit;
     display: list-item;
@@ -466,6 +495,7 @@ input {
     border-spacing: 2px;
     border-color: grey;
   }
+
   td,
   th {
     display: table-cell;
@@ -511,22 +541,27 @@ html:has(.ant-modal-mask) {
 /* Элегантный скроллбар */
 /* Для Chrome, Safari, Edge */
 *::-webkit-scrollbar {
-  width: 6px; /* Толщина вертикального скроллбара */
-  height: 6px; /* Толщина горизонтального скроллбара */
+  width: 6px;
+  /* Толщина вертикального скроллбара */
+  height: 6px;
+  /* Толщина горизонтального скроллбара */
 }
 
 *::-webkit-scrollbar-track {
-  background: transparent; /* Полностью прозрачная дорожка */
+  background: transparent;
+  /* Полностью прозрачная дорожка */
 }
 
 *::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.3); /* Цвет ползунка */
+  background: rgba(0, 0, 0, 0.3);
+  /* Цвет ползунка */
   border-radius: 3px;
   transition: all 0.3s ease;
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.5); /* Цвет при наведении */
+  background: rgba(0, 0, 0, 0.5);
+  /* Цвет при наведении */
 }
 
 /* Убираем кнопки (стрелки) скроллбара */
@@ -547,6 +582,6 @@ html:has(.ant-modal-mask) {
   }
 }
 
-.ant-input{
+.ant-input {
   background-color: transparent !important;
 }

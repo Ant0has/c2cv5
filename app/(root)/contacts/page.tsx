@@ -1,13 +1,10 @@
 import type { Metadata } from 'next'
-import Contacts from './Contacts'
+import ContactsPage from '@/pages-list/contacts'
 
 export const metadata: Metadata = {
   title: 'Контакты'
 }
 
-// export const revalidate = 60
-
-
-export default async function ContactsPage() {
-  return <Contacts />
+export default function Page() {
+  return <ContactsPage />
 }

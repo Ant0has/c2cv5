@@ -11,12 +11,11 @@
       display: grid;
       grid-template-columns: 520px auto 1fr;
       gap: 24px;
-      margin-bottom: 24px;
+      row-gap: 10px;
     }
 
     .bottom {
       display: flex;
-      justify-content: space-between;
     }
 
     .description {
@@ -98,10 +97,20 @@
         .navigationColumn {
           align-items: center;
           text-align: center;
+          margin-top: 24px;
+
+          &:first-child {
+            margin-top: 0;
+          }
 
           &:last-child {
-            margin-top: 24px;
+            padding: 10px;
+            background-color: #464040;
+            color: #000;
+            border-radius: 10px;
           }
+
+            
         }
       }
 
