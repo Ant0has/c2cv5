@@ -20,7 +20,7 @@ const Footer = () => {
         </div>
         <div className={s.bottom}>
           <p className='font-16-normal white-color'>© {currentYear} city2city. Все права защищены  </p>
-          <div className='font-16-normal white-color'>Политика конфиденциальности</div>
+          {/* <div className='font-16-normal white-color'>Политика конфиденциальности</div> */}
         </div>
       </div>
     </footer>
