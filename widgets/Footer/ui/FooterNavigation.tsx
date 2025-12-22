@@ -16,10 +16,9 @@ const FooterNavigation = () => {
   const regionData = useMemo(() => getSelectedRegion(route), [route])
 
   const navList = useMemo(() => ([
-    // { id: 0, label: 'О компании', route: '/about' },
     { id: 2, label: 'Рассчитать', route: '', handleClick: goToOrder },
     { id: 3, label: 'Консультация', route: '', handleClick: () => setQuestionModalData({ status: true, blockFrom: Blocks.FOOTER }) },
-    { id: 4, label: 'Наша команда', route: routesConfig.getAboutRoute() },
+    { id: 4, label: 'О компании', route: routesConfig.getAboutRoute() },
     { id: 6, label: 'Для бизнеса', route: routesConfig.getForBusinessRoute() },
   ]), [setQuestionModalData, goToOrder])
 
