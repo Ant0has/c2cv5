@@ -14,9 +14,6 @@ const nextConfig = {
     optimizePackageImports: ['heavy-package'],
   },
 
-  // Добавьте форматы для автоматической конвертации PNG в современные форматы
-  formats: ['image/webp', 'image/avif'],
-
   compiler: {
     removeConsole: process.env.NEXT_PUBLIC_STAGE === 'production',
   },
