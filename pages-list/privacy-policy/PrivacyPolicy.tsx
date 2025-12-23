@@ -1,3 +1,4 @@
+import { requisitsData } from "@/shared/data/requisits.data";
 import TextPageLayout from "@/shared/layouts/text-page-layout/TextPageLayout";
 import { FC } from "react";
 
@@ -8,7 +9,7 @@ interface IProps {
 const PrivacyPolicyPage: FC<IProps> = () => {
   return (
     <TextPageLayout title="Политика конфиденциальности">
-      <article className="default-tag">
+      <>
         <p className="font-16-normal">
           <strong>Дата последнего обновления: 19 декабря 2025 г.</strong>
         </p>
@@ -23,11 +24,11 @@ const PrivacyPolicyPage: FC<IProps> = () => {
         <h2>1. Оператор персональных данных</h2>
         <p>Оператором персональных данных является:</p>
         <ul>
-          <li><strong>ИП Фурсенко Катерина Валерьевна</strong></li>
-          <li><strong>ИНН:</strong> 616606322786</li>
-          <li><strong>ОГРНИП:</strong> 318619600202822</li>
-          <li><strong>Контактный email:</strong> zakaz@city2city.ru</li>
-          <li><strong>Телефон:</strong> +7 (938) 156-87-57</li>
+          <li><strong>{requisitsData.NAME}</strong></li>
+          <li><strong>ИНН:</strong> {requisitsData.INN}</li>
+          <li><strong>ОГРНИП:</strong> {requisitsData.OGRNIP}</li>
+          <li><strong>Контактный email:</strong> {requisitsData.EMAIL}</li>
+          <li><strong>Телефон:</strong> {requisitsData.PHONE_MARKED}</li>
         </ul>
         <p>Юридический адрес для вашего региона указан на соответствующей региональной странице сайта.</p>
 
@@ -113,7 +114,7 @@ const PrivacyPolicyPage: FC<IProps> = () => {
           <li>Подать жалобу в Роскомнадзор</li>
         </ul>
         <p>
-          Для реализации своих прав направьте запрос на email: zakaz@city2city.ru
+          Для реализации своих прав направьте запрос на email: {requisitsData.EMAIL}
           с пометкой «Персональные данные». Мы ответим в течение 30 дней.
         </p>
 
@@ -139,11 +140,11 @@ const PrivacyPolicyPage: FC<IProps> = () => {
         <h2>10. Контакты</h2>
         <p>По вопросам обработки персональных данных обращайтесь:</p>
         <ul>
-          <li><strong>Email:</strong> zakaz@city2city.ru</li>
-          <li><strong>Телефон:</strong> +7 (938) 156-87-57</li>
+          <li><strong>Email:</strong> {requisitsData.EMAIL}</li>
+          <li><strong>Телефон:</strong> {requisitsData.PHONE_MARKED}</li>
         </ul>
         <p>Юридический адрес для вашего региона указан на соответствующей региональной странице сайта.</p>
-      </article>
+      </>
     </TextPageLayout>
   );
 };

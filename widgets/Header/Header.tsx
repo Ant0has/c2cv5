@@ -1,7 +1,6 @@
 import LogoIcon from '@/public/icons/LogoIcon';
 import TelegramIcon from '@/public/icons/TelegramIcon';
 import WhatsUpIcon from '@/public/icons/WhatsUpIcon';
-import { MAX_LINK, TELEGRAM_LINK, WHATS_UP_LINK } from '@/shared/constants';
 import { ButtonTypes } from '@/shared/types/enums';
 import clsx from 'clsx';
 import Link from 'next/link';
@@ -12,6 +11,7 @@ import HeaderPhones from './ui/HeaderPhones';
 import s from './Header.module.scss';
 import { Suspense } from 'react';
 import MaxIcon from '@/public/icons/MaxIcon';
+import { requisitsData } from '@/shared/data/requisits.data';
 
 const Header = () => {
   return (
@@ -43,19 +43,19 @@ const Header = () => {
             <Button
               type={ButtonTypes.LINK}
               text='Написать'
-              link={TELEGRAM_LINK}
+              link={`https://t.me/${requisitsData.TELEGRAM_NICKNAME}`}
               icon={<TelegramIcon />}
             />
             <Button
               type={ButtonTypes.LINK}
               text='Написать'
-              link={WHATS_UP_LINK}
+              link={`https://wa.me/${requisitsData.WHATSAPP_NICKNAME}`}
               icon={<WhatsUpIcon />}
             />
             <Button
               type={ButtonTypes.LINK}
               text='Написать'
-              link={MAX_LINK}
+              link={`https://max.ru/${requisitsData.MAX_NICKNAME}`}
               icon={<MaxIcon />}
             />
           </div>

@@ -1,0 +1,15 @@
+.requisitesGrid {
+    display: flex;
+    justify-content: space-between;
+    gap: 32px;
+    margin-bottom: 16px;
+
+    
+  }
+
+  @media (max-width: 768px) {
+    .requisitesGrid {
+        flex-direction: column;
+        gap: 16px;
+      }
+  }

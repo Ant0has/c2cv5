@@ -14,6 +14,8 @@ import Breadcrumbs from '@/shared/components/Breadcrumbs/Breadcrumbs';
 import AroundClockIcon from '@/public/icons/AroundClockIcon';
 import DriverIcon from '@/public/icons/DriverIcon';
 import CleanAutoIcon from '@/public/icons/CleanAutoIcon';
+import { requisitsData } from '@/shared/data/requisits.data';
+import Requisits from '@/shared/components/requisits/Requisits';
 
 interface IProps {
     title?: unknown;
@@ -22,16 +24,12 @@ interface IProps {
 const AboutPage: FC<IProps> = () => {
     return (
         <div className={clsx(s.container, 'container')}>
-            <Breadcrumbs /> {/* Добавьте Breadcrumbs, если они есть в проекте */}
-
-            {/* H1: О компании City2City */}
-            <h1 className={clsx(s.mainTitle, 'title title-m-32')}>О компании City2City</h1>
-
-            {/* Блок: Вводный текст */}
+            <Breadcrumbs />
+            <h1 className={clsx(s.mainTitle, 'title title-m-32')}>О компании {requisitsData.BRAND_NAME}</h1>
             <div className={s.sections}>
                 <section className={clsx(s.intro, 'content-block')}>
                     <p className="font-18-normal">
-                        <span className="font-18-semibold">City2City</span> — это профессиональный сервис заказа междугороднего такси по России. Мы обеспечиваем комфортные и безопасные поездки на большие расстояния, работая как с частными клиентами, так и с корпоративными заказчиками.
+                        <span className="font-18-semibold">{requisitsData.BRAND_NAME}</span> — это профессиональный сервис заказа междугороднего такси по России. Мы обеспечиваем комфортные и безопасные поездки на большие расстояния, работая как с частными клиентами, так и с корпоративными заказчиками.
                     </p>
                     <p className="font-18-normal">
                         Наша география работы охватывает множество городов и регионов страны. Мы специализируемся на трансферах между городами, поездках в аэропорты и на вокзалы, а также на поддержке мероприятий.
@@ -40,8 +38,6 @@ const AboutPage: FC<IProps> = () => {
                         Главный принцип нашей работы — это надежность. Мы ценим время и комфорт наших пассажиров, поэтому предлагаем фиксированные цены, профессиональных водителей и современный автопарк.
                     </p>
                 </section>
-
-                {/* Блок: Статистика компании */}
                 <section className={clsx(s.stats, 'content-block')}>
                     <h2 className="sub-title sub-title-m-32">Статистика компании</h2>
                     <div className={s.statsGrid}>
@@ -72,9 +68,9 @@ const AboutPage: FC<IProps> = () => {
                 <section className={clsx(s.history, 'content-block')}>
                     <h2 className="sub-title sub-title-m-32">Наша история</h2>
                     <div className="font-18-normal">
-                        <p className="font-18-normal">Компания City2City была основана в 2018 году с целью сделать междугородние поездки на такси простыми, предсказуемыми и комфортными. Начиная с нескольких автомобилей, мы быстро росли благодаря доверию клиентов и качеству сервиса.</p>
+                        <p className="font-18-normal">Компания {requisitsData.BRAND_NAME} была основана в 2018 году с целью сделать междугородние поездки на такси простыми, предсказуемыми и комфортными. Начиная с нескольких автомобилей, мы быстро росли благодаря доверию клиентов и качеству сервиса.</p>
                         <p className="font-18-normal">Ключевыми вехами нашего развития стали: расширение автопарка в 2020 году, запуск корпоративного обслуживания в 2021 году и внедрение системы электронного документооборота в 2022 году.</p>
-                        <p className="font-18-normal">Сегодня City2City — это слаженная команда профессионалов, которая продолжает развиваться, внедрять новые технологии и улучшать сервис для наших пассажиров.</p>
+                        <p className="font-18-normal">Сегодня {requisitsData.BRAND_NAME} — это слаженная команда профессионалов, которая продолжает развиваться, внедрять новые технологии и улучшать сервис для наших пассажиров.</p>
                     </div>
                 </section>
 
@@ -133,34 +129,11 @@ const AboutPage: FC<IProps> = () => {
                     </div>
                 </section>
 
-                {/* H2: Работа команды */}
                 <section className="content-block">
                     <h2 className="sub-title sub-title-m-32">Работа команды</h2>
                     <TeamWork />
                 </section>
-
-                {/* H2: Реквизиты */}
-                <section className={clsx(s.requisites, 'content-block')}>
-                    <h2 className="sub-title sub-title-m-32">Реквизиты</h2>
-                    <div className={s.requisitesGrid}>
-                        <div className={s.left}>
-                            <p className="font-18-normal"><strong>ИП Фурсенко Катерина Валерьевна</strong></p>
-                            <p className="font-16-normal">ИНН: 616606322786</p>
-                            <p className="font-16-normal">ОГРНИП: 318619600202822</p>
-                        </div>
-                        <div className={s.right}>
-                            <div className={s.contact}>
-                                <a href="tel:+79381568757" className='font-24-medium'>+7 (938) 156-87-57</a>
-                            </div>
-                            <div className={s.contact}>
-                                <a href="mailto:zakaz@city2city.ru" className='font-24-medium'>zakaz@city2city.ru</a>
-                            </div>
-                        </div>
-                    </div>
-                    {/* <p className={clsx(s.note, 'font-14-normal', 'gray-color', 'italic')}>
-                        Юридический адрес для вашего региона указан на соответствующей региональной странице сайта.
-                    </p> */}
-                </section>
+                <Requisits />
             </div>
         </div>
     );

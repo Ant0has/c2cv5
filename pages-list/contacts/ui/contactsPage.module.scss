@@ -1,3 +1,4 @@
+
 .contacts {
   display: flex;
   justify-content: space-between;
@@ -18,9 +19,9 @@
 }
 
 .payment {
-  display: flex;
-  justify-content: space-between;
-  gap: 32px;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 24px;
 
   .right {
     justify-content: flex-end;

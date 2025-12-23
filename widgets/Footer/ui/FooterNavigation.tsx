@@ -8,6 +8,7 @@ import { IRouteData } from '@/shared/types/route.interface'
 import Link from 'next/link'
 import { useCallback, useContext, useMemo } from 'react'
 import s from '../Footer.module.scss'
+import { requisitsData } from '@/shared/data/requisits.data'
 
 const FooterNavigation = ({route}: {route: IRouteData}) => {
   const { setQuestionModalData } = useContext(ModalContext)
@@ -21,7 +22,6 @@ const FooterNavigation = ({route}: {route: IRouteData}) => {
   ]), [setQuestionModalData, goToOrder])
 
   const legalInfoNavList = useMemo(() => ([
-    
     { id: 8, label: 'Оферта для юр.лиц', route: routesConfig.getOfertaRoute() },
     { id: 9, label: 'Пользовательское соглашение', route: routesConfig.getTermsRoute() },
     { id: 10, label: 'Политика конфиденциальности', route: routesConfig.getPrivacyPolicyRoute() },
@@ -44,9 +44,9 @@ const FooterNavigation = ({route}: {route: IRouteData}) => {
         <div className={s.navigationColumn}>{showNavlist(navList)}</div>
         <div className={s.navigationColumn}>{showNavlist(legalInfoNavList)}</div>
         <div className={s.navigationColumn}>
-          <p className='white-color font-18-medium'>ИП Фурсенко К.В.</p>
-          <p className='white-color font-18-normal'>ИНН 616606322786</p>
-          <p className='white-color font-18-normal'>ОГРНИП 318619600202822</p>
+          <p className='white-color font-18-medium'>{requisitsData.NAME}</p>
+          <p className='white-color font-18-normal'>ИНН {requisitsData.INN}</p>
+          <p className='white-color font-18-normal'>ОГРНИП {requisitsData.OGRNIP}</p>
         </div>
 
       </div>

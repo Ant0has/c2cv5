@@ -11,6 +11,8 @@ import '@/shared/styles/ant-design-styles.css';
 import '@/shared/styles/global.scss';
 import '@/shared/styles/style.scss';
 import Script from 'next/script';
+import { BASE_URL } from '@/shared/constants';
+import { requisitsData } from '@/shared/data/requisits.data';
 
 export const metadata: Metadata = {
   title: {
@@ -30,7 +32,7 @@ export const metadata: Metadata = {
     ]
   },
   alternates: {
-    canonical: 'https://city2city.ru/',
+    canonical: BASE_URL,
   },
   robots: {
     index: true,
@@ -39,7 +41,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: SITE_NAME,
     description: SITE_DESCRIPTION,
-    url: 'https://city2city.ru/',
+    url: BASE_URL,
     type: 'website',
   },
   twitter: {
@@ -50,16 +52,16 @@ export const metadata: Metadata = {
   verification: {
     yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION || '',
   },
-  keywords: 'междугороднее такси, заказ такси межгород, такси по России, такси между городами, City2City',
-  authors: [{ name: 'City2City', url: 'https://city2city.ru/' }],
-  creator: 'City2City',
-  publisher: 'City2City',
+  keywords: `междугороднее такси, заказ такси межгород, такси по России, такси между городами, ${requisitsData.BRAND_NAME}`,
+  authors: [{ name: requisitsData.BRAND_NAME, url: BASE_URL }],
+  creator: requisitsData.BRAND_NAME,
+  publisher: requisitsData.BRAND_NAME,
   category: 'travel',
-  applicationName: 'City2City',
+  applicationName: requisitsData.BRAND_NAME,
   formatDetection: {
     email: false,
   },
-  metadataBase: new URL('https://city2city.ru/'),
+  metadataBase: new URL(BASE_URL),
   appleWebApp: {
     title: SITE_NAME,
     statusBarStyle: 'black-translucent',
@@ -140,9 +142,9 @@ export default async function RootLayout({
         <Script
           id="chat-widget"
           strategy="lazyOnload"
-          src="https://chat.city2city.ru/widget.js"
-          data-source="city2city.ru"
-          data-brand="City2City"
+          src={`${BASE_URL}/widget.js`}
+          data-source={BASE_URL.replace('https://', '')}
+          data-brand={requisitsData.BRAND_NAME}
           data-color="#FFD700"
           data-bg-color="#000"
           data-tooltip="Не работает WhatsApp/Telegram? Пиши СЮДА!"

@@ -1,0 +1,17 @@
+export const requisitsData = {
+    BRAND_NAME: 'City2City',
+    INN: '616606322786',
+    OGRNIP: '318619600202822',
+    ADDRESS: 'Москва, 3-я Парковая 41а, офис 430',
+    PHONE_MARKED: '+7 (938) 156-87-57',
+    PHONE_MARKED_SECOND: '+7 (800) 600-77-75',
+    PHONE: '+79381568757',
+    PHONE_SECOND: '+78006007775',
+    EMAIL: 'zakaz@city2city.ru',
+    NAME: 'ИП Фурсенко К.В.',
+    FULL_NAME: 'ИП Фурсенко Катерина Валерьевна',
+    WORK_TIME: '8:00–23:00 МСК, без выходных',
+    TELEGRAM_NICKNAME: 'taxi_city2city',
+    WHATSAPP_NICKNAME: '79381568757',
+    MAX_NICKNAME: 'id616606322786_bot',
+}

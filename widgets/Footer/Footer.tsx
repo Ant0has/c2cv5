@@ -8,6 +8,7 @@ import FooterContacts from './ui/FooterContacts';
 import FooterNavigation from './ui/FooterNavigation';
 import { useContext, useMemo } from 'react';
 import { RouteContext } from '@/app/providers';
+import { BASE_URL } from '@/shared/constants';
 
 const Footer = () => {
   const { route } = useContext(RouteContext)
@@ -18,14 +19,10 @@ const Footer = () => {
         <div className={s.top}>
           <div className={s.description}>
             <LogoLightIcon />
-            <p className='font-16-normal white-color'>Добро пожаловать на страницу City2City.ru - ведущего сервиса заказа междугороднего такси! Если вам требуется надежный и комфортабельный транспорт от аэропорта</p>
+            <p className='font-16-normal white-color'>Добро пожаловать на страницу {BASE_URL.replace('https://', '')} - ведущего сервиса заказа междугороднего такси! Если вам требуется надежный и комфортабельный транспорт от аэропорта</p>
             {regionData?.address && <p className='white-color text-left align-left'>{regionData?.address}</p>}
           </div>
-
-
-
           <FooterNavigation route={route as IRouteData} />
-
           {
             regionData?.address && (
               <div className={s.addressMobile}>

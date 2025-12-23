@@ -1,9 +1,12 @@
 
 import { IRouteData } from "../types/route.interface";
+import { requisitsData } from "../data/requisits.data";
+import { BASE_URL } from "../constants";
+
 export const CONFIG = {
   LAUNCH_DATE: new Date('2024-01-01'),
   SPEED_KMH: 70,
-  PHONE: '+7 (938) 156-87-57',
+  PHONE: requisitsData.PHONE_MARKED,
 };
 
 
@@ -70,14 +73,14 @@ export function generateSchemaOrg(route: IRouteData) {
   return {
     "@context": "https://schema.org",
     "@type": "TaxiService",
-    name: `Такси ${route.city_from} — ${route.city_to} | City2City`,
+    name: `Такси ${route.city_from} — ${route.city_to} | ${requisitsData.BRAND_NAME}`,
     description: `Междугороднее такси ${route.city_from} — ${route.city_to}, ${route.distance_km} км`,
     areaServed: `${route.city_from} — ${route.city_to}`,
     provider: {
       "@type": "Organization",
-      name: "City2City",
+      name: requisitsData.BRAND_NAME,
       telephone: CONFIG.PHONE,
-      url: "https://city2city.ru"
+      url: BASE_URL
     },
     offers: {
       "@type": "Offer",
@@ -116,13 +119,13 @@ export function generateOrganizationSchemaOrg() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "City2City",
+    "name": requisitsData.BRAND_NAME,
     "alternateName": "Сити2Сити",
-    "url": "https://city2city.ru",
-    "logo": "https://city2city.ru/logo.png",
+    "url": BASE_URL,
+    "logo": `${BASE_URL}/logo.png`,
     "description": "Служба заказа междугороднего такси по России. Комфортные трансферы между городами, фиксированные цены, профессиональные водители.",
-    "telephone": "+7-938-156-87-57",
-    "email": "zakaz@city2city.ru",
+    "telephone": requisitsData.PHONE_MARKED,
+    "email": requisitsData.EMAIL,
     "foundingDate": "2020",
     "areaServed": {
       "@type": "Country",
@@ -130,7 +133,7 @@ export function generateOrganizationSchemaOrg() {
     },
     "contactPoint": {
       "@type": "ContactPoint",
-      "telephone": "+7-938-156-87-57",
+      "telephone": requisitsData.PHONE_MARKED,
       "contactType": "customer service",
       "availableLanguage": "Russian",
       "hoursAvailable": {
@@ -141,8 +144,8 @@ export function generateOrganizationSchemaOrg() {
       }
     },
     "sameAs": [
-      "https://t.me/taxi_city2city",
-      "https://wa.me/79381568757"
+      `https://t.me/${requisitsData.TELEGRAM_NICKNAME}`,
+      `https://wa.me/${requisitsData.WHATSAPP_NICKNAME}`
     ]
   };
 }
@@ -153,19 +156,19 @@ export function generateBreadcrumbSchemaOrg() {
       "@type": "ListItem",
       "position": 1,
       "name": "Контакты",
-      "item": "https://city2city.ru/contacts"
+      "item": `${BASE_URL}/contacts`
     },
     {
       "@type": "ListItem",
       "position": 2,
       "name": "Публичная Оферта для Юридических Лиц",
-      "item": "https://city2city.ru/oferta"
+      "item": `${BASE_URL}/oferta`
     },
     {
       "@type": "ListItem",
       "position": 3,
       "name": "Работа команды",
-      "item": "https://city2city.ru/team"
+      "item": `${BASE_URL}/team`
     }
   ];
 
@@ -180,11 +183,11 @@ export function generateHubSchemaOrg(city: string, region: string) {
   return {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "name": `City2City — Междугороднее такси ${city}`,
+    "name": `${requisitsData.BRAND_NAME} — Междугороднее такси ${city}`,
     "description": `Служба заказа междугороднего такси в ${city}. Трансферы по ${region || 'России'}. Комфортные автомобили, фиксированные цены.`,
-    "telephone": "+7-938-156-87-57",
-    "email": "zakaz@city2city.ru",
-    "url": "https://city2city.ru",
+    "telephone": requisitsData.PHONE_MARKED,
+    "email": requisitsData.EMAIL,
+    "url": BASE_URL,
     "priceRange": "₽₽",
     "address": {
       "@type": "PostalAddress",

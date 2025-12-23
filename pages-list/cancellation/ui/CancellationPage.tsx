@@ -1,9 +1,10 @@
+import { requisitsData } from "@/shared/data/requisits.data";
 import TextPageLayout from "@/shared/layouts/text-page-layout/TextPageLayout";
 
 const CancellationPage = () => {
     return (
         <TextPageLayout title="Условия отмены и возврата">
-            <article className="default-tag">
+            <>
                 <p className="font-16-normal">
                     <strong>Дата последнего обновления: 19 декабря 2025 г.</strong>
                 </p>
@@ -63,9 +64,9 @@ const CancellationPage = () => {
                 <h2>3. Как отменить заказ</h2>
                 <p>Для отмены заказа свяжитесь с нами любым удобным способом:</p>
                 <ol>
-                    <li>Позвоните по телефону: <strong>+7 (938) 156-87-57</strong></li>
+                    <li>Позвоните по телефону: <strong>{requisitsData.PHONE_MARKED}</strong></li>
                     <li>Напишите в WhatsApp или Telegram</li>
-                    <li>Отправьте email на <a href="mailto:zakaz@city2city.ru">zakaz@city2city.ru</a> с номером заказа</li>
+                    <li>Отправьте email на <a href={`mailto:${requisitsData.EMAIL}`}>{requisitsData.EMAIL}</a> с номером заказа</li>
                 </ol>
                 <p>
                     Укажите номер заказа или телефон, на который был оформлен заказ. Мы подтвердим отмену
@@ -138,7 +139,7 @@ const CancellationPage = () => {
                 <p>Претензии по качеству услуг принимаются в течение 7 календарных дней с момента поездки.</p>
 
                 <h3>7.2. Порядок подачи претензии</h3>
-                <p>Для подачи претензии направьте письмо на <a href="mailto:zakaz@city2city.ru">zakaz@city2city.ru</a> с указанием:</p>
+                <p>Для подачи претензии направьте письмо на <a href={`mailto:${requisitsData.EMAIL}`}>{requisitsData.EMAIL}</a> с указанием:</p>
                 <ul>
                     <li>Номера заказа</li>
                     <li>Даты поездки</li>
@@ -153,13 +154,13 @@ const CancellationPage = () => {
                     <h2>8. Контакты</h2>
                     <p>По вопросам отмены, изменения заказов и возврата средств:</p>
                     <ul>
-                        <li><strong>Телефон:</strong> +7 (938) 156-87-57</li>
-                        <li><strong>WhatsApp / Telegram:</strong> +7 (938) 156-87-57</li>
-                        <li><strong>Email:</strong> <a href="mailto:zakaz@city2city.ru">zakaz@city2city.ru</a></li>
+                        <li><strong>Телефон:</strong> {requisitsData.PHONE_MARKED}</li>
+                        <li><strong>WhatsApp / Telegram:</strong> {requisitsData.PHONE_MARKED}</li>
+                        <li><strong>Email:</strong> <a href={`mailto:${requisitsData.EMAIL}`}>{requisitsData.EMAIL}</a></li>
                         <li><strong>Время работы:</strong> 8:00–23:00 МСК, без выходных</li>
                     </ul>
                 </div>
-            </article>
+            </>
         </TextPageLayout>
     );
 };

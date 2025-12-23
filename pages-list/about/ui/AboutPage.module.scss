@@ -3,7 +3,6 @@
     padding-bottom: 64px;
 
   }
-
   .sections{
     display: flex;
     flex-direction: column;
@@ -76,13 +75,6 @@
     }
   }
   
-  // Реквизиты
-  .requisitesGrid {
-    display: flex;
-    justify-content: space-between;
-    gap: 32px;
-    margin-bottom: 16px;
-  }
   .note {
     margin-top: 8px;
   }
@@ -97,10 +89,7 @@
     .mainTitle {
       font-size: 36px;
     }
-    .requisitesGrid {
-      flex-direction: column;
-      gap: 16px;
-    }
+
   }
   @media (max-width: 600px) {
     .statsGrid {

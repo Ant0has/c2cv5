@@ -1,9 +1,10 @@
 import TextPageLayout from "@/shared/layouts/text-page-layout/TextPageLayout";
+import { requisitsData } from "@/shared/data/requisits.data";
 
 const OfertaPage = () => {
     return (
         <TextPageLayout title="Публичная Оферта для Юридических Лиц">
-            <article className="default-tag">
+            <>
                 <p className="font-16-normal">
                     <strong>Дата последнего обновления: 19 декабря 2025 г.</strong>
                 </p>
@@ -24,7 +25,7 @@ const OfertaPage = () => {
                         с условием передачи «Карточки Организации» для выставления счета и запрошенной для оформления
                         трансфера информации. Варианты обращения:
                         <ul>
-                            <li>Электронная почта (<a href="mailto:zakaz@city2city.ru">zakaz@city2city.ru</a>)</li>
+                            <li>Электронная почта (<a href={`mailto:${requisitsData.EMAIL}`}>{requisitsData.EMAIL}</a>)</li>
                             <li>Мессенджер WhatsApp (+7 938 156-87-57)</li>
                             <li>Мессенджер Telegram (@taxi_city2city)</li>
                         </ul>
@@ -166,17 +167,17 @@ const OfertaPage = () => {
                 <div className="contact-info">
                     <h2>4. Реквизиты Исполнителя</h2>
                     <ul>
-                        <li><strong>ИП Фурсенко Катерина Валерьевна</strong></li>
-                        <li><strong>ИНН:</strong> 616606322786</li>
-                        <li><strong>ОГРНИП:</strong> 318619600202822</li>
-                        <li><strong>Email:</strong> zakaz@city2city.ru</li>
-                        <li><strong>Телефон:</strong> +7 (938) 156-87-57</li>
+                        <li><strong>{requisitsData.NAME}</strong></li>
+                        <li><strong>ИНН:</strong> {requisitsData.INN}</li>
+                        <li><strong>ОГРНИП:</strong> {requisitsData.OGRNIP}</li>
+                        <li><strong>Email:</strong> {requisitsData.EMAIL}</li>
+                        <li><strong>Телефон:</strong> {requisitsData.PHONE_MARKED}</li>
                     </ul>
                     <p>
                         Юридический адрес для вашего региона указан на соответствующей региональной странице сайта.
                     </p>
                 </div>
-            </article>
+            </>
         </TextPageLayout>
     );
 };

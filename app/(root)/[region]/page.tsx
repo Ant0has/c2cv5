@@ -4,12 +4,14 @@ import { routeService } from "@/shared/services/route.service";
 import { Metadata } from "next";
 import { excludesPages } from "@/shared/data/excludes-page";
 import Script from "next/script";
+import { BASE_URL } from "@/shared/constants";
 
 import {
   generateSchemaOrg,
   generateFAQSchema,
   generateHubSchemaOrg,
 } from "@/shared/services/seo-utils";
+import { requisitsData } from "@/shared/data/requisits.data";
 
 interface Props {
   params: {
@@ -33,19 +35,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     notFound();
   }
 
-  const siteName = "City2City";
+  const siteName = requisitsData.BRAND_NAME;
 
   const canonicalUrl = data?.canonical_url
-    ? `https://city2city.ru/${data?.canonical_url}.html`
-    : `https://city2city.ru/${data?.url}.html`;
+    ? `${BASE_URL}/${data?.canonical_url}.html`
+    : `${BASE_URL}/${data?.url}.html`;
 
   const title = data?.seo_title
     ? `${data?.seo_title}`
-    : `Такси ${data?.title} - междугородние перевозки | City2City`;
+    : `Такси ${data?.title} - междугородние перевозки | ${requisitsData.BRAND_NAME}`;
 
   let description =
     data?.seo_description ||
-    `Заказать междугороднее такси ${data?.seo_title}. Комфортные автомобили, опытные водители, фиксированные цены. Тел: +7 (938) 156-87-57`;
+    `Заказать междугороднее такси ${data?.seo_title}. Комфортные автомобили, опытные водители, фиксированные цены. Тел: ${requisitsData.PHONE_MARKED}`;
 
   if (description.startsWith('?')) {
     description = description.substring(1).trim();
@@ -79,7 +81,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           url: "/og-image.jpg",
           width: 1200,
           height: 630,
-          alt: `Такси ${data?.seo_title} - City2City`,
+          alt: `Такси ${data?.seo_title} - ${requisitsData.BRAND_NAME}`,
         },
       ],
     },

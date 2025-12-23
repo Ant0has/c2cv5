@@ -1,6 +1,5 @@
 "use-client";
 
-import { PHONE_NUMBER_FIRST } from "@/shared/constants";
 import { formatPhoneNumber } from "@/shared/services/formate-phone-number";
 import { Blocks, ButtonTypes } from "@/shared/types/enums";
 import clsx from "clsx";
@@ -13,6 +12,7 @@ import OrderStepsContent from "./OrderStepsContent/OrderStepsContent";
 import { ModalContext } from "@/app/providers";
 import bigCarImage from "@/public/images/cars/car-big.png";
 import bigCarMilitaryImage from "@/public/images/military/cars/car-big.png";
+import { requisitsData } from "@/shared/data/requisits.data";
 
 interface IProps {
   isMilitary?: boolean;
@@ -21,7 +21,7 @@ interface IProps {
 const OrderSteps: FC<IProps> = ({ isMilitary }) => {
   const { setQuestionModalData } = useContext(ModalContext);
 
-  const {markedPhone:markedPhoneFirst,phone:phoneFirst} = formatPhoneNumber(PHONE_NUMBER_FIRST)
+  const {markedPhone:markedPhoneFirst,phone:phoneFirst} = formatPhoneNumber(requisitsData.PHONE)
 
   return (
     <div className={s.wrapper}>

@@ -3,7 +3,6 @@
 import { RouteContext } from '@/app/providers'
 import TelegramIcon from '@/public/icons/TelegramIcon'
 import WhatsUpIcon from '@/public/icons/WhatsUpIcon'
-import { EMAIL_ADDRESS, MAX_LINK, PHONE_NUMBER_FIRST, TELEGRAM_LINK, WHATS_UP_LINK } from '@/shared/constants'
 import { formatPhoneNumber } from '@/shared/services/formate-phone-number'
 import { getSelectedRegion } from '@/shared/services/get-selected-region'
 import { ButtonTypes } from '@/shared/types/enums'
@@ -12,12 +11,13 @@ import { useContext, useMemo } from 'react'
 import Button from '@/shared/components/ui/Button/Button'
 import s from '../Footer.module.scss'
 import MaxIcon from '@/public/icons/MaxIcon'
+import { requisitsData } from '@/shared/data/requisits.data'
 
 const FooterContacts = () => {
   const { route } = useContext(RouteContext)
 
   const regionData = useMemo(() => getSelectedRegion(route), [route])
-  const { markedPhone: markedPhoneFirst, phone: phoneFirst } = formatPhoneNumber(PHONE_NUMBER_FIRST)
+  const { markedPhone: markedPhoneFirst, phone: phoneFirst } = formatPhoneNumber(requisitsData.PHONE)
   const { markedPhone: markedPhoneRegion, phone: phoneRegion } = formatPhoneNumber(regionData?.phoneNumber || '')
 
   return (
@@ -34,26 +34,26 @@ const FooterContacts = () => {
         <p className={clsx(s.phoneDescription, 'font-14-normal white-color')}>8:00 - 23:00 МСК Бесплатно по России</p>
       </div>
 
-      <a href={`mailto:${EMAIL_ADDRESS}`} className='font-32-semibold white-color'>
-        {EMAIL_ADDRESS}
+      <a href={`mailto:${requisitsData.EMAIL}`} className='font-32-semibold white-color'>
+        {requisitsData.EMAIL}
       </a>
 
       <div className={clsx(s.social, 'row-flex-8')}>
         <Button
           type={ButtonTypes.LINK}
-          link={TELEGRAM_LINK}
+          link={`https://t.me/${requisitsData.TELEGRAM_NICKNAME}`}
           icon={<TelegramIcon />}
           className={s.roundLink}
         />
         <Button
           type={ButtonTypes.LINK}
-          link={WHATS_UP_LINK}
+          link={`https://wa.me/${requisitsData.WHATSAPP_NICKNAME}`}
           icon={<WhatsUpIcon />}
           className={s.roundLink}
         />
         <Button
           type={ButtonTypes.LINK}
-          link={MAX_LINK}
+          link={`https://max.ru/${requisitsData.MAX_NICKNAME}`}
           icon={<MaxIcon />}
           className={s.roundLink}
         />
