@@ -5,6 +5,7 @@ import { LoadingSkeleton } from "@/shared/components/loadingSkeleton/LoadingSkel
 import { goToOrder } from "@/shared/services/go-to-order"
 import { IRouteData } from "@/shared/types/route.interface"
 import dynamic from "next/dynamic"
+import { usePathname } from "next/navigation"
 import { Suspense, useContext, useLayoutEffect } from "react"
 import { RouteContext } from "../providers"
 
@@ -37,14 +38,6 @@ const CitiesSection = dynamic(
 	}
 )
 
-const ForBusinessSection = dynamic(
-	() => import("@/pages-list/home/ui/ForBusiness/ForBusiness").then((mod) => mod.default),
-	{
-		loading: () => <LoadingSkeleton height="300px" />,
-		ssr: false,
-	}
-)
-
 const RouteDescriptionSection = dynamic(
 	() => import("@/pages-list/home/ui/RouteDescription/RouteDescription").then((mod) => mod.default),
 	{
@@ -58,7 +51,7 @@ const AttractionsSection = dynamic(
 	{
 		loading: () => <LoadingSkeleton height="300px" />,
 		ssr: false,
-}
+	}
 )
 
 const FaqSection = dynamic(
@@ -77,8 +70,17 @@ const ReviewsSection = dynamic(
 	}
 )
 
+const YandexReviewsSection = dynamic(
+	() => import("@/shared/components/YandexReviews/YandexReviews").then((mod) => mod.default),
+	{
+		loading: () => <LoadingSkeleton height="300px" />,
+		ssr: false,
+	}
+)
+
 export function Home({ routeData }: Props) {
 	const { setRoute } = useContext(RouteContext)
+	const pathname = usePathname()
 
 	const cityTitle = (routeData?.title || '').replace(/Такси\s+/gi, '').trim()
 
@@ -126,15 +128,17 @@ export function Home({ routeData }: Props) {
 				</Suspense>
 			)}
 
-			{!isMilitary && (
-				<Suspense>
-					<ForBusinessSection />
-				</Suspense>
-			)}
-
 			<Suspense>
 				<ReviewsSection reviews={routeData?.reviews?.data || []} />
 			</Suspense>
+
+			{
+				pathname === '/' && (
+					<Suspense>
+						<YandexReviewsSection/>
+					</Suspense>
+				)
+			}
 
 
 			{

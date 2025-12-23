@@ -594,3 +594,9 @@ html:has(.ant-modal-mask) {
 .ant-input {
   background-color: transparent !important;
 }
+
+.badge__comments{
+  margin-bottom: 16px !important;
+  height: 540px !important;
+  overflow-y: scroll !important;
+}

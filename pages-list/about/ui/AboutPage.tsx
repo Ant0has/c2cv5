@@ -43,7 +43,7 @@ const AboutPage: FC<IProps> = () => {
                     <div className={s.statsGrid}>
                         <div className={s.statItem}>
                             <YearsIcon />
-                            <p className={s.statNumber}>5+ лет</p>
+                            <p className={s.statNumber}>8+ лет</p>
                             <p className={s.statLabel}>на рынке</p>
                         </div>
                         <div className={s.statItem}>

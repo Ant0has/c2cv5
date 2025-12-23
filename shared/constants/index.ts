@@ -1,7 +1,7 @@
 import { Prices } from "../types/enums"
 
-export const BASE_URL = 'https://city2city.ru'
-export const BASE_URL_API = 'https://city2city.ru/api'
+export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://city2city.ru'
+export const BASE_URL_API = process.env.NEXT_PUBLIC_BASE_URL_API || 'https://city2city.ru/api'
 
 export const SPEED = 80
 
