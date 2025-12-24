@@ -142,8 +142,8 @@ export default async function RootLayout({
         <Script
           id="chat-widget"
           strategy="lazyOnload"
-          src={`${BASE_URL}/widget.js`}
-          data-source={BASE_URL.replace('https://', '')}
+          src="https://chat.city2city.ru/widget.js"
+          data-source="city2city.ru"
           data-brand={requisitsData.BRAND_NAME}
           data-color="#FFD700"
           data-bg-color="#000"
