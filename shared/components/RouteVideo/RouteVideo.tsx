@@ -13,9 +13,10 @@ import PlayIconMobile from '@/public/icons/PlayIconMobile';
 interface IRouteVideoProps {
   videoUrl?: string | null;
   title?: string;
+  route_video_thumbnail?: string;
 }
 
-const RouteVideo: FC<IRouteVideoProps> = ({ videoUrl, title }) => {
+const RouteVideo: FC<IRouteVideoProps> = ({ videoUrl, title, route_video_thumbnail }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -88,7 +89,7 @@ const RouteVideo: FC<IRouteVideoProps> = ({ videoUrl, title }) => {
                 }}
                 onPause={handlePause}
                 onEnded={handleVideoEnd}
-                poster="/images/video-poster.jpg" // Можно добавить постер
+                poster={`${BASE_URL}${route_video_thumbnail}`}
               />
               
               {!isPlaying && !isLoading && !hasError && (

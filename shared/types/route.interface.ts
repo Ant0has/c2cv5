@@ -55,6 +55,7 @@ export interface IRouteData {
     }
 
     route_video_url?: string;
+    route_video_thumbnail?: string;
 }
 
 export interface IAttraction{
