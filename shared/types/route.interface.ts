@@ -53,6 +53,8 @@ export interface IRouteData {
         "data": Array<IReview> 
         "pagination": IPagination
     }
+
+    route_video_url?: string;
 }
 
 export interface IAttraction{

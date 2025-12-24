@@ -78,6 +78,14 @@ const YandexReviewsSection = dynamic(
 	}
 )
 
+const RouteVideoSection = dynamic(
+	() => import("@/shared/components/RouteVideo/RouteVideo").then((mod) => mod.default),
+	{
+		loading: () => <LoadingSkeleton height="300px" />,
+		ssr: false,
+	}
+)
+
 export function Home({ routeData }: Props) {
 	const { setRoute } = useContext(RouteContext)
 	const pathname = usePathname()
@@ -93,6 +101,10 @@ export function Home({ routeData }: Props) {
 	return (
 		<>
 			<Welcome route={routeData} isMilitary={isMilitary} handleGoToOrder={() => goToOrder()} city={cityTitle} />
+
+			<Suspense>
+				<RouteVideoSection videoUrl={routeData?.route_video_url} title={cityTitle} />
+			</Suspense>
 
 			<Price routeData={routeData} title={cityTitle} cityData={routeData?.city_seo_data} />
 
