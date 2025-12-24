@@ -103,7 +103,7 @@ export function Home({ routeData }: Props) {
 			<Welcome route={routeData} isMilitary={isMilitary} handleGoToOrder={() => goToOrder()} city={cityTitle} />
 
 			<Suspense>
-				<RouteVideoSection videoUrl={routeData?.route_video_url} title={cityTitle} />
+				<RouteVideoSection videoUrl={routeData?.route_video_url} route_video_thumbnail={routeData?.route_video_thumbnail} title={cityTitle} />
 			</Suspense>
 
 			<Price routeData={routeData} title={cityTitle} cityData={routeData?.city_seo_data} />
