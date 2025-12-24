@@ -89,7 +89,7 @@ const RouteVideo: FC<IRouteVideoProps> = ({ videoUrl, title, route_video_thumbna
                 }}
                 onPause={handlePause}
                 onEnded={handleVideoEnd}
-                poster={`${BASE_URL}${route_video_thumbnail}`}
+                poster={`${BASE_URL}/static-images${route_video_thumbnail}`}
               />
               
               {!isPlaying && !isLoading && !hasError && (
