@@ -11,7 +11,7 @@ const DestinationDescription = ({ destination }: Props) => {
   return (
     <section className={s.description} id="description">
       <div className="container">
-        <h2 className="title margin-b-24">О маршруте</h2>
+        <h2 className="title margin-b-32">О маршруте</h2>
 
         <div className={s.content}>
           {destination.description && (

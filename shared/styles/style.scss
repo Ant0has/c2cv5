@@ -16,8 +16,55 @@
   }
 }
 
-.margin-t-16{
+.margin-t-16 {
   margin-top: 16px;
+}
+
+.margin-b-32 {
+  margin-bottom: 32px;
+}
+
+.margin-b-24 {
+  margin-bottom: 24px;
+}
+
+.title {
+  font-weight: 500;
+  font-size: 56px;
+  letter-spacing: -0.05em;
+
+  span {
+    color: var(--orange) !important;
+    font-weight: 500;
+    font-size: 56px;
+    letter-spacing: -0.05em;
+  }
+}
+
+.title-m-48 {
+  margin-bottom: 48px;
+}
+
+.title-m-32 {
+  margin-bottom: 32px;
+}
+
+.sub-title {
+  font-weight: 500;
+  font-size: 36px;
+  letter-spacing: -0.02em;
+}
+
+.sub-title-m-32 {
+  margin-bottom: 32px;
+}
+
+.title-container {
+  margin-bottom: 48px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 24px;
+  }
 }
 
 @media (max-width: 775px) {

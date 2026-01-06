@@ -48,13 +48,14 @@
 .todayTemp {
   font-size: 48px;
   font-weight: 700;
-  color: #fff;
+  color: var(--white);
   line-height: 1;
+  
 }
 
 .todayDesc {
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--white);
   margin-top: 4px;
 }
 
@@ -63,7 +64,10 @@
   justify-content: center;
   gap: 24px;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.6);
+
+  & > span {
+    color: var(--white);
+  }
 }
 
 .forecast {
@@ -109,8 +113,8 @@
 .updated {
   text-align: center;
   margin-top: 20px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.4);
+  font-size: 14px;
+  color: var(--white);
 }
 
 @media (max-width: 576px) {

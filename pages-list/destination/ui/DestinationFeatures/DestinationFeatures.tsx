@@ -2,6 +2,7 @@
 
 import { IHubDestination } from "@/shared/types/hub.interface"
 import s from './DestinationFeatures.module.scss'
+import clsx from "clsx";
 
 interface Props {
   destination: IHubDestination
@@ -47,7 +48,7 @@ const DestinationFeatures = ({ destination }: Props) => {
   return (
     <section className={s.features}>
       <div className="container">
-        <h2 className="title margin-b-32">Почему выбирают нас</h2>
+        <h2 className={clsx('title', 'title-container')}>Почему выбирают нас</h2>
 
         <div className={s.grid}>
           {features.map((feature, index) => (
