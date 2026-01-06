@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { Home } from "../Home";
-import { routeService } from "@/shared/services/route.service";
+import { routeService } from "@/shared/api/route.service";
 import { Metadata } from "next";
 import { excludesPages } from "@/shared/data/excludes-page";
 import Script from "next/script";

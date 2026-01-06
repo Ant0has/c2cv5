@@ -12,7 +12,7 @@ import {
   prices,
   SPEED,
 } from "@/shared/constants";
-import { yandexMapsService } from "@/shared/services/yandex-maps.service";
+import { yandexMapsService } from "@/shared/api/yandex-maps.service";
 import { ButtonTypes, Prices } from "@/shared/types/enums";
 import {
   FullscreenControl,

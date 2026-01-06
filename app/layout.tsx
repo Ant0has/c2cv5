@@ -1,6 +1,6 @@
 import NavigationLoader from '@/shared/components/NavigationLoader/NavigationLoader';
 import { SITE_DESCRIPTION, SITE_NAME } from '@/shared/constants/seo.constants';
-import { regionService } from '@/shared/services/region.service';
+import { regionService } from '@/shared/api/region.service';
 import type { Metadata, Viewport } from 'next';
 import { Inter as FontSans } from "next/font/google";
 import { Suspense } from "react";
@@ -145,7 +145,7 @@ export default async function RootLayout({
           src="https://chat.city2city.ru/widget.js"
           data-source="city2city.ru"
           data-brand={requisitsData.BRAND_NAME}
-          data-color="#FFD700"
+          data-color="var(--orange)"
           data-bg-color="#000"
           data-tooltip="Не работает WhatsApp/Telegram? Пиши СЮДА!"
         />

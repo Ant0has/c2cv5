@@ -1,26 +1,57 @@
 .breadcrumbs {
-    display: flex;
-    gap: 24px;
-    margin: 43px 0px 32px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  font-size: 18px;
+  margin-bottom: 16px;
+}
 
-    font-size: 16px;
-    font-weight: 400;
-    color:var(--dark);
-    line-height: 100%;
+.item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
 
-    a {
-      color: var(--dark);
-      transition-duration: var(--transition-duration);
-      &:hover {
-        color: var(--orange);
-      }
+.link {
+  color: rgba(255, 255, 255, 0.7);
+  transition: color 0.2s;
+
+  &:hover {
+    color: #fff;
+  }
+}
+
+.current {
+  color: #fff;
+}
+
+.separator {
+  color: rgba(255, 255, 255, 0.4);
+  margin: 0 4px;
+}
+
+// Тёмная тема (для светлого фона)
+.breadcrumbs.dark {
+  .link {
+    color: var(--gray);
+
+    &:hover {
+      color: var(--black);
     }
   }
-  
-  @media (max-width: 480px) {
-    .breadcrumbs {
-      display: flex;
-      gap: 24px;
-      margin: 24px 0px;
-    }
+
+  .current {
+    color: var(--black);
   }
+
+  .separator {
+    color: var(--light-gray);
+  }
+}
+
+@media (max-width: 480px) {
+  .breadcrumbs {
+    font-size: 14px;
+  }
+}

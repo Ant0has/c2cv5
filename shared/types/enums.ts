@@ -23,4 +23,6 @@ export enum Blocks {
   EDO_DYADOK = 'Работа по Эдо.Диадок',
   LEGAL_ENTITIES = 'Расчет для юр.лиц',
   FOOTER = 'Футер',
+  HUB_HERO = 'Герой Хаба',
+  HUB = 'Хаб',
 }

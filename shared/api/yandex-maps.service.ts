@@ -1,4 +1,4 @@
-import { getCurrentKey } from "./get-current-key";
+import { getCurrentKey } from "../services/get-current-key";
 
 class YandexMapsService {
 

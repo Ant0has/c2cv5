@@ -6,7 +6,7 @@ import TimeIcon from "@/public/icons/TimeIcon";
 import WalletIcon from "@/public/icons/WalletIcon";
 import { COEFFICIENT_100, COEFFICIENT_100_150, COEFFICIENT_150_200, COEFFICIENT_200, DEFAULT_DISTANCE, DEFAULT_PRICE, prices, SPEED } from "@/shared/constants";
 import { getCurrentKey } from "@/shared/services/get-current-key";
-import { yandexMapsService } from "@/shared/services/yandex-maps.service";
+import { yandexMapsService } from "@/shared/api/yandex-maps.service";
 import { Blocks, ButtonTypes, Prices } from "@/shared/types/enums";
 import { Map, RoutePanel, YMaps } from "@pbe/react-yandex-maps";
 import { message } from "antd";

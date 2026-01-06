@@ -6921,5 +6921,11 @@
   <url>
     <loc>https://city2city.ru/oferta</loc>
     <priority>0.9</priority>
+
+    <url>
+    <loc>https://city2city.ru/gornolyzhka</loc>
+    <priority>0.9</priority>
+  </url>
+
   </url>
 </urlset>

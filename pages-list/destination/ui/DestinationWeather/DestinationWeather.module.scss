@@ -1,0 +1,144 @@
+.weather {
+  padding: 60px 0;
+  background: linear-gradient(135deg, #1a1f2e 0%, #252b3d 100%);
+}
+
+.title {
+  color: #fff;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 32px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.today {
+  text-align: center;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.todayMain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 12px;
+}
+
+.todayIcon {
+  font-size: 64px;
+  line-height: 1;
+}
+
+.todayInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.todayTemp {
+  font-size: 48px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+}
+
+.todayDesc {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 4px;
+}
+
+.todayMeta {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.forecast {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.forecastDay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  padding: 16px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  transition: background 0.2s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.dayName {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+}
+
+.dayIcon {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.dayTemp {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.updated {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+@media (max-width: 576px) {
+  .weather {
+    padding: 40px 0;
+  }
+
+  .card {
+    padding: 24px 16px;
+  }
+
+  .todayIcon {
+    font-size: 48px;
+  }
+
+  .todayTemp {
+    font-size: 36px;
+  }
+
+  .forecastDay {
+    padding: 12px 8px;
+  }
+
+  .dayIcon {
+    font-size: 24px;
+  }
+
+  .dayTemp {
+    font-size: 16px;
+  }
+}
