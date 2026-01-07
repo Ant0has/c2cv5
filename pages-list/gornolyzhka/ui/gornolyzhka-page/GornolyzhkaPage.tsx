@@ -1,18 +1,20 @@
+'use client'
 import SeoText from "@/shared/components/SeoText/SeoText";
 import { IHub } from "@/shared/types/hub.interface";
-import cn from "classnames";
 import HubHero from "../HubHero/HubHero";
 import ResortWeatherGrid from "../ResortWeatherGrid/ResortWeatherGrid";
 import styles from './GornolyzhkaPage.module.scss';
 import DestinationCard from "../DestinationCard/DestinationCard";
 import { hubBenefits } from "@/shared/data/hub.data";
+import clsx from "clsx";
+import { useIsMobile } from "@/shared/hooks/useResize";
 
 interface GornolyghkaPageProps {
     hub: IHub;
 }
 
 const GornolyghkaPage = ({ hub }: GornolyghkaPageProps) => {
-
+    const isMobile = useIsMobile();
     const seoText = `
     <h2>Трансфер ${hub.name}</h2>
     <p>Служба «ВДругойГород» предлагает комфортные трансферы по направлению ${hub.name}.
@@ -35,8 +37,8 @@ const GornolyghkaPage = ({ hub }: GornolyghkaPageProps) => {
         <div className={styles.hubPage}>
             <HubHero hub={hub} benefits={hubBenefits} />
 
-            <section className={cn(styles.destinationSection, 'container')} id="destinations">
-                <h2 className={cn(styles.destinationTitle, 'title')}>Популярные направления</h2>
+            <section className={clsx(styles.destinationSection, 'container', { 'padding-y-40': !isMobile })} id="destinations">
+                <h2 className={clsx('title', 'margin-b-32')}>Популярные направления</h2>
 
                 <div className={styles.destinationGrid}>
                     {hub.destinations?.map((destination) => (
@@ -47,10 +49,11 @@ const GornolyghkaPage = ({ hub }: GornolyghkaPageProps) => {
                         />
                     ))}
                 </div>
-                <div className={styles.resortWeatherGrid}>
-                    <ResortWeatherGrid destinations={hub.destinations} />
-                </div>
+
             </section>
+            <div className={styles.resortWeatherGrid}>
+                <ResortWeatherGrid destinations={hub.destinations} />
+            </div>
             {/* <OrderSteps /> */}
             <SeoText content={seoText} />
         </div>

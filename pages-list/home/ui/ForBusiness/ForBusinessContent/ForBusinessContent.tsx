@@ -33,7 +33,7 @@ const ForBusinessContent: FC<IProps> = () => {
 
   return (
     <>
-      <h2 className="white-color title title-m-32"> CITY 2 CITY <span>для бизнеса</span></h2>
+      <h2 className="white-color title margin-b-32"> CITY 2 CITY <span>для бизнеса</span></h2>
 
       <p className={clsx(s.description, 'font-16-normal white-color')}> Корпоративный трансфер сотрудников до дома с корпоративов и работы. Для корпоративных клиентов доступна доставка сотрудников на вахту, обслуживание в командировках, встречи.</p >
 

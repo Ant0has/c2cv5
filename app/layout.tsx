@@ -9,7 +9,9 @@ import { Providers, YandexHit } from './providers';
 import ModalsWrapper from "@/shared/components/modals/ModalsWrapper";
 import '@/shared/styles/ant-design-styles.css';
 import '@/shared/styles/global.scss';
-import '@/shared/styles/style.scss';
+import '@/shared/styles/common-styles.scss';
+import '@/shared/styles/specific-styles.scss';
+
 import Script from 'next/script';
 import { BASE_URL } from '@/shared/constants';
 import { requisitsData } from '@/shared/data/requisits.data';

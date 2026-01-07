@@ -1,14 +1,15 @@
 .hero {
-  min-height: 590px;
+  min-height: 600px;
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
   position: relative;
   display: flex;
   align-items: center;
   padding: 80px 0 60px;
-
+  background-position: center right;
   @media (max-width: 768px) {
-    min-height: auto;
-    padding: 60px 0 40px;
+    padding: 0;
+    display: block;
+    background-position: center center;
   }
 }
 
@@ -24,9 +25,10 @@
   padding: 80px 0 60px;
 
   @media (max-width: 768px) {
+    padding: 0;
+    min-height: inherit;
+    position: static;
     background: linear-gradient(180deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.9) 100%);
-    padding: 60px 0 40px;
-    margin: -60px 0 -40px 0;
   }
 }
 

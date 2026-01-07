@@ -2,20 +2,11 @@
     min-height: 100vh;
   }
 
-  .destinationSection {
-    padding: 32px 24px;
-  }
-
-  .destinationTitle {
-    margin-bottom: 32px;
-  }
-
   .destinationGrid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
     gap: 24px;
-    margin-bottom: 60px;
-  
+    
     @media (max-width: 768px) {
       grid-template-columns: 1fr;
       gap: 16px;

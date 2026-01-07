@@ -25,7 +25,7 @@ const AboutPage: FC<IProps> = () => {
     return (
         <div className={clsx(s.container, 'container')}>
             <Breadcrumbs />
-            <h1 className={clsx(s.mainTitle, 'title title-m-32')}>О компании {requisitsData.BRAND_NAME}</h1>
+            <h1 className={clsx(s.mainTitle, 'title margin-b-32')}>О компании {requisitsData.BRAND_NAME}</h1>
             <div className={s.sections}>
                 <section className={clsx(s.intro, 'content-block')}>
                     <p className="font-18-normal">
@@ -39,7 +39,7 @@ const AboutPage: FC<IProps> = () => {
                     </p>
                 </section>
                 <section className={clsx(s.stats, 'content-block')}>
-                    <h2 className="sub-title sub-title-m-32">Статистика компании</h2>
+                    <h2 className="sub-title margin-b-32">Статистика компании</h2>
                     <div className={s.statsGrid}>
                         <div className={s.statItem}>
                             <YearsIcon />
@@ -66,7 +66,7 @@ const AboutPage: FC<IProps> = () => {
 
                 {/* H2: Наша история */}
                 <section className={clsx(s.history, 'content-block')}>
-                    <h2 className="sub-title sub-title-m-32">Наша история</h2>
+                    <h2 className="sub-title margin-b-32">Наша история</h2>
                     <div className="font-18-normal">
                         <p className="font-18-normal">Компания {requisitsData.BRAND_NAME} была основана в 2018 году с целью сделать междугородние поездки на такси простыми, предсказуемыми и комфортными. Начиная с нескольких автомобилей, мы быстро росли благодаря доверию клиентов и качеству сервиса.</p>
                         <p className="font-18-normal">Ключевыми вехами нашего развития стали: расширение автопарка в 2020 году, запуск корпоративного обслуживания в 2021 году и внедрение системы электронного документооборота в 2022 году.</p>
@@ -76,7 +76,7 @@ const AboutPage: FC<IProps> = () => {
 
                 {/* H2: Почему выбирают нас */}
                 <section className={clsx(s.advantages, 'content-block')}>
-                    <h2 className="sub-title sub-title-m-32">Почему выбирают нас</h2>
+                    <h2 className="sub-title margin-b-32">Почему выбирают нас</h2>
                     <div className={s.advantagesGrid}>
                         <div className={s.advantageCard}>
                             <AroundClockIcon />
@@ -103,7 +103,7 @@ const AboutPage: FC<IProps> = () => {
 
                 {/* H2: Наши гарантии */}
                 <section className={clsx(s.guarantees, 'content-block')}>
-                    <h2 className="sub-title sub-title-m-32">Наши гарантии</h2>
+                    <h2 className="sub-title margin-b-32">Наши гарантии</h2>
                     <div className={s.guaranteesList}>
                         <div className={s.guaranteeItem}>
                             <PriceIcon />
@@ -130,7 +130,7 @@ const AboutPage: FC<IProps> = () => {
                 </section>
 
                 <section className="content-block">
-                    <h2 className="sub-title sub-title-m-32">Работа команды</h2>
+                    <h2 className="sub-title margin-b-32">Работа команды</h2>
                     <TeamWork />
                 </section>
                 <Requisits />

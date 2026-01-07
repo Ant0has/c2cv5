@@ -197,8 +197,6 @@ const AddressSelect: FC<IProps> = ({ selectedPlan, cityData, routeData }) => {
     }
   };
 
-  console.log(distance, time, price)
-
   const infoData = [
     {
       id: 1,

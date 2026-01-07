@@ -34,8 +34,8 @@ const OrderStepsContent: FC<IProps> = () => {
 
   return (
     <>
-      <div className={clsx(s.title, 'font-56-medium')}>
-        <span className="font-56-medium orange-color">3 шага</span> для заказа Такси
+      <div className={clsx('title', 'font-56-medium','margin-b-32')}>
+        <span className="orange-color">3 шага</span> для заказа Такси
       </div>
 
       <div className={s.steps}>

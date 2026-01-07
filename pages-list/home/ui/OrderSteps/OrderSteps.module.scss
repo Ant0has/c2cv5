@@ -3,10 +3,6 @@
   overflow: hidden;
 }
 
-.container {
-  position: relative;
-}
-
 .actions {
   max-width: 460px;
   display: flex;
@@ -19,13 +15,11 @@
 }
 
 .image {
-  // inset: 100px;
   position: absolute;
-  // max-width: 50svw;
   left: 500px !important;
   transform: scale(1.5);
-  // right: 0;
-  // transform: translateX(25%);
+  object-fit: contain;
+  object-position: center;
 }
 
 .imageContainer {
@@ -44,9 +38,7 @@
   }
 
   .imageContainer {
-    display: block;
-    max-height: 200px;
-    overflow: hidden;
+    // display: none;
   }
 }
 

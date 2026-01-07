@@ -23,9 +23,9 @@ const ContactsPage: FC<IProps> = () => {
   return (
     <TextPageLayout title="Контакты" articleClassName="">
       <>
-        <div className={clsx(s.contacts, 'content-block margin-b-64-40 margin-t-16')}>
+        <div className={clsx(s.contacts, 'content-block margin-b-64 margin-t-16')}>
           <div className={s.left}>
-            <h3 className="font-32-semibold margin-b-24-16">{requisitsData.NAME}</h3>
+            <h3 className="font-32-semibold margin-b-24">{requisitsData.NAME}</h3>
             <p className="font-18-normal margin-b-16">ОГРНИП {requisitsData.OGRNIP}</p>
             <p className="font-18-normal gray-color">Предварительные заказы на услуги междугородных трансферов</p>
           </div>
@@ -43,9 +43,9 @@ const ContactsPage: FC<IProps> = () => {
             </div>
           </div>
         </div>
-        <div className="title title-m-32">Оплата</div>
+        <div className="title margin-b-32">Оплата</div>
 
-        <div className={clsx('content-block margin-b-64-40', s.payment)}>
+        <div className={clsx('content-block margin-b-64', s.payment)}>
           <div className={s.left}>
             <h3 className="font-24-medium">Возможные способы оплаты</h3>
           </div>
@@ -77,7 +77,7 @@ const ContactsPage: FC<IProps> = () => {
             </div>
           </div>
         </div>
-        <div className="title title-m-32">Адреса наших филиалов</div>
+        <div className="title margin-b-32">Адреса наших филиалов</div>
         <Addresses />
       </>
     </TextPageLayout>

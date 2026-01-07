@@ -18,3 +18,8 @@ export const useResize = () => {
 
   return width;
 };
+
+export const useIsMobile = () => {
+  const width = useResize();
+  return width <= 768;
+};

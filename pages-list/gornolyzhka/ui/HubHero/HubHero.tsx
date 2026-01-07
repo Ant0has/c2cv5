@@ -16,7 +16,7 @@ interface Props {
   textColor?: string
 }
 
-const HubHero = ({ hub, destination, benefits, breadcrumbItems, textColor = '#ffffff' }: Props) => {
+const HubHero = ({ hub, destination, benefits, breadcrumbItems }: Props) => {
   const { setOrderModalData } = useContext(ModalContext)
 
   const isSkiHub = hub.slug === 'gornolyzhka'
@@ -27,8 +27,6 @@ const HubHero = ({ hub, destination, benefits, breadcrumbItems, textColor = '#ff
       className={s.hero}
       style={heroImage ? {
         backgroundImage: `url(${heroImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center right'
       } : undefined}
     >
       <div className={s.heroOverlay}>

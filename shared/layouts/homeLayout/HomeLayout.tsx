@@ -1,5 +1,7 @@
+'use client'
 import clsx from 'clsx';
 import s from './HomeLayout.module.scss';
+import { useIsMobile } from '@/shared/hooks/useResize';
 
 interface IHomeLayoutProps {
     children: React.ReactNode;
@@ -7,26 +9,27 @@ interface IHomeLayoutProps {
     top?: React.ReactNode;
 }
 export const HomeLayout = ({ children, className, top }: IHomeLayoutProps) => {
+    const isMobile = useIsMobile();
     return (
-        <div className={clsx('container-40', className)}>
+        <div className={clsx('container', { 'padding-y-104': !isMobile }, className)}>
             {top && top}
             {children}
         </div >
     )
 }
 
-
 interface IHomeLayoutTitleProps {
     title: string;
     titlePrimary?: string;
     description?: string;
 }
+
 export const HomeLayoutTitle = ({ title, titlePrimary, description }:IHomeLayoutTitleProps) => {
     return (
-		<div className={s.titleContainer}>
-            <h2 className={clsx(s.title, 'font-56-medium black-color')}>
+		<div className={clsx('title-container flex justify-between align-center')}>
+            <h2 className={'title'}>
 				{title}
-				{titlePrimary && <span className="font-56-medium orange-color"> {titlePrimary}</span>}
+				{titlePrimary && <span className="orange-color"> {titlePrimary}</span>}
             </h2>
             {description && <div className={s.description}>
                 {description}

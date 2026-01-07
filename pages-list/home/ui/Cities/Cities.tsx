@@ -101,13 +101,13 @@ const Cities: FC<IProps> = ({ routes, routeData }) => {
     setSearchQuery("");
   };
 
-  if (routes?.length === 0 && (!regions || regions.length === 0)) {
+  if (routes?.length === 0 || (!regions || regions.length === 0)) {
     return null;
   }
 
   return (
     <div className={clsx('container', s.container)}>
-      <div className="title title-m-48">Другие города</div>
+      <div className="title margin-b-48">Другие города</div>
 
       {/* Поисковая строка */}
       <div className={s.searchWrapper}>

@@ -27,7 +27,7 @@ const Faq: FC<IProps> = ({ route }) => {
     return (
         <section className={s.wrapper}>
             <div className={clsx("container-40", s.container)}>
-                <div className={clsx('title title-m-48')}>
+                <div className={clsx('title margin-b-48')}>
                     Частые вопросы
                 </div>
 

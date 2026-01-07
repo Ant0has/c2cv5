@@ -53,7 +53,7 @@ const RouteVideo: FC<IRouteVideoProps> = ({ videoUrl, title, route_video_thumbna
   }
 
   return (
-    <section className={clsx(s.wrapper, 'container-40')}>
+    <section className={clsx(s.wrapper, 'container', { 'padding-y-104': !isMobile })}>
       <div className="container">
         <h2 className={clsx('title', 'title-m-32', 'text-left')}>
           Видеообзор <span>маршрута</span>

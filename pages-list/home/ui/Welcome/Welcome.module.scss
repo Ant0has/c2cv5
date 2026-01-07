@@ -39,6 +39,7 @@
   .left {
     flex-basis: 320px;
   }
+
   .right {
     display: flex;
     align-items: center;
@@ -56,6 +57,8 @@
     flex-direction: column;
     gap: 16px;
     padding: 32px;
+    margin-bottom: 20px;
+    border: 1px solid #56a6c9;
 
     .right {
       margin: 0px auto;
@@ -63,6 +66,7 @@
     }
   }
 }
+
 @media (max-width: 480px) {
   .content {
     padding: 24px;

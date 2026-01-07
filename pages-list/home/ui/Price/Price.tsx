@@ -79,7 +79,7 @@ const Price: FC<IProps> = ({ title, cityData, routeData }) => {
   }, [])
 
   return (
-    <HomeLayout className={s.container}
+    <HomeLayout
       top={<HomeLayoutTitle title="Цена такси"
         titlePrimary={title} description="Комфорт, Бизнес и Минивэн - поездки на любой случай" />}
     >
@@ -100,8 +100,6 @@ const Price: FC<IProps> = ({ title, cityData, routeData }) => {
           />
         )}
       </div>
-
-      {/* Карта загрузится только когда секция станет видимой */}
 
     </HomeLayout>
 

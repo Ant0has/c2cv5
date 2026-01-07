@@ -17,7 +17,7 @@ export const NotFoundPage = () => {
           <Image src={'/images/404.png'} alt="Страница не найдена" width={500} height={400} />
 
           {/* CTA Buttons */}
-          <div className={cn(styles.buttons, 'margin-b-24-16')}>
+          <div className={cn(styles.buttons, 'margin-b-24')}>
             <Link href="/">
               <Button
                 type="primary"

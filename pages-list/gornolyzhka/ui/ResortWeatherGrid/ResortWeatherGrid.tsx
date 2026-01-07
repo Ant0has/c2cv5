@@ -2,6 +2,8 @@
 
 import { IHubDestination, IHubWeatherData } from "@/shared/types/hub.interface"
 import s from './ResortWeatherGrid.module.scss'
+import clsx from "clsx"
+import { useIsMobile } from "@/shared/hooks/useResize"
 
 interface Props {
   destinations: IHubDestination[]
@@ -33,6 +35,7 @@ const getWeatherIcon = (icon: string): string => {
 
 const ResortWeatherGrid = ({ destinations }: Props) => {
   const resortsMap = new Map<string, ResortWeather>()
+  const isMobile = useIsMobile()
 
   destinations.forEach(dest => {
     const resort = dest.toCity || 'Неизвестно'
@@ -59,10 +62,10 @@ const ResortWeatherGrid = ({ destinations }: Props) => {
   const resorts = Array.from(resortsMap.values())
 
   return (
-    <section className={s.section}>
-      <div className="container">
-        <h2 className={s.title}>Погода на курортах</h2>
-        <p className={s.subtitle}>Актуальный прогноз для планирования поездки</p>
+    <section className={clsx({'padding-y-40': !isMobile})}>
+      <div className={clsx("container",{'padding-t-0':isMobile})}>
+        <h2 className={clsx('title', 'margin-b-8')}>Погода на курортах</h2>
+        <p className="sub-title text-secondary margin-b-32">Актуальный прогноз для планирования поездки</p>
 
         <div className={s.grid}>
           {resorts.map((item, idx) => (
