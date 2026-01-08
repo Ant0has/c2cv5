@@ -23,18 +23,18 @@ const FooterContacts = () => {
   return (
     <div className={s.contacts}>
       {regionData?.phoneNumber && (
-        <a href={`tel:${phoneRegion}`} className='font-32-semibold white-color'>
+        <a href={`tel:${phoneRegion}`} className='font-32-semibold text-white'>
           {markedPhoneRegion}
         </a>
       )}
-      <a href={`tel:${phoneFirst}`} className='font-32-semibold white-color'>
+      <a href={`tel:${phoneFirst}`} className='font-32-semibold text-white'>
         {markedPhoneFirst}
       </a>
       <div>
-        <p className={clsx(s.phoneDescription, 'font-14-normal white-color')}>8:00 - 23:00 МСК Бесплатно по России</p>
+        <p className={clsx(s.phoneDescription, 'font-14-normal text-white')}>8:00 - 23:00 МСК Бесплатно по России</p>
       </div>
 
-      <a href={`mailto:${requisitsData.EMAIL}`} className='font-32-semibold white-color'>
+      <a href={`mailto:${requisitsData.EMAIL}`} className='font-32-semibold text-white'>
         {requisitsData.EMAIL}
       </a>
 
@@ -59,7 +59,7 @@ const FooterContacts = () => {
         />
       </div>
       <div>
-        <p className='font-16-normal white-color'>© {new Date().getFullYear()} city2city. Все права защищены  </p>
+        <p className='font-16-normal text-white'>© {new Date().getFullYear()} city2city. Все права защищены  </p>
       </div>
 
     </div>

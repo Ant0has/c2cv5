@@ -1,6 +1,6 @@
-import type { Metadata } from 'next'
-import DlyaBiznesa from './DlyaBiznesa'
+import DlyBiznesaPage from '@/pages-list/dlya-biznesa/ui/dlya-biznesa/DlyaBiznesaPage'
 import { requisitsData } from '@/shared/data/requisits.data'
+import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: `${requisitsData.BRAND_NAME} для бизнеса — корпоративные трансферы и перевозки`,
@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   keywords: 'корпоративный трансфер, такси для бизнеса, перевозка сотрудников, трансфер для юрлиц, междугородний трансфер для компаний',
 }
 
-export default async function DlyaBiznesaPage() {
-  return <DlyaBiznesa />
+export default async function Page() {
+  // return <DlyaBiznesa />
+  return <DlyBiznesaPage />
 }

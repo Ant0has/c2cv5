@@ -1,0 +1,125 @@
+.wrapper{
+    width: 100%;
+    height: 716px;
+    max-width: 1516px;
+    margin: 0 auto;
+    border-radius: 24px;
+    padding: 104px 156px;
+
+    @media (max-width: 1400px) {
+        padding: 40px 16px;
+        height: auto;
+    }
+
+    @media (max-width: 768px) {
+        padding:0 16px 0px 16px;
+        background-color: #1c1c1c;
+
+        position: relative;
+        z-index: 10;
+        height: auto;
+        margin-top: 0;
+        transform: translateY(-102px);
+    }
+}
+
+.imageBg {
+    @media (max-width: 768px) {
+        display: none;
+    }
+}
+
+
+
+.cards {
+    display: grid;
+    gap: 32px;
+    margin-top: 48px;
+    grid-auto-flow: column;
+    position: relative;
+    z-index: 2;
+
+    @media (max-width: 1400px) {
+        gap: 16px;
+        grid-auto-flow: row;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
+  }
+  
+  .card {
+    padding: 16px;
+    min-width: 320px;
+    display: grid;
+    grid-auto-flow: row;
+    align-items: center;
+    gap: 8px;
+
+    background-color: var(--dark);
+    border-radius: 24px;
+
+    position: relative;
+
+    // @media (max-width: 1400px) {
+    //    max-width: 360px
+    // }
+  }
+
+  .problem {
+    max-width: 95%;
+    margin: 0 auto;
+    padding: 19px 82px 19px 16px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 8px;
+
+    background: url('/images/dlya-biznesa/problem-card-bg.png') no-repeat center center;
+    background-size: cover;
+
+    .problemDescription {
+      color: #A66464;
+    }
+  }
+
+ .solution {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 8px;
+
+    background: url('/images/dlya-biznesa/solution-card-bg.png') no-repeat center center;
+    background-size: cover;
+    
+    .solutionDescription {
+      color: #AA8242;
+    }
+  }
+  
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+  }
+  
+  .arrow {
+    width:56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--dark);
+    border-radius: 50%;
+
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 57px;
+  }

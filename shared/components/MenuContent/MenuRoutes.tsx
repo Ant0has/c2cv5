@@ -97,7 +97,7 @@ const MenuRoutes = ({ route, setIsOpenMenu }: IMenuRoutesProps) => {
                         {groupedData[letter].map((region) => (
                             <Link
                                 onClick={() => setIsOpenMenu(false)}
-                                className={clsx('black-color', { ['orange-color']: region.url === route?.regions_data?.url })}
+                                className={clsx('text-black', { ['text-primary']: region.url === route?.regions_data?.url })}
                                 href={`/${region.url || ''}.html`}
                                 key={region.meta_id}
                             >
@@ -116,21 +116,21 @@ const MenuRoutes = ({ route, setIsOpenMenu }: IMenuRoutesProps) => {
 
                 {/* <Link
                     onClick={() => setIsOpenMenu(false)}
-                    className={clsx('black-color', { ['orange-color']: moscow.url === route?.regions_data?.url })}
+                    className={clsx('text-black', { ['text-primary']: moscow.url === route?.regions_data?.url })}
                     href={`/${moscow.url || ''}.html`}
                 >
                     {getValidName(moscow)}
                 </Link>
                 <Link
                     onClick={() => setIsOpenMenu(false)}
-                    className={clsx('black-color', { ['orange-color']: piter.url === route?.regions_data?.url })}
+                    className={clsx('text-black', { ['text-primary']: piter.url === route?.regions_data?.url })}
                     href={`/${piter.url || ''}.html`}
                 >
                     {getValidName(piter)}
                 </Link>
                 <Link
                     onClick={() => setIsOpenMenu(false)}
-                    className={clsx('black-color', { ['orange-color']: krym.url === route?.regions_data?.url })}
+                    className={clsx('text-black', { ['text-primary']: krym.url === route?.regions_data?.url })}
                     href={`/${krym.url || ''}.html`}
                 >
                     {getValidName(krym)}

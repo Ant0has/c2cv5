@@ -42,12 +42,12 @@ const OrderSteps: FC<IProps> = ({ isMilitary }) => {
             }
           />
           <div className={s.contacts}>
-            <span className="font-14-normal black-color">
+            <span className="font-14-normal text-black">
               Закажите такси онлайн или по телефону{" "}
             </span>{" "}
             <a
               href={`tel:${phoneFirst}`}
-              className="font-14-normal orange-color"
+              className="font-14-normal text-primary"
             >
               {markedPhoneFirst}
             </a>

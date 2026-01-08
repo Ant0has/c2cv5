@@ -21,7 +21,7 @@ const Requisits = () => {
                     </div>
                 </div>
             </div>
-            <p className={clsx(s.note, 'font-14-normal', 'gray-color', 'italic')}>
+            <p className={clsx(s.note, 'font-14-normal', 'text-gray', 'italic')}>
                 Юридический адрес для вашего региона указан на соответствующей региональной странице сайта.
             </p>
         </section>  

@@ -19,14 +19,14 @@ const Footer = () => {
         <div className={s.top}>
           <div className={s.description}>
             <LogoLightIcon />
-            <p className='font-16-normal white-color'>Добро пожаловать на страницу {BASE_URL.replace('https://', '')} - ведущего сервиса заказа междугороднего такси! Если вам требуется надежный и комфортабельный транспорт от аэропорта</p>
-            {regionData?.address && <p className='white-color text-left align-left'>{regionData?.address}</p>}
+            <p className='font-16-normal text-white'>Добро пожаловать на страницу {BASE_URL.replace('https://', '')} - ведущего сервиса заказа междугороднего такси! Если вам требуется надежный и комфортабельный транспорт от аэропорта</p>
+            {regionData?.address && <p className='text-white text-left align-left'>{regionData?.address}</p>}
           </div>
           <FooterNavigation route={route as IRouteData} />
           {
             regionData?.address && (
               <div className={s.addressMobile}>
-                <p className='white-color text-left align-left'>{regionData?.address}</p>
+                <p className='text-white text-left align-left'>{regionData?.address}</p>
               </div>
             )
           }

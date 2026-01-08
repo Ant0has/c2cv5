@@ -78,7 +78,7 @@ const MenuContent: FC = () => {
             <div className={s.menuWrapperSectionContent}>
               <ul>
                 <li>
-                  <Link href="/gornolyzhka" className={clsx('black-color', { ['orange-color']: pathname === '/gornolyzhka' })}>
+                  <Link href="/gornolyzhka" className={clsx('text-black', { ['text-primary']: pathname === '/gornolyzhka' })}>
                     Горнолыжные курорты
                   </Link>
                 </li>

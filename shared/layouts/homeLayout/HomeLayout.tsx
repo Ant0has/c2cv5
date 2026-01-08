@@ -26,10 +26,10 @@ interface IHomeLayoutTitleProps {
 
 export const HomeLayoutTitle = ({ title, titlePrimary, description }:IHomeLayoutTitleProps) => {
     return (
-		<div className={clsx('title-container flex justify-between align-center')}>
+		<div className={clsx('title-container flex justify-between items-center')}>
             <h2 className={'title'}>
 				{title}
-				{titlePrimary && <span className="orange-color"> {titlePrimary}</span>}
+				{titlePrimary && <span className="text-primary"> {titlePrimary}</span>}
             </h2>
             {description && <div className={s.description}>
                 {description}

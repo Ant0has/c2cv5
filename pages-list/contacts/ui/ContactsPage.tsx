@@ -27,7 +27,7 @@ const ContactsPage: FC<IProps> = () => {
           <div className={s.left}>
             <h3 className="font-32-semibold margin-b-24">{requisitsData.NAME}</h3>
             <p className="font-18-normal margin-b-16">ОГРНИП {requisitsData.OGRNIP}</p>
-            <p className="font-18-normal gray-color">Предварительные заказы на услуги междугородных трансферов</p>
+            <p className="font-18-normal text-gray">Предварительные заказы на услуги междугородных трансферов</p>
           </div>
           <div className={s.right}>
             <div className={s.contact}>

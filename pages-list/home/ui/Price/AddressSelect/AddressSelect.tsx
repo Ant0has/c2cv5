@@ -220,11 +220,11 @@ const AddressSelect: FC<IProps> = ({ selectedPlan, cityData, routeData }) => {
 
   return (
     <div id="order" className={clsx(s.wrapper, { [s.military]: routeData?.is_svo === 1 })}>
-      <div className={clsx(s.title, 'font-24-medium white-color')}>Укажите куда вам надо?</div>
+      <div className={clsx(s.title, 'font-24-medium text-white')}>Укажите куда вам надо?</div>
 
       <div className={s.selection}>
         <div className={s.part}>
-          <div className={clsx(s.label, 'font-16-normal white-color')}>Точка отправления<span className="orange-color">*</span></div>
+          <div className={clsx(s.label, 'font-16-normal text-white')}>Точка отправления<span className="text-primary">*</span></div>
           <SearchInput
             className='departure-select address-select'
             value={departurePoint}
@@ -244,7 +244,7 @@ const AddressSelect: FC<IProps> = ({ selectedPlan, cityData, routeData }) => {
         </div>
 
         <div className={s.part}>
-          <div className={clsx(s.label, 'font-16-normal white-color')}>Точка прибытия<span className="orange-color">*</span></div>
+          <div className={clsx(s.label, 'font-16-normal text-white')}>Точка прибытия<span className="text-primary">*</span></div>
           <SearchInput
             className='arrival-select address-select'
             value={arrivalPoint}
@@ -261,8 +261,8 @@ const AddressSelect: FC<IProps> = ({ selectedPlan, cityData, routeData }) => {
           <div key={info.id} className={s.card}>
             <div className={s.icon}>{info.icon}</div>
             <div className={s.content}>
-              <div className={clsx(s.top, 'font-24-medium white-color')}>{info.value}</div>
-              <div className={clsx(s.bottom, 'font-14-normal gray-color')}>{info.description}</div>
+              <div className={clsx(s.top, 'font-24-medium text-white')}>{info.value}</div>
+              <div className={clsx(s.bottom, 'font-14-normal text-gray')}>{info.description}</div>
             </div>
           </div>
         ))}
@@ -285,8 +285,8 @@ const AddressSelect: FC<IProps> = ({ selectedPlan, cityData, routeData }) => {
           })} />
         </div>
 
-        <div className={clsx(s.warning, 'font-14-normal white-color')}>
-          Расчеты носят информационно-справочный характер, нажмите Заказать, чтобы узнать точную стоимость. Нажимая на кнопку, вы соглашаетесь на <Link href='privacy-policy' className={clsx(s.policy, 'font-14-normal orange-color')}>обработку персональных данных</Link>.
+        <div className={clsx(s.warning, 'font-14-normal text-white')}>
+          Расчеты носят информационно-справочный характер, нажмите Заказать, чтобы узнать точную стоимость. Нажимая на кнопку, вы соглашаетесь на <Link href='privacy-policy' className={clsx(s.policy, 'font-14-normal text-primary')}>обработку персональных данных</Link>.
         </div>
       </div>
 

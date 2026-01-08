@@ -43,7 +43,7 @@ const AttractionCard = ({ title, subTitle, isHorizontal, description, image, tag
                 <div className={s.cardContent}>
                     <div className={s.cardTop}>
                         <h5 className={clsx('font-24-medium')}>{title}</h5>
-                        {subTitle && <span className={clsx('font-14-medium gray-color')}>{subTitle}</span>}
+                        {subTitle && <span className={clsx('font-14-medium text-gray')}>{subTitle}</span>}
 
                     </div>
                     <div className={clsx('font-16-normal',s.attractionDescription)} dangerouslySetInnerHTML={{ __html: description }} />

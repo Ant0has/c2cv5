@@ -91,12 +91,12 @@ const OrderForm: FC<IProps> = ({ form, orderModalData, handleClickLink, handleCl
         requiredMark={false}
       >
         <Form.Item
-          label={<span className="font-14-normal">Введите ваше ФИО<span className="font-14-normal orange-color" >*</span></span>}
+          label={<span className="font-14-normal">Введите ваше ФИО<span className="font-14-normal text-primary" >*</span></span>}
           name="name"
           rules={[
             {
               required: true,
-              message: <span className="font-14-normal orange-color">Пожалуйста, введите ваше полное имя</span>
+              message: <span className="font-14-normal text-primary">Пожалуйста, введите ваше полное имя</span>
             },
           ]}
         >
@@ -104,16 +104,16 @@ const OrderForm: FC<IProps> = ({ form, orderModalData, handleClickLink, handleCl
         </Form.Item>
 
         <Form.Item
-          label={<span className="font-14-normal">Ваш номер телефона<span className="font-14-normal orange-color" >*</span></span>}
+          label={<span className="font-14-normal">Ваш номер телефона<span className="font-14-normal text-primary" >*</span></span>}
           name="phone"
           rules={[
             {
               required: true,
-              message: <span className="font-14-normal orange-color">Пожалуйста, введите ваш номер телефона</span>
+              message: <span className="font-14-normal text-primary">Пожалуйста, введите ваш номер телефона</span>
             },
             {
               pattern: /^[0-9+()]+$/,
-              message: <span className="font-14-normal orange-color">Введите корректный номер телефона</span>
+              message: <span className="font-14-normal text-primary">Введите корректный номер телефона</span>
             },
           ]}
         >
@@ -122,12 +122,12 @@ const OrderForm: FC<IProps> = ({ form, orderModalData, handleClickLink, handleCl
         </Form.Item>
 
         <Form.Item
-          label={<span className="font-14-normal">Тип поездки<span className="font-14-normal orange-color" >*</span></span>}
+          label={<span className="font-14-normal">Тип поездки<span className="font-14-normal text-primary" >*</span></span>}
           name="trip_type"
           rules={[
             {
               required: true,
-              message: <span className="font-14-normal orange-color">Пожалуйста, введите тип поездки</span>
+              message: <span className="font-14-normal text-primary">Пожалуйста, введите тип поездки</span>
             }
           ]}
         >
@@ -141,12 +141,12 @@ const OrderForm: FC<IProps> = ({ form, orderModalData, handleClickLink, handleCl
         </Form.Item>
 
         <Form.Item
-          label={<span className="font-14-normal">Дата поездки<span className="font-14-normal orange-color" >*</span></span>}
+          label={<span className="font-14-normal">Дата поездки<span className="font-14-normal text-primary" >*</span></span>}
           name="trip_date"
           rules={[
             {
               required: true,
-              message: <span className="font-14-normal orange-color">Пожалуйста, введите дату поездки</span>
+              message: <span className="font-14-normal text-primary">Пожалуйста, введите дату поездки</span>
             }
           ]}
         >
@@ -176,7 +176,7 @@ const OrderForm: FC<IProps> = ({ form, orderModalData, handleClickLink, handleCl
             text={'Заказать поездку'}
             loading={isSubmitting}
           />
-          <p className="font-14-normal">Нажимая на кнопку, вы соглашаетесь на обработку <Link onClick={handleClickLink} className="font-14-normal orange-color" href="privacy-policy">персональных данных</Link></p>
+          <p className="font-14-normal">Нажимая на кнопку, вы соглашаетесь на обработку <Link onClick={handleClickLink} className="font-14-normal text-primary" href="privacy-policy">персональных данных</Link></p>
         </div>
       </Form>
     </>

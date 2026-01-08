@@ -35,7 +35,7 @@ const OrderStepsContent: FC<IProps> = () => {
   return (
     <>
       <div className={clsx('title', 'font-56-medium','margin-b-32')}>
-        <span className="orange-color">3 шага</span> для заказа Такси
+        <span className="text-primary">3 шага</span> для заказа Такси
       </div>
 
       <div className={s.steps}>
@@ -43,8 +43,8 @@ const OrderStepsContent: FC<IProps> = () => {
           <div key={step.id} className={s.card}>
             <div className={s.icon}>{step.icon}</div>
             <div className={s.content}>
-              <div className={clsx(s.top, 'font-24-medium black-color')}>{step.label}</div>
-              <div className={clsx(s.bottom, 'font-14-normal gray-color')}>{step.description}</div>
+              <div className={clsx(s.top, 'font-24-medium text-black')}>{step.label}</div>
+              <div className={clsx(s.bottom, 'font-14-normal text-gray')}>{step.description}</div>
             </div>
           </div>
         ))}

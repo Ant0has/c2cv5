@@ -6,7 +6,8 @@ export const tokens: ThemeConfig = {
     colorPrimary: '#ff9c00',
     colorError: '#ff9c00',
     borderRadius: 16,
-    // colorBorder: 'transparent'
+    marginXS: 8,
+    marginXXS: 4,
   },
   components: {
     Tabs: {

@@ -27,7 +27,7 @@ const YandexReviewsWidget: FC = () => {
   return (
     <section className={styles.section}>
       <div className="container">
-        <div className={'flex justify-between align-center flex-wrap gap-16 margin-b-32'}>
+        <div className={'flex justify-between items-center flex-wrap gap-16 margin-b-32'}>
           <h2 className={clsx('title', 'margin-b-32')}>
             {title}
           </h2>

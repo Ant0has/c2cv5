@@ -32,9 +32,9 @@ const FooterNavigation = ({route}: {route: IRouteData}) => {
     return list.map(link => !link?.handleClick ? (
       <Link
         key={link.id}
-        className='white-color font-18-medium' href={link.route}>{link.label}</Link>
+        className='text-white font-18-medium' href={link.route}>{link.label}</Link>
     ) : (
-      <a key={link.id} onClick={link?.handleClick} className='white-color font-18-medium cursor-pointer'>{link.label}</a>
+      <a key={link.id} onClick={link?.handleClick} className='text-white font-18-medium cursor-pointer'>{link.label}</a>
     ))
   }, [goToOrder, setQuestionModalData])
 
@@ -44,9 +44,9 @@ const FooterNavigation = ({route}: {route: IRouteData}) => {
         <div className={s.navigationColumn}>{showNavlist(navList)}</div>
         <div className={s.navigationColumn}>{showNavlist(legalInfoNavList)}</div>
         <div className={s.navigationColumn}>
-          <p className='white-color font-18-medium'>{requisitsData.NAME}</p>
-          <p className='white-color font-18-normal'>ИНН {requisitsData.INN}</p>
-          <p className='white-color font-18-normal'>ОГРНИП {requisitsData.OGRNIP}</p>
+          <p className='text-white font-18-medium'>{requisitsData.NAME}</p>
+          <p className='text-white font-18-normal'>ИНН {requisitsData.INN}</p>
+          <p className='text-white font-18-normal'>ОГРНИП {requisitsData.OGRNIP}</p>
         </div>
 
       </div>

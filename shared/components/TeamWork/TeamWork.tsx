@@ -33,7 +33,7 @@ const TeamWork: FC<IProps> = () => {
       </div>
 
       <div className={clsx(s.cell, s.text)}>
-        <p className="font-32-semibold orange-color">№1</p>
+        <p className="font-32-semibold text-primary">№1</p>
         <p className={clsx(s.description, "font-16-normal")}>
           Работаем с поддержкой мероприятий больших объемов распределенных по
           разным городам и часовым поясам
@@ -49,7 +49,7 @@ const TeamWork: FC<IProps> = () => {
       </div>
 
       <div className={clsx(s.cell, s.text)}>
-        <p className="font-32-semibold orange-color">№2</p>
+        <p className="font-32-semibold text-primary">№2</p>
         <p className={clsx(s.description, "font-16-normal")}>
           Перевозим большие группы людей как на короткие так и на сверхдальние
           расстояния
@@ -65,7 +65,7 @@ const TeamWork: FC<IProps> = () => {
       </div>
 
       <div className={clsx(s.cell, s.text)}>
-        <p className="font-32-semibold orange-color">№3</p>
+        <p className="font-32-semibold text-primary">№3</p>
         <p className={clsx(s.description, "font-16-normal")}>
           Реализуем сложные задачи по перевозке грузов и особо важных пассажиров
         </p>
@@ -80,7 +80,7 @@ const TeamWork: FC<IProps> = () => {
       </div>
 
       <div className={clsx(s.cell, s.text)}>
-        <p className="font-32-semibold orange-color">№4</p>
+        <p className="font-32-semibold text-primary">№4</p>
         <p className={clsx(s.description, "font-16-normal")}>
           Бухгалтерская ответственность в любов виде. Счёт. Договор. Закрывающие
           Акты. Электронный документооборот. Чек с QR кодом с возможностью

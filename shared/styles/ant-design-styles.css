@@ -93,20 +93,6 @@
   margin-right: -20px;
 }
 
-/* .ant-modal-body::-webkit-scrollbar {
-  width: 8px !important;
-}
-
-.ant-modal-body::-webkit-scrollbar-track {
-  background: var(--light-gray) !important;
-  border-radius: 4px !important;
-}
-
-.ant-modal-body::-webkit-scrollbar-thumb {
-  background: var(--primary-color) !important;
-  border-radius: 4px !important;
-} */
-
 .ant-modal-footer {
   display: none;
 }
@@ -121,10 +107,6 @@
   }
 }
 
-/* :not(.ant-radio-checked).ant-radio-inner {
-  background: var(--light-gray) !important;
-} */
-
 .ant-picker-input input::placeholder,
 .ant-picker-input input {
   font-size: 16px !important;
@@ -138,7 +120,8 @@
   padding: 20px 24px !important;
 }
 
-/* .ant-radio-wrapper {
-  display: flex !important;
-  align-items: center !important;
-} */
+
+.ant-form-item-explain {
+  margin-top: 8px !important; /* Отступ ошибки от поля */
+  margin-bottom: 4px !important; /* Отступ ошибки от следующего элемента */
+}

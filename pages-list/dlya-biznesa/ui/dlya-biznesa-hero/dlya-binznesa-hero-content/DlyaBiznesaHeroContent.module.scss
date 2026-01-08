@@ -1,33 +1,32 @@
-.description {
-  line-height: 150%;
-  margin-bottom: 32px;
-}
+// .advancements {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 12px;
+//   margin-bottom: 32px;
+// }
 
-.advancements {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 32px;
-}
+// .advancement {
+//   display: flex;
+//   align-items: center;
+//   gap: 12px;
+//   flex-wrap: wrap;
 
-.advancement {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
+//   .left {
+//     background: var(--orange);
+//     border-radius: 16px;
+//     padding: 8px 12px;
+//     flex-shrink: 0;
+//   }
 
-  .left {
-    background: var(--orange);
-    border-radius: 16px;
-    padding: 8px 12px;
-    flex-shrink: 0;
-  }
+//   div {
+//     font-size: 40px;
+//     font-weight: 700;
+//     color: var(--white) !important;
+//   }
+// }
 
-  div {
-    font-size: 40px;
-    font-weight: 700;
-    color: var(--white) !important;
-  }
+.experienceItem{
+  
 }
 
 .partner {

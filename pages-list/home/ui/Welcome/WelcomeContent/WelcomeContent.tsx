@@ -16,23 +16,23 @@ const WelcomeContent: FC<IProps> = ({ city, isMilitary, route }) => {
 
   return (
     <>
-      <h1 className={clsx('title font-40-semibold black-color')}>
+      <h1 className={clsx('title font-40-semibold text-black')}>
         {'Такси '}
-        {city && <span className="font-40-semibold orange-color">{city}</span>}
+        {city && <span className="font-40-semibold text-primary">{city}</span>}
         {!city && ' межгород'}
       </h1>
       <div className={''}>
         <h4 className={clsx('font-18-normal', {
-          'white-color': isMilitary,
-          'black-color': !isMilitary
+          'text-white': isMilitary,
+          'text-black': !isMilitary
         }, s.description)}>
           Услуги качественного сервиса заказа такси в России
         </h4>
         <ul className={clsx(s.advantages, 'margin-t-16')}>
           {advantages.map(advantage => (
             <li key={advantage.id} className={clsx(s.advantage)}>
-              <span className="font-32-semibold orange-color">{advantage.title}</span>
-              <span className="font-14-normal black-color">{advantage.description}</span>
+              <span className="font-32-semibold text-primary">{advantage.title}</span>
+              <span className="font-14-normal text-black">{advantage.description}</span>
             </li>
           ))}
         </ul>

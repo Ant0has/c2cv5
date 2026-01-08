@@ -14,7 +14,8 @@ interface IButtonProps {
   className?: string,
   disabled?: boolean,
   loading?: boolean,
-  handleClick?: () => void
+  handleClick?: () => void,
+  style?: React.CSSProperties
 }
 
 const Button: FC<IButtonProps> = (props) => {
@@ -25,7 +26,8 @@ const Button: FC<IButtonProps> = (props) => {
     className,
     disabled,
     loading,
-    handleClick
+    handleClick,
+    style
   } = props
 
   if (type === ButtonTypes.LINK) {
@@ -40,11 +42,12 @@ const Button: FC<IButtonProps> = (props) => {
   }
 
   return (
-    <button 
-      className={clsx(s.button, s[type], 'font-16-medium', { 
+    <button
+      className={clsx(s.button, s[type], 'font-16-medium', {
         [s.disable]: disabled,
-        [s.loading]: loading 
-      }, className)} 
+        [s.loading]: loading
+      }, className)}
+      style={style}
       onClick={() => !disabled && !loading && handleClick && handleClick()}
     >
       {icon && <i className={s.icon}>{icon}</i>}
