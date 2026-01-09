@@ -27,12 +27,6 @@
   }
 }
 
-.green {
-  span {
-    color: var(--green) !important;
-  }
-}
-
 @media (max-width: 760px) {
   .wrapper {
     background: var(--dark);
@@ -50,6 +44,8 @@
     gap: 8px;
   }
 }
+
+
 
 .phones {
   position: absolute;
