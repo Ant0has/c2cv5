@@ -1,24 +1,19 @@
 'use client'
+import { useIsMobile } from "@/shared/hooks/useResize";
 import clsx from "clsx";
-import { FC } from "react";
+import Image from "next/image";
 import DlyaBiznesaHeroContent from "./dlya-binznesa-hero-content/DlyaBiznesaHeroContent";
 import DlyaBiznesaHeroForm from "./dlya-biznesa-hero-form/DlyaBiznesaHeroForm";
 import s from './DlyBiznesaHero.module.scss';
-import Image from "next/image";
-import { useIsMobile } from "@/shared/hooks/useResize";
 
-interface IProps {
-  title?: unknown;
-}
-
-const DlyaBiznesaHero: FC<IProps> = ({ title }) => {
+const DlyaBiznesaHero = () => {
   const isMobile = useIsMobile();
 
   return (
     <div className={clsx('relative', {'padding-b-104': !isMobile}, {'padding-b-40': isMobile})}>
       <div className={clsx("container", 'relative z-2')}>
         <div className={clsx(s.content, "max-width-696")}>
-          <DlyaBiznesaHeroContent title={title} />
+          <DlyaBiznesaHeroContent title={'Для корпоративных клиентов'} />
 
           <DlyaBiznesaHeroForm /> 
         </div>

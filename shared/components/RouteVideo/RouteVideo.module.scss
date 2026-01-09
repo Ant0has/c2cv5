@@ -40,7 +40,7 @@
     }
     
     &::-webkit-media-controls-play-button {
-      color: var(--orange);
+      color: var(--primary);
     }
     
     &::-webkit-media-controls-current-time-display,
@@ -72,7 +72,7 @@
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
     
     path {
-      fill: var(--orange);
+      fill: var(--primary);
     }
   }
   

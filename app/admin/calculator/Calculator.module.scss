@@ -35,8 +35,8 @@
 
   .selected {
     .button {
-      background: var(--orange);
-      border-color: var(--orange);
+      background: var(--primary);
+      border-color: var(--primary);
       color: white;
       font-weight: 600;
     }
@@ -225,6 +225,6 @@
   cursor: pointer;
 
   &:hover{
-    color:var(--orange)
+    color:var(--primary)
   }
 }

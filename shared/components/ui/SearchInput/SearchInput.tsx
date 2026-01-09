@@ -1,17 +1,20 @@
-import { Input, AutoComplete } from "antd";
-import { ChangeEvent, FC, useEffect, useState } from "react";
+import { AutoComplete, Input } from "antd";
+import { FC, useEffect, useState } from "react";
 
 interface IProps {
   placeholder: string;
   value?: string;
   data?: string[];
   className?: string;
+  autoCompleteStyle?: React.CSSProperties;
+  inputStyle?: React.CSSProperties;
+  isGrayPlaceholder?: boolean;
   handleSearch: (value: string) => void;
   handleChange: (value: string) => void;
 }
 
 const SearchInput: FC<IProps> = (props) => {
-  const { data, value, className, placeholder, handleChange, handleSearch } = props;
+  const { data, value, className, placeholder, handleChange, handleSearch, autoCompleteStyle={}, inputStyle={}, isGrayPlaceholder=false } = props;
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState<{ value: string }[]>([]);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -68,6 +71,7 @@ const SearchInput: FC<IProps> = (props) => {
       style={{
         width: "100%",
         height:76,
+        ...autoCompleteStyle
       }}
     >
       <Input
@@ -75,7 +79,9 @@ const SearchInput: FC<IProps> = (props) => {
         onKeyDown={handleKeyDown}
         style={{
           fontSize:20,
+          ...inputStyle
         }}
+        data-placeholder-gray={isGrayPlaceholder}
         allowClear
       />
     </AutoComplete>

@@ -1,22 +1,13 @@
 'use-client'
+import { CalculatorDefault } from "@/feature/calculator";
+import { HomeLayout, HomeLayoutTitle } from "@/shared/layouts/homeLayout/HomeLayout";
 import { Prices } from "@/shared/types/enums";
+import { IRouteData } from "@/shared/types/route.interface";
 import { Tabs, TabsProps } from "antd";
 import { FC, useEffect, useRef, useState } from "react";
 import { planLabel } from "./data";
 import s from './Price.module.scss';
 import PriceContent from "./PriceContent/PriceContent";
-import { HomeLayout, HomeLayoutTitle } from "@/shared/layouts/homeLayout/HomeLayout";
-import dynamic from "next/dynamic";
-import { LoadingSkeleton } from "@/shared/components/loadingSkeleton/LoadingSkeleton";
-import { IRouteData } from "@/shared/types/route.interface";
-
-const AddressSelect = dynamic(
-  () => import("./AddressSelect/AddressSelect"),
-  {
-    loading: () => <LoadingSkeleton height="500px" />,
-    ssr: false
-  }
-);
 
 interface IProps {
   title?: string
@@ -93,7 +84,7 @@ const Price: FC<IProps> = ({ title, cityData, routeData }) => {
 
       <div className={s.mapWrapper} ref={sectionRef}>
         {showMap && (
-          <AddressSelect
+          <CalculatorDefault
             selectedPlan={selectedPlan}
             cityData={cityData}
             routeData={routeData}

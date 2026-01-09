@@ -1,0 +1,175 @@
+.wrapper {
+    background: var(--dark);
+    padding: 32px;
+    border-radius: 32px;
+  }
+  .title {
+    margin-bottom: 32px;
+  }
+  .selection {
+    display: grid;
+    grid-template-columns: 1fr 32px 1fr;
+    margin-bottom: 24px;
+    gap: 10px;
+  
+    .part:first-of-type .input {
+      border-radius: 16px 0px 0px 16px;
+    }
+  
+    .part:last-of-type .input {
+      border-radius: 0px 16px 16px 0px;
+    }
+  }
+  .part {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    flex-grow: 1;
+  }
+  
+  .label {
+    margin-bottom: 16px;
+  }
+  
+  .input {
+    padding: 20px 24px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 100%;
+  }
+  
+  .swapButtonWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-end;
+    height: 78px;
+    z-index: 2;
+  }
+  
+  .swapButton {
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid var(--light-gray);
+    background-color: #fff;
+  }
+  
+  .info {
+    display: flex;
+    gap: 32px;
+    padding: 24px 0px;
+    border-top: 1px solid rgba(245, 245, 245, 0.05);
+    border-bottom: 1px solid rgba(245, 245, 245, 0.05);
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .card {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .order {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+  }
+  .buttons {
+    display: flex;
+    gap: 16px;
+    flex-grow: 1;
+    flex-shrink: 0;
+  }
+  .warning {
+    line-height: 150%;
+    span {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+  
+  @media (max-width: 1027px) {
+    .order {
+      align-items: start;
+      flex-direction: column;
+      gap: 16px;
+    }
+  }
+  
+  @media (max-width: 775px) {
+    .selection {
+      display: flex;
+      flex-direction: column;
+  
+      .part:first-of-type .input {
+        border-radius: 16px 16px 0px 0px;
+        border-bottom: 1px solid var(--light-gray);
+      }
+  
+      .part:last-of-type .input {
+        border-radius: 0px 0px 16px 16px;
+      }
+  
+      .part:last-child {
+        flex-direction: column-reverse;
+  
+        .label {
+          margin-top: 16px;
+          margin-bottom: 0px;
+        }
+      }
+      position: relative;
+    }
+  
+    .swapButtonWrapper {
+      display: contents;
+    }
+  
+    .swapButton {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+    }
+  }
+  
+  @media (max-width: 550px) {
+    .wrapper {
+      padding: 24px;
+    }
+  
+    .title {
+      margin-bottom: 24px;
+    }
+  
+    .selection {
+      margin-bottom: 16px;
+    }
+  
+    .info {
+      padding: 16px 0px;
+      margin-bottom: 16px;
+    }
+  
+    .buttons {
+      width: 100%;
+      gap: 8px;
+      flex-direction: column;
+    }
+  }
+  
+  .military {
+    background: var(--blue);
+  }
+  

@@ -147,7 +147,7 @@ export default async function RootLayout({
           src="https://chat.city2city.ru/widget.js"
           data-source="city2city.ru"
           data-brand={requisitsData.BRAND_NAME}
-          data-color="var(--orange)"
+          data-color="var(--primary)"
           data-bg-color="#000"
           data-tooltip="Не работает WhatsApp/Telegram? Пиши СЮДА!"
         />

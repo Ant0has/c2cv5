@@ -5,6 +5,7 @@ import styles from './DlyaBiznesaAnswers.module.scss'
 import clsx from 'clsx';
 import { problemSolutionsList } from '@/pages-list/dlya-biznesa/utils/data';
 import { useIsMobile } from '@/shared/hooks/useResize';
+import CheckIcon from '@/public/icons/CheckIcon';
 
 const DlyaBiznesaAnswers = () => {
     const isMobile = useIsMobile();
@@ -12,7 +13,7 @@ const DlyaBiznesaAnswers = () => {
         <div className={clsx(styles.wrapper, 'relative')}>
 
             <div className="container">
-                <div className={clsx("title-container flex justify-between relative z-2 items-start", {'flex-col items-center justify-center gap-16 text-center': isMobile})}>
+                <div className={clsx("title-container flex justify-between relative z-2 items-baseline", {'flex-col items-center justify-center gap-16 text-center': isMobile})}>
                     <h2 className={'title text-white'}>Почему агрегаторы <span className="text-primary">не подходят для командировок</span></h2>
                     <span className={clsx("font-18-semibold text-secondary", {'text-center': isMobile, 'text-right': !isMobile})}>Комфорт, Бизнес и Минивэн - поездки на любой случай</span>
                 </div>
@@ -54,13 +55,7 @@ const DlyaBiznesaAnswers = () => {
 
                             <div className={clsx(styles.solution, 'border-radius-24 padding-24')}>
                                 <div className="flex items-center gap-8 margin-b-16">
-                                    <Image
-                                        src={'/icons/CheckIcon.svg'}
-                                        alt="Решение"
-                                        width={20}
-                                        height={15}
-                                        className={styles.checkIcon}
-                                    />
+                                    <CheckIcon fill='var(--primary)' />
                                 </div>
 
                                 <div className={styles.content}>

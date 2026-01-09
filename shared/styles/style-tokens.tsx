@@ -11,10 +11,10 @@ export const tokens: ThemeConfig = {
   },
   components: {
     Tabs: {
-      inkBarColor: 'var(--orange)',
-      itemActiveColor: 'var(--orange)',
-      itemHoverColor: 'var(--orange)',
-      itemSelectedColor: 'var(--orange)',
+      inkBarColor: 'var(--primary)',
+      itemActiveColor: 'var(--primary)',
+      itemHoverColor: 'var(--primary)',
+      itemSelectedColor: 'var(--primary)',
       titleFontSizeLG: 18,
       titleFontSizeSM: 18,
       horizontalItemPadding: '0px 0px 16px',
@@ -27,12 +27,12 @@ export const tokens: ThemeConfig = {
     },
     Rate: {
       starBg: 'var(--gray)',
-      starColor: 'var(--orange)'
+      starColor: 'var(--primary)'
     },
     Form: {
       itemMarginBottom: 32,
       verticalLabelPadding: '0px 0px 16px',
-      labelRequiredMarkColor: 'var(--orange)'
+      labelRequiredMarkColor: 'var(--primary)'
     },
     Input: {
       activeBg: 'var(--light-gray)',
@@ -49,7 +49,7 @@ export const tokens: ThemeConfig = {
     Pagination: {
       itemSize: 22,
       itemBg: 'var(--light-gray)',
-      itemActiveBg: 'var(--orange)',
+      itemActiveBg: 'var(--primary)',
       itemInputBg: 'red'
     },
     DatePicker: {

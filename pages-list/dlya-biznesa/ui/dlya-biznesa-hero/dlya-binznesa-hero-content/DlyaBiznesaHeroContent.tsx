@@ -1,11 +1,10 @@
 'use client'
+import { companyAdvantagesList, companyExperienceList } from "@/pages-list/dlya-biznesa/utils/data";
+import CheckIcon from "@/public/icons/CheckIcon";
+import { useIsMobile } from "@/shared/hooks/useResize";
 import clsx from "clsx";
 import { FC } from "react";
-import s from './DlyaBiznesaHeroContent.module.scss'
-import { companyAdvantagesList, companyExperienceList } from "@/pages-list/dlya-biznesa/utils/data";
-import Image from "next/image";
-import CheckIcon from '@/public/icons/checkIcon.svg';
-import { useIsMobile } from "@/shared/hooks/useResize";
+import s from './DlyaBiznesaHeroContent.module.scss';
 
 interface IProps {
   title?: unknown;
@@ -24,7 +23,7 @@ const DlyaBiznesaHeroContent: FC<IProps> = () => {
         {
           companyAdvantagesList.map(advantage => (
             <li key={advantage} className={'flex items-center  gap-16'}>
-              <Image src={CheckIcon} width={20} height={15} alt={"check icon"} />
+              <CheckIcon fill='var(--white)' />
               <p className="font-18-normal text-white">{advantage}</p>
             </li>
           ))

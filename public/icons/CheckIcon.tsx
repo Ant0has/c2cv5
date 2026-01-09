@@ -1,0 +1,14 @@
+import { FC } from "react";
+import { IconProps } from "@/shared/types/types";
+
+
+const CheckIcon: FC<IconProps> = ({ fill = '#FF9C00'  , className }) => {
+    return (
+        <svg width="20" height="15" viewBox="0 0 20 15" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+            <rect width="3.03051" height="18.1831" rx="1.51526" transform="matrix(-0.707121 -0.707093 0.707121 -0.707093 7.14062 15)" fill={fill || '#FF9C00'} />
+            <rect width="3.03051" height="10.1017" rx="1.51526" transform="matrix(0.707121 -0.707093 0.707121 0.707093 0 7.85718)" fill={fill || '#FF9C00'} />
+        </svg>
+    );
+};
+
+export default CheckIcon;

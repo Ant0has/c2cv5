@@ -18,7 +18,7 @@
   transition: border-color 0.3s ease;
   
   &:focus-within {
-    border-color: var(--orange);
+    border-color: var(--primary);
   }
 }
 
@@ -59,7 +59,7 @@
   transition: color 0.3s ease;
   
   &:hover {
-    color: var(--orange);
+    color: var(--primary);
   }
 }
 
@@ -70,7 +70,7 @@
 }
 
 .resultsCount {
-  color: var(--orange);
+  color: var(--primary);
   font-weight: 600;
 }
 
@@ -93,9 +93,9 @@
   transition: all 0.3s ease;
   
   &:hover {
-    background: var(--orange);
+    background: var(--primary);
     color: white;
-    border-color: var(--orange);
+    border-color: var(--primary);
   }
 }
 
@@ -118,23 +118,23 @@
     }
     
     &:hover {
-      border-color: var(--orange);
+      border-color: var(--primary);
       
       a {
-        color: var(--orange);
+        color: var(--primary);
       }
     }
     
     &-active {
-      border-color: var(--orange);
-      background: var(--orange);
+      border-color: var(--primary);
+      background: var(--primary);
       
       a {
         color: white;
       }
       
       &:hover {
-        border-color: var(--orange);
+        border-color: var(--primary);
         
         a {
           color: white;
@@ -147,8 +147,8 @@
   .ant-pagination-next {
     &:hover {
       .ant-pagination-item-link {
-        border-color: var(--orange);
-        color: var(--orange);
+        border-color: var(--primary);
+        color: var(--primary);
       }
     }
   }
@@ -157,7 +157,7 @@
   .ant-pagination-jump-next {
     &:hover {
       .ant-pagination-item-link {
-        color: var(--orange);
+        color: var(--primary);
       }
     }
   }
