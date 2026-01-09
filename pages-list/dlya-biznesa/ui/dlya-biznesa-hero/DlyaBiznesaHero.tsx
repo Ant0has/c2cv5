@@ -18,7 +18,7 @@ const DlyaBiznesaHero = () => {
           <DlyaBiznesaHeroForm /> 
         </div>
       </div>
-      <div className={clsx(s.phones, 'relative z-2')}>
+      <div className={clsx(s.phones)}>
         <Image className={s.blockImage}
           src="/images/dlya-biznesa/businessman-lg.png"
           alt="Businessman Image"
