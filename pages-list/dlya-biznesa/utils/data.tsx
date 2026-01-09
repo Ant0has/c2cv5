@@ -1,3 +1,7 @@
+import BankCardIcon from "@/public/icons/BankCardIcon"
+import CarIcon from "@/public/icons/CarIcon"
+import BankIcon from "@/public/icons/BankIcon"
+
 export const companyExperienceList = [
     {
       id: 1,
@@ -60,3 +64,34 @@ export const problemSolutionsList = [
     }
   }
 ]
+
+
+export const contractDocumentsList: string[] = [
+  'Договор на оказание транспортных услуг',
+  'Акт выполненных работ',
+  'Счет-фактура для НДС',
+  'Электронный чек с QR-кодом',
+  'Путевой лист по требованию'
+]
+
+export const paymentMethodsList = [
+  {
+    id: 1,
+    icon: <CarIcon fill='var(--primary)' />,
+    title: 'Оплата при посадке',
+    descriptionList: ['Сотрудник платит сам — наличными, картой или СБП', 'Чек с QR-кодом выдаётся сразу']
+  },
+  {
+    id: 2,
+    icon: <BankCardIcon fill='var(--primary)' />,
+    title: 'Банковская карта',
+    descriptionList: ['Оплата картой на сайте или по ссылке', 'Электронный чек придет в личный кабинет для отчета']
+  },
+  {
+    id: 3,
+    icon: <BankIcon fill='var(--primary)' />,
+    title: 'Безналичный расчёт',
+    descriptionList: ['Оплата по счету для юрлиц, постоплата', 'Полный пакет документов отправим в ЭДО']
+  }
+]
+

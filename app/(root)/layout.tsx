@@ -2,6 +2,7 @@
 import { Footer, Header } from "@/widgets";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
+import type { Viewport } from 'next';
 
 export default function AppLayout({
   children,

@@ -1,7 +1,8 @@
 import styles from './DlyaBiznesaPage.module.scss'
 import DlyaBiznesaHero from '@/pages-list/dlya-biznesa/ui/dlya-biznesa-hero/DlyaBiznesaHero'
-import DlyaBiznesaAnswers from './dlya-biznesa-answers/DlyaBiznesaAnswers'
-import DlyaBiznesaCalculator from './dlya-biznesa-calculator/DlyaBiznesaCalculator';
+import DlyaBiznesaAnswers from '../dlya-biznesa-answers/DlyaBiznesaAnswers'
+import DlyaBiznesaCalculator from '../dlya-biznesa-calculator/DlyaBiznesaCalculator';
+import DlyaBiznesaContract from '../dlya-biznesa-contract/DlyaBiznesaContract';
 
 const DlyBiznesaPage = () => {
   return (
@@ -9,6 +10,7 @@ const DlyBiznesaPage = () => {
         <DlyaBiznesaHero />
         <DlyaBiznesaAnswers />
         <DlyaBiznesaCalculator />
+        <DlyaBiznesaContract />
     </div>
   );
 };

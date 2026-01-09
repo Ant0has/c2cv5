@@ -6,8 +6,9 @@ import { goToOrder } from "@/shared/services/go-to-order"
 import { IRouteData } from "@/shared/types/route.interface"
 import dynamic from "next/dynamic"
 import { usePathname } from "next/navigation"
-import { Suspense, useContext, useLayoutEffect } from "react"
-import { RouteContext } from "../providers"
+import { Suspense, useContext, useLayoutEffect, useMemo } from "react"
+import { RouteContext } from "../providers";
+import whitelist from "../../whitelist.json";
 
 interface Props {
 	routeData?: IRouteData
@@ -94,6 +95,15 @@ export function Home({ routeData }: Props) {
 
 	const isMilitary = routeData?.is_svo === 1
 
+	const routesList = useMemo(() => {
+		// Получаем все маршруты для региона
+		const allRoutes = routeData?.routes || []
+		const list = new Set(whitelist)
+		
+		// Фильтруем — оставляем только те, что в whitelist
+		return allRoutes.filter(route => list.has(`${route.url}.html`))
+	  }, [routeData?.routes])
+
 	useLayoutEffect(() => {
 		routeData && setRoute(routeData)
 	}, [routeData])
@@ -131,7 +141,7 @@ export function Home({ routeData }: Props) {
 			}
 
 			<Suspense>
-				<CitiesSection routes={routeData?.routes} routeData={routeData} />
+				<CitiesSection routes={routesList} routeData={routeData} />
 			</Suspense>
 
 			{routeData && (

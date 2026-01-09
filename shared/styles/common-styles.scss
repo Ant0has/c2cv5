@@ -329,6 +329,14 @@
   margin-bottom: 64px;
 }
 
+.margin-b-80 {
+  margin-bottom: 80px;
+} 
+
+.margin-t-8{
+  margin-top: 8px;
+}
+
 .margin-t-16 {
   margin-top: 16px;
 }
@@ -364,6 +372,10 @@
 
 .bg-primary {
   background: var(--primary);
+}
+
+.bg-primary-dark {
+  background: var(--primary-dark);
 }
 
 //position
@@ -509,6 +521,10 @@
 
 .text-error {
   color: var(--error);
+}
+
+.text-dark-secondary{
+  color: var(--dark-secondary);
 }
 
 //text

@@ -1,12 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+
+import whitelist from './whitelist.json'
 
 export function middleware(request: NextRequest) {
-  const { searchParams } = request.nextUrl
+  const { pathname, searchParams } = request.nextUrl
 
-  // const isBryanskRegion = (pathname.includes('bryansk')) &&
-  //   !excludesPages.find(page => page.includes(pathname))
-
-  // Удаляем параметр ttpage из всех URL
   if (searchParams.has('ttpage')) {
     const newSearchParams = new URLSearchParams(searchParams)
     newSearchParams.delete('ttpage')
@@ -17,15 +16,14 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(newUrl, 301)
   }
 
-  // if (isBryanskRegion) {
-  //   const response = NextResponse.next()
-
-  //   response.headers.set('x-robots-tag', 'noindex, nofollow')
-
-  //   response.cookies.set('need-noindex', 'true')
-
-  //   return response
-  // }
+  // 2. Вторая задача: проверка страниц маршрутов на наличие в whitelist
+  if (pathname.endsWith('.html') && pathname !== '/') {
+    const slug = pathname.slice(1)
+    
+    if (!whitelist.includes(slug)) {
+      return NextResponse.rewrite(new URL('/404', request.url), { status: 404 })
+    }
+  }
 
   return NextResponse.next()
 }
