@@ -1,6 +1,10 @@
 import BankCardIcon from "@/public/icons/BankCardIcon"
 import CarIcon from "@/public/icons/CarIcon"
 import BankIcon from "@/public/icons/BankIcon"
+import TransportationIcon from "@/public/icons/TransportationIcon"
+import AirportTransfersIcon from "@/public/icons/AirportTransfersIcon"
+import EventsIcon from "@/public/icons/EventsIcon"
+import HomeIcon from "@/public/icons/HomeIcon"
 
 export const companyExperienceList = [
     {
@@ -95,3 +99,29 @@ export const paymentMethodsList = [
   }
 ]
 
+export const serviceAreasList = [
+  {
+    id: 1,
+    title: 'Корпоративный транспорт',
+    icon: <HomeIcon />,
+    description: 'Доставка сотрудников на работу, деловые встречи и конференции'
+  },
+  {
+    id: 2,
+    title: 'Корпоративы и мероприятия',
+    icon: <EventsIcon />,
+    description: 'Трансфер гостей и сотрудников после корпоративных вечеринок'
+  },
+  {
+    id: 3,
+    title: 'Вахтовые перевозки',
+    icon:<TransportationIcon/>,
+    description: 'Доставка персонала на объекты'
+  },
+  {
+    id: 4,
+    title: 'Аэропортовые трансферы',
+    icon:<AirportTransfersIcon/>,
+    description: 'Встреча партнеров и гостей, VIP-трансферы'
+  }
+]
