@@ -3,14 +3,9 @@ import { companyAdvantagesList, companyExperienceList } from "@/pages-list/dlya-
 import CheckIcon from "@/public/icons/CheckIcon";
 import { useIsMobile } from "@/shared/hooks/useResize";
 import clsx from "clsx";
-import { FC } from "react";
 import s from './DlyaBiznesaHeroContent.module.scss';
 
-interface IProps {
-  title?: unknown;
-}
-
-const DlyaBiznesaHeroContent: FC<IProps> = () => {
+const DlyaBiznesaHeroContent = () => {
   const isMobile = useIsMobile();
 
   return (

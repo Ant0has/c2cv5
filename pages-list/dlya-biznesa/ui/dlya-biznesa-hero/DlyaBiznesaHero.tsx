@@ -13,7 +13,7 @@ const DlyaBiznesaHero = () => {
     <div className={clsx('relative', {'padding-b-104': !isMobile}, {'padding-b-40': isMobile})}>
       <div className={clsx("container", 'relative z-2')}>
         <div className={clsx(s.content, "max-width-696")}>
-          <DlyaBiznesaHeroContent title={'Для корпоративных клиентов'} />
+          <DlyaBiznesaHeroContent />
 
           <DlyaBiznesaHeroForm /> 
         </div>
