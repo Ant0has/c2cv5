@@ -7,6 +7,8 @@ import { useState } from "react";
 import { mailService } from "@/shared/services/mail.service";
 import { useIsMobile } from "@/shared/hooks/useResize";
 import clsx from "clsx";
+import ChatIcon from "@/public/icons/ChatIcon";
+import PhoneIcon from "@/public/icons/PhoneIcon";
 
 const inputStyle = {
     width: '100% !important',
@@ -28,8 +30,6 @@ const DlyaBiznesaHeroForm = () => {
     const [form] = Form.useForm()
     const [isSubmitting, setIsSubmitting] = useState(false)
     const isMobile = useIsMobile()
-
-
 
     const handleHeroFormSubmit = async () => {
         try {
@@ -73,7 +73,7 @@ const DlyaBiznesaHeroForm = () => {
             <Form
                 form={form}
                 name="heroForm"
-                className={clsx('flex gap-8', {'flex-col': isMobile}, {'flex-row': !isMobile})}
+                className={clsx('flex gap-8', {'flex-col': isMobile}, {'grid grid-auto-flow-column grid-cols-2': !isMobile})}
                 layout="horizontal"
                 onFinish={handleHeroFormSubmit}
                 requiredMark={false}
@@ -84,7 +84,7 @@ const DlyaBiznesaHeroForm = () => {
                     rules={[{ required: true, message: 'Введите имя' }]}
                 >
                     <Input
-                        prefix={<Image src={'/icons/chatIcon.svg'} alt="phone" width={20} height={20} />}
+                        prefix={<ChatIcon fill='var(--dark-secondary)' />}
                         placeholder="Ваше имя"
                         style={inputStyle}
                     />
@@ -98,8 +98,8 @@ const DlyaBiznesaHeroForm = () => {
                     ]}
                 >
                     <Input
-                        prefix={<Image src={'/icons/phoneIcon.svg'} alt="phone" width={20} height={20} />}
-                        placeholder="+7 (___) ___-__-__"
+                        prefix={<PhoneIcon fill='var(--dark-secondary)' />}
+                        placeholder="Ваш телефон"
                         style={inputStyle}
                     />
                 </Form.Item>
