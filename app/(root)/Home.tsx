@@ -2,7 +2,7 @@
 import Price from "@/pages-list/home/ui/Price/Price"
 import Welcome from "@/pages-list/home/ui/Welcome/Welcome"
 import { LoadingSkeleton } from "@/shared/components/loadingSkeleton/LoadingSkeleton"
-import { goToOrder } from "@/shared/services/go-to-order"
+import { scrollToBlockById } from "@/shared/services/scroll-to-block"
 import { IRouteData } from "@/shared/types/route.interface"
 import dynamic from "next/dynamic"
 import { usePathname } from "next/navigation"
@@ -110,7 +110,7 @@ export function Home({ routeData }: Props) {
 
 	return (
 		<>
-			<Welcome route={routeData} isMilitary={isMilitary} handleGoToOrder={() => goToOrder()} city={cityTitle} />
+			<Welcome route={routeData} isMilitary={isMilitary} handleGoToOrder={() => scrollToBlockById()} city={cityTitle} />
 
 			<Suspense>
 				<RouteVideoSection videoUrl={routeData?.route_video_url} route_video_thumbnail={routeData?.route_video_thumbnail} title={cityTitle} />

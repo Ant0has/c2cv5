@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import { problemSolutionsList } from '@/pages-list/dlya-biznesa/utils/data';
 import { useIsMobile } from '@/shared/hooks/useResize';
 import CheckIcon from '@/public/icons/CheckIcon';
+import ArrowDownIcon from '@/public/icons/ArrowDownIcon';
 
 const DlyaBiznesaAnswers = () => {
     const isMobile = useIsMobile();
@@ -44,13 +45,7 @@ const DlyaBiznesaAnswers = () => {
                                 </div>
                             </div>
                             <div className={styles.arrow}>
-                                <Image
-                                    src={'/icons/ArrowDownIcon.svg'}
-                                    alt="Стрелка"
-                                    width={24}
-                                    height={24}
-                                    className={styles.arrowIcon}
-                                />
+                                <ArrowDownIcon fill='var(--primary)'/>
                             </div>
 
                             <div className={clsx(styles.solution, 'border-radius-24 padding-24')}>

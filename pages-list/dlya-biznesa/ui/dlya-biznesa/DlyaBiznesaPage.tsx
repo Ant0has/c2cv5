@@ -4,6 +4,7 @@ import DlyaBiznesaAnswers from '../dlya-biznesa-answers/DlyaBiznesaAnswers'
 import DlyaBiznesaCalculator from '../dlya-biznesa-calculator/DlyaBiznesaCalculator';
 import DlyaBiznesaContract from '../dlya-biznesa-contract/DlyaBiznesaContract';
 import DlyaBiznesaServiceAreas from '../dlya-biznesa-service-areas/DlyaBiznesaServiceAreas';
+import DlyaBiznesaPopularRoutes from '../dlya-biznesa-popular-routes/DlyaBiznesaPopularRoutes';
 
 const DlyBiznesaPage = () => {
   return (
@@ -13,6 +14,7 @@ const DlyBiznesaPage = () => {
         <DlyaBiznesaCalculator />
         <DlyaBiznesaContract />
         <DlyaBiznesaServiceAreas />
+        <DlyaBiznesaPopularRoutes />
     </div>
   );
 };

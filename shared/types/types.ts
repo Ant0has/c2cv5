@@ -1,5 +1,7 @@
 export interface IconProps {
   fill?: string
+  width?: number
+  height?: number
   className?: string
   onClick?: () => void
 }

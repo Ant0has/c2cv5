@@ -7,7 +7,7 @@ import Image from "next/image";
 
 const DlyaBiznesaCalculator = () => {
     return (
-        <div className={styles.wrapper}>
+        <div className={styles.wrapper} id="dlya-biznesa-calculator">
             <div className={styles.content}>
                 <h2 className={clsx('title text-white text-center',)}>
                     Рассчитайте предварительную <br /> стоимость

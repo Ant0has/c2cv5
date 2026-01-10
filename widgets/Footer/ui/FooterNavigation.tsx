@@ -2,7 +2,7 @@
 
 import { ModalContext } from '@/app/providers'
 import { routesConfig } from '@/shared/configs/routes.config'
-import { goToOrder } from '@/shared/services/go-to-order'
+import { scrollToBlockById } from '@/shared/services/scroll-to-block'
 import { Blocks } from '@/shared/types/enums'
 import { IRouteData } from '@/shared/types/route.interface'
 import Link from 'next/link'
@@ -16,10 +16,10 @@ const FooterNavigation = ({route}: {route: IRouteData}) => {
   const navList = useMemo(() => ([
     { id: 4, label: 'О компании', route: routesConfig.getAboutRoute() },
     { id: 7, label: 'Контакты', route: routesConfig.getContactsRoute() },
-    { id: 2, label: 'Рассчитать', route: '', handleClick: goToOrder },
+    { id: 2, label: 'Рассчитать', route: '', handleClick: () => scrollToBlockById('order') },
     { id: 6, label: 'Для бизнеса', route: routesConfig.getForBusinessRoute() },
     { id: 3, label: 'Консультация', route: '', handleClick: () => setQuestionModalData({ status: true, blockFrom: Blocks.FOOTER }) },
-  ]), [setQuestionModalData, goToOrder])
+  ]), [setQuestionModalData, scrollToBlockById])
 
   const legalInfoNavList = useMemo(() => ([
     { id: 8, label: 'Оферта для юр.лиц', route: routesConfig.getOfertaRoute() },
@@ -36,7 +36,7 @@ const FooterNavigation = ({route}: {route: IRouteData}) => {
     ) : (
       <a key={link.id} onClick={link?.handleClick} className='text-white font-18-medium cursor-pointer'>{link.label}</a>
     ))
-  }, [goToOrder, setQuestionModalData])
+  }, [scrollToBlockById, setQuestionModalData])
 
   return (
     <div className={s.navigationBlock}>

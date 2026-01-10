@@ -125,3 +125,55 @@ export const serviceAreasList = [
     description: 'Встреча партнеров и гостей, VIP-трансферы'
   }
 ]
+
+export const popularRoutesList = [
+  {
+    id: 1,
+    from: 'Москва',
+    to: 'Санкт-Петербург',
+    price: '26 000 ₽',
+    distance: '420 км',
+    duration: '5 ч',
+  },
+  {
+    id: 1,
+    from: 'Ростов-на-Дону',
+    to: 'Краснодар',
+    price: '10 000 ₽',
+    distance: '420 км',
+    duration: '5 ч',
+  },
+  {
+    id: 3,
+    from: 'Москва',
+    to: 'Казань',
+    price: '30 000 ₽',
+    distance: '420 км',
+    duration: '5 ч',
+  },
+
+  {
+    id: 4,
+    from: 'Санкт-Петербург',
+    to: 'Великий Новгород',
+    price: '7 000 ₽',
+    distance: '420 км',
+    duration: '5 ч',
+  },
+  {
+    id: 5,
+    from: 'Краснодар',
+    to: 'Сочи',
+    price: '10 500 ₽',
+    distance: '420 км',
+    duration: '5 ч',
+  },
+  {
+    id: 6,
+    from: 'Москва',
+    to: 'Нижний Новгород',
+    price: '15 500 ₽',
+    distance: '420 км',
+    duration: '5 ч',
+  },
+]
