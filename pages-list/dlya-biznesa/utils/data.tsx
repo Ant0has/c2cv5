@@ -5,6 +5,10 @@ import TransportationIcon from "@/public/icons/TransportationIcon"
 import AirportTransfersIcon from "@/public/icons/AirportTransfersIcon"
 import EventsIcon from "@/public/icons/EventsIcon"
 import HomeIcon from "@/public/icons/HomeIcon"
+import PunctualityIcon from "@/public/icons/PunctualityIcon"
+import WifiIcon from "@/public/icons/WifiIcon"
+import SafetyIcon from "@/public/icons/SafetyIcon"
+import PeopleIcon from "@/public/icons/PeopleIcon"
 
 export const companyExperienceList = [
     {
@@ -201,3 +205,37 @@ export const instructionList = [
     description: 'Водитель прибывает вовремя. После поездки — электронный чек и закрывающие документы.'
   }
 ] 
+
+
+export const choiseList = [
+  {
+    id: 1,
+    title: 'Пунктуальность',
+    icon: <PunctualityIcon />,
+    description: 'Водитель прибывает в назначенное время. Отслеживание рейсов при встрече в аэропорту'
+  },
+  {
+    id: 2,
+    title: 'Связь без интернета',
+    icon: <WifiIcon />,
+    description: 'Уникальная система связи клиент-диспетчер-водитель работает даже при блокировках мобильного интернета'
+  },
+  {
+    id: 3,
+    title: 'Опытные водители',
+    icon: <PeopleIcon />,
+    description: 'Проверенные водители со стажем от 5 лет. Знание деловой этики и дресс-код'
+  },
+  {
+    id: 4,
+    title: 'Безопасность',
+    icon: <SafetyIcon />,
+    description: 'Все автомобили застрахованы по КАСКО. Регулярный техосмотр и обслуживание'
+  },
+  {
+    id: 5,
+    title: 'Комфортный автопарк',
+    icon: <CarIcon />,
+    description: 'Автомобили не старше 5 лет. Кондиционер, зарядные устройства для гаджетов'
+  },
+]

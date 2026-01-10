@@ -1,0 +1,130 @@
+.wrapper {
+    padding: 48px 0;
+    max-width: 1516px;
+    border-radius: 24px;
+    position: relative;
+    margin: 0 auto;
+
+    @media (max-width: 1400px) {
+        padding: 0 16px;
+    }
+
+    @media screen and (max-width: 768px) {
+        padding: 0;
+        background-color: #1A1A1A;
+
+        position: relative;
+        z-index: 10;
+    }
+
+    .imageBg {
+        @media (max-width: 768px) {
+            display: none;
+        }
+    }
+}
+
+.choiseList {
+    margin-top: 48px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); // 6 колонок для точного позиционирования
+    gap: 24px;
+
+    .choiseItem:nth-child(1) {
+        grid-column: 1 / span 2;
+    }
+
+    .choiseItem:nth-child(2) {
+        grid-column: 3 / span 2;
+    }
+
+    .choiseItem:nth-child(3) {
+        grid-column: 5 / span 2;
+    }
+
+    .choiseItem:nth-child(4) {
+        grid-column: 2 / 4;
+    }
+
+    .choiseItem:nth-child(5) {
+        grid-column: 4 / 6;
+    }
+
+    @media screen and (max-width: 1200px) {
+        grid-template-columns: repeat(2, 1fr);
+
+        .choiseItem {
+            grid-column: span 1 !important;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        margin-top: 24px;
+    }
+
+
+    .choiseItem {
+        border: 1px solid var(--primary);
+        padding: 24px;
+        border-radius: 24px;
+        background-color: #0F0F0F;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--primary);
+
+            .choiseItemIcon {
+                background-color: var(--white);
+            }
+
+            .choiseItemTitle,
+            .choiseItemDescription {
+                color: var(--white);
+            }
+
+            .choiseItemIcon svg path {
+                fill: var(--primary);
+            }
+        }
+
+        .choiseItemTop {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .choiseItemTitle {
+            font-size: 24px;
+            font-weight: 500;
+            line-height: 32px;
+            color: var(--white);
+            transition: all 0.3s ease;
+        }
+
+        .choiseItemDescription {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 24px;
+            color: var(--dark-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .choiseItemIcon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--primary);
+            transition: all 0.3s ease;
+        }
+    }
+}
