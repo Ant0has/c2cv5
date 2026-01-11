@@ -7,6 +7,7 @@ import DlyaBiznesaServiceAreas from '../dlya-biznesa-service-areas/DlyaBiznesaSe
 import DlyaBiznesaPopularRoutes from '../dlya-biznesa-popular-routes/DlyaBiznesaPopularRoutes';
 import DlyaBiznesaInstruction from '../dlya-biznesa-instruction/DlyaBiznesaInstruction';
 import DlyaBiznesaChoise from '../dlya-biznesa-choise/DlyaBiznesaChoise';
+import DlyaBiznesaReviews from '../dlya-biznesa-reviews/DlyaBiznesaReviews';
 
 const DlyBiznesaPage = () => {
   return (
@@ -19,6 +20,7 @@ const DlyBiznesaPage = () => {
         <DlyaBiznesaPopularRoutes />
         <DlyaBiznesaInstruction />
         <DlyaBiznesaChoise />
+        <DlyaBiznesaReviews />
     </div>
   );
 };

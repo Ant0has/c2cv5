@@ -1,5 +1,4 @@
-import { formatDate } from "@/shared/services/formate-date";
-import { IReview, IReviewData } from "@/shared/types/types";
+import { IReview } from "@/shared/types/types";
 import { Rate } from "antd";
 import clsx from "clsx";
 import Image, { StaticImageData } from "next/image";
