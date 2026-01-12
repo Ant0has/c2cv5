@@ -1,0 +1,118 @@
+.item {
+    border-radius: 16px;
+    padding: 16px 0;
+    flex-direction: column;
+
+    transition: background 0.25s ease;
+}
+
+.itemDark {
+    background: #1A1A1A;
+}
+
+.question {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    outline: none;
+
+    width: 100%;
+    padding: 0;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    text-align: left;
+
+    span:first-child {
+        color: var(--dark);
+    }
+}
+
+.icon {
+    & svg, & svg path {
+        fill: var(--dark);
+    }
+}
+
+.iconDark {
+    & svg, & svg path {
+        fill: var(--primary);
+    }   
+}
+
+.questionDark {
+    span:first-child {
+        color: var(--white);
+    }
+}
+
+.iconWrapper {
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease; // улучшенная анимация
+}
+
+.rotated {
+    transform: rotate(180deg);
+}
+
+.answer {
+    max-height: 0;
+    overflow: hidden;
+
+    opacity: 0;
+    padding-top: 0;
+    transition: 0.35s ease;
+
+    p {
+        color: var(--dark);
+    }
+}
+
+.open {
+    transition: 0.35s ease;
+
+    .answer {
+        max-height: 500px; // больше чем любой реальный ответ
+        opacity: 1;
+        padding-top: 12px; // вместо margin — более плавно
+    }
+
+    .answerDark {
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid #99999940;
+
+        & p {
+            color: var(--white);
+        }
+    }
+}
+
+
+
+.openDark {
+    background-color: var(--primary);
+
+    .icon {
+        & svg, & svg path {
+            fill: var(--white);
+        }
+    }
+
+    .answerDark {
+        border-top: 1px solid #e4dfdf40;
+    }
+}
+
+@media (max-width: 800px) {
+    .question span:first-child {
+        font-size: 16px;
+    }
+
+    .answer p {
+        font-size: 15px;
+    }
+}

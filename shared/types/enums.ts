@@ -25,4 +25,6 @@ export enum Blocks {
   FOOTER = 'Футер',
   HUB_HERO = 'Герой Хаба',
   HUB = 'Хаб',
+  DLYA_BIZNESA_CALCULATOR = 'Калькулятор для бизнеса',
+  DLYA_BIZNESA_COOPERATION = 'Сотрудничество для бизнеса',
 }

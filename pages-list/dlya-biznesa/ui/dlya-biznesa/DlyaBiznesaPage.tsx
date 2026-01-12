@@ -8,6 +8,8 @@ import DlyaBiznesaPopularRoutes from '../dlya-biznesa-popular-routes/DlyaBiznesa
 import DlyaBiznesaInstruction from '../dlya-biznesa-instruction/DlyaBiznesaInstruction';
 import DlyaBiznesaChoise from '../dlya-biznesa-choise/DlyaBiznesaChoise';
 import DlyaBiznesaReviews from '../dlya-biznesa-reviews/DlyaBiznesaReviews';
+import DlyaBiznesaFaq from '../dlya-biznesa-faq/DlyaBiznesaFaq';
+import DlyaBiznesaCooperation from '../dlya-biznesa-cooperation/DlyaBiznesaCooperation';
 
 const DlyBiznesaPage = () => {
   return (
@@ -21,6 +23,8 @@ const DlyBiznesaPage = () => {
         <DlyaBiznesaInstruction />
         <DlyaBiznesaChoise />
         <DlyaBiznesaReviews />
+        <DlyaBiznesaFaq />
+        <DlyaBiznesaCooperation />
     </div>
   );
 };

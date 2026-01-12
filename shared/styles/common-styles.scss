@@ -112,6 +112,15 @@
   grid-template-columns: repeat(3, 1fr);
 }
 
+//display
+.display-none {
+  display: none;
+}
+
+.display-block {
+  display: block;
+}
+
 //width
   .width-full {
     width: 100%;
@@ -136,10 +145,10 @@
   .width-max-content {
     width: max-content;
   }
-
-  .max-width-696 {
+   .max-width-696 {
     max-width: 696px;
   }
+
 
   //height
 

@@ -16,6 +16,7 @@ const DlyaBiznesaHero = () => {
           <DlyaBiznesaHeroContent />
 
           <DlyaBiznesaHeroForm /> 
+
         </div>
       </div>
       <div className={clsx(s.phones)}>
@@ -31,7 +32,6 @@ const DlyaBiznesaHero = () => {
           width={1100} height={700}
         />
         <div className={s.glowEffect} />
-
       </div>
     </div>
   )

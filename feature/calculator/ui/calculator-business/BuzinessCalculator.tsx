@@ -148,7 +148,7 @@ const BuzinessCalculator: FC<BuzinessCalculatorProps> = (props) => {
                     order_from: state.departurePoint,
                     order_to: state.arrivalPoint,
                     trip_price_from: state.price,
-                    block: Blocks.CALCULATOR,
+                    block: Blocks.DLYA_BIZNESA_CALCULATOR,
                   })}
                   >
                     <CheckIcon fill='var(--dark)' />
