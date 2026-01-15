@@ -87,7 +87,8 @@ const BuzinessCalculator: FC<BuzinessCalculatorProps> = (props) => {
                 onClick={() => handleCalculate(actions)}
               >
                 <div className='flex items-center gap-16 items-center'>
-                  { <><span className='font-18-medium text-white'> {state.isLoading ? 'Рассчитывается...' : `Рассчитать  ${<ArrowRightIcon />}`} </span></>}
+                  {state.isLoading && <><span className='font-18-medium text-white'>Рассчитывается...</span></>}
+                  {!state.isLoading && <><span className='font-18-medium text-white'>Рассчитать <ArrowRightIcon /></span></>}
                 </div>
               </Button>
             </div>
