@@ -44,6 +44,8 @@ const BuzinessCalculator: FC<BuzinessCalculatorProps> = (props) => {
   return (
     <CalculatorBase {...props}>
       {({ state, actions, infoData, selectedPlan }) => {
+        console.log(state,'-----state');
+        console.log(infoData,'-----infoData');
         return (
           <div id="order" className={clsx(s.wrapper)}>
           <div className={s.top}>
@@ -84,6 +86,7 @@ const BuzinessCalculator: FC<BuzinessCalculatorProps> = (props) => {
               <Button
                 type="primary"
                 className={'h-56'}
+                disabled={state.isLoading || !state.departurePoint || !state.arrivalPoint}
                 onClick={() => handleCalculate(actions)}
               >
                 <div className='flex items-center gap-16 items-center'>
@@ -129,7 +132,7 @@ const BuzinessCalculator: FC<BuzinessCalculatorProps> = (props) => {
               <div className={s.result}>
                 <div className='flex flex-col gap-8'>
                   <div className='font-40-medium text-white'>
-                    {infoData[2]?.valueLabel || 0} руб.
+                    {infoData[2]?.valueLabel || 0}
                   </div>
                   <div className='font-14-normal flex flex-row gap-4 items-center'>
                     <Image src="/icons/PriceCheckIcon.svg" alt="price-check" width={14} height={12} />

@@ -221,6 +221,9 @@ export const useCalculator = ({
 
                   const timeValue = convertHoursToRoundedTime(distanceValue / SPEED);
 
+                  console.log(distanceValue,'-----distanceValue');
+                  console.log(timeValue,'-----timeValue');
+
                   setState(prev => ({
                     ...prev,
                     // distance: `${distanceValue} км`,
@@ -237,6 +240,8 @@ export const useCalculator = ({
         } catch (error) {
           console.error("Error calculating route:", error);
           message.error("Ошибка расчета маршрута");
+          setState(prev => ({ ...prev, isLoading: false }));
+        } finally {
           setState(prev => ({ ...prev, isLoading: false }));
         }
       }, 2000);
@@ -293,10 +298,10 @@ export const useCalculator = ({
       handleChangeArrivalPoint,
       handleSearchArrivalPoint,
       handleCalculate,
-      getRoutePanelRef: () => routePanelRef,
     },
     infoData,
     selectedPlan,
     routeData,
+    routePanelRef,
   };
 };

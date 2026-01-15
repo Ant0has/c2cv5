@@ -11,6 +11,7 @@ interface CalculatorBaseProps extends ICalculatorProps {
         infoData: any;
         selectedPlan: any;
         routeData: any;
+        routePanelRef: any;
     }) => ReactNode;
 }
 
@@ -18,7 +19,7 @@ const CalculatorBase: FC<CalculatorBaseProps> = ({
     children,
     selectedPlan,
     cityData,
-    routeData
+    routeData,
 }) => {
     const {
         state,
@@ -26,6 +27,7 @@ const CalculatorBase: FC<CalculatorBaseProps> = ({
         infoData,
         selectedPlan: plan,
         routeData: route,
+        routePanelRef,
     } = useCalculator({ selectedPlan, cityData, routeData });
 
     return (
@@ -36,6 +38,7 @@ const CalculatorBase: FC<CalculatorBaseProps> = ({
                 infoData,
                 selectedPlan: plan,
                 routeData: route,
+                routePanelRef,
             })}
 
             {/* Карта остается здесь, так как она нужна для логики */}
@@ -51,8 +54,7 @@ const CalculatorBase: FC<CalculatorBaseProps> = ({
                     }}>
                     <RoutePanel
                         instanceRef={(ref: any) => {
-                            const routePanelRef = actions.getRoutePanelRef();
-                            if (routePanelRef.current) {
+                            if (ref) {
                                 routePanelRef.current = ref;
                             }
                             if (ref) {
