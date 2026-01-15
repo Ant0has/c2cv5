@@ -10,7 +10,7 @@ import { FC } from "react";
 import s from './contactsPage.module.scss';
 import { requisitsData } from "@/shared/data/requisits.data";
 import Requisits from "@/shared/components/requisits/Requisits";
-import TextPageLayout from "@/shared/layouts/text-page-layout/TextPageLayout";
+import TextPageLayout from "@/shared/layouts/textPageLayout/TextPageLayout";
 
 interface IProps {
   title?: unknown

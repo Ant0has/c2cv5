@@ -13,51 +13,20 @@ import { useContext } from 'react';
 import { ModalContext } from '@/app/providers';
 
 const DlyaBiznesaCooperation = () => {
-    const isMobile = useIsMobile();
-    const { setOrderModalData } = useContext(ModalContext);
+    const { setQuestionModalData } = useContext(ModalContext);
 
     const handleOrderClick = () => {
-        setOrderModalData({ status: true, block: Blocks.DLYA_BIZNESA_COOPERATION })
+        setQuestionModalData({ status: true, theme: 'dark', blockFrom: Blocks.DLYA_BIZNESA_COOPERATION })
     }
 
     return (
         <div className={s.wrapper}>
             <div className={s.inner}>
-                <div className="container relative z-3">
-                    <h2 className={clsx('title text-white', { 'text-center': isMobile })}>Готовы начать <br /> <span className="text-primary"> сотрудничество?</span></h2>
-                    <p className={clsx('max-width-600px font-18-medium text-dark-secondary margin-t-16', { 'text-center': isMobile })}>Оставьте заявку — менеджер свяжется с вами <br className={clsx({ 'display-none': isMobile })} /> в течение 15 минут и подготовит индивидуальное предложение</p>
-                    <div className='margin-t-32'>
-                        <Button className={clsx({ 'width-full': isMobile })} type={ButtonTypes.PRIMARY} text='Получить предложение' handleClick={handleOrderClick} />
-                    </div>
-                    <p className={clsx('font-18-medium text-dark-secondary margin-t-24', { 'text-center': isMobile })}>или свяжитесь с нами:</p>
-                    <div className={s.links}>
-                        <a href={`tel:${requisitsData.PHONE}`} className={s.link}>{requisitsData.PHONE_MARKED}</a>
-                        <a href={`mailto:${requisitsData.EMAIL}`} className={s.link}>{requisitsData.EMAIL}</a>
-                    </div>
-                    <div className={s.socials}>
-                        <Button
-                            type={ButtonTypes.LINK}
-                            text='Написать'
-                            link={`https://t.me/${requisitsData.TELEGRAM_NICKNAME}`}
-                            icon={<TelegramIcon />}
-                        />
-                        <Button
-                            type={ButtonTypes.LINK}
-                            text='Написать'
-                            link={`https://wa.me/${requisitsData.WHATSAPP_NICKNAME}`}
-                            icon={<WhatsUpIcon />}
-                        />
-                        <Button
-                            type={ButtonTypes.LINK}
-                            text='Написать'
-                            link={`https://max.ru/${requisitsData.MAX_NICKNAME}`}
-                            icon={<MaxIcon />}
-                        />
-                    </div>
+                <div className={clsx(s.mobileContent, 'container relative z-3')}>
+                    <DlyaBiznesaCooperationContent handleOrderClick={handleOrderClick} />
                 </div>
 
                 <div className={clsx(s.phones)}>
-
                     <Image
                         className={s.logoImage}
                         src="/images/dlya-biznesa/businessman-logo.png"
@@ -103,8 +72,54 @@ const DlyaBiznesaCooperation = () => {
                     />
                 </div>
             </div>
+
+            <div className={s.content}>
+                <div className="container">
+                    <DlyaBiznesaCooperationContent handleOrderClick={handleOrderClick} />
+                </div>
+            </div>
         </div>
     );
 };
 
 export default DlyaBiznesaCooperation;
+
+
+const DlyaBiznesaCooperationContent = ({ handleOrderClick }: { handleOrderClick: () => void }) => {
+    const isMobile = useIsMobile();
+
+    return (
+        <>
+            <h2 className={clsx('title text-white', { 'text-center': isMobile })}>Готовы начать <br /> <span className="text-primary"> сотрудничество?</span></h2>
+            <p className={clsx('max-width-600px font-18-medium text-dark-secondary margin-t-16', { 'text-center': isMobile })}>Оставьте заявку — менеджер свяжется с вами <br className={clsx({ 'display-none': isMobile })} /> в течение 15 минут и подготовит индивидуальное предложение</p>
+            <div className='margin-t-32'>
+                <Button className={clsx({ 'width-full': isMobile })} type={ButtonTypes.PRIMARY} text='Получить предложение' handleClick={handleOrderClick} />
+            </div>
+            <p className={clsx('font-18-medium text-dark-secondary margin-t-24', { 'text-center': isMobile })}>или свяжитесь с нами:</p>
+            <div className={s.links}>
+                <a href={`tel:${requisitsData.PHONE}`} className={s.link}>{requisitsData.PHONE_MARKED}</a>
+                <a href={`mailto:${requisitsData.EMAIL}`} className={s.link}>{requisitsData.EMAIL}</a>
+            </div>
+            <div className={s.socials}>
+                <Button
+                    type={ButtonTypes.LINK}
+                    text='Написать'
+                    link={`https://t.me/${requisitsData.TELEGRAM_NICKNAME}`}
+                    icon={<TelegramIcon />}
+                />
+                <Button
+                    type={ButtonTypes.LINK}
+                    text='Написать'
+                    link={`https://wa.me/${requisitsData.WHATSAPP_NICKNAME}`}
+                    icon={<WhatsUpIcon />}
+                />
+                <Button
+                    type={ButtonTypes.LINK}
+                    text='Написать'
+                    link={`https://max.ru/${requisitsData.MAX_NICKNAME}`}
+                    icon={<MaxIcon />}
+                />
+            </div>
+        </>
+    )
+}

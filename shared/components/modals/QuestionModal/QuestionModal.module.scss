@@ -1,3 +1,57 @@
 .QuestionModal-component {
   display: flex;
 }
+
+.darkThemeModal {
+  background: var(--dark);
+  border-radius: 24px;
+
+  :global(.ant-modal-content) {
+    background: var(--dark) !important;
+  }
+
+  :global(.ant-modal-header) {
+    background: var(--dark) !important;
+    color: var(--white) !important;
+  }
+
+  :global(.ant-modal-close) {
+    svg {
+      fill: var(--white) !important;
+    }
+  }
+}
+
+
+.darkThemeModalTitle {
+  & * {
+    color: var(--white) !important;
+  }
+}
+
+.darkThemeModalForm {
+  :global(.ant-form-item-label) {
+    span {
+    color: var(--white) !important;
+    }
+  }
+
+  :global(.ant-form-item-control-input-content) {
+    input {
+      height: 56px;
+      background: #383838 !important;
+      border: 1px solid #383838 !important;
+      color: var(--white) !important;
+      font-size: 20px;
+      border-radius: 16px;
+      caret-color: var(--white) !important;
+
+
+      &::placeholder {
+        color: var(--dark-secondary) !important;
+      }
+    }
+
+    
+  }
+}

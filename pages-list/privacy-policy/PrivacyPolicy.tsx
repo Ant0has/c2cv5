@@ -1,5 +1,5 @@
 import { requisitsData } from "@/shared/data/requisits.data";
-import TextPageLayout from "@/shared/layouts/text-page-layout/TextPageLayout";
+import TextPageLayout from "@/shared/layouts/textPageLayout/TextPageLayout";
 import { FC } from "react";
 
 interface IProps {

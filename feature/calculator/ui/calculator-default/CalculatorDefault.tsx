@@ -67,7 +67,7 @@ const AddressSelectDefault: FC<AddressSelectDefaultProps> = (props) => {
           </div>
 
           <div className={s.info}>
-            {infoData.map((info: any) => (
+            {infoData.slice(0, 3).map((info: any) => (
               <div key={info.id} className={s.card}>
                 <div className={s.icon}>
                   {info.icon === 'road' && <RoadIcon />}
@@ -76,7 +76,7 @@ const AddressSelectDefault: FC<AddressSelectDefaultProps> = (props) => {
                 </div>
                 <div className={s.content}>
                   <div className={clsx(s.top, 'font-24-medium text-white')}>
-                    {info.value}
+                    {info.valueLabel}
                   </div>
                   <div className={clsx(s.bottom, 'font-14-normal text-gray')}>
                     {info.description}

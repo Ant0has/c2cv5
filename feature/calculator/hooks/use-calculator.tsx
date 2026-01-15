@@ -55,9 +55,9 @@ export interface ICalculatorState {
   departurePointData: string[];
   arrivalPoint: string;
   arrivalPointData: string[];
-  distance: string;
+  distance: number;
   time: string;
-  price: string;
+  price: number;
   isLoading: boolean;
 }
 
@@ -114,17 +114,22 @@ export const useCalculator = ({
     departurePointData: [],
     arrivalPoint: initialPoints.arrivalPoint,
     arrivalPointData: [],
-    distance: `от ${getInitialDistance()} км`,
+    // distance: `от ${getInitialDistance()} км`,
+    // time: '1 ч',
+    // price: `от ${getInitialPrice()} руб.`,
+    distance: getInitialDistance(),
     time: '1 ч',
-    price: `от ${getInitialPrice()} руб.`,
+    price: getInitialPrice(),
     isLoading: false,
   });
 
   useEffect(() => {
     setState(prev => ({
       ...prev,
-      price: `от ${getInitialPrice()} руб.`,
-      distance: `от ${getInitialDistance()} км`,
+      // price: `от ${getInitialPrice()} руб.`,
+      // distance: `от ${getInitialDistance()} км`,
+      price: getInitialPrice(),
+      distance: getInitialDistance(),
     }));
   }, [getInitialPrice, getInitialDistance, selectedPlan, routeData]);
 
@@ -218,9 +223,11 @@ export const useCalculator = ({
 
                   setState(prev => ({
                     ...prev,
-                    distance: `${distanceValue} км`,
+                    // distance: `${distanceValue} км`,
+                    distance: distanceValue,
                     time: timeValue,
-                    price: `от ${getPrice()}р`,
+                    // price: `от ${getPrice()}р`,
+                    price: getPrice(),
                     isLoading: false,
                   }));
                 }
@@ -246,19 +253,34 @@ export const useCalculator = ({
       id: 1,
       icon: 'road',
       value: state.distance,
+      valueLabel: `${state.distance} км`,
       description: 'Протяженность'
     },
     {
       id: 2,
       icon: 'time',
       value: state.time,
+      valueLabel: state.time,
       description: 'Время в пути'
     },
     {
       id: 3,
       icon: 'wallet',
       value: state.price,
+      valueLabel: `${state.price} руб.`,
       description: 'Стоимость'
+    },
+    {
+      id: 4,
+      icon:<></>,
+      value:state.departurePoint,
+      description: 'Точка отправления'
+    },
+    {
+      id: 5,
+      icon:<></>,
+      value:state.arrivalPoint,
+      description: 'Точка прибытия'
     }
   ];
 

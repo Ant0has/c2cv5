@@ -6,6 +6,7 @@ import { Form, Modal } from "antd";
 import { FC, useContext, useEffect, useState } from "react";
 import QuestionForm from "../../forms/QuestionForm/QuestionForm";
 import ModalTitle from "../ModalTitle/ModalTitle";
+import styles from './QuestionModal.module.scss';
 
 const QuestionModal: FC = () => {
   const { questionModalData, setQuestionModalData } = useContext(ModalContext)
@@ -33,11 +34,13 @@ const QuestionModal: FC = () => {
         })
         form.resetFields()
       }}
-      title={<ModalTitle title="Получить консультацию" description="Услуги качественного сервиса заказа такси в России" />}
+      title={<ModalTitle className={questionModalData?.theme === 'dark' ? styles.darkThemeModalTitle : styles.lightThemeModalTitle} title="Получить консультацию" description="Услуги качественного сервиса заказа такси в России" />}
       footer={false}
       width={588}
+      className={questionModalData?.theme === 'dark' ? styles.darkThemeModal : styles.lightThemeModal}
     >
       <QuestionForm
+        className={questionModalData?.theme === 'dark' ? styles.darkThemeModalForm : styles.lightThemeModalForm}
         blockFrom={questionModalData?.blockFrom || null}
         handleClickLink={() => {
           setQuestionModalData?.({
@@ -46,6 +49,7 @@ const QuestionModal: FC = () => {
           })
         }}
         form={form}
+        theme={questionModalData?.theme || 'light'}
         buttonText='Получить консультацию'
         handleClose={(isResetForm?: boolean) => {
           setQuestionModalData?.({ status: false, blockFrom: null })

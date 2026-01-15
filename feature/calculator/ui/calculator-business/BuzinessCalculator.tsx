@@ -11,6 +11,7 @@ import s from './BuzinessCalculator.module.scss';
 import CheckIcon from '@/public/icons/CheckIcon';
 import { useIsMobile } from "@/shared/hooks/useResize";
 import { Blocks } from "@/shared/types/enums";
+import Loader from "@/shared/components/ui/Loader/Loader";
 
 interface BuzinessCalculatorProps {
   selectedPlan: any;
@@ -31,17 +32,18 @@ const autoCompleteStyle = { height: '56px', }
 
 
 const BuzinessCalculator: FC<BuzinessCalculatorProps> = (props) => {
-  const { setOrderModalData } = useContext(ModalContext);
+  const { setQuestionModalData } = useContext(ModalContext);
   const [isShowResult, setIsShowResult] = useState(false);
   const isMobile = useIsMobile();
+
+  const handleCalculate = (actions: any) => {
+    actions.handleCalculate();
+    setIsShowResult(true);
+  }
 
   return (
     <CalculatorBase {...props}>
       {({ state, actions, infoData, selectedPlan }) => {
-          console.log(state,'-----state');
-          console.log(infoData,'-----infoData');
-          console.log(selectedPlan,'-----selectedPlan');
-          console.log(actions,'-----actions');
         return (
           <div id="order" className={clsx(s.wrapper)}>
           <div className={s.top}>
@@ -82,12 +84,10 @@ const BuzinessCalculator: FC<BuzinessCalculatorProps> = (props) => {
               <Button
                 type="primary"
                 className={'h-56'}
-                // onClick={actions.handleCalculate}
-                onClick={() => setIsShowResult(prev => !prev)}
+                onClick={() => handleCalculate(actions)}
               >
                 <div className='flex items-center gap-16 items-center'>
-                  <span className='font-18-medium text-white'> Рассчитать </span>
-                  <ArrowRightIcon />
+                  { <><span className='font-18-medium text-white'> {state.isLoading ? 'Рассчитывается...' : `Рассчитать  ${<ArrowRightIcon />}`} </span></>}
                 </div>
               </Button>
             </div>
@@ -99,13 +99,13 @@ const BuzinessCalculator: FC<BuzinessCalculatorProps> = (props) => {
                   <div className={clsx('flex', { 'flex-col': isMobile, 'flex-row': !isMobile })}>
                     <div className={s.infoItem}>
                       <div className={clsx(s.infoTitle, 'font-18-medium text-white flex items-center gap-8')}>
-                        <span className='font-18-medium text-white'> Москва </span>
+                        <span className='font-18-medium text-white'> {infoData[3]?.value || ''} </span>
                         <ArrowRightIcon fill='var(--white)' />
-                        <span className='font-18-medium text-white'> Нижний Новгород </span>
+                        <span className='font-18-medium text-white'> {infoData[4]?.value || ''} </span>
                       </div>
                       <ul className={clsx(s.infoDescription, 'font-14-normal text-gray', s.infoDescriptionList)}>
-                        <li className='font-14-normal text-gray'>420 км.</li>
-                        <li className='font-14-normal text-gray'>~5 часов в пути</li>
+                        <li className='font-14-normal text-gray'>{infoData[0]?.valueLabel || ''}</li>
+                        <li className='font-14-normal text-gray'>{infoData[1]?.valueLabel || ''}</li>
                       </ul>
                     </div>
                     <div className={s.verticalDivider} />
@@ -128,7 +128,7 @@ const BuzinessCalculator: FC<BuzinessCalculatorProps> = (props) => {
               <div className={s.result}>
                 <div className='flex flex-col gap-8'>
                   <div className='font-40-medium text-white'>
-                    15 500 руб.
+                    {infoData[2]?.valueLabel || 0} руб.
                   </div>
                   <div className='font-14-normal flex flex-row gap-4 items-center'>
                     <Image src="/icons/PriceCheckIcon.svg" alt="price-check" width={14} height={12} />
@@ -138,17 +138,11 @@ const BuzinessCalculator: FC<BuzinessCalculatorProps> = (props) => {
                   </div>
                 </div>
                 <div className={clsx('flex', { 'width-full flex-col-reverse gap-16': isMobile, 'flex-row items-center gap-8': !isMobile })}>
-                  {/* <Button className='width-full' type='link'>
-                    <span className='font-18-normal text-white border-bottom-1 border-white'>Получить на email</span>
-                  </Button> */}
                   <Button className='width-full h-56' 
-                  onClick={() => setOrderModalData({
+                  onClick={() => setQuestionModalData({
                     status: true,
-                    auto_class: selectedPlan,
-                    order_from: state.departurePoint,
-                    order_to: state.arrivalPoint,
-                    trip_price_from: state.price,
-                    block: Blocks.DLYA_BIZNESA_CALCULATOR,
+                    blockFrom: Blocks.DLYA_BIZNESA_CALCULATOR,
+                    theme: 'dark',
                   })}
                   >
                     <CheckIcon fill='var(--dark)' />

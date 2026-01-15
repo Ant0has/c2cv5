@@ -9,17 +9,19 @@ import { FC, useContext, useState } from "react";
 import Button from "../../ui/Button/Button";
 import s from './QuestionForm.module.scss';
 import { ModalContext } from "@/app/providers";
+import clsx from "clsx";
 
 interface IProps {
   buttonText?: string
   className?: string
+  theme?: 'dark' | 'light'
   form?: FormInstance,
   blockFrom: Blocks | null
   handleClickLink: () => void
   handleClose?: (isResetForm?: boolean) => void
 }
 
-const QuestionForm: FC<IProps> = ({ buttonText, className, form, handleClickLink, handleClose }) => {
+const QuestionForm: FC<IProps> = ({ buttonText, className, form, handleClickLink, handleClose, theme }) => {
   const { orderModalData, setOrderModalData } = useContext(ModalContext)
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -108,7 +110,7 @@ const QuestionForm: FC<IProps> = ({ buttonText, className, form, handleClickLink
             text={buttonText ?? 'Задать вопрос'}
             loading={isSubmitting}
           />
-          <p className="font-14-normal">Нажимая на кнопку, вы соглашаетесь на обработку <Link onClick={handleClickLink} className="font-14-normal text-primary" href="privacy-policy">персональных данных</Link></p>
+          <p className={clsx("font-14-normal", theme === 'dark' ? 'text-white' : 'text-black')}>Нажимая на кнопку, вы соглашаетесь на обработку <Link onClick={handleClickLink} className="font-14-normal text-primary" href="privacy-policy">персональных данных</Link></p>
         </div>
       </Form>
     </>

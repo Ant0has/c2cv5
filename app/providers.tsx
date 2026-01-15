@@ -16,6 +16,7 @@ interface ProvidersProps extends PropsWithChildren {
 interface IQuestionModalData {
 	status: boolean,
 	blockFrom: Blocks | null
+  theme?: 'dark' | 'light'
 }
 
 declare global {
