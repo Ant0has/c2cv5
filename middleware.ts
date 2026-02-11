@@ -16,14 +16,14 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(newUrl, 301)
   }
 
-  // 2. Вторая задача: проверка страниц маршрутов на наличие в whitelist
-  // if (pathname.endsWith('.html') && pathname !== '/') {
-  //   const slug = pathname.slice(1)
+  // 2. Проверка страниц маршрутов на наличие в whitelist
+  if (pathname.endsWith('.html') && pathname !== '/') {
+    const slug = pathname.slice(1)
     
-  //   if (!whitelist.includes(slug)) {
-  //     return NextResponse.rewrite(new URL('/404', request.url), { status: 404 })
-  //   }
-  // }
+    if (!whitelist.includes(slug)) {
+      return NextResponse.rewrite(new URL('/404', request.url), { status: 404 })
+    }
+  }
 
   return NextResponse.next()
 }

@@ -1,4 +1,5 @@
 'use client'
+import { b2bGoals } from '@/shared/services/analytics.service'
 import Image from "next/image";
 import { Form, Input, notification } from "antd";
 import { ButtonTypes } from "@/shared/types/enums";
@@ -45,6 +46,7 @@ const DlyaBiznesaHeroForm = () => {
                 additional_info: 'Запрос расчёта для юрлиц'
             })
 
+            b2bGoals.formSubmit("hero")
             notification.success({
                 message: 'Заявка отправлена!',
                 description: 'Мы свяжемся с вами в течение 15 минут',

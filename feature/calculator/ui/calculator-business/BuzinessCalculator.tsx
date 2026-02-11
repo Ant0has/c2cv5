@@ -1,4 +1,5 @@
 'use client'
+import { b2bGoals } from '@/shared/services/analytics.service'
 import { ModalContext } from "@/app/providers";
 import ArrowRightIcon from '@/public/icons/ArrowRightIcon';
 import SearchInput from "@/shared/components/ui/SearchInput/SearchInput";
@@ -36,7 +37,8 @@ const BuzinessCalculator: FC<BuzinessCalculatorProps> = (props) => {
   const [isShowResult, setIsShowResult] = useState(false);
   const isMobile = useIsMobile();
 
-  const handleCalculate = (actions: any) => {
+  const handleCalculate = (actions: any, state: any) => {
+    b2bGoals.calcUsed(state.departurePoint, state.arrivalPoint);
     actions.handleCalculate();
     setIsShowResult(true);
   }
@@ -87,7 +89,7 @@ const BuzinessCalculator: FC<BuzinessCalculatorProps> = (props) => {
                 type="primary"
                 className={'h-56'}
                 disabled={state.isLoading || !state.departurePoint || !state.arrivalPoint}
-                onClick={() => handleCalculate(actions)}
+                onClick={() => handleCalculate(actions, state)}
               >
                 <div className='flex items-center gap-16 items-center'>
                   {state.isLoading && <><span className='font-18-medium text-white'>Рассчитывается...</span></>}
