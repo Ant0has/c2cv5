@@ -14,7 +14,7 @@ const HeaderPhones: FC<IProps> = ({ isDark }) => {
     return (
         <div className={s.phones}>
             <Link target='_blank' href={`tel:+${requisitsData.PHONE}`} className={clsx('font-18-semibold',{ ['text-white']: isDark },{ ['text-black']: !isDark })}>
-                <PhoneIcon />
+                <PhoneIcon fill="currentColor" />
             </Link>
         </div>
     );

@@ -242,4 +242,11 @@
     @media (max-width: 1120px) {
       display: block;
     }
+
+    @media (max-width: 650px) {
+      grid-area: c;
+      order: 3;
+      text-align: center;
+      align-self: center;
+    }
   }
