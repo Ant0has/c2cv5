@@ -15,7 +15,7 @@
     margin-top: 24px;
 
     display: grid;
-    grid-template-columns: 1fr 1fr 190px;
+    grid-template-columns: 1fr 1fr 1fr 190px;
     align-items: end;
     gap: 16px;
 
@@ -60,13 +60,14 @@
     display: flex;
     gap: 16px;
 
-    & li{
-        padding-left:8px;
+    & li {
+        padding-left: 8px;
         list-style: none;
         position: relative;
 
     }
-    & li::before{
+
+    & li::before {
         content: '';
         position: absolute;
         left: 0;
@@ -95,3 +96,8 @@
     }
 }
 
+.part {
+    .ant-select-selector {
+        color: #fff !important;
+    }
+}

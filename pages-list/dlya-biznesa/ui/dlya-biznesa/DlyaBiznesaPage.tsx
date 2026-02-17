@@ -1,5 +1,4 @@
 import styles from './DlyaBiznesaPage.module.scss'
-import DlyaBiznesaCalculator from '../dlya-biznesa-calculator/DlyaBiznesaCalculator';
 import DlyaBiznesaContract from '../dlya-biznesa-contract/DlyaBiznesaContract';
 import DlyaBiznesaServiceAreas from '../dlya-biznesa-service-areas/DlyaBiznesaServiceAreas';
 import DlyaBiznesaPopularRoutes from '../dlya-biznesa-popular-routes/DlyaBiznesaPopularRoutes';
@@ -8,7 +7,7 @@ import DlyaBiznesaChoise from '../dlya-biznesa-choise/DlyaBiznesaChoise';
 import DlyaBiznesaReviews from '../dlya-biznesa-reviews/DlyaBiznesaReviews';
 import DlyaBiznesaFaq from '../dlya-biznesa-faq/DlyaBiznesaFaq';
 import DlyaBiznesaCooperation from '../dlya-biznesa-cooperation/DlyaBiznesaCooperation';
-import { BusinessHero, BusinessAnswers } from '@/entities/buziness';
+import { BusinessHero, BusinessAnswers, BusinessCalculator } from '@/entities/buziness';
 import { companyAdvantagesList, companyExperienceList, problemSolutionsList } from '../../utils/data';
 
 const pageData = {
@@ -24,6 +23,9 @@ const pageData = {
     description: 'Комфорт, Бизнес и Минивэн - поездки на любой случай',
     image: '/images/dlya-biznesa/map-bg.png',
     list: problemSolutionsList,
+  },
+  calculator: {
+    image: '/images/dlya-biznesa/calculator-phone.png',
   }
 }
 
@@ -32,7 +34,7 @@ const DlyBiznesaPage = () => {
     <div className={styles.page}>
         <BusinessHero {...pageData.hero} />
         <BusinessAnswers {...pageData.answers} />
-        <DlyaBiznesaCalculator />
+        <BusinessCalculator {...pageData.calculator} />
         <DlyaBiznesaContract />
         <DlyaBiznesaServiceAreas />
         <DlyaBiznesaPopularRoutes />

@@ -132,10 +132,10 @@
 }
 
 .ant-select-selector {
-  background: var(--light-gray) !important;
+  background: transparent !important;
   border: none !important;
   border-radius: 8px !important;
-  padding: 16px 0 !important;
+  /* padding: 16px 0 !important; */
   height: auto !important;
   align-items: center !important;
   box-shadow: none !important; /* Убираем тень/рамку */
@@ -153,12 +153,12 @@
 }
 
 /* Убираем стандартные отступы у внутренних элементов */
-.ant-select-selection-overflow,
+/* .ant-select-selection-overflow,
 .ant-select-selection-item,
 .ant-select-selection-placeholder {
   padding-left: 0 !important;
   padding-right: 0 !important;
-}
+} */
 
 /* Стили для текста внутри Select */
 .ant-select-selection-item,
@@ -166,18 +166,19 @@
   font-weight: 400 !important;
   font-size: 16px !important;
   line-height: 100% !important;
+  color:#9b9b9b;
 }
 
 /* Стили для placeholder */
 .ant-select-selection-placeholder {
-  color: rgba(0, 0, 0, 0.25) !important;
+  color: rgba(0, 0, 0, 0.25);
 }
 
 /* Стили для выпадающего списка */
 .ant-select-dropdown {
   border-radius: 8px !important;
   padding: 8px 0 !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Стили для элементов выпадающего списка */
@@ -195,13 +196,8 @@
 
 .ant-select-item-option-selected {
   background: var(--primary-light) !important;
-  color: var(--primary) !important;
+  color: var(--primary);
   font-weight: 500 !important;
-}
-
-/* Версия с белым фоном (аналог white-input) */
-.white-select .ant-select-selector {
-  background: var(--white) !important;
 }
 
 /* Стили для состояния error */
@@ -212,6 +208,6 @@
 
 /* Стили для стрелки Select */
 .ant-select-arrow {
-  color: #9b9b9b !important;
-  right: 0 !important;
+  /* color: #9b9b9b !important; */
+  /* right: 0 !important; */
 }

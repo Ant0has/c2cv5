@@ -1,4 +1,4 @@
-import { BusinessHero, BusinessAnswers } from '@/entities/buziness'
+import { BusinessHero, BusinessAnswers, BusinessCalculator } from '@/entities/buziness'
 import s from './DostavkaGruzovPage.module.scss'
 
 const pageData = {
@@ -26,6 +26,9 @@ const pageData = {
       {id: 2, problem: {title: 'Нельзя отследить в реальном времени', description: 'Клиент не знает, где груз и когда он будет доставлен'}, solution: {title: 'GPS-отслеживание', description: 'Видите машину на карте в реальном времени. Знаете точное время доставки'}},
       {id: 3, problem: {title: 'Невозможно забрать в выходной или после 18:00', description: 'Клиент не может забрать груз'}, solution: {title: 'Работаем 24/7', description: 'Забираем груз в любое время, включая выходные и праздники'}},
     ],
+  },
+  calculator: {
+    image: '/images/dostavka-gruzov/calculator-phone.png',
   }
 }
 
@@ -33,6 +36,7 @@ const DostavkaGruzovPage = () => {
   return <div className={s.page}>
     <BusinessHero {...pageData.hero} />
     <BusinessAnswers {...pageData.answers} />
+    <BusinessCalculator {...pageData.calculator} />
   </div>
 }
 
