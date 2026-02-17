@@ -1,6 +1,5 @@
 .wrapper{
     width: 100%;
-    height: 716px;
     max-width: 1516px;
     margin: 0 auto;
     border-radius: 24px;
@@ -14,7 +13,6 @@
     @media (max-width: 768px) {
         padding:0 16px 0px 16px;
         background-color: #1A1A1A;
-
         position: relative;
         z-index: 10;
         height: auto;
@@ -28,8 +26,6 @@
         display: none;
     }
 }
-
-
 
 .cards {
     display: grid;
@@ -48,28 +44,23 @@
     @media (max-width: 768px) {
         grid-template-columns: 1fr;
     }
-  }
+}
   
-  .card {
+.card {
     padding: 16px;
     min-width: 320px;
-    display: grid;
-    grid-auto-flow: row;
-    align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
     gap: 8px;
 
     background-color: var(--dark);
     border-radius: 24px;
-
     position: relative;
+}
 
-    // @media (max-width: 1400px) {
-    //    max-width: 360px
-    // }
-  }
-
-  .problem {
-    max-width: 95%;
+.problem {
+    width: 95%;
     margin: 0 auto;
     padding: 19px 82px 19px 16px;
 
@@ -80,36 +71,53 @@
 
     background: url('/images/dlya-biznesa/problem-card-bg.png') no-repeat center center;
     background-size: cover;
+    min-height: 120px;
 
     .problemDescription {
-      color: #A66464;
+        color: #A66464;
     }
-  }
+}
 
- .solution {
+.solution {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     gap: 8px;
+    padding: 24px;
 
     background: url('/images/dlya-biznesa/solution-card-bg.png') no-repeat center center;
     background-size: cover;
+    min-height: 120px;
+    flex: 1;
     
     .solutionDescription {
-      color: #AA8242;
+        color: #AA8242;
     }
-  }
-  
-  .content {
+}
+
+.content {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 16px;
-  }
+}
+
+.iconWrapper {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+}
+
+.solutionIconWrapper {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    margin-top: 4px;
+}
   
-  .arrow {
-    width:56px;
+.arrow {
+    width: 56px;
     height: 56px;
     display: flex;
     align-items: center;
@@ -122,4 +130,9 @@
     top: 50%;
     transform: translateY(-50%);
     right: 57px;
-  }
+    z-index: 5;
+
+    @media (max-width: 1400px) {
+        display: none;
+    }
+}

@@ -1,5 +1,4 @@
 import styles from './DlyaBiznesaPage.module.scss'
-import DlyaBiznesaAnswers from '../dlya-biznesa-answers/DlyaBiznesaAnswers'
 import DlyaBiznesaCalculator from '../dlya-biznesa-calculator/DlyaBiznesaCalculator';
 import DlyaBiznesaContract from '../dlya-biznesa-contract/DlyaBiznesaContract';
 import DlyaBiznesaServiceAreas from '../dlya-biznesa-service-areas/DlyaBiznesaServiceAreas';
@@ -9,8 +8,8 @@ import DlyaBiznesaChoise from '../dlya-biznesa-choise/DlyaBiznesaChoise';
 import DlyaBiznesaReviews from '../dlya-biznesa-reviews/DlyaBiznesaReviews';
 import DlyaBiznesaFaq from '../dlya-biznesa-faq/DlyaBiznesaFaq';
 import DlyaBiznesaCooperation from '../dlya-biznesa-cooperation/DlyaBiznesaCooperation';
-import BusinessHero from '@/entities/buziness/ui/business-hero/BusinessHero';
-import { companyAdvantagesList, companyExperienceList } from '../../utils/data';
+import { BusinessHero, BusinessAnswers } from '@/entities/buziness';
+import { companyAdvantagesList, companyExperienceList, problemSolutionsList } from '../../utils/data';
 
 const pageData = {
   hero:{
@@ -19,6 +18,12 @@ const pageData = {
     image: '/images/dlya-biznesa/businessman-lg.png',
     bullets: companyAdvantagesList,
     staticsList: companyExperienceList,
+  },
+  answers: {
+    title: [{text: 'Почему агрегаторы', isPrimary: false}, {text: 'не подходят для командировок', isPrimary: true}],
+    description: 'Комфорт, Бизнес и Минивэн - поездки на любой случай',
+    image: '/images/dlya-biznesa/map-bg.png',
+    list: problemSolutionsList,
   }
 }
 
@@ -26,7 +31,7 @@ const DlyBiznesaPage = () => {
   return (
     <div className={styles.page}>
         <BusinessHero {...pageData.hero} />
-        <DlyaBiznesaAnswers />
+        <BusinessAnswers {...pageData.answers} />
         <DlyaBiznesaCalculator />
         <DlyaBiznesaContract />
         <DlyaBiznesaServiceAreas />
