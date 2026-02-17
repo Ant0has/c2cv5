@@ -6,6 +6,7 @@ class RoutesConfig {
   private readonly CANCELLATION = '/cancellation';
   private readonly FOR_BUSINESS = '/dlya-biznesa';
   private readonly OFERTA = '/oferta';
+  private readonly DOSTAVKA_GRUZOV = '/dlya-biznesa/dostavka-gruzov';
 
     public getAboutRoute(): string {
         return this.ABOUT;
@@ -31,9 +32,15 @@ class RoutesConfig {
         return this.FOR_BUSINESS;
     }
 
+    public getDostavkaGruzovRoute(): string {
+        return this.DOSTAVKA_GRUZOV;
+    }
+
     public getOfertaRoute(): string {
         return this.OFERTA;
     }
+
+
 }
 
 export const routesConfig = new RoutesConfig();

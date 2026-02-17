@@ -18,6 +18,7 @@ const FooterNavigation = ({route}: {route: IRouteData}) => {
     { id: 7, label: 'Контакты', route: routesConfig.getContactsRoute() },
     { id: 2, label: 'Рассчитать', route: '', handleClick: () => scrollToBlockById('order') },
     { id: 6, label: 'Для бизнеса', route: routesConfig.getForBusinessRoute() },
+    { id: 12, label: 'Доставка грузов', route: routesConfig.getDostavkaGruzovRoute() },
     { id: 3, label: 'Консультация', route: '', handleClick: () => setQuestionModalData({ status: true, blockFrom: Blocks.FOOTER }) },
   ]), [setQuestionModalData, scrollToBlockById])
 

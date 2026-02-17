@@ -1,6 +1,5 @@
 'use client'
 import { b2bGoals } from '@/shared/services/analytics.service'
-import Image from "next/image";
 import { Form, Input, notification } from "antd";
 import { ButtonTypes } from "@/shared/types/enums";
 import Button from "@/shared/components/ui/Button/Button";
@@ -10,7 +9,8 @@ import { useIsMobile } from "@/shared/hooks/useResize";
 import clsx from "clsx";
 import ChatIcon from "@/public/icons/ChatIcon";
 import PhoneIcon from "@/public/icons/PhoneIcon";
-
+import { usePathname } from "next/navigation";
+    
 const inputStyle = {
     width: '100% !important',
     backgroundColor: 'var(--light-gray) !important',
@@ -27,10 +27,12 @@ const buttonStyle = {
     height: '56px !important',
 }
 
-const DlyaBiznesaHeroForm = () => {
+const BusinessHeroForm = () => {
     const [form] = Form.useForm()
     const [isSubmitting, setIsSubmitting] = useState(false)
     const isMobile = useIsMobile()
+    const pathname = usePathname();
+    const isDostavkaGruzov = pathname.includes('dostavka-gruzov');
 
     const handleHeroFormSubmit = async () => {
         try {
@@ -119,4 +121,4 @@ const DlyaBiznesaHeroForm = () => {
     )
 }
 
-export default DlyaBiznesaHeroForm;
+export default BusinessHeroForm;

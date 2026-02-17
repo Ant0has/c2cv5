@@ -125,3 +125,93 @@
   margin-top: 8px !important; /* Отступ ошибки от поля */
   margin-bottom: 4px !important; /* Отступ ошибки от следующего элемента */
 }
+
+/* Базовые стили для Select */
+.ant-select {
+  width: 100% !important;
+}
+
+.ant-select-selector {
+  background: var(--light-gray) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 16px 0 !important;
+  height: auto !important;
+  align-items: center !important;
+  box-shadow: none !important; /* Убираем тень/рамку */
+}
+
+/* Убираем обводку при фокусе для всех состояний */
+.ant-select-focused .ant-select-selector,
+.ant-select-selector:focus,
+.ant-select-selector:focus-within,
+.ant-select-selector:focus-visible,
+.ant-select-open .ant-select-selector {
+  border-color: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* Убираем стандартные отступы у внутренних элементов */
+.ant-select-selection-overflow,
+.ant-select-selection-item,
+.ant-select-selection-placeholder {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Стили для текста внутри Select */
+.ant-select-selection-item,
+.ant-select-selection-placeholder {
+  font-weight: 400 !important;
+  font-size: 16px !important;
+  line-height: 100% !important;
+}
+
+/* Стили для placeholder */
+.ant-select-selection-placeholder {
+  color: rgba(0, 0, 0, 0.25) !important;
+}
+
+/* Стили для выпадающего списка */
+.ant-select-dropdown {
+  border-radius: 8px !important;
+  padding: 8px 0 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Стили для элементов выпадающего списка */
+.ant-select-item {
+  font-weight: 400 !important;
+  font-size: 16px !important;
+  line-height: 100% !important;
+  padding: 12px 24px !important;
+}
+
+/* Стили для активного/выбранного элемента */
+.ant-select-item-option-active {
+  background: rgba(0, 0, 0, 0.04) !important;
+}
+
+.ant-select-item-option-selected {
+  background: var(--primary-light) !important;
+  color: var(--primary) !important;
+  font-weight: 500 !important;
+}
+
+/* Версия с белым фоном (аналог white-input) */
+.white-select .ant-select-selector {
+  background: var(--white) !important;
+}
+
+/* Стили для состояния error */
+.ant-select-status-error .ant-select-selector {
+  border: 1px solid #ff4d4f !important;
+  background: var(--light-gray) !important;
+}
+
+/* Стили для стрелки Select */
+.ant-select-arrow {
+  color: #9b9b9b !important;
+  right: 0 !important;
+}

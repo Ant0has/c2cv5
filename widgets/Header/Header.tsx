@@ -19,7 +19,7 @@ import LogoLightIcon from '@/public/icons/LogoLightIcon';
 const Header = () => {
   const pathname = usePathname()
 
-  const isDark = pathname === '/dlya-biznesa'
+  const isDark = pathname === '/dlya-biznesa' || pathname === '/dlya-biznesa/dostavka-gruzov'
 
   const headerClassName = clsx('w-full',{ ['bg-dark']: isDark },{'bg-white': !isDark})
   return (
@@ -36,7 +36,7 @@ const Header = () => {
 
           <div className={s.logo}>
             <Link href='/'>
-              {pathname === '/dlya-biznesa' ? <LogoLightIcon width={196} /> : <LogoIcon />}
+              {isDark ? <LogoLightIcon width={196} /> : <LogoIcon />}
             </Link>
 
           </div>
