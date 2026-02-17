@@ -1,10 +1,11 @@
 User-agent: *
 Disallow: /admin/
-Disallow: /admin/calculator
 Disallow: /api/
 Disallow: /_next/
-Allow: / 
+Allow: /
+
+# Устранение дублей с GET-параметрами (Яндекс)
+Clean-param: _rsc&ttpage&from&utm_source&utm_medium&utm_campaign&utm_content&utm_term&yclid&gclid&fbclid&_openstat
 
 Sitemap: https://city2city.ru/sitemap.xml
-Host: city2city.ru
-
+Host: https://city2city.ru
