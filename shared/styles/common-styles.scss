@@ -418,6 +418,10 @@
   background: var(--primary);
 }
 
+.bg-primary-important {
+  background: var(--primary) !important;
+}
+
 .bg-primary-dark {
   background: var(--primary-dark);
 }
@@ -695,5 +699,11 @@
 .border-1 {
   border-width: 1px;
 }
+
+.border-none {
+  border: none;
+}
+
+
 
 

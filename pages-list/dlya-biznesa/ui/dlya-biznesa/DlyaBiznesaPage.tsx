@@ -25,7 +25,10 @@ const pageData = {
     list: problemSolutionsList,
   },
   calculator: {
+    title: [{text: 'Рассчитайте предварительную', isPrimary: false}, {text: 'стоимость за 30 секунд', isPrimary: true}],
     image: '/images/dlya-biznesa/calculator-phone.png',
+    description: 'Укажите куда вам надо?',
+    buttonText: 'Рассчитать',
   }
 }
 

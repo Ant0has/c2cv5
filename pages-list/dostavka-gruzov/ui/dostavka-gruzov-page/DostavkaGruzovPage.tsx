@@ -28,7 +28,10 @@ const pageData = {
     ],
   },
   calculator: {
+    title: [{text: 'Узнайте', isPrimary: false}, {text: 'стоимость доставки', isPrimary: true},{text: 'за 30 секунд', isPrimary: false}],
     image: '/images/dostavka-gruzov/calculator-phone.png',
+    description: 'Откуда и куда везём груз?',
+    buttonText: 'Рассчитать доставку',
   }
 }
 

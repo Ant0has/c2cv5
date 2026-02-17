@@ -14,11 +14,7 @@ import { FC, useContext, useState } from 'react';
 import CalculatorBase from '../CalculatorBase';
 import s from './BuzinessCalculator.module.scss';
 
-interface BuzinessCalculatorProps {
-  selectedPlan: any;
-  cityData?: string;
-  routeData?: any;
-}
+
 
 const inputStyle = {
   height: '56px',
@@ -47,6 +43,13 @@ const weightOptions = [
 
 const autoCompleteStyle = { height: '56px', }
 
+interface BuzinessCalculatorProps {
+  selectedPlan: any;
+  cityData?: string;
+  routeData?: any;
+  description?: string;
+  buttonText?: string;
+}
 
 const BuzinessCalculator: FC<BuzinessCalculatorProps> = (props) => {
   const { setQuestionModalData } = useContext(ModalContext);
@@ -66,10 +69,10 @@ const BuzinessCalculator: FC<BuzinessCalculatorProps> = (props) => {
     <CalculatorBase {...props}>
       {({ state, actions, infoData, selectedPlan }) => {
         return (
-          <div id="order" className={clsx(s.wrapper)} style={{ gridTemplateColumns: isDostavkaGruzov ? '1fr 1fr 1fr 190px' : '1fr 1fr 190px',maxWidth: isDostavkaGruzov ? '992px' : '792px' }}>
+          <div id="order" className={clsx(s.wrapper)} style={{ gridTemplateColumns: isDostavkaGruzov ? '1fr 1fr 1fr 220px' : '1fr 1fr 190px',maxWidth: isDostavkaGruzov ? '996px' : '792px' }}>
             <div className={s.top}>
               <h5 className={clsx('font-24-medium text-white')}>
-                Укажите куда вам надо?
+                {props.description || 'Укажите куда вам надо?'}
               </h5>
               <div className={s.parts}>
                 <div className={s.part}>
@@ -118,13 +121,14 @@ const BuzinessCalculator: FC<BuzinessCalculatorProps> = (props) => {
                 )}
                 <Button
                   type="primary"
-                  className={'h-56'}
+                  className={'h-56 bg-primary-important border-none border-transparent'}
+
                   disabled={state.isLoading || !state.departurePoint || !state.arrivalPoint}
                   onClick={() => handleCalculate(actions, state)}
                 >
                   <div className='flex items-center gap-16 items-center'>
                     {state.isLoading && <><span className='font-18-medium text-white'>Рассчитывается...</span></>}
-                    {!state.isLoading && <><span className='font-18-medium text-white'>Рассчитать <ArrowRightIcon /></span></>}
+                    {!state.isLoading && <><span className='font-18-medium text-white'>{props.buttonText || 'Рассчитать'} <ArrowRightIcon /></span></>}
                   </div>
                 </Button>
               </div>
