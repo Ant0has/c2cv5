@@ -48,7 +48,7 @@ interface FormValues {
 const initialValues: FormValues = {
     departurePoint: '',
     arrivalPoint: '',
-    weight: 'До 5 кг',
+    weight: weightOptions[0].value,
     when: 'Завтра',
     name: '',
     phone: '',
