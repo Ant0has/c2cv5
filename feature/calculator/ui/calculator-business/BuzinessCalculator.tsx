@@ -41,7 +41,7 @@ const BuzinessCalculator: FC<BuzinessCalculatorProps> = (props) => {
   const [isShowResult, setIsShowResult] = useState(false);
   const isMobile = useIsMobile();
   const pathname = usePathname();
-  const [weight, setWeight] = useState<string>('До 5 кг');
+  const [weight, setWeight] = useState<string>(weightOptions[0].value);
   const isDostavkaGruzov = pathname.includes('dostavka-gruzov');
 
   const handleCalculate = (actions: any, state: any) => {
