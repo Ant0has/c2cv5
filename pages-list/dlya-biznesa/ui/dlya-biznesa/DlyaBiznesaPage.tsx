@@ -4,7 +4,7 @@ import BusinessCooperation from '../../../../entities/buziness/ui/business-coope
 import { BusinessHero, BusinessAnswers, BusinessB2bCalculator, BusinessContract, BusinessPopularRoutes, BusinessServiceAreas, BusinessInstruction, BusinessChoise, BusinessReviews } from '@/entities/buziness';
 import { pageData } from '../../utils/data';
 
-const DlyBiznesaPage = () => {
+const DlyaBiznesaPage = () => {
   return (
     <div className={styles.page}>
         <BusinessHero {...pageData.hero} />
@@ -22,4 +22,4 @@ const DlyBiznesaPage = () => {
   );
 };
 
-export default DlyBiznesaPage;
+export default DlyaBiznesaPage;

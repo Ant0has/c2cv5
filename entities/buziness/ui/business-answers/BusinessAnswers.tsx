@@ -27,7 +27,7 @@ const BusinessAnswers = ({ title, list }: Props) => {
 
             <div className="container">
                 <div className={clsx("title-container flex justify-between relative z-2 items-baseline", {'flex-col items-center justify-center gap-16 text-center': isMobile})}>
-                    <h2 className={'title text-white'}>{contentTitle}</h2>
+                    <h2 className={'title text-white max-width-800'}>{contentTitle}</h2>
                     <span className={clsx("font-18-semibold text-secondary", {'text-center': isMobile, 'text-right': !isMobile})}>Комфорт, Бизнес и Минивэн - поездки на любой случай</span>
                 </div>
 

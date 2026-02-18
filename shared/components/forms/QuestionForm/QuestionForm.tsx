@@ -19,6 +19,8 @@ interface IProps {
   blockFrom: Blocks | null
   dataToSend?: {
     deliveryWeight?: string
+    order_from?: string
+    order_to?: string
   }
   handleClickLink: () => void
   handleClose?: (isResetForm?: boolean) => void
