@@ -4,49 +4,14 @@ import { useIsMobile } from "@/shared/hooks/useResize";
 import { mailService } from "@/shared/services/mail.service";
 import { ButtonTypes } from "@/shared/types/enums";
 import { Form, Input, notification, Select } from "antd";
+import { useForm } from "antd/es/form/Form";
 import clsx from "clsx";
-import { useState } from "react";
-
-const inputStyle = {
-    width: '100% !important',
-    backgroundColor: 'var(--light-gray) !important',
-    borderColor: 'transparent !important',
-    color: 'var(--dark) !important',
-    fontSize: '16px !important',
-    padding: '0px !important',
-}
-
-const inputErrorStyle = {
-    width: '100% !important',
-    backgroundColor: 'var(--light-gray) !important',
-    color: 'var(--dark) !important',
-    fontSize: '16px !important',
-    padding: '0px !important',
-}
+import { useEffect, useState } from "react";
+import styles from './BusinessDeliveryHeroForm.module.scss'
 
 const buttonStyle = {
     height: '56px !important',
     fontSize: '18px !important',
-}
-
-const selectStyle = {
-    width: '100% !important',
-    backgroundColor: 'var(--light-gray) !important',
-    borderColor: 'transparent !important',
-    color: 'var(--dark) !important',
-    fontSize: '16px !important',
-    borderRadius: '16px !important',
-    padding: '0px !important',
-}
-
-const selectErrorStyle = {
-    width: '100% !important',
-    backgroundColor: 'var(--light-gray) !important',
-    borderColor: 'var(--error) !important',
-    color: 'var(--dark) !important',
-    fontSize: '16px !important',
-    borderRadius: '16px !important',
-    padding: '0px !important',
 }
 
 const weightOptions = [
@@ -62,6 +27,7 @@ const weightOptions = [
 const whenOptions = [
     { label: 'Сегодня', value: "Сегодня" },
     { label: 'Завтра', value: "Завтра" },
+    { label: 'Послезавтра', value: "Послезавтра" },
     { label: 'В следующий понедельник', value: "В следующий понедельник" },
     { label: 'В следующий вторник', value: "В следующий вторник" },
     { label: 'В следующий среду', value: "В следующий среду" },
@@ -88,17 +54,27 @@ interface FormValues {
     phone: string
 }
 
+const initialValues: FormValues = {
+    departurePoint: '',
+    arrivalPoint: '',
+    weight: 'До 5 кг',
+    when: 'Завтра',
+    name: '',
+    phone: '',
+}
+
 interface FieldError {
     field: keyof FormValues
     message: string
 }
 
 const BusinessDeliveryHeroForm = () => {
-    const [form] = Form.useForm<FormValues>()
+    const [form] = useForm<FormValues>()
     const [isSubmitting, setIsSubmitting] = useState(false)
     const isMobile = useIsMobile()
     const [errors, setErrors] = useState<FieldError[]>([])
-    
+    const [values, setValues] = useState<FormValues>(initialValues)
+
     const getFieldError = (field: keyof FormValues) => {
         return errors.find(error => error.field === field)?.message
     }
@@ -143,19 +119,16 @@ const BusinessDeliveryHeroForm = () => {
     }
 
     const handleFieldChange = (field: keyof FormValues, value: string) => {
-        form.setFieldsValue({ [field]: value })
+        setValues(prev => ({ ...prev, [field]: value } as FormValues))
         setErrors(prev => prev.filter(error => error.field !== field))
     }
 
     const handleHeroFormSubmit = async () => {
         try {
-            const values = form.getFieldsValue()
-            
-            const validationErrors = validateForm(values)
-            
+            const validationErrors = validateForm(values as FormValues)
             if (validationErrors.length > 0) {
                 setErrors(validationErrors)
-                
+
                 notification.error({
                     message: 'Ошибка валидации',
                     description: validationErrors[0].message,
@@ -184,7 +157,9 @@ const BusinessDeliveryHeroForm = () => {
                 placement: 'topRight',
             })
 
-            form.resetFields()
+            setValues({
+                ...initialValues
+            })
             setErrors([])
         } catch (error) {
             notification.error({
@@ -220,9 +195,9 @@ const BusinessDeliveryHeroForm = () => {
                                 Имя <span className="font-14-normal text-error">*</span>
                             </span>
                             <Input
-                                style={hasFieldError('name') ? inputErrorStyle : inputStyle}
+                                className={clsx(styles.input, { 'border-error': hasFieldError('name') })}
                                 onChange={(e) => handleFieldChange('name', e.target.value)}
-                                value={form.getFieldValue('name')}
+                                value={values.name}
                             />
                         </div>
                         {getFieldError('name') && (
@@ -238,9 +213,9 @@ const BusinessDeliveryHeroForm = () => {
                                 Телефон <span className="font-14-normal text-error">*</span>
                             </span>
                             <Input
-                                style={hasFieldError('phone') ? inputErrorStyle : inputStyle}
+                                className={clsx(styles.input, { 'border-error': hasFieldError('phone') })}
                                 onChange={(e) => handleFieldChange('phone', e.target.value)}
-                                value={form.getFieldValue('phone')}
+                                value={values.phone}
                             />
                         </div>
                         {getFieldError('phone') && (
@@ -256,9 +231,9 @@ const BusinessDeliveryHeroForm = () => {
                                 Точка отправления <span className="font-14-normal text-error">*</span>
                             </span>
                             <Input
-                                style={hasFieldError('departurePoint') ? inputErrorStyle : inputStyle}
+                                className={clsx(styles.input, { 'border-error': hasFieldError('departurePoint') })}
                                 onChange={(e) => handleFieldChange('departurePoint', e.target.value)}
-                                value={form.getFieldValue('departurePoint')}
+                                value={values.departurePoint}
                             />
                         </div>
                         {getFieldError('departurePoint') && (
@@ -274,9 +249,9 @@ const BusinessDeliveryHeroForm = () => {
                                 Точка прибытия <span className="font-14-normal text-error">*</span>
                             </span>
                             <Input
-                                style={hasFieldError('arrivalPoint') ? inputErrorStyle : inputStyle}
+                                className={clsx(styles.input, { 'border-error': hasFieldError('arrivalPoint') })}
                                 onChange={(e) => handleFieldChange('arrivalPoint', e.target.value)}
-                                value={form.getFieldValue('arrivalPoint')}
+                                value={values.arrivalPoint}
                             />
                         </div>
                         {getFieldError('arrivalPoint') && (
@@ -292,11 +267,10 @@ const BusinessDeliveryHeroForm = () => {
                                 Вес груза <span className="font-14-normal text-error">*</span>
                             </span>
                             <Select
-                                style={hasFieldError('weight') ? selectErrorStyle : selectStyle}
-                                defaultValue="До 5 кг"
+                                className={clsx(styles.select, { 'border-error': hasFieldError('weight') })}
                                 options={weightOptions}
                                 onChange={(value) => handleFieldChange('weight', value)}
-                                value={form.getFieldValue('weight')}
+                                value={values.weight}
                             />
                         </div>
                         {getFieldError('weight') && (
@@ -314,9 +288,8 @@ const BusinessDeliveryHeroForm = () => {
                             <Select
                                 options={whenOptions}
                                 onChange={(value) => handleFieldChange('when', value)}
-                                style={hasFieldError('when') ? selectErrorStyle : selectStyle}
-                                defaultValue="Завтра"
-                                value={form.getFieldValue('when')}
+                                className={clsx(styles.select, { 'border-error': hasFieldError('when') })}
+                                value={values.when}
                             />
                         </div>
                         {getFieldError('when') && (

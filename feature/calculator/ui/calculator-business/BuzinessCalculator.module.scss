@@ -101,3 +101,107 @@
         color: #fff !important;
     }
 }
+
+// .select {
+//     :global {
+//       .ant-select-selector {
+//         height: 56px !important;
+//         background-color: #383838 !important;
+//         border-color: #383838 !important;
+//         border-radius: 16px !important;
+//         padding: 0 16px !important;
+
+//         &:hover, &:focus {
+//           border-color: #383838 !important;
+//           box-shadow: none !important;
+//         }
+//       }
+
+//       .ant-select-selection-item {
+//         color: #fff !important;
+//         line-height: 56px !important;
+//         font-size: 16px;
+//       }
+
+//       .ant-select-arrow {
+//         color: #fff !important;
+//       }
+//     }
+//   }
+
+//   .input {
+//     :global {
+//       .ant-input {
+//         height: 56px !important;
+//         background-color: #383838 !important;
+//         border-color: #383838 !important;
+//         border-radius: 16px !important;
+//         color: #fff !important;
+
+//         &::placeholder {
+//           color: rgba(255, 255, 255, 0.5) !important;
+//         }
+
+//         &:hover, &:focus {
+//           border-color: #383838 !important;
+//           box-shadow: none !important;
+//         }
+//       }
+//     }
+//   }
+
+.wrapper {
+    :global {
+
+        .ant-select {
+            height: 56px !important;
+            .ant-select-selector {
+                background: #383838 !important;
+                border-color: #383838 !important;
+                border-radius: 16px !important;
+                height: 56px !important;
+            }
+
+            .ant-select-selection-item {
+                color: #fff !important;
+                line-height: 56px !important;
+            }
+
+            .ant-select-arrow {
+                color: #fff !important;
+            }
+
+            // Переопределяем все состояния
+            &.ant-select-focused .ant-select-selector,
+            .ant-select-selector:focus,
+            .ant-select-selector:focus-within,
+            .ant-select-selector:focus-visible,
+            &.ant-select-open .ant-select-selector {
+                background: #383838 !important;
+                border-color: #383838 !important;
+                box-shadow: none !important;
+            }
+        }
+
+        .ant-input {
+            &.darkInput {
+                background: #383838 !important;
+                border-color: #383838 !important;
+                border-radius: 16px !important;
+                height: 56px !important;
+                color: #fff !important;
+
+                &::placeholder {
+                    color: rgba(255, 255, 255, 0.5) !important;
+                }
+
+                &:hover,
+                &:focus {
+                    background: #383838 !important;
+                    border-color: #383838 !important;
+                    box-shadow: none !important;
+                }
+            }
+        }
+    }
+}
