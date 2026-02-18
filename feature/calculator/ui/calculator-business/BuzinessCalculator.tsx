@@ -13,6 +13,7 @@ import { usePathname } from 'next/navigation';
 import { FC, useContext, useState } from 'react';
 import CalculatorBase from '../CalculatorBase';
 import s from './BuzinessCalculator.module.scss';
+import { weightOptions } from "@/shared/constants";
 
 
 
@@ -24,12 +25,6 @@ const inputStyle = {
   color: '#fff',
   caretColor: '#fff',
 }
-
-const weightOptions = [
-  { label: 'Документы до 5 кг', value: "Документы до 5 кг" },
-  { label: 'Коробка 5–20 кг', value: "Коробка 5–20 кг" },
-  { label: 'Тяжёлый до 50 кг', value: "Тяжёлый до 50 кг" },
-]
 
 const autoCompleteStyle = { height: '56px', }
 
@@ -56,13 +51,13 @@ const BuzinessCalculator: FC<BuzinessCalculatorProps> = (props) => {
   }
 
   const handleOrderClick = (state: any) => {
-    console.log(state,'-----state-----');
     setQuestionModalData({
       status: true,
       order_from: state.departurePoint,
       order_to: state.arrivalPoint,
       blockFrom: isDostavkaGruzov ? Blocks.DOSTAVKA_GRUZOV_CALCULATOR : Blocks.DLYA_BIZNESA_CALCULATOR,
       deliveryWeight: isDostavkaGruzov ? weight : undefined,
+      price: state.price,
     });
   }
 

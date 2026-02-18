@@ -1,4 +1,3 @@
-// shared/components/modals/QuestionModal/QuestionModal.tsx
 'use client'
 
 import { ModalContext } from "@/app/providers";
@@ -20,7 +19,6 @@ const QuestionModal: FC = () => {
   const [form] = Form.useForm();
   const [isMounted, setIsMounted] = useState(false);
 
-  // Решение для гидрации - рендерим только на клиенте
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -60,6 +58,7 @@ const QuestionModal: FC = () => {
           deliveryWeight: questionModalData?.deliveryWeight || undefined,
           order_from: questionModalData?.order_from || '',
           order_to: questionModalData?.order_to || '',
+          price: questionModalData?.price || undefined,
         }}
       />
     </Modal>
