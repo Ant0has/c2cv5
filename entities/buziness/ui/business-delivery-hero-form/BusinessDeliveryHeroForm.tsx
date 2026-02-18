@@ -170,12 +170,10 @@ const BusinessDeliveryHeroForm = () => {
                 name: values.name,
                 phone: values.phone,
                 block: 'Доставка грузов',
-                order_from: 'Страница Доставка грузов',
-                order_to: 'Заявка на расчёт доставки',
+                order_from: values.departurePoint,
+                order_to: values.arrivalPoint,
                 additional_info: `
-                Точка отправления: ${values.departurePoint}
-                Точка прибытия: ${values.arrivalPoint}
-                Вес груза: ${values.weight}
+                Вес груза: ${values.weight},
                 Когда забрать: ${values.when}
                 `
             })
