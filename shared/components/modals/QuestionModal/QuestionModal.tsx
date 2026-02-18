@@ -55,6 +55,9 @@ const QuestionModal: FC = () => {
           setQuestionModalData?.({ status: false, blockFrom: null })
           isResetForm && form.resetFields()
         }}
+        dataToSend={{
+          deliveryWeight: questionModalData?.deliveryWeight || undefined
+        }}
       />
     </Modal>
   )

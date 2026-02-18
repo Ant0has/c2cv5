@@ -17,6 +17,7 @@ interface IQuestionModalData {
 	status: boolean,
 	blockFrom: Blocks | null
   theme?: 'dark' | 'light'
+  deliveryWeight?: string
 }
 
 declare global {

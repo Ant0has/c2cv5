@@ -27,4 +27,5 @@ export enum Blocks {
   HUB = 'Хаб',
   DLYA_BIZNESA_CALCULATOR = 'Калькулятор для бизнеса',
   DLYA_BIZNESA_COOPERATION = 'Сотрудничество для бизнеса',
+  DOSTAVKA_GRUZOV_CALCULATOR = 'Калькулятор для доставки грузов',
 }
