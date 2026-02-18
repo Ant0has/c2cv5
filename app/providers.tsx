@@ -15,7 +15,9 @@ interface ProvidersProps extends PropsWithChildren {
 }
 interface IQuestionModalData {
 	status: boolean,
-	blockFrom: Blocks | null
+	blockFrom: Blocks | null,
+	order_from?: string,
+	order_to?: string,
   theme?: 'dark' | 'light'
   deliveryWeight?: string
 }
@@ -51,7 +53,9 @@ export const RouteContext = createContext<RouteContextProps>({} as RouteContextP
 export function Providers({ children, regions }: ProvidersProps) {
 	const [questionModalData, setQuestionModalData] = useState<IQuestionModalData>({
 		status: false,
-		blockFrom: null
+		blockFrom: null,
+		order_from: '',
+		order_to: '',
 	})
 	const [orderModalData, setOrderModalData] = useState<IOrderModalData>({ status: false })
 	const [route, setRoute] = useState<IRouteData>({} as IRouteData)

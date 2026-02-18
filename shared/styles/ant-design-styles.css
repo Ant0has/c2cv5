@@ -152,14 +152,6 @@
   outline: none !important;
 }
 
-/* Убираем стандартные отступы у внутренних элементов */
-/* .ant-select-selection-overflow,
-.ant-select-selection-item,
-.ant-select-selection-placeholder {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-} */
-
 /* Стили для текста внутри Select */
 .ant-select-selection-item,
 .ant-select-selection-placeholder {

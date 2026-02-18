@@ -184,6 +184,8 @@ const BuzinessCalculator: FC<BuzinessCalculatorProps> = (props) => {
                     <Button className='width-full h-56'
                       onClick={() => setQuestionModalData({
                         status: true,
+                        order_from: state.departurePoint,
+                        order_to: state.arrivalPoint,
                         blockFrom: isDostavkaGruzov ? Blocks.DOSTAVKA_GRUZOV_CALCULATOR : Blocks.DLYA_BIZNESA_CALCULATOR,
                         deliveryWeight: isDostavkaGruzov ? weight : undefined,
                         theme: 'dark',

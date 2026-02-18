@@ -8,6 +8,13 @@ import QuestionForm from "../../forms/QuestionForm/QuestionForm";
 import ModalTitle from "../ModalTitle/ModalTitle";
 import styles from './QuestionModal.module.scss';
 
+const initialQuestionModalData = {
+  status: false,
+  blockFrom: null,
+  order_from: '',
+  order_to: ''
+} as const
+
 const QuestionModal: FC = () => {
   const { questionModalData, setQuestionModalData } = useContext(ModalContext)
   const [form] = Form.useForm();
@@ -28,10 +35,7 @@ const QuestionModal: FC = () => {
       destroyOnClose
       open={questionModalData?.status || false}
       onCancel={() => {
-        setQuestionModalData?.({
-          status: false,
-          blockFrom: null
-        })
+        setQuestionModalData?.(initialQuestionModalData)
         form.resetFields()
       }}
       title={<ModalTitle className={questionModalData?.theme === 'dark' ? styles.darkThemeModalTitle : styles.lightThemeModalTitle} title="Получить консультацию" description="Услуги качественного сервиса заказа такси в России" />}
@@ -43,20 +47,19 @@ const QuestionModal: FC = () => {
         className={questionModalData?.theme === 'dark' ? styles.darkThemeModalForm : styles.lightThemeModalForm}
         blockFrom={questionModalData?.blockFrom || null}
         handleClickLink={() => {
-          setQuestionModalData?.({
-            status: false,
-            blockFrom: null
-          })
+          setQuestionModalData?.(initialQuestionModalData)
         }}
         form={form}
         theme={questionModalData?.theme || 'light'}
         buttonText='Получить консультацию'
         handleClose={(isResetForm?: boolean) => {
-          setQuestionModalData?.({ status: false, blockFrom: null })
+          setQuestionModalData?.(initialQuestionModalData)
           isResetForm && form.resetFields()
         }}
         dataToSend={{
-          deliveryWeight: questionModalData?.deliveryWeight || undefined
+          deliveryWeight: questionModalData?.deliveryWeight || undefined,
+          order_from: questionModalData?.order_from || '',
+          order_to: questionModalData?.order_to || '',
         }}
       />
     </Modal>
