@@ -21,6 +21,7 @@ interface IProps {
     deliveryWeight?: string
     order_from?: string
     order_to?: string
+    price?: number
   }
   handleClickLink: () => void
   handleClose?: (isResetForm?: boolean) => void
@@ -31,10 +32,14 @@ const QuestionForm: FC<IProps> = ({ buttonText, className, form, handleClickLink
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const addAdditionalInfo = useMemo(() => {
+    const additionalInfo = [];
     if (dataToSend?.deliveryWeight) {
-      return `Вес груза: ${dataToSend.deliveryWeight}`
+      additionalInfo.push(`\n Вес груза: ${dataToSend.deliveryWeight}`);
     }
-    return
+    if (dataToSend?.price) {
+      additionalInfo.push(`\n Стоимость: ${dataToSend.price}`);
+    }
+    return additionalInfo.join('');
   }, [dataToSend])
 
 

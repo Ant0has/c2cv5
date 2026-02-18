@@ -20,6 +20,7 @@ interface IQuestionModalData {
 	order_to?: string,
   theme?: 'dark' | 'light'
   deliveryWeight?: string
+  price?: number
 }
 
 declare global {

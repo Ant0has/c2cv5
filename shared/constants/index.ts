@@ -21,3 +21,8 @@ export const prices = {
   [Prices.MINIVAN]: 55,
   [Prices.DELIVERY]: 25,
 }
+
+export const weightOptions = [
+  { label: 'До 100 кг', value: "До 100 кг" },
+  { label: 'От 100 кг до 500 кг', value: "От 100 кг до 500 кг" },
+]

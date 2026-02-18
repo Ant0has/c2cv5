@@ -8,21 +8,12 @@ import { useForm } from "antd/es/form/Form";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import styles from './BusinessDeliveryHeroForm.module.scss'
+import { weightOptions } from "@/shared/constants";
 
 const buttonStyle = {
     height: '56px !important',
     fontSize: '18px !important',
 }
-
-const weightOptions = [
-    { label: 'До 5 кг', value: "До 5 кг" },
-    { label: 'До 10 кг', value: "До 10 кг" },
-    { label: 'До 20 кг', value: "До 20 кг" },
-    { label: 'До 50 кг', value: "До 50 кг" },
-    { label: 'До 100 кг', value: "До 100 кг" },
-    { label: 'До 200 кг', value: "До 200 кг" },
-    { label: 'До 500 кг', value: "До 500 кг" },
-]
 
 const whenOptions = [
     { label: 'Сегодня', value: "Сегодня" },
