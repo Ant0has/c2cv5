@@ -13,7 +13,7 @@ export default async function Page() {
   // return <DlyaBiznesa />
   return (
     <>
-      <DlyaBiznesaPage />
+      <DlyaBiznesaPage key="dlya-biznesa" />
       <Script
         id="novofon-calltracking"
         strategy="afterInteractive"

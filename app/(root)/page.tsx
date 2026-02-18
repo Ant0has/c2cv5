@@ -1,3 +1,4 @@
+export const revalidate = 60
 import type { Metadata } from 'next'
 import { Home } from './Home'
 import { generateOrganizationSchemaOrg } from '@/shared/services/seo-utils'
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
   }
 }
 
-export const revalidate = 60
+
 
 export default function Page() {
   return (

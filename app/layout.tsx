@@ -7,10 +7,7 @@ import { Suspense } from "react";
 import { Providers, YandexHit } from './providers';
 
 import ModalsWrapper from "@/shared/components/modals/ModalsWrapper";
-import '@/shared/styles/ant-design-styles.css';
-import '@/shared/styles/global.scss';
-import '@/shared/styles/common-styles.scss';
-import '@/shared/styles/specific-styles.scss';
+import '@/shared/styles/main.scss';
 
 import Script from 'next/script';
 import { BASE_URL } from '@/shared/constants';
@@ -86,8 +83,6 @@ async function getRegions() {
   const regions = await regionService.getAll()
   return regions
 }
-
-export const revalidate = 86400 // 24 часа
 
 export default async function RootLayout({
   children

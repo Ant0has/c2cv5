@@ -97,7 +97,6 @@ const DlyaBiznesaCooperationContent = ({ title,description, handleOrderClick }: 
 
     const contentTitle = title.map(item => {
         if (item.isPrimary) {
-          console.log(item.text);
           return <span key={item.text} className="text-primary"><br/>{` ${item.text} `}</span>
         }
         return `${item.text}`

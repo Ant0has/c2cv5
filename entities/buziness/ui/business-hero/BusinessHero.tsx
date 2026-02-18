@@ -21,7 +21,6 @@ const BusinessHero = ({ image, ...props }: Props) => {
   const contentImage = image;
   const pathname = usePathname();
   const isDostavkaGruzov = pathname.includes('dostavka-gruzov');
-  console.log('isDostavkaGruzov', isDostavkaGruzov);
   return (
     <div className={clsx('relative', {'padding-b-104': !isMobile}, {'padding-b-40': isMobile})}>
       <div className={clsx("container", 'relative z-3')}>

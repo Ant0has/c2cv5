@@ -25,16 +25,6 @@ const inputStyle = {
   caretColor: '#fff',
 }
 
-const selectStyle = {
-  height: '56px',
-  backgroundColor: '#383838 !important',
-  borderColor: '#383838 !important',
-  borderRadius: '16px !important',
-  color: '#fff !important',
-  caretColor: '#fff',
-  paddingRight: '8px !important',
-}
-
 const weightOptions = [
   { label: 'Документы до 5 кг', value: "Документы до 5 кг" },
   { label: 'Коробка 5–20 кг', value: "Коробка 5–20 кг" },
@@ -65,9 +55,21 @@ const BuzinessCalculator: FC<BuzinessCalculatorProps> = (props) => {
     setIsShowResult(true);
   }
 
+  const handleOrderClick = (state: any) => {
+    console.log(state,'-----state-----');
+    setQuestionModalData({
+      status: true,
+      order_from: state.departurePoint,
+      order_to: state.arrivalPoint,
+      blockFrom: isDostavkaGruzov ? Blocks.DOSTAVKA_GRUZOV_CALCULATOR : Blocks.DLYA_BIZNESA_CALCULATOR,
+      deliveryWeight: isDostavkaGruzov ? weight : undefined,
+    });
+  }
+
   return (
     <CalculatorBase {...props}>
       {({ state, actions, infoData }) => {
+        console.log(state,'-----state-----');
         const gridTemplateColumns = isDostavkaGruzov ? '1fr 1fr 1fr 220px !important' : '1fr 1fr 190px !important';
         return (
           <div id="order" className={clsx(s.wrapper)} style={
@@ -113,10 +115,9 @@ const BuzinessCalculator: FC<BuzinessCalculatorProps> = (props) => {
                       Вес груза
                     </div>
                     <Select 
-                      style={selectStyle}
                       options={weightOptions}
                       value={weight}
-                      className={s.select}
+                      className={clsx(s.select)}
                       onChange={(value: string) => setWeight(value)}
                     />
                   </div>
@@ -182,14 +183,7 @@ const BuzinessCalculator: FC<BuzinessCalculatorProps> = (props) => {
                   </div>
                   <div className={clsx('flex', { 'width-full flex-col-reverse gap-16': isMobile, 'flex-row items-center gap-8': !isMobile })}>
                     <Button className='width-full h-56'
-                      onClick={() => setQuestionModalData({
-                        status: true,
-                        order_from: state.departurePoint,
-                        order_to: state.arrivalPoint,
-                        blockFrom: isDostavkaGruzov ? Blocks.DOSTAVKA_GRUZOV_CALCULATOR : Blocks.DLYA_BIZNESA_CALCULATOR,
-                        deliveryWeight: isDostavkaGruzov ? weight : undefined,
-                        theme: 'dark',
-                      })}
+                      onClick={() => handleOrderClick(state)}
                     >
                       <CheckIcon fill='var(--dark)' />
                       <span className='font-18-normal'>Забронировать</span>

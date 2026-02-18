@@ -65,7 +65,7 @@ export const tokens: ThemeConfig = {
       activeBorderColor: 'none',
       activeOutlineColor: 'none',
       hoverBorderColor: 'none'
-    },
+    }
   }
 }
 

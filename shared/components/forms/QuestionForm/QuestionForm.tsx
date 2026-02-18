@@ -44,8 +44,8 @@ const QuestionForm: FC<IProps> = ({ buttonText, className, form, handleClickLink
       const requestBody: IMailRequest = {
         ...orderModalData,
         ...form?.getFieldsValue(),
-        order_from: orderModalData.order_from || 'Не указано',
-        order_to: orderModalData.order_to || 'Не указано',
+        order_from: orderModalData.order_from || dataToSend?.order_from || 'Не указано',
+        order_to: orderModalData.order_to || dataToSend?.order_to || 'Не указано',
         type: 'question',
         additional_info: addAdditionalInfo,
 

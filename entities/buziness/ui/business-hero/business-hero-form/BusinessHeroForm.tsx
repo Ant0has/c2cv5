@@ -9,7 +9,6 @@ import { useIsMobile } from "@/shared/hooks/useResize";
 import clsx from "clsx";
 import ChatIcon from "@/public/icons/ChatIcon";
 import PhoneIcon from "@/public/icons/PhoneIcon";
-import { usePathname } from "next/navigation";
     
 const inputStyle = {
     width: '100% !important',
@@ -31,8 +30,6 @@ const BusinessHeroForm = () => {
     const [form] = Form.useForm()
     const [isSubmitting, setIsSubmitting] = useState(false)
     const isMobile = useIsMobile()
-    const pathname = usePathname();
-    const isDostavkaGruzov = pathname.includes('dostavka-gruzov');
 
     const handleHeroFormSubmit = async () => {
         try {
