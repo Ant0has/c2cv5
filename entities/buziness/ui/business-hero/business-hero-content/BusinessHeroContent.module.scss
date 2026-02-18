@@ -1,0 +1,40 @@
+
+.partner {
+  line-height: 150%;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 760px) {
+  .advancements {
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .description {
+    margin-bottom: 24px;
+  }
+  .advancements {
+    margin-bottom: 24px;
+    align-self: center;
+  }
+
+  .advancement {
+    div {
+      font-size: 24px;
+      font-weight: 700;
+    }
+  }
+}
+
+@media (max-width: 410px) {
+  .advancements {
+    gap: 24px;
+  }
+
+  .advancement {
+    flex-direction: column;
+    gap: 4px;
+  }
+}

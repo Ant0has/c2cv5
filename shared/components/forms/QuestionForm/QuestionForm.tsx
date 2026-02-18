@@ -5,7 +5,7 @@ import { Blocks, ButtonTypes } from "@/shared/types/enums";
 import { IMailRequest } from "@/shared/types/types";
 import { Form, FormInstance, Input, notification } from "antd";
 import Link from "next/link";
-import { FC, useContext, useState } from "react";
+import { FC, useContext, useMemo, useState } from "react";
 import Button from "../../ui/Button/Button";
 import s from './QuestionForm.module.scss';
 import { ModalContext } from "@/app/providers";
@@ -17,13 +17,24 @@ interface IProps {
   theme?: 'dark' | 'light'
   form?: FormInstance,
   blockFrom: Blocks | null
+  dataToSend?: {
+    deliveryWeight?: string
+  }
   handleClickLink: () => void
   handleClose?: (isResetForm?: boolean) => void
 }
 
-const QuestionForm: FC<IProps> = ({ buttonText, className, form, handleClickLink, handleClose, theme }) => {
+const QuestionForm: FC<IProps> = ({ buttonText, className, form, handleClickLink, handleClose, theme, dataToSend }) => {
   const { orderModalData, setOrderModalData } = useContext(ModalContext)
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const addAdditionalInfo = useMemo(() => {
+    if (dataToSend?.deliveryWeight) {
+      return `Вес груза: ${dataToSend.deliveryWeight}`
+    }
+    return
+  }, [dataToSend])
+
 
   const handleSubmitForm = async () => {
     try {
@@ -33,7 +44,9 @@ const QuestionForm: FC<IProps> = ({ buttonText, className, form, handleClickLink
         ...form?.getFieldsValue(),
         order_from: orderModalData.order_from || 'Не указано',
         order_to: orderModalData.order_to || 'Не указано',
-        type: 'question'
+        type: 'question',
+        additional_info: addAdditionalInfo,
+
       }
       delete requestBody.status
       await mailService.sendMail(requestBody);

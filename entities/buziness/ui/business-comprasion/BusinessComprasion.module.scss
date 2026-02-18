@@ -1,0 +1,63 @@
+.wrapper {
+    padding-top: 104px;
+    padding-bottom: 104px;
+
+    @media (max-width: 768px) {
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+}
+
+.cardsList {
+    margin-top: 48px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+
+    @media (max-width: 768px) {
+        margin-top: 24px;
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 16px;
+    }
+}
+
+.card {
+    padding: 32px;
+    border-radius: 24px;
+    background-color: var(--background-card-color);
+
+
+}
+
+.cardPrimary {
+    background-color: var(--primary);
+}
+
+.featuresList {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.featureItem {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 8px;
+
+    &:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    &:first-child {
+        margin-top: 0;
+        padding-top: 0;
+    }
+
+}

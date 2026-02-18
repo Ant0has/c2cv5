@@ -1,30 +1,23 @@
 import styles from './DlyaBiznesaPage.module.scss'
-import DlyaBiznesaHero from '@/pages-list/dlya-biznesa/ui/dlya-biznesa-hero/DlyaBiznesaHero'
-import DlyaBiznesaAnswers from '../dlya-biznesa-answers/DlyaBiznesaAnswers'
-import DlyaBiznesaCalculator from '../dlya-biznesa-calculator/DlyaBiznesaCalculator';
-import DlyaBiznesaContract from '../dlya-biznesa-contract/DlyaBiznesaContract';
-import DlyaBiznesaServiceAreas from '../dlya-biznesa-service-areas/DlyaBiznesaServiceAreas';
-import DlyaBiznesaPopularRoutes from '../dlya-biznesa-popular-routes/DlyaBiznesaPopularRoutes';
-import DlyaBiznesaInstruction from '../dlya-biznesa-instruction/DlyaBiznesaInstruction';
-import DlyaBiznesaChoise from '../dlya-biznesa-choise/DlyaBiznesaChoise';
-import DlyaBiznesaReviews from '../dlya-biznesa-reviews/DlyaBiznesaReviews';
-import DlyaBiznesaFaq from '../dlya-biznesa-faq/DlyaBiznesaFaq';
-import DlyaBiznesaCooperation from '../dlya-biznesa-cooperation/DlyaBiznesaCooperation';
+import BusinessFaq from '../../../../entities/buziness/ui/business-faq/BusinessFaq';
+import BusinessCooperation from '../../../../entities/buziness/ui/business-cooperation/BusinessCooperation';
+import { BusinessHero, BusinessAnswers, BusinessB2bCalculator, BusinessContract, BusinessPopularRoutes, BusinessServiceAreas, BusinessInstruction, BusinessChoise, BusinessReviews } from '@/entities/buziness';
+import { pageData } from '../../utils/data';
 
 const DlyBiznesaPage = () => {
   return (
     <div className={styles.page}>
-        <DlyaBiznesaHero />
-        <DlyaBiznesaAnswers />
-        <DlyaBiznesaCalculator />
-        <DlyaBiznesaContract />
-        <DlyaBiznesaServiceAreas />
-        <DlyaBiznesaPopularRoutes />
-        <DlyaBiznesaInstruction />
-        <DlyaBiznesaChoise />
-        <DlyaBiznesaReviews />
-        <DlyaBiznesaFaq />
-        <DlyaBiznesaCooperation />
+        <BusinessHero {...pageData.hero} />
+        <BusinessAnswers {...pageData.answers} />
+        <BusinessB2bCalculator {...pageData.calculator} />
+        <BusinessContract {...pageData.contract} />
+        <BusinessServiceAreas {...pageData.serviceAreas} />
+        <BusinessPopularRoutes {...pageData.popularRoutes} />
+        <BusinessInstruction {...pageData.instruction} />
+        <BusinessChoise {...pageData.choise} />
+        <BusinessReviews {...pageData.reviews} />
+        <BusinessFaq {...pageData.faq} />
+        <BusinessCooperation {...pageData.cooperation} />
     </div>
   );
 };
