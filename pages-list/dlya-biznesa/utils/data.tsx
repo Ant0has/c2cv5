@@ -10,6 +10,7 @@ import WifiIcon from "@/public/icons/WifiIcon"
 import SafetyIcon from "@/public/icons/SafetyIcon"
 import PeopleIcon from "@/public/icons/PeopleIcon"
 
+
 export const companyExperienceList = [
     {
       id: 1,
@@ -290,3 +291,56 @@ export const faqItems = [
     answer: 'Класс Комфорт: Kia Cerato, Kia Ceed, Toyota Corolla, Skoda Octavia. Класс Комфорт+: Toyota Camry, Kia K5. Все автомобили не старше 5 лет, застрахованы по КАСКО и проходят регулярное техническое обслуживание.'
   }
 ]
+
+export const pageData = {
+  hero:{
+    title: [{text: 'Трансфер', isPrimary: false}, {text: 'для бизнеса', isPrimary: true}],
+    description: 'Бронируйте заранее — машина гарантированно будет',
+    image: '/images/dlya-biznesa/businessman-lg.png',
+    bullets: companyAdvantagesList,
+    staticsList: companyExperienceList,
+  },
+  answers: {
+    title: [{text: 'Почему агрегаторы', isPrimary: false}, {text: 'не подходят для командировок', isPrimary: true}],
+    description: 'Комфорт, Бизнес и Минивэн - поездки на любой случай',
+    image: '/images/dlya-biznesa/map-bg.png',
+    list: problemSolutionsList,
+  },
+  calculator: {
+    title: [{text: 'Рассчитайте предварительную', isPrimary: false}, {text: 'стоимость за 30 секунд', isPrimary: true}],
+    image: '/images/dlya-biznesa/calculator-phone.png',
+    description: 'Укажите куда вам надо?',
+    buttonText: 'Рассчитать',
+  },
+  contract: {
+    title: [{text: 'Работа', isPrimary: false}, {text: 'по договору', isPrimary: true}],
+    documentsList: contractDocumentsList,
+  },
+  serviceAreas: {
+    title: [{text: 'Сферы', isPrimary: false}, {text: 'применения', isPrimary: true}],
+    list: serviceAreasList, 
+  },
+  popularRoutes: {
+    title: [{text: 'Популярные', isPrimary: false}, {text: ' маршруты', isPrimary: true}],
+    description: 'Фиксированные цены без скрытых доплат',
+    list: popularRoutesList,
+  },
+  instruction: {
+    list: instructionList,
+  },
+  choise: {
+    list: choiseList,
+  },
+  reviews: {
+    list: reviewsList,
+  },
+  faq: {
+    list: faqItems,
+  },
+  cooperation: {
+    title: [{text: 'Готовы начать', isPrimary: false}, {text: 'сотрудничество?', isPrimary: true}],
+    description: 'Оставьте заявку — менеджер свяжется в течение 15 минут и подготовит индивидуальное предложение',
+    image: '/images/dlya-biznesa/businessman-lg.png',
+    buttonText: 'Получить предложение',
+  },
+}

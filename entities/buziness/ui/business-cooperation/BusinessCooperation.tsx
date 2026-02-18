@@ -98,7 +98,7 @@ const DlyaBiznesaCooperationContent = ({ title,description, handleOrderClick }: 
     const contentTitle = title.map(item => {
         if (item.isPrimary) {
           console.log(item.text);
-          return <span key={item.text} className="text-primary">{` ${item.text} `}</span>
+          return <span key={item.text} className="text-primary"><br/>{` ${item.text} `}</span>
         }
         return `${item.text}`
       });
@@ -108,7 +108,7 @@ const DlyaBiznesaCooperationContent = ({ title,description, handleOrderClick }: 
     return (
         <>
             <h2 className={clsx('title text-white', { 'text-center': isMobile })}>{contentTitle}</h2>
-            <p className={clsx('max-width-600px font-18-medium text-dark-secondary margin-t-16', { 'text-center': isMobile })}>Оставьте заявку — менеджер свяжется с вами <br className={clsx({ 'display-none': isMobile })} /> в течение 15 минут и подготовит индивидуальное предложение</p>
+            <p className={clsx(' font-18-medium text-dark-secondary margin-t-16', { 'text-center': isMobile },{ 'max-width-600': !isMobile })}>{description}</p>
             <div className='margin-t-32'>
                 <Button className={clsx({ 'width-full': isMobile })} type={ButtonTypes.PRIMARY} text='Получить предложение' handleClick={handleOrderClick} />
             </div>

@@ -67,14 +67,16 @@ const BuzinessCalculator: FC<BuzinessCalculatorProps> = (props) => {
 
   return (
     <CalculatorBase {...props}>
-      {({ state, actions, infoData, selectedPlan }) => {
+      {({ state, actions, infoData }) => {
+        const gridTemplateColumns = isDostavkaGruzov ? '1fr 1fr 1fr 220px !important' : '1fr 1fr 190px !important';
         return (
-          <div id="order" className={clsx(s.wrapper)} style={{ gridTemplateColumns: isDostavkaGruzov ? '1fr 1fr 1fr 220px' : '1fr 1fr 190px',maxWidth: isDostavkaGruzov ? '996px' : '792px' }}>
+          <div id="order" className={clsx(s.wrapper)} style={
+            { maxWidth: isDostavkaGruzov ? '996px' : '792px' }}>
             <div className={s.top}>
               <h5 className={clsx('font-24-medium text-white')}>
                 {props.description || 'Укажите куда вам надо?'}
               </h5>
-              <div className={s.parts}>
+              <div className={s.parts} style={{ gridTemplateColumns: gridTemplateColumns }}>
                 <div className={s.part}>
                   <div className={clsx(s.label, 'font-16-normal text-white margin-b-8 ')}>
                     Точка отправления<span className="text-error"> *</span>

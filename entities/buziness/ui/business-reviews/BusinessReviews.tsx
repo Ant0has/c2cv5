@@ -46,7 +46,7 @@ const BusinessReviews = ({ list }: Props) => {
                                   
                                     
                                     <div className={'flex flex-col gap-4'}>
-                                        <h6 className='font-24-medium text-white'>{'Алексей Петров'}</h6>
+                                        <h6 className='font-24-medium text-white'>{review.name}</h6>
                                         <span className='font-16-normal text-dark-secondary'>{review.company}</span>
                                     </div>
                                     <p className={'margin-t-24 font-18-italic text-white'}>{review.text}</p>
