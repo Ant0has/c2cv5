@@ -1,6 +1,6 @@
 'use client'
 import Button from '@/shared/components/ui/Button/Button';
-import s from './DlyaBiznesaCooperation.module.scss';
+import s from './BusinessCooperation.module.scss';
 import { requisitsData } from '@/shared/data/requisits.data';
 import { Blocks, ButtonTypes } from '@/shared/types/enums';
 import TelegramIcon from '@/public/icons/TelegramIcon';
@@ -9,10 +9,17 @@ import MaxIcon from '@/public/icons/MaxIcon';
 import { Image } from 'antd';
 import clsx from 'clsx';
 import { useIsMobile } from '@/shared/hooks/useResize';
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import { ModalContext } from '@/app/providers';
 
-const DlyaBiznesaCooperation = () => {
+interface Props {
+    title: { text: string, isPrimary: boolean }[];
+    description: string;
+    image: string;
+    buttonText: string;
+}
+
+const BusinessCooperation = ({ title, description, image, buttonText }: Props) => {
     const { setQuestionModalData } = useContext(ModalContext);
 
     const handleOrderClick = () => {
@@ -23,7 +30,7 @@ const DlyaBiznesaCooperation = () => {
         <div className={s.wrapper}>
             <div className={s.inner}>
                 <div className={clsx(s.mobileContent, 'container relative z-3')}>
-                    <DlyaBiznesaCooperationContent handleOrderClick={handleOrderClick} />
+                    <DlyaBiznesaCooperationContent handleOrderClick={handleOrderClick} title={title} description={description} />
                 </div>
 
                 <div className={clsx(s.phones)}>
@@ -40,7 +47,7 @@ const DlyaBiznesaCooperation = () => {
 
                     <div className={s.mobileImagePhoneWrapper}>
                         <Image className={s.blockImage}
-                            src="/images/dlya-biznesa/businessman-lg.png"
+                            src={image}
                             alt="Businessman Image"
                             width={713} height={684}
                         />
@@ -59,7 +66,7 @@ const DlyaBiznesaCooperation = () => {
             <div className={s.imagePhone}>
                 <div className={s.imagePhoneWrapper}>
                     <Image className={s.blockImage}
-                        src="/images/dlya-biznesa/businessman-lg.png"
+                        src={image}
                         alt="Businessman Image"
                         width={713} height={684}
                     />
@@ -75,22 +82,32 @@ const DlyaBiznesaCooperation = () => {
 
             <div className={s.content}>
                 <div className="container">
-                    <DlyaBiznesaCooperationContent handleOrderClick={handleOrderClick} />
+                    <DlyaBiznesaCooperationContent handleOrderClick={handleOrderClick} title={title} description={description} />
                 </div>
             </div>
         </div>
     );
 };
 
-export default DlyaBiznesaCooperation;
+export default BusinessCooperation;
 
 
-const DlyaBiznesaCooperationContent = ({ handleOrderClick }: { handleOrderClick: () => void }) => {
+const DlyaBiznesaCooperationContent = ({ title,description, handleOrderClick }: { title: { text: string, isPrimary: boolean }[], description: string, handleOrderClick: () => void }) => {
     const isMobile = useIsMobile();
+
+    const contentTitle = title.map(item => {
+        if (item.isPrimary) {
+          console.log(item.text);
+          return <span key={item.text} className="text-primary">{` ${item.text} `}</span>
+        }
+        return `${item.text}`
+      });
+
+
 
     return (
         <>
-            <h2 className={clsx('title text-white', { 'text-center': isMobile })}>Готовы начать <br /> <span className="text-primary"> сотрудничество?</span></h2>
+            <h2 className={clsx('title text-white', { 'text-center': isMobile })}>{contentTitle}</h2>
             <p className={clsx('max-width-600px font-18-medium text-dark-secondary margin-t-16', { 'text-center': isMobile })}>Оставьте заявку — менеджер свяжется с вами <br className={clsx({ 'display-none': isMobile })} /> в течение 15 минут и подготовит индивидуальное предложение</p>
             <div className='margin-t-32'>
                 <Button className={clsx({ 'width-full': isMobile })} type={ButtonTypes.PRIMARY} text='Получить предложение' handleClick={handleOrderClick} />

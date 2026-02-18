@@ -1,14 +1,18 @@
-import s from './DlyaBiznesaInstruction.module.scss';
-import { instructionList } from '../../utils/data';
+import s from './BusinessInstruction.module.scss';
 
-const DlyaBiznesaInstruction = () => {
+interface Props {
+    list: { id: number, title: string, description: string }[];
+}
+
+const BusinessInstruction = ({  list }: Props) => {
+
     return (
         <div className={s.wrapper}>
             <div className={'container'}>
                 <h2 className="title text-center text-white">Как это <span className="text-primary">работает</span></h2>
                 <p className="font-18-medium text-dark-secondary margin-t-16 text-center">Простой и прозрачный процесс сотрудничества</p>
                 <ul className={s.instructionList}>
-                    {instructionList.map((item, index) => (
+                    {list.map((item, index) => (
                         <li className={s.instructionItem}>
                             <h3 className="font-24-medium text-white">{item.title}</h3>
                             <p className="font-18-medium text-dark-secondary margin-t-16">{item.description}</p>
@@ -23,4 +27,4 @@ const DlyaBiznesaInstruction = () => {
     )
 }
 
-export default DlyaBiznesaInstruction;
+export default BusinessInstruction;

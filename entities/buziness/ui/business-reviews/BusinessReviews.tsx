@@ -1,14 +1,17 @@
 'use client'
-import styles from './DlyaBiznesaReviews.module.scss';
+import styles from './BusinessReviews.module.scss';
 import 'swiper/css';
 import { Swiper, SwiperSlide } from "swiper/react";
-import { reviewsList } from '../../utils/data';
 import { Rate } from 'antd';
 import { useIsMobile } from '@/shared/hooks/useResize';
 import clsx from 'clsx';
 import { Pagination } from 'swiper/modules';
 
-const DlyaBiznesaReviews = () => {
+interface Props {
+    list: { id: number, name: string, company: string, text: string, rating: number, date: string }[];
+}
+
+const BusinessReviews = ({ list }: Props) => {
     const isMobile = useIsMobile();
     return (
         <div className={styles.wrapper}>
@@ -36,7 +39,7 @@ const DlyaBiznesaReviews = () => {
                             },
                         }}
                     >
-                        {reviewsList.map(review => (
+                        {list.map(review => (
                             <SwiperSlide key={review.id}>
                                 {/* <ReviewCard review={review} avatar={avatars[2]} /> */}
                                 <div className={styles.review}>
@@ -61,4 +64,4 @@ const DlyaBiznesaReviews = () => {
     )
 }
 
-export default DlyaBiznesaReviews;
+export default BusinessReviews;

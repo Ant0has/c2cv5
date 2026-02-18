@@ -1,14 +1,8 @@
 import styles from './DlyaBiznesaPage.module.scss'
-import DlyaBiznesaContract from '../dlya-biznesa-contract/DlyaBiznesaContract';
-import DlyaBiznesaServiceAreas from '../dlya-biznesa-service-areas/DlyaBiznesaServiceAreas';
-import DlyaBiznesaPopularRoutes from '../dlya-biznesa-popular-routes/DlyaBiznesaPopularRoutes';
-import DlyaBiznesaInstruction from '../dlya-biznesa-instruction/DlyaBiznesaInstruction';
-import DlyaBiznesaChoise from '../dlya-biznesa-choise/DlyaBiznesaChoise';
-import DlyaBiznesaReviews from '../dlya-biznesa-reviews/DlyaBiznesaReviews';
-import DlyaBiznesaFaq from '../dlya-biznesa-faq/DlyaBiznesaFaq';
-import DlyaBiznesaCooperation from '../dlya-biznesa-cooperation/DlyaBiznesaCooperation';
-import { BusinessHero, BusinessAnswers, BusinessCalculator } from '@/entities/buziness';
-import { companyAdvantagesList, companyExperienceList, problemSolutionsList } from '../../utils/data';
+import BusinessFaq from '../../../../entities/buziness/ui/business-faq/BusinessFaq';
+import BusinessCooperation from '../../../../entities/buziness/ui/business-cooperation/BusinessCooperation';
+import { BusinessHero, BusinessAnswers, BusinessB2bCalculator, BusinessContract, BusinessPopularRoutes, BusinessServiceAreas, BusinessInstruction, BusinessChoise, BusinessReviews } from '@/entities/buziness';
+import { choiseList, companyAdvantagesList, companyExperienceList, contractDocumentsList, faqItems, instructionList, popularRoutesList, problemSolutionsList, reviewsList, serviceAreasList } from '../../utils/data';
 
 const pageData = {
   hero:{
@@ -29,7 +23,38 @@ const pageData = {
     image: '/images/dlya-biznesa/calculator-phone.png',
     description: 'Укажите куда вам надо?',
     buttonText: 'Рассчитать',
-  }
+  },
+  contract: {
+    title: [{text: 'Работа', isPrimary: false}, {text: 'по договору', isPrimary: true}],
+    documentsList: contractDocumentsList,
+  },
+  serviceAreas: {
+    title: [{text: 'Сферы', isPrimary: false}, {text: 'применения', isPrimary: true}],
+    list: serviceAreasList, 
+  },
+  popularRoutes: {
+    title: [{text: 'Популярные', isPrimary: false}, {text: ' маршруты', isPrimary: true}],
+    description: 'Фиксированные цены без скрытых доплат',
+    list: popularRoutesList,
+  },
+  instruction: {
+    list: instructionList,
+  },
+  choise: {
+    list: choiseList,
+  },
+  reviews: {
+    list: reviewsList,
+  },
+  faq: {
+    list: faqItems,
+  },
+  cooperation: {
+    title: [{text: 'Готовы начать', isPrimary: false}, {text: 'сотрудничество?', isPrimary: true}],
+    description: 'Оставьте заявку — менеджер свяжется в течение 15 минут и подготовит индивидуальное предложение',
+    image: '/images/dlya-biznesa/businessman-lg.png',
+    buttonText: 'Получить предложение',
+  },
 }
 
 const DlyBiznesaPage = () => {
@@ -37,15 +62,15 @@ const DlyBiznesaPage = () => {
     <div className={styles.page}>
         <BusinessHero {...pageData.hero} />
         <BusinessAnswers {...pageData.answers} />
-        <BusinessCalculator {...pageData.calculator} />
-        <DlyaBiznesaContract />
-        <DlyaBiznesaServiceAreas />
-        <DlyaBiznesaPopularRoutes />
-        <DlyaBiznesaInstruction />
-        <DlyaBiznesaChoise />
-        <DlyaBiznesaReviews />
-        <DlyaBiznesaFaq />
-        <DlyaBiznesaCooperation />
+        <BusinessB2bCalculator {...pageData.calculator} />
+        <BusinessContract {...pageData.contract} />
+        <BusinessServiceAreas {...pageData.serviceAreas} />
+        <BusinessPopularRoutes {...pageData.popularRoutes} />
+        <BusinessInstruction {...pageData.instruction} />
+        <BusinessChoise {...pageData.choise} />
+        <BusinessReviews {...pageData.reviews} />
+        <BusinessFaq {...pageData.faq} />
+        <BusinessCooperation {...pageData.cooperation} />
     </div>
   );
 };

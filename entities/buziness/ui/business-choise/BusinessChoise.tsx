@@ -1,8 +1,12 @@
-import { choiseList } from '../../utils/data';
-import s from './DlyaBiznesaChoise.module.scss';
+import { choiseList } from '../../../../pages-list/dlya-biznesa/utils/data';
+import s from './BusinessChoise.module.scss';
 import Image from 'next/image';
 
-const DlyaBiznesaChoise = () => {
+interface Props {
+    list: { id: number, title: string, icon: React.ReactNode, description: string }[];
+}
+
+const BusinessChoise = ({ list }: Props) => {
     return (
         <div className={s.wrapper}>
             <Image className={s.imageBg} src={'/images/dlya-biznesa/map-bg.png'} alt="Map Background" fill sizes="100vw" />
@@ -11,7 +15,7 @@ const DlyaBiznesaChoise = () => {
                 <p className="font-18-medium text-dark-secondary margin-t-16 text-center">Мы работаем с 2018 года и помогаем нашим клиентам перевозиться по всей России</p>
 
                 <div className={s.choiseList}>
-                    {choiseList.map((item: { id: number, title: string, icon: React.ReactNode, description: string }) => (
+                    {list.map((item) => (
                         <div key={item.id} className={s.choiseItem}>
                             <div className={s.choiseItemTop}>
                                 <h3 className={s.choiseItemTitle}>{item.title}</h3>
@@ -27,4 +31,4 @@ const DlyaBiznesaChoise = () => {
     )
 }
 
-export default DlyaBiznesaChoise;
+export default BusinessChoise;

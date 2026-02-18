@@ -1,29 +1,41 @@
 'use client'
 import { useIsMobile } from '@/shared/hooks/useResize';
-import { popularRoutesList } from '../../utils/data';
-import styles from './DlyaBiznesaPopularRoutes.module.scss';
-import DlyaBiznesaPopularRoutesCard from './DlyaBiznesaPopularRoutesCard';
+import { popularRoutesList } from '../../../../pages-list/dlya-biznesa/utils/data';
+import styles from './BusinessPopularRoutes.module.scss';
+import BusinessPopularRoutesCard from './BusinessPopularRoutesCard';
 import Image from 'next/image';
 import { Button } from 'antd';
 import { scrollToBlockById } from '@/shared/services/scroll-to-block';
 
-const DlyaBiznesaPopularRoutes = () => {
+interface Props {
+    title: { text: string, isPrimary: boolean }[];
+    description: string;
+    list: typeof popularRoutesList;
+}
+
+const BusinessPopularRoutes = ({ title, description, list }: Props) => {
     const isMobile = useIsMobile();
+    const contentTitle = title.map(item => {
+        if (item.isPrimary) {
+            return <span key={item.text} className="text-primary">{` ${item.text} `}</span>
+        }
+        return `${item.text}`
+    });
     return (
         <div className={styles.wrapper}>
             <div className={styles.inner}>
                 <Image className={styles.imageBg} src={'/images/dlya-biznesa/map-bg.png'} alt="Map Background" fill sizes="100vw" />
                 <h2 className={'title text-white text-center relative z-2'}>
-                    Популярные <span className="text-primary">маршруты</span>
+                    {contentTitle}
                 </h2>
                 <p className={'margin-t-16 font-18-medium text-dark-secondary text-center relative z-2'}>
-                    Фиксированные цены без скрытых доплат
+                    {description}
                 </p>
 
                 <div className={'container relative z-2'}>
                     <div className={styles.routesGrid}>
-                        {popularRoutesList.map((route) => (
-                            <DlyaBiznesaPopularRoutesCard key={route.id} route={route} />
+                        {list.map((route) => (
+                            <BusinessPopularRoutesCard key={route.id} route={route} />
                         ))}
                     </div>
                 </div>
@@ -36,4 +48,4 @@ const DlyaBiznesaPopularRoutes = () => {
     )
 }
 
-export default DlyaBiznesaPopularRoutes;
+export default BusinessPopularRoutes;

@@ -1,13 +1,13 @@
 import Image from 'next/image';
 import ArrowDownIcon from '@/public/icons/ArrowDownIcon';
-import { popularRoutesList } from '../../utils/data';
-import styles from './DlyaBiznesaPopularRoutes.module.scss';
+import { popularRoutesList } from '../../../../pages-list/dlya-biznesa/utils/data';
+import styles from './BusinessPopularRoutes.module.scss';
 
 interface Props {
     route: typeof popularRoutesList[number]
 }
 
-const DlyaBiznesaPopularRoutesCard = ({ route }: Props) => {
+const BusinessPopularRoutesCard = ({ route }: Props) => {
     return (
         <div className={styles.card}>
             <div className={styles.cardContent}>
@@ -39,4 +39,4 @@ const DlyaBiznesaPopularRoutesCard = ({ route }: Props) => {
     )
 }
 
-export default DlyaBiznesaPopularRoutesCard;
+export default BusinessPopularRoutesCard;

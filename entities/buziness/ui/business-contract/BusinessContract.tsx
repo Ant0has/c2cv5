@@ -1,11 +1,22 @@
 import DocumentIcon from '@/public/icons/DocumentIcon';
-import { contractDocumentsList, paymentMethodsList } from '../../utils/data';
-import s from './DlyaBiznesaContract.module.scss';
+import { paymentMethodsList } from '../../../../pages-list/dlya-biznesa/utils/data';
+import s from './BusinessContract.module.scss';
 import CheckIcon from '@/public/icons/CheckIcon';
 import ClockIcon from '@/public/icons/ClockIcon';
 import { clsx } from 'clsx';
 
-const DlyaBiznesaContract = () => {
+interface Props{
+    title: {text: string, isPrimary: boolean}[];
+    documentsList: string[];
+}
+
+const BusinessContract = ({ title, documentsList }: Props) => {
+    const contentTitle = title.map(item => {
+        if (item.isPrimary) {
+            return <span key={item.text} className="text-primary">{` ${item.text} `}</span>
+        }
+        return `${item.text}`
+    });
     return (
         <div className={s.wrapper}>
             <div className="container">
@@ -13,13 +24,13 @@ const DlyaBiznesaContract = () => {
                     <div className={s.card}>
                         <div className={s.glowEffect} />
                         <h3 className='title text-white'>
-                            Работа <br /> <span className='text-primary'>по договору</span>
+                            {contentTitle}
                         </h3>
                         <p className={'font-18-medium text-dark-secondary margin-t-16 margin-b-24'}>
                             Полный пакет закрывающих документов для вашей бухгалтерии
                         </p>
                         <ul className={s.documentsList}>
-                            {contractDocumentsList.map((item: string) => (
+                            {documentsList.map((item: string) => (
                                 <li className={'flex items-center gap-16'}>
                                     <CheckIcon fill='var(--primary)' />
                                     <p className={'font-18-medium text-white'}>{item}</p>
@@ -72,4 +83,4 @@ const DlyaBiznesaContract = () => {
     )
 }
 
-export default DlyaBiznesaContract;
+export default BusinessContract;
