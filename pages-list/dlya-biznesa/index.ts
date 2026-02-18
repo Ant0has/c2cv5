@@ -1,3 +1,3 @@
-import DlyBiznesaPage from "./ui/dlya-biznesa/DlyaBiznesaPage"
+import DlyaBiznesaPage from "./ui/dlya-biznesa/DlyaBiznesaPage"
 
-export default DlyBiznesaPage
+export default DlyaBiznesaPage

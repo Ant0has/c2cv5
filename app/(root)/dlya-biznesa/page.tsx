@@ -1,4 +1,4 @@
-import DlyBiznesaPage from '@/pages-list/dlya-biznesa/ui/dlya-biznesa/DlyaBiznesaPage'
+import DlyaBiznesaPage from '@/pages-list/dlya-biznesa/ui/dlya-biznesa/DlyaBiznesaPage'
 import { requisitsData } from '@/shared/data/requisits.data'
 import Script from 'next/script'
 import type { Metadata } from 'next'
@@ -13,7 +13,7 @@ export default async function Page() {
   // return <DlyaBiznesa />
   return (
     <>
-      <DlyBiznesaPage />
+      <DlyaBiznesaPage />
       <Script
         id="novofon-calltracking"
         strategy="afterInteractive"
