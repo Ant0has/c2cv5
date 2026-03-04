@@ -74,7 +74,15 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(newUrl, 301)
   }
 
-  // 2. Проверка страниц маршрутов на наличие в whitelist
+  // 2. Redirect route pages without .html to .html version (dedup)
+  if (!pathname.endsWith('.html') && pathname !== '/') {
+    const candidateSlug = pathname.slice(1) + '.html'
+    if (whitelist.includes(candidateSlug)) {
+      return NextResponse.redirect(new URL('/' + candidateSlug, request.url), 301)
+    }
+  }
+
+  // 3. Проверка страниц маршрутов на наличие в whitelist
   if (pathname.endsWith('.html') && pathname !== '/') {
     const slug = pathname.slice(1)
 
