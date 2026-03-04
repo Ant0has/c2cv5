@@ -61,9 +61,12 @@ const svoRedirects: Record<string, string> = {
 export function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl
 
-  if (searchParams.has('ttpage')) {
+  // Strip tracking/ad GET params with 301 redirect
+  const junkParams = ['ttpage', 'etext', 'pm_source', 'pm_block', 'pm_position']
+  const hasJunk = junkParams.some(p => searchParams.has(p))
+  if (hasJunk) {
     const newSearchParams = new URLSearchParams(searchParams)
-    newSearchParams.delete('ttpage')
+    junkParams.forEach(p => newSearchParams.delete(p))
 
     const newUrl = new URL(request.url)
     newUrl.search = newSearchParams.toString()
