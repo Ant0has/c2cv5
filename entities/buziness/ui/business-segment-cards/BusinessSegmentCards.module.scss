@@ -1,0 +1,102 @@
+.wrapper {
+    padding: 80px 0 0;
+
+    @media (max-width: 768px) {
+        padding: 40px 0 0;
+    }
+}
+
+.grid {
+    margin-top: 48px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+
+    @media (max-width: 1200px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (max-width: 768px) {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    @media (max-width: 480px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 20px;
+    border-radius: 20px;
+    background: #1A1A1A;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 20px;
+        padding: 1px;
+        background: linear-gradient(135deg,
+                rgba(255, 156, 0, 0.5) 0%,
+                rgba(255, 156, 0, 0.15) 30%,
+                transparent 70%);
+        -webkit-mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+    }
+
+    &:hover {
+        background: #222;
+        transform: translateY(-2px);
+
+        .cardArrow {
+            color: var(--primary);
+            transform: translateX(4px);
+        }
+    }
+}
+
+.emoji {
+    font-size: 32px;
+    margin-bottom: 12px;
+    line-height: 1;
+}
+
+.cardTitle {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.4;
+    margin: 0;
+}
+
+.cardDescription {
+    margin-top: 8px;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--dark-secondary);
+    line-height: 1.5;
+    flex: 1;
+}
+
+.cardArrow {
+    margin-top: 12px;
+    font-size: 18px;
+    color: var(--dark-secondary);
+    transition: color 0.2s ease, transform 0.2s ease;
+    display: inline-block;
+    width: fit-content;
+}

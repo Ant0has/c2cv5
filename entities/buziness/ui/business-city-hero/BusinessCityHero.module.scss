@@ -1,0 +1,22 @@
+.badge {
+    display: inline-block;
+    padding: 8px 20px;
+    margin-bottom: 24px;
+    border-radius: 100px;
+    background: rgba(255, 156, 0, 0.15);
+    color: var(--primary);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+
+    @media (max-width: 768px) {
+        margin-bottom: 16px;
+        font-size: 13px;
+        padding: 6px 16px;
+    }
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+}

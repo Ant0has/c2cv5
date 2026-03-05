@@ -1,0 +1,98 @@
+.wrapper {
+    padding: 80px 0 0;
+
+    @media (max-width: 768px) {
+        padding: 40px 0 0;
+    }
+}
+
+.subtitle {
+    margin-top: 12px;
+    font-size: 16px;
+    color: var(--dark-secondary);
+    text-align: center;
+}
+
+.regions {
+    margin-top: 48px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+
+    @media (max-width: 992px) {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+
+.region {
+    padding: 24px;
+    border-radius: 20px;
+    background: #1A1A1A;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: border-color 0.2s ease;
+
+    &:hover {
+        border-color: rgba(255, 156, 0, 0.3);
+    }
+}
+
+.regionHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    margin-bottom: 16px;
+}
+
+.regionName {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.4;
+}
+
+.regionBadge {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--primary);
+    background: rgba(255, 156, 0, 0.12);
+    padding: 4px 12px;
+    border-radius: 100px;
+    white-space: nowrap;
+}
+
+.regionArrow {
+    margin-left: auto;
+    font-size: 18px;
+    color: var(--dark-secondary);
+    transition: color 0.2s ease, transform 0.2s ease;
+
+    .regionHeader:hover & {
+        color: var(--primary);
+        transform: translateX(4px);
+    }
+}
+
+.cities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.cityChip {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--white);
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+
+    &:hover {
+        background: rgba(255, 156, 0, 0.15);
+        color: var(--primary);
+    }
+}

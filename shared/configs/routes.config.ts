@@ -7,6 +7,10 @@ class RoutesConfig {
   private readonly FOR_BUSINESS = '/dlya-biznesa';
   private readonly OFERTA = '/oferta';
   private readonly DOSTAVKA_GRUZOV = '/dlya-biznesa/dostavka-gruzov';
+  private readonly KORPORATIVNOE_TAKSI = '/dlya-biznesa/korporativnoe-taksi-mezhgorod';
+  private readonly TRANSFER_MEROPRIYATIY = '/dlya-biznesa/transfer-dlya-meropriyatiy';
+  private readonly PEREVOZKA_VAKHTOVYH = '/dlya-biznesa/perevozka-vakhtovyh-rabochih';
+  private readonly MEDICINSKIJ_TRANSFER = '/dlya-biznesa/medicinskij-transfer';
 
     public getAboutRoute(): string {
         return this.ABOUT;
@@ -34,6 +38,22 @@ class RoutesConfig {
 
     public getDostavkaGruzovRoute(): string {
         return this.DOSTAVKA_GRUZOV;
+    }
+
+    public getKorporativnoeTaksiRoute(): string {
+        return this.KORPORATIVNOE_TAKSI;
+    }
+
+    public getTransferMeropriyatiyRoute(): string {
+        return this.TRANSFER_MEROPRIYATIY;
+    }
+
+    public getPerevozkaVakhtovyhRoute(): string {
+        return this.PEREVOZKA_VAKHTOVYH;
+    }
+
+    public getMedicinskijTransferRoute(): string {
+        return this.MEDICINSKIJ_TRANSFER;
     }
 
     public getOfertaRoute(): string {
