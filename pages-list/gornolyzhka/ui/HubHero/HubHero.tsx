@@ -16,11 +16,20 @@ interface Props {
   textColor?: string
 }
 
-const HubHero = ({ hub, destination, benefits, breadcrumbItems }: Props) => {
+const HubHero = ({ hub, destination, benefits, breadcrumbItems, textColor }: Props) => {
   const { setOrderModalData } = useContext(ModalContext)
 
   const isSkiHub = hub.slug === 'gornolyzhka'
-  const heroImage = isSkiHub ? '/images/gornolygka.png' : null
+  const isSvoHub = hub.slug === 'svo'
+  const heroImage = isSkiHub
+    ? '/images/gornolygka.png'
+    : isSvoHub
+      ? '/images/svo/svo-hero.jpg'
+      : null
+
+  // When destination is present, show destination-specific title/subtitle
+  const title = destination ? (destination.title || destination.name || hub.title) : hub.title
+  const subtitle = destination ? (destination.subtitle || hub.subtitle) : hub.subtitle
 
   return (
     <section
@@ -33,18 +42,9 @@ const HubHero = ({ hub, destination, benefits, breadcrumbItems }: Props) => {
         <div className="container">
           <Breadcrumbs items={breadcrumbItems} textColor="#ffffff" />
           <div className={s.heroContent}>
-            {/* {isSkiHub && (
-              <div className={s.motto}>
-                <span className={s.mottoIcon}>🎿</span>
-                <span className={s.mottoText}>На Склон!</span>
-              </div>
-            )} */}
-            <h1 className={s.heroTitle}>{hub.title}</h1>
-            {hub.subtitle && (
-              <p className={s.heroSubtitle}>{hub.subtitle}</p>
-            )}
-            {hub.description && (
-              <p className={s.heroDescription}>{hub.description}</p>
+            <h1 className={s.heroTitle}>{title}</h1>
+            {subtitle && (
+              <p className={s.heroSubtitle}>{subtitle}</p>
             )}
             <div className={s.heroActions}>
               {/* <Button

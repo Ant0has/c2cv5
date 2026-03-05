@@ -1,33 +1,26 @@
 .hero {
-  min-height: 600px;
+  min-height: 500px;
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
   position: relative;
-  display: flex;
-  align-items: center;
-  padding: 80px 0 60px;
+  background-size: cover;
   background-position: center right;
+
   @media (max-width: 768px) {
-    padding: 0;
-    display: block;
+    min-height: auto;
     background-position: center center;
   }
 }
 
 .heroOverlay {
   width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 2;
+  min-height: inherit;
+  display: flex;
+  align-items: center;
   background: linear-gradient(90deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.85) 50%, rgba(15, 52, 96, 0.4) 100%);
   padding: 80px 0 60px;
 
   @media (max-width: 768px) {
-    padding: 0;
-    min-height: inherit;
-    position: static;
+    padding: 40px 0 32px;
     background: linear-gradient(180deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.9) 100%);
   }
 }

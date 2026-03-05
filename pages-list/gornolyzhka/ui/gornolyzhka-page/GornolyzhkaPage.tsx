@@ -17,7 +17,7 @@ const GornolyghkaPage = ({ hub }: GornolyghkaPageProps) => {
     const isMobile = useIsMobile();
     const seoText = `
     <h2>Трансфер ${hub.name}</h2>
-    <p>Служба «ВДругойГород» предлагает комфортные трансферы по направлению ${hub.name}.
+    <p>Служба City2City предлагает комфортные трансферы по направлению ${hub.name}.
     ${hub.description || ''}</p>
     ${hub.destinations && hub.destinations.length > 0 ? `
     <h3>Популярные маршруты</h3>

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
+import { BASE_URL } from "@/shared/constants";
 import { SITE_NAME } from "@/shared/constants/seo.constants";
 import { destinationService } from "@/shared/api/destination.service";
 import DestinationPage from "@/pages-list/destination/ui/destination-page/DestinationPage";
@@ -18,10 +19,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     notFound();
   }
 
-  const canonicalUrl = `https://vdrugoygorod.ru/${params.region}/${params.destination}`;
+  const canonicalUrl = `${BASE_URL}/gornolyzhka/${params.destination}`;
   const routeName = `${destination.fromCity || ''} — ${destination.toCity || ''}`;
 
-  // Формируем SEO-оптимизированные title и description с параметрами маршрута
   const priceFormatted = destination.price
     ? new Intl.NumberFormat('ru-RU').format(Number(destination.price))
     : null;
@@ -46,7 +46,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title,
     description,
     keywords,
-    robots: "index, follow",
+    robots: {
+      index: true,
+      follow: true,
+    },
     alternates: { canonical: canonicalUrl },
     openGraph: {
       title,
@@ -55,13 +58,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: SITE_NAME,
       locale: "ru_RU",
       type: "website",
-      images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: destination.title }],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: ["/twitter-image.jpg"],
     },
   };
 }

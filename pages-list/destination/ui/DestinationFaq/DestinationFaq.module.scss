@@ -1,0 +1,15 @@
+.wrapper {
+  padding: 40px 0;
+  background: var(--light-gray);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}

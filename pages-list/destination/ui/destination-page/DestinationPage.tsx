@@ -7,6 +7,7 @@ import DestinationFeatures from "@/pages-list/destination/ui/DestinationFeatures
 import DestinationDescription from "@/pages-list/destination/ui/DestinationDescription/DestinationDescription"
 import DestinationWeather from "@/pages-list/destination/ui/DestinationWeather/DestinationWeather"
 import SeoText from "@/shared/components/SeoText/SeoText"
+import DestinationFaq from "@/pages-list/destination/ui/DestinationFaq/DestinationFaq"
 import s from './DestinationPage.module.scss'
 import HubHero from "@/pages-list/gornolyzhka/ui/HubHero/HubHero"
 import { formatPrice } from "@/shared/services/seo-utils"
@@ -41,7 +42,7 @@ const DestinationPage = ({ destination }: Props) => {
 
     const seoText = `
     <h2>Трансфер ${routeName}</h2>
-    <p>Закажите комфортный трансфер по маршруту ${routeName} от службы «ВДругойГород».
+    <p>Закажите комфортный трансфер по маршруту ${routeName} от службы City2City.
     ${distanceText ? `Расстояние маршрута — ${distanceText}.` : ''}
     ${durationText ? `Время в пути — ${durationText}.` : ''}
     ${priceText ? `Стоимость поездки — ${priceText}.` : ''}</p>
@@ -115,6 +116,11 @@ const DestinationPage = ({ destination }: Props) => {
             {destination.description && (
                 <DestinationDescription destination={destination} />
             )}
+
+            {destination.faq && (
+                <DestinationFaq destination={destination} />
+            )}
+
             <SeoText content={seoText} />
         </div>
     )
