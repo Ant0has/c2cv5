@@ -9,6 +9,14 @@
       font-size: 18px;
       font-weight: 600;
     }
+
+    .menuWrapperSectionContent {
+      ul {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
   }
 }
 

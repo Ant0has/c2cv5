@@ -82,6 +82,11 @@ const MenuContent: FC = () => {
                     Горнолыжные курорты
                   </Link>
                 </li>
+                <li>
+                  <Link href="/dlya-biznesa" className={clsx('text-black', { ['text-primary']: pathname?.startsWith('/dlya-biznesa') })}>
+                    Для бизнеса
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
