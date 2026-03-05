@@ -38,8 +38,8 @@ export const NotFoundPage = () => {
             <Link href="/" className={styles.btnPrimary}>
               На главную
             </Link>
-            <Link href="tel:+78006007775" className={styles.btnSecondary}>
-              Заказать такси: {requisitsData.PHONE_MARKED_SECOND}
+            <Link href={`tel:${requisitsData.PHONE}`} className={styles.btnSecondary}>
+              Заказать такси: {requisitsData.PHONE_MARKED}
             </Link>
           </div>
 
