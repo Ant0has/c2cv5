@@ -63,6 +63,14 @@ const FaqSection = dynamic(
 	}
 )
 
+const BusinessBridgeSection = dynamic(
+	() => import("@/entities/buziness/ui/business-bridge/BusinessBridge").then((mod) => mod.default),
+	{
+		loading: () => <LoadingSkeleton height="300px" />,
+		ssr: false,
+	}
+);
+
 const ReviewsSection = dynamic(
 	() => import("@/pages-list/home/ui/Reviews/Reviews").then((mod) => mod.default),
 	{
@@ -149,6 +157,10 @@ export function Home({ routeData }: Props) {
 					<FaqSection route={routeData} />
 				</Suspense>
 			)}
+
+			<Suspense>
+				<BusinessBridgeSection />
+			</Suspense>
 
 			<Suspense>
 				<ReviewsSection reviews={routeData?.reviews?.data || []} />

@@ -18,6 +18,7 @@ import BusinessInfoBlock from "./ui/business-info-block/BusinessInfoBlock";
 import BusinessNearbyCities from "./ui/business-nearby-cities/BusinessNearbyCities";
 import BusinessCityCards from "./ui/business-city-cards/BusinessCityCards";
 import BusinessRegionLinks from "./ui/business-region-links/BusinessRegionLinks";
+import BusinessBridge from "./ui/business-bridge/BusinessBridge";
 
 export {
   BusinessHero,
@@ -40,4 +41,5 @@ export {
   BusinessNearbyCities,
   BusinessCityCards,
   BusinessRegionLinks,
+  BusinessBridge,
 }
