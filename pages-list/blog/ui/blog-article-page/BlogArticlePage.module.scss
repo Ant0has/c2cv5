@@ -73,9 +73,12 @@
     font-size: 16px;
     line-height: 1.7;
 
-    // Override global * { color: var(--dark) } for all child elements
+    // Override global * reset (color, line-height, font-size, font-weight)
     * {
         color: inherit;
+        line-height: inherit;
+        font-size: inherit;
+        font-weight: inherit;
     }
 
     h2 {
@@ -122,6 +125,7 @@
         li {
             color: #D1D1D1;
             margin-bottom: 8px;
+            line-height: 1.7;
         }
     }
 
