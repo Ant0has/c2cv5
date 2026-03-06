@@ -83,6 +83,11 @@ const MenuContent: FC = () => {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/svo" className={clsx('text-black', { ['text-primary']: pathname?.startsWith('/svo') })}>
+                    Новые территории (СВО)
+                  </Link>
+                </li>
+                <li>
                   <Link href="/dlya-biznesa" className={clsx('text-black', { ['text-primary']: pathname?.startsWith('/dlya-biznesa') })}>
                     Для бизнеса
                   </Link>
