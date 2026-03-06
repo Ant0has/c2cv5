@@ -117,6 +117,20 @@
         }
     }
 
+    a {
+        color: var(--primary);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+
+        &:visited {
+            color: var(--primary);
+        }
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+
     strong {
         color: var(--white);
         font-weight: 600;
@@ -138,6 +152,10 @@
             background-color: rgba(255, 255, 255, 0.05);
             color: var(--white);
             font-weight: 600;
+        }
+
+        td {
+            color: var(--dark-secondary);
         }
     }
 
