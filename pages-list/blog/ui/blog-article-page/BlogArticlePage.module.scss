@@ -73,6 +73,11 @@
     font-size: 16px;
     line-height: 1.7;
 
+    // Override global * { color: var(--dark) } for all child elements
+    * {
+        color: inherit;
+    }
+
     h2 {
         font-size: 28px;
         font-weight: 700;
@@ -101,6 +106,7 @@
     }
 
     p {
+        color: #D1D1D1;
         margin: 0 0 16px 0;
 
         &:last-child {
@@ -109,10 +115,12 @@
     }
 
     ul, ol {
+        color: #D1D1D1;
         margin: 0 0 16px 0;
         padding-left: 24px;
 
         li {
+            color: #D1D1D1;
             margin-bottom: 8px;
         }
     }
@@ -167,6 +175,7 @@
         border-radius: 0 8px 8px 0;
 
         p {
+            color: #D1D1D1;
             margin: 0;
         }
     }
