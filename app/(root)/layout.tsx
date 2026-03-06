@@ -14,7 +14,7 @@ export default function AppLayout({
     <div className="app-layout">
       <TelegramBar />
       <Header />
-      <main className={clsx("app-main", {'bg-dark': pathname === '/dlya-biznesa', 'bg-white': pathname !== '/dlya-biznesa'})}>
+      <main className={clsx("app-main", {'bg-dark': pathname.startsWith('/dlya-biznesa'), 'bg-white': !pathname.startsWith('/dlya-biznesa')})}>
         {children}
       </main>
       <Footer />

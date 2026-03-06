@@ -1,4 +1,4 @@
-import { BusinessHero, BusinessAnswers, BusinessB2bCalculator, BusinessContract, BusinessServiceAreas, BusinessPopularRoutes, BusinessChoise, BusinessInstruction, BusinessReviews, BusinessFaq, BusinessCooperation, BusinessCrossLinks, BusinessRegionLinks } from '@/entities/buziness'
+import { BusinessHero, BusinessAnswers, BusinessB2bCalculator, BusinessContract, BusinessServiceAreas, BusinessPopularRoutes, BusinessChoise, BusinessInstruction, BusinessReviews, BusinessFaq, BusinessCooperation, BusinessCrossLinks, BusinessRegionLinks, BusinessBlogArticles } from '@/entities/buziness'
 import s from './KorporativnoeTaksiMezhgorodPage.module.scss'
 import { pageData } from '../../utils/data'
 import { REGIONS } from '../../../city-hub/config/registry'
@@ -25,6 +25,7 @@ const KorporativnoeTaksiMezhgorodPage = () => {
     <BusinessChoise {...pageData.choise} />
     <BusinessReviews {...pageData.reviews} />
     <BusinessFaq {...pageData.faq} />
+    <BusinessBlogArticles segment="korporativnoe-taksi" title="Полезные статьи о корпоративном такси" />
     <BusinessCrossLinks currentSlug="korporativnoe-taksi-mezhgorod" />
     <BusinessRegionLinks regions={regionLinksData} />
     <BusinessCooperation {...pageData.cooperation} />

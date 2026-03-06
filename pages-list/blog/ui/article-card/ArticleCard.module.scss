@@ -1,0 +1,79 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    background-color: var(--background-card-color);
+    border-radius: 16px;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+
+        .arrow {
+            transform: translateX(4px);
+        }
+    }
+}
+
+.badges {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.segmentBadge {
+    padding: 4px 10px;
+    background-color: rgba(255, 156, 0, 0.15);
+    color: var(--primary);
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.formatBadge {
+    padding: 4px 10px;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: var(--dark-secondary);
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.4;
+    margin: 0 0 12px;
+
+    @media (max-width: 768px) {
+        font-size: 16px;
+    }
+}
+
+.excerpt {
+    font-size: 14px;
+    color: var(--dark-secondary);
+    line-height: 1.6;
+    margin: 0 0 16px;
+    flex: 1;
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.readTime {
+    font-size: 13px;
+    color: var(--dark-secondary);
+}
+
+.arrow {
+    font-size: 18px;
+    color: var(--primary);
+    transition: transform 0.2s ease;
+}

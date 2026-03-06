@@ -1,0 +1,31 @@
+.wrapper {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+}
+
+.tab {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: transparent;
+    color: var(--dark-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+
+    &:hover {
+        border-color: var(--primary);
+        color: var(--white);
+    }
+
+    &.active {
+        background-color: var(--primary);
+        border-color: var(--primary);
+        color: var(--dark);
+        font-weight: 600;
+    }
+}
