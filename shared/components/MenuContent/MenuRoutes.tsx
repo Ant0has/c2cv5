@@ -18,14 +18,14 @@ const getValidName = (region: IRegion) => {
 }
 
 interface IMenuRoutesProps {
-    // moscow: IRegion
-    // piter: IRegion
-    // krym: IRegion
+    moscow: IRegion
+    piter: IRegion
+    krym: IRegion
     route: IRouteData
     setIsOpenMenu: (value: boolean) => void
 }
 
-const MenuRoutes = ({ route, setIsOpenMenu }: IMenuRoutesProps) => {
+const MenuRoutes = ({ moscow, piter, krym, route, setIsOpenMenu }: IMenuRoutesProps) => {
     const [isMobile, setIsMobile] = useState<boolean>(false)
     const regions = useContext(RegionsContext) as IRegion[]
 
@@ -113,8 +113,7 @@ const MenuRoutes = ({ route, setIsOpenMenu }: IMenuRoutesProps) => {
     return (
         <>
             <div className={s.block}>
-
-                {/* <Link
+                <Link
                     onClick={() => setIsOpenMenu(false)}
                     className={clsx('text-black', { ['text-primary']: moscow.url === route?.regions_data?.url })}
                     href={`/${moscow.url || ''}.html`}
@@ -134,7 +133,7 @@ const MenuRoutes = ({ route, setIsOpenMenu }: IMenuRoutesProps) => {
                     href={`/${krym.url || ''}.html`}
                 >
                     {getValidName(krym)}
-                </Link> */}
+                </Link>
             </div>
 
             <Swiper

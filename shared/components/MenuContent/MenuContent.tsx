@@ -94,9 +94,9 @@ const MenuContent: FC = () => {
             <h5 className={s.menuWrapperSectionTitle}>Маршруты:</h5>
             <div className={s.menuWrapperSectionContent}>
               <MenuRoutes
-                // moscow={moscow}
-                // piter={piter}
-                // krym={krym}
+                moscow={moscow}
+                piter={piter}
+                krym={krym}
                 route={route as IRouteData}
                 setIsOpenMenu={setIsOpenMenu}
               />
