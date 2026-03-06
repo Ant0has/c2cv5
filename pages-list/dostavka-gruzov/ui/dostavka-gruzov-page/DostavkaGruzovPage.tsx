@@ -1,4 +1,4 @@
-import { BusinessHero, BusinessAnswers, BusinessB2bCalculator, BusinessContract, BusinessServiceAreas, BusinessPopularRoutes, BusinessChoise, BusinessInstruction, BusinessReviews, BusinessFaq, BusinessCooperation, BusinessComprasion, BusinessCrossLinks, BusinessRegionLinks, BusinessBlogArticles } from '@/entities/buziness'
+import { BusinessHero, BusinessAnswers, BusinessB2bCalculator, BusinessContract, BusinessServiceAreas, BusinessPopularRoutes, BusinessChoise, BusinessInstruction, BusinessReviews, BusinessFaq, BusinessCooperation, BusinessComprasion, BusinessCrossLinks, BusinessRegionLinks, BusinessBlogArticles, BusinessCaseStudies } from '@/entities/buziness'
 import s from './DostavkaGruzovPage.module.scss'
 import { pageData } from '../../utils/data'
 import { REGIONS } from '../../../city-hub/config/registry'
@@ -27,6 +27,7 @@ const DostavkaGruzovPage = () => {
     <BusinessReviews {...pageData.reviews} />
     <BusinessFaq {...pageData.faq} />
     <BusinessBlogArticles segment="dostavka-gruzov" title="Полезные статьи о доставке грузов" />
+    <BusinessCaseStudies segment="dostavka-gruzov" title="Кейсы наших клиентов" />
     <BusinessCrossLinks currentSlug="dostavka-gruzov" />
     <BusinessRegionLinks regions={regionLinksData} />
     <BusinessCooperation {...pageData.cooperation} />

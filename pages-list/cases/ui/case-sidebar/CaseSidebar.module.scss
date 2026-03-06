@@ -1,0 +1,83 @@
+.sidebar {
+    position: sticky;
+    top: 100px;
+    width: 280px;
+    flex-shrink: 0;
+
+    @media (max-width: 1024px) {
+        display: none;
+    }
+}
+
+.tocBlock {
+    background-color: var(--background-card-color);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.tocTitle {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+    margin: 0 0 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tocList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.tocLink {
+    display: block;
+    padding: 6px 0;
+    font-size: 13px;
+    color: var(--dark-secondary);
+    text-decoration: none;
+    line-height: 1.4;
+    transition: color 0.2s ease;
+
+    &:hover {
+        color: var(--primary);
+    }
+}
+
+.ctaBlock {
+    background-color: var(--background-card-color);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid rgba(255, 156, 0, 0.2);
+}
+
+.ctaTitle {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--white);
+    margin: 0 0 8px;
+}
+
+.ctaText {
+    font-size: 13px;
+    color: var(--dark-secondary);
+    line-height: 1.5;
+    margin: 0 0 16px;
+}
+
+.ctaButton {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--primary);
+    color: var(--dark);
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+        opacity: 0.9;
+    }
+}

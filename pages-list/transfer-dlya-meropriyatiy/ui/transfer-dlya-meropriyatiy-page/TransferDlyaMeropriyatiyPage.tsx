@@ -1,4 +1,4 @@
-import { BusinessHero, BusinessAnswers, BusinessB2bCalculator, BusinessContract, BusinessServiceAreas, BusinessPopularRoutes, BusinessChoise, BusinessInstruction, BusinessReviews, BusinessFaq, BusinessCooperation, BusinessCrossLinks, BusinessRegionLinks, BusinessBlogArticles } from '@/entities/buziness'
+import { BusinessHero, BusinessAnswers, BusinessB2bCalculator, BusinessContract, BusinessServiceAreas, BusinessPopularRoutes, BusinessChoise, BusinessInstruction, BusinessReviews, BusinessFaq, BusinessCooperation, BusinessCrossLinks, BusinessRegionLinks, BusinessBlogArticles, BusinessCaseStudies } from '@/entities/buziness'
 import s from './TransferDlyaMeropriyatiyPage.module.scss'
 import { pageData } from '../../utils/data'
 import { REGIONS } from '../../../city-hub/config/registry'
@@ -26,6 +26,7 @@ const TransferDlyaMeropriyatiyPage = () => {
     <BusinessReviews {...pageData.reviews} />
     <BusinessFaq {...pageData.faq} />
     <BusinessBlogArticles segment="transfer-meropriyatiy" title="Полезные статьи о трансфере для мероприятий" />
+    <BusinessCaseStudies segment="transfer-meropriyatiy" title="Кейсы наших клиентов" />
     <BusinessCrossLinks currentSlug="transfer-dlya-meropriyatiy" />
     <BusinessRegionLinks regions={regionLinksData} />
     <BusinessCooperation {...pageData.cooperation} />

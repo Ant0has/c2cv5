@@ -20,6 +20,7 @@ import BusinessCityCards from "./ui/business-city-cards/BusinessCityCards";
 import BusinessRegionLinks from "./ui/business-region-links/BusinessRegionLinks";
 import BusinessBridge from "./ui/business-bridge/BusinessBridge";
 import BusinessBlogArticles from "./ui/business-blog-articles/BusinessBlogArticles";
+import BusinessCaseStudies from "./ui/business-case-studies/BusinessCaseStudies";
 
 export {
   BusinessHero,
@@ -44,4 +45,5 @@ export {
   BusinessRegionLinks,
   BusinessBridge,
   BusinessBlogArticles,
+  BusinessCaseStudies,
 }

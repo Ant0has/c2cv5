@@ -1,0 +1,46 @@
+.metrics {
+    display: flex;
+    border: 1px solid rgba(255, 156, 0, 0.2);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 32px;
+}
+
+.item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 16px;
+    text-align: center;
+
+    & + & {
+        border-left: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    @media (max-width: 640px) {
+        padding: 16px 12px;
+    }
+}
+
+.value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary);
+    line-height: 1.2;
+    margin-bottom: 4px;
+
+    @media (max-width: 640px) {
+        font-size: 22px;
+    }
+}
+
+.label {
+    font-size: 13px;
+    color: var(--dark-secondary);
+    line-height: 1.3;
+
+    @media (max-width: 640px) {
+        font-size: 12px;
+    }
+}

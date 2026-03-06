@@ -1,4 +1,4 @@
-import { BusinessHero, BusinessAnswers, BusinessB2bCalculator, BusinessContract, BusinessServiceAreas, BusinessPopularRoutes, BusinessChoise, BusinessInstruction, BusinessReviews, BusinessFaq, BusinessCooperation, BusinessCrossLinks, BusinessRegionLinks, BusinessBlogArticles } from '@/entities/buziness'
+import { BusinessHero, BusinessAnswers, BusinessB2bCalculator, BusinessContract, BusinessServiceAreas, BusinessPopularRoutes, BusinessChoise, BusinessInstruction, BusinessReviews, BusinessFaq, BusinessCooperation, BusinessCrossLinks, BusinessRegionLinks, BusinessBlogArticles, BusinessCaseStudies } from '@/entities/buziness'
 import s from './PerevozkaVakhtovyhRabochihPage.module.scss'
 import { pageData } from '../../utils/data'
 import { REGIONS } from '../../../city-hub/config/registry'
@@ -26,6 +26,7 @@ const PerevozkaVakhtovyhRabochihPage = () => {
     <BusinessReviews {...pageData.reviews} />
     <BusinessFaq {...pageData.faq} />
     <BusinessBlogArticles segment="vakhtovye-perevozki" title="Полезные статьи о вахтовых перевозках" />
+    <BusinessCaseStudies segment="vakhtovye-perevozki" title="Кейсы наших клиентов" />
     <BusinessCrossLinks currentSlug="perevozka-vakhtovyh-rabochih" />
     <BusinessRegionLinks regions={regionLinksData} />
     <BusinessCooperation {...pageData.cooperation} />
