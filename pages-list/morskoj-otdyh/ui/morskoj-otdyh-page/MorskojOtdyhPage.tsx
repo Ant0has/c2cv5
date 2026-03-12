@@ -15,8 +15,8 @@ interface MorskojOtdyhPageProps {
 const seaBenefits = [
     {
         icon: '/icons/beach_ico.png',
-        title: '17',
-        description: 'направлений к морю',
+        title: '73',
+        description: 'направления к морю',
     },
     {
         icon: '/icons/wave_ico.png',
@@ -32,6 +32,7 @@ const seaBenefits = [
 
 // Sea grouping for destinations
 const SEA_MAP: Record<string, { name: string; order: number }> = {
+    // Чёрное море — original
     'moskva-sochi-sea': { name: 'Чёрное море', order: 1 },
     'krasnodar-sochi-sea': { name: 'Чёрное море', order: 1 },
     'krasnodar-anapa-sea': { name: 'Чёрное море', order: 1 },
@@ -39,16 +40,77 @@ const SEA_MAP: Record<string, { name: string; order: number }> = {
     'moskva-anapa-sea': { name: 'Чёрное море', order: 1 },
     'rostov-sochi-sea': { name: 'Чёрное море', order: 1 },
     'krasnodar-tuapse-sea': { name: 'Чёрное море', order: 1 },
+    // Чёрное море — expansion
+    'krasnodar-novorossijsk-sea': { name: 'Чёрное море', order: 1 },
+    'krasnodar-olginka-sea': { name: 'Чёрное море', order: 1 },
+    'krasnodar-arhipo-osipovka-sea': { name: 'Чёрное море', order: 1 },
+    'krasnodar-adler-sea': { name: 'Чёрное море', order: 1 },
+    'krasnodar-dzhubga-sea': { name: 'Чёрное море', order: 1 },
+    'moskva-gelendzhik-sea': { name: 'Чёрное море', order: 1 },
+    'krasnodar-kabardinka-sea': { name: 'Чёрное море', order: 1 },
+    'krasnodar-vityazevo-sea': { name: 'Чёрное море', order: 1 },
+    'stavropol-anapa-sea': { name: 'Чёрное море', order: 1 },
+    'krasnodar-abrau-dyurso-sea': { name: 'Чёрное море', order: 1 },
+    'krasnodar-novomihajlovskij-sea': { name: 'Чёрное море', order: 1 },
+    'krasnodar-divnomorskoe-sea': { name: 'Чёрное море', order: 1 },
+    'krasnodar-sukko-sea': { name: 'Чёрное море', order: 1 },
+    'moskva-adler-sea': { name: 'Чёрное море', order: 1 },
+    'krasnodar-lermontovo-sea': { name: 'Чёрное море', order: 1 },
+    'krasnodar-lazarevskoe-sea': { name: 'Чёрное море', order: 1 },
+    'moskva-blagoveshchenskaya-sea': { name: 'Чёрное море', order: 1 },
+    'moskva-novorossijsk-sea': { name: 'Чёрное море', order: 1 },
+    'stavropol-sochi-sea': { name: 'Чёрное море', order: 1 },
+    'rostov-anapa-sea': { name: 'Чёрное море', order: 1 },
+    'krasnodar-blagoveshchenskaya-sea': { name: 'Чёрное море', order: 1 },
+    'krasnodar-nebug-sea': { name: 'Чёрное море', order: 1 },
+    'stavropol-gelendzhik-sea': { name: 'Чёрное море', order: 1 },
+    'rostov-gelendzhik-sea': { name: 'Чёрное море', order: 1 },
+    'krasnodar-dzhemete-sea': { name: 'Чёрное море', order: 1 },
+    'moskva-divnomorskoe-sea': { name: 'Чёрное море', order: 1 },
+    'rostov-novorossijsk-sea': { name: 'Чёрное море', order: 1 },
+    'stavropol-novorossijsk-sea': { name: 'Чёрное море', order: 1 },
+    'krasnodar-betta-sea': { name: 'Чёрное море', order: 1 },
+    'krasnodar-shepsi-sea': { name: 'Чёрное море', order: 1 },
+    'rostov-adler-sea': { name: 'Чёрное море', order: 1 },
+    'krasnodar-dederkoj-sea': { name: 'Чёрное море', order: 1 },
+    'krasnodar-vardane-sea': { name: 'Чёрное море', order: 1 },
+    'moskva-agoj-sea': { name: 'Чёрное море', order: 1 },
+    'moskva-arhipo-osipovka-sea': { name: 'Чёрное море', order: 1 },
+    'moskva-kabardinka-sea': { name: 'Чёрное море', order: 1 },
+    'moskva-tuapse-sea': { name: 'Чёрное море', order: 1 },
+    'rostov-arhipo-osipovka-sea': { name: 'Чёрное море', order: 1 },
+    'krasnodar-krinitsa-sea': { name: 'Чёрное море', order: 1 },
+    'krasnodar-praskoveevka-sea': { name: 'Чёрное море', order: 1 },
+    'moskva-dzhubga-sea': { name: 'Чёрное море', order: 1 },
+    'moskva-hosta-sea': { name: 'Чёрное море', order: 1 },
+    'moskva-sukko-sea': { name: 'Чёрное море', order: 1 },
+    'moskva-vityazevo-sea': { name: 'Чёрное море', order: 1 },
+    'rostov-kabardinka-sea': { name: 'Чёрное море', order: 1 },
+    'rostov-vityazevo-sea': { name: 'Чёрное море', order: 1 },
+    'stavropol-adler-sea': { name: 'Чёрное море', order: 1 },
+    'stavropol-lazarevskoe-sea': { name: 'Чёрное море', order: 1 },
+    'stavropol-vityazevo-sea': { name: 'Чёрное море', order: 1 },
+    // Крым
     'krasnodar-krym-sea': { name: 'Крым', order: 2 },
     'simferopol-yalta-sea': { name: 'Крым', order: 2 },
     'simferopol-sevastopol-sea': { name: 'Крым', order: 2 },
     'simferopol-evpatoriya-sea': { name: 'Крым', order: 2 },
     'simferopol-feodosiya-sea': { name: 'Крым', order: 2 },
+    // Каспийское море
     'moskva-derbent-sea': { name: 'Каспийское море', order: 3 },
     'moskva-mahachkala-sea': { name: 'Каспийское море', order: 3 },
+    // Азовское море — original
     'rostov-ejsk-sea': { name: 'Азовское море', order: 4 },
     'krasnodar-taman-sea': { name: 'Азовское море', order: 4 },
     'krasnodar-dolzhanskaya-sea': { name: 'Азовское море', order: 4 },
+    // Азовское море — expansion
+    'krasnodar-golubitskaya-sea': { name: 'Азовское море', order: 4 },
+    'krasnodar-kuchugury-sea': { name: 'Азовское море', order: 4 },
+    'krasnodar-peresyp-sea': { name: 'Азовское море', order: 4 },
+    'krasnodar-za-rodinu-sea': { name: 'Азовское море', order: 4 },
+    'rostov-golubitskaya-sea': { name: 'Азовское море', order: 4 },
+    'moskva-golubitskaya-sea': { name: 'Азовское море', order: 4 },
+    'stavropol-peresyp-sea': { name: 'Азовское море', order: 4 },
 };
 
 type SeaFilter = 'all' | 'Чёрное море' | 'Крым' | 'Каспийское море' | 'Азовское море';
@@ -92,7 +154,7 @@ const MorskojOtdyhPage = ({ hub }: MorskojOtdyhPageProps) => {
     <ul>
       <li><strong>Фиксированные цены</strong> — стоимость известна заранее, без скрытых доплат</li>
       <li><strong>Комфортные автомобили</strong> — от эконом до бизнес-класса с кондиционером</li>
-      <li><strong>17 направлений</strong> — покрываем все популярные морские курорты</li>
+      <li><strong>73 направления</strong> — покрываем все популярные морские курорты</li>
       <li><strong>Работаем 24/7</strong> — заказ в любое время дня и ночи</li>
       <li><strong>Багаж бесплатно</strong> — помощь с вещами и пляжным оборудованием</li>
     </ul>

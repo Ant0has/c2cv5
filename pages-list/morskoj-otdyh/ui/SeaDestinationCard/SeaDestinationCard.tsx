@@ -13,10 +13,35 @@ interface Props {
 
 // Sea badge colors and icons
 const getSeaBadge = (slug: string): { label: string; color: string; icon: string } => {
-  const chernomorye = ['moskva-sochi-sea', 'krasnodar-sochi-sea', 'krasnodar-anapa-sea', 'krasnodar-gelendzhik-sea', 'moskva-anapa-sea', 'rostov-sochi-sea', 'krasnodar-tuapse-sea'];
+  const chernomorye = [
+    'moskva-sochi-sea', 'krasnodar-sochi-sea', 'krasnodar-anapa-sea', 'krasnodar-gelendzhik-sea',
+    'moskva-anapa-sea', 'rostov-sochi-sea', 'krasnodar-tuapse-sea',
+    'krasnodar-novorossijsk-sea', 'krasnodar-olginka-sea', 'krasnodar-arhipo-osipovka-sea',
+    'krasnodar-adler-sea', 'krasnodar-dzhubga-sea', 'moskva-gelendzhik-sea',
+    'krasnodar-kabardinka-sea', 'krasnodar-vityazevo-sea', 'stavropol-anapa-sea',
+    'krasnodar-abrau-dyurso-sea', 'krasnodar-novomihajlovskij-sea', 'krasnodar-divnomorskoe-sea',
+    'krasnodar-sukko-sea', 'moskva-adler-sea', 'krasnodar-lermontovo-sea',
+    'krasnodar-lazarevskoe-sea', 'moskva-blagoveshchenskaya-sea', 'moskva-novorossijsk-sea',
+    'stavropol-sochi-sea', 'rostov-anapa-sea', 'krasnodar-blagoveshchenskaya-sea',
+    'krasnodar-nebug-sea', 'stavropol-gelendzhik-sea', 'rostov-gelendzhik-sea',
+    'krasnodar-dzhemete-sea', 'moskva-divnomorskoe-sea', 'rostov-novorossijsk-sea',
+    'stavropol-novorossijsk-sea', 'krasnodar-betta-sea', 'krasnodar-shepsi-sea',
+    'rostov-adler-sea', 'krasnodar-dederkoj-sea', 'krasnodar-vardane-sea',
+    'moskva-agoj-sea', 'moskva-arhipo-osipovka-sea', 'moskva-kabardinka-sea',
+    'moskva-tuapse-sea', 'rostov-arhipo-osipovka-sea', 'krasnodar-krinitsa-sea',
+    'krasnodar-praskoveevka-sea', 'moskva-dzhubga-sea', 'moskva-hosta-sea',
+    'moskva-sukko-sea', 'moskva-vityazevo-sea', 'rostov-kabardinka-sea',
+    'rostov-vityazevo-sea', 'stavropol-adler-sea', 'stavropol-lazarevskoe-sea',
+    'stavropol-vityazevo-sea',
+  ];
   const krym = ['krasnodar-krym-sea', 'simferopol-yalta-sea', 'simferopol-sevastopol-sea', 'simferopol-evpatoriya-sea', 'simferopol-feodosiya-sea'];
   const kaspij = ['moskva-derbent-sea', 'moskva-mahachkala-sea'];
-  const azovskoe = ['rostov-ejsk-sea', 'krasnodar-taman-sea', 'krasnodar-dolzhanskaya-sea'];
+  const azovskoe = [
+    'rostov-ejsk-sea', 'krasnodar-taman-sea', 'krasnodar-dolzhanskaya-sea',
+    'krasnodar-golubitskaya-sea', 'krasnodar-kuchugury-sea', 'krasnodar-peresyp-sea',
+    'krasnodar-za-rodinu-sea', 'rostov-golubitskaya-sea', 'moskva-golubitskaya-sea',
+    'stavropol-peresyp-sea',
+  ];
 
   if (chernomorye.includes(slug)) return { label: 'Чёрное море', color: '#0ea5e9', icon: '/icons/beach_ico.png' };
   if (krym.includes(slug)) return { label: 'Крым', color: '#10b981', icon: '/icons/palm_ico.png' };
