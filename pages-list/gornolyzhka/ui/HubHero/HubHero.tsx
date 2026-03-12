@@ -21,11 +21,14 @@ const HubHero = ({ hub, destination, benefits, breadcrumbItems, textColor }: Pro
 
   const isSkiHub = hub.slug === 'gornolyzhka'
   const isSvoHub = hub.slug === 'svo'
+  const isSeaHub = hub.slug === 'morskoj-otdyh'
   const heroImage = isSkiHub
     ? '/images/gornolygka.png'
     : isSvoHub
       ? '/images/svo/svo-hero.jpg'
-      : null
+      : isSeaHub
+        ? '/images/morskoj-otdyh.png'
+        : null
 
   // When destination is present, show destination-specific title/subtitle
   const title = destination ? (destination.title || destination.name || hub.title) : hub.title

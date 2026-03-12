@@ -88,6 +88,11 @@ const MenuContent: FC = () => {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/morskoj-otdyh" className={clsx('text-black', { ['text-primary']: pathname?.startsWith('/morskoj-otdyh') })}>
+                    Морской отдых
+                  </Link>
+                </li>
+                <li>
                   <Link href="/dlya-biznesa" className={clsx('text-black', { ['text-primary']: pathname?.startsWith('/dlya-biznesa') })}>
                     Для бизнеса
                   </Link>
