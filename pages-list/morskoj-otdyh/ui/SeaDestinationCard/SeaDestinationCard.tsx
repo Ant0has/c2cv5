@@ -15,7 +15,7 @@ interface Props {
 const getSeaBadge = (slug: string): { label: string; color: string; icon: string } => {
   const chernomorye = ['moskva-sochi-sea', 'krasnodar-sochi-sea', 'krasnodar-anapa-sea', 'krasnodar-gelendzhik-sea', 'moskva-anapa-sea', 'rostov-sochi-sea', 'krasnodar-tuapse-sea'];
   const krym = ['krasnodar-krym-sea', 'simferopol-yalta-sea', 'simferopol-sevastopol-sea', 'simferopol-evpatoriya-sea', 'simferopol-feodosiya-sea'];
-  const kaspij = ['moskva-derbent-sea', 'moskva-mahachkala-sea', 'mahachkala-derbent-sea'];
+  const kaspij = ['moskva-derbent-sea', 'moskva-mahachkala-sea'];
   const azovskoe = ['rostov-ejsk-sea', 'krasnodar-taman-sea', 'krasnodar-dolzhanskaya-sea'];
 
   if (chernomorye.includes(slug)) return { label: 'Чёрное море', color: '#0ea5e9', icon: '/icons/beach_ico.png' };

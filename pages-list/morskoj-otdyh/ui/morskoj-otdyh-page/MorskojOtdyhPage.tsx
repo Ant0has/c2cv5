@@ -15,7 +15,7 @@ interface MorskojOtdyhPageProps {
 const seaBenefits = [
     {
         icon: '/icons/beach_ico.png',
-        title: '18',
+        title: '17',
         description: 'направлений к морю',
     },
     {
@@ -46,7 +46,6 @@ const SEA_MAP: Record<string, { name: string; order: number }> = {
     'simferopol-feodosiya-sea': { name: 'Крым', order: 2 },
     'moskva-derbent-sea': { name: 'Каспийское море', order: 3 },
     'moskva-mahachkala-sea': { name: 'Каспийское море', order: 3 },
-    'mahachkala-derbent-sea': { name: 'Каспийское море', order: 3 },
     'rostov-ejsk-sea': { name: 'Азовское море', order: 4 },
     'krasnodar-taman-sea': { name: 'Азовское море', order: 4 },
     'krasnodar-dolzhanskaya-sea': { name: 'Азовское море', order: 4 },
@@ -93,7 +92,7 @@ const MorskojOtdyhPage = ({ hub }: MorskojOtdyhPageProps) => {
     <ul>
       <li><strong>Фиксированные цены</strong> — стоимость известна заранее, без скрытых доплат</li>
       <li><strong>Комфортные автомобили</strong> — от эконом до бизнес-класса с кондиционером</li>
-      <li><strong>18 направлений</strong> — покрываем все популярные морские курорты</li>
+      <li><strong>17 направлений</strong> — покрываем все популярные морские курорты</li>
       <li><strong>Работаем 24/7</strong> — заказ в любое время дня и ночи</li>
       <li><strong>Багаж бесплатно</strong> — помощь с вещами и пляжным оборудованием</li>
     </ul>
