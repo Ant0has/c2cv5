@@ -58,7 +58,7 @@ const HubHero = ({ hub, destination, benefits, breadcrumbItems, textColor }: Pro
               {/* <Button
                 type={ButtonTypes.SECONDARY}
                 text="Позвонить"
-                link="tel:+79185875454"
+                link="tel:+79381568757"
               /> */}
               <Button type={ButtonTypes.PRIMARY} text="Заказать поездку" handleClick={() => setOrderModalData({
                 status: true,
