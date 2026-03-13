@@ -34,7 +34,7 @@ const getSeaBadge = (slug: string): { label: string; color: string; icon: string
     'rostov-vityazevo-sea', 'stavropol-adler-sea', 'stavropol-lazarevskoe-sea',
     'stavropol-vityazevo-sea',
   ];
-  const krym = ['krasnodar-krym-sea', 'simferopol-yalta-sea', 'simferopol-sevastopol-sea', 'simferopol-evpatoriya-sea', 'simferopol-feodosiya-sea'];
+  const krym = ['krasnodar-krym-sea'];
   const kaspij = ['moskva-derbent-sea', 'moskva-mahachkala-sea'];
   const azovskoe = [
     'rostov-ejsk-sea', 'krasnodar-taman-sea', 'krasnodar-dolzhanskaya-sea',

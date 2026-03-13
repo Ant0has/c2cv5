@@ -15,8 +15,8 @@ interface MorskojOtdyhPageProps {
 const seaBenefits = [
     {
         icon: '/icons/beach_ico.png',
-        title: '73',
-        description: 'направления к морю',
+        title: '69',
+        description: 'направлений к морю',
     },
     {
         icon: '/icons/wave_ico.png',
@@ -92,10 +92,6 @@ const SEA_MAP: Record<string, { name: string; order: number }> = {
     'stavropol-vityazevo-sea': { name: 'Чёрное море', order: 1 },
     // Крым
     'krasnodar-krym-sea': { name: 'Крым', order: 2 },
-    'simferopol-yalta-sea': { name: 'Крым', order: 2 },
-    'simferopol-sevastopol-sea': { name: 'Крым', order: 2 },
-    'simferopol-evpatoriya-sea': { name: 'Крым', order: 2 },
-    'simferopol-feodosiya-sea': { name: 'Крым', order: 2 },
     // Каспийское море
     'moskva-derbent-sea': { name: 'Каспийское море', order: 3 },
     'moskva-mahachkala-sea': { name: 'Каспийское море', order: 3 },
@@ -154,7 +150,7 @@ const MorskojOtdyhPage = ({ hub }: MorskojOtdyhPageProps) => {
     <ul>
       <li><strong>Фиксированные цены</strong> — стоимость известна заранее, без скрытых доплат</li>
       <li><strong>Комфортные автомобили</strong> — от эконом до бизнес-класса с кондиционером</li>
-      <li><strong>73 направления</strong> — покрываем все популярные морские курорты</li>
+      <li><strong>69 направлений</strong> — покрываем все популярные морские курорты</li>
       <li><strong>Работаем 24/7</strong> — заказ в любое время дня и ночи</li>
       <li><strong>Багаж бесплатно</strong> — помощь с вещами и пляжным оборудованием</li>
     </ul>
