@@ -5,7 +5,7 @@ class HubService {
     async getAll(): Promise<IHub[]> {
         try {
             const response = await fetch(`${BASE_URL_API}/hubs`, {
-                next: { revalidate: 3600 } // Кэшируем на час
+                next: { revalidate: 86400 } // Кэшируем на час
             });
             if (!response.ok) throw new Error('Failed to fetch hubs');
             const data = await response.json();
@@ -19,7 +19,7 @@ class HubService {
     async getBySlug(slug: string): Promise<IHub | null> {
         try {
             const response = await fetch(`${BASE_URL_API}/hubs/slug/${slug}`, {
-                next: { revalidate: 3600 } // Кэшируем на час
+                next: { revalidate: 86400 } // Кэшируем на час
             });
             if (!response.ok) throw new Error('Failed to fetch hub');
             const data = await response.json();

@@ -5,7 +5,7 @@ class RegionService {
     async getAll(): Promise<IRegion[]> {
         try {
             const response = await fetch(`${BASE_URL_API}/regions`, {
-                next: { revalidate: 3600 } // Обновляем кэш каждый час
+                next: { revalidate: 86400 }
             })
 
             if (!response.ok) throw new Error('Failed to fetch regions')

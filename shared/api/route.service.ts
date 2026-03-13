@@ -6,7 +6,7 @@ class RouteService {
     async getRouteByUrl(url?: string): Promise<IRouteData | null> {
         try {
             const response = await fetch(`${BASE_URL_API}/routes/${url}`, {
-                next: { revalidate: 3600 } // Кэшируем на час
+                next: { revalidate: 86400 }
             })
 
             if (!response.ok) throw new Error('Failed to fetch route data')

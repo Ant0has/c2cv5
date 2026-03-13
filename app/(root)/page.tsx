@@ -1,4 +1,4 @@
-export const revalidate = 60
+export const revalidate = 86400
 import type { Metadata } from 'next'
 import { Home } from './Home'
 import { generateOrganizationSchemaOrg } from '@/shared/services/seo-utils'
