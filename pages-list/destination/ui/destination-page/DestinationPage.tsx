@@ -59,26 +59,29 @@ const DestinationPage = ({ destination }: Props) => {
     Мы работаем круглосуточно и подберём оптимальный вариант для вашей поездки.</p>
   `
 
+    const isSeaHub = destination.hub?.slug === 'morskoj-otdyh';
+    const defaultIcon = isSeaHub ? '/icons/beach_ico.png' : '/icons/snowboard_ico.png';
+
     const getBenefits = () => {
         const result = [];
 
         if (destination.distance) {
             result.push({
-                icon: '/icons/snowboard_ico.png',
+                icon: isSeaHub ? '/icons/wave_ico.png' : defaultIcon,
                 title: `${destination.distance} км`,
                 description: 'расстояние',
             })
         }
         if (destination.duration) {
             result.push({
-                icon: '/icons/snowboard_ico.png',
+                icon: isSeaHub ? '/icons/sun_ico.png' : defaultIcon,
                 title: `${destination.duration}`,
                 description: 'в пути',
             })
         }
         if (destination.price) {
             result.push({
-                icon: '/icons/snowboard_ico.png',
+                icon: isSeaHub ? '/icons/beach_ico.png' : defaultIcon,
                 title: `от ${formatPrice(Number(destination.price))} ₽`,
                 description: destination.priceNote || 'стоимость',
             })
