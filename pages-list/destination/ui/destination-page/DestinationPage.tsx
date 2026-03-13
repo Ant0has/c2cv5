@@ -8,6 +8,10 @@ import DestinationDescription from "@/pages-list/destination/ui/DestinationDescr
 import DestinationWeather from "@/pages-list/destination/ui/DestinationWeather/DestinationWeather"
 import SeoText from "@/shared/components/SeoText/SeoText"
 import DestinationFaq from "@/pages-list/destination/ui/DestinationFaq/DestinationFaq"
+import TripCounter from "@/pages-list/destination/ui/TripCounter/TripCounter"
+import RouteReviews from "@/pages-list/destination/ui/RouteReviews/RouteReviews"
+import Guarantees from "@/pages-list/destination/ui/Guarantees/Guarantees"
+import PaymentMethods from "@/pages-list/destination/ui/PaymentMethods/PaymentMethods"
 import s from './DestinationPage.module.scss'
 import HubHero from "@/pages-list/gornolyzhka/ui/HubHero/HubHero"
 import { formatPrice } from "@/shared/services/seo-utils"
@@ -18,16 +22,6 @@ interface Props {
 
 
 const DestinationPage = ({ destination }: Props) => {
-    //   const { setDeparturePoint, setArrivalPoint } = useContext(PointsContext)
-
-    //   useEffect(() => {
-    //     if (destination.fromCity) {
-    //       setDeparturePoint(destination.fromCity)
-    //     }
-    //     if (destination.toCity) {
-    //       setArrivalPoint(destination.toCity)
-    //     }
-    //   }, [destination])
 
     const breadcrumbItems = [
         { label: 'Главная', href: '/' },
@@ -102,13 +96,15 @@ const DestinationPage = ({ destination }: Props) => {
             />
 
             <section className="container" id="order">
+                <TripCounter destination={destination} />
                 <Price
                     title={routeName}
-                //   isMilitary={destination.targetAudience === 'military'}
                 />
             </section>
 
             <DestinationFeatures destination={destination} />
+
+            <Guarantees destination={destination} />
 
             {destination.weatherData && (
                 <DestinationWeather weatherDataJson={JSON.stringify(destination.weatherData)} />
@@ -119,6 +115,10 @@ const DestinationPage = ({ destination }: Props) => {
             {destination.description && (
                 <DestinationDescription destination={destination} />
             )}
+
+            <RouteReviews destination={destination} />
+
+            <PaymentMethods />
 
             {destination.faq && (
                 <DestinationFaq destination={destination} />
