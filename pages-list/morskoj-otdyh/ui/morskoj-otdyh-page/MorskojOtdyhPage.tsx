@@ -21,7 +21,7 @@ const seaBenefits = [
     {
         icon: '/icons/wave_ico.png',
         title: '24/7',
-        description: 'поддержка',
+        description: 'трансферы',
     },
     {
         icon: '/icons/sun_ico.png',
@@ -151,7 +151,7 @@ const MorskojOtdyhPage = ({ hub }: MorskojOtdyhPageProps) => {
       <li><strong>Фиксированные цены</strong> — стоимость известна заранее, без скрытых доплат</li>
       <li><strong>Комфортные автомобили</strong> — от эконом до бизнес-класса с кондиционером</li>
       <li><strong>69 направлений</strong> — покрываем все популярные морские курорты</li>
-      <li><strong>Работаем 24/7</strong> — заказ в любое время дня и ночи</li>
+      <li><strong>Трансферы 24/7</strong> — выезд в любое время, приём заявок с 8:00 до 22:00</li>
       <li><strong>Багаж бесплатно</strong> — помощь с вещами и пляжным оборудованием</li>
     </ul>
     <h3>Как заказать</h3>

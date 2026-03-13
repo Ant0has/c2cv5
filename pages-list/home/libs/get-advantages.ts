@@ -6,7 +6,7 @@ const defaultAdvantages: IAdvantage[] = [
     {
       id: 1,
       title: '24/7',
-      description: 'Приём заказов',
+      description: 'Трансферы',
     },
     {
       id: 2,
