@@ -98,7 +98,7 @@ export function generateAggregateRatingSchema(route: IRouteData) {
   if (totalCount === 0) return null;
 
   const avgRating = reviews.length > 0
-    ? reviews.reduce((sum: number, r: any) => sum + (r.rate || 5), 0) / reviews.length
+    ? reviews.reduce((sum: number, r: { rate?: number }) => sum + (r.rate || 5), 0) / reviews.length
     : 4.8;
 
   return {

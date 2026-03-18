@@ -25,7 +25,7 @@ const OrderForm: FC<IProps> = ({ form, orderModalData, handleClickLink, handleCl
 
   const [tripType, setTripType] = useState<string>('');
 
-  const handleTripTypeChange = (e: any) => {
+  const handleTripTypeChange = (e: { target: { value: string } }) => {
     const selectedType = e.target.value;
     setTripType(selectedType);
 

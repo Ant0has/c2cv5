@@ -24,7 +24,7 @@ interface IQuestionModalData {
 
 declare global {
   interface Window {
-    ym: (id: number, method: string, ...args: any[]) => void;
+    ym: (id: number, method: string, ...args: unknown[]) => void;
   }
 }
 

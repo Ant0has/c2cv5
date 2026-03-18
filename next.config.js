@@ -23,6 +23,7 @@ const nextConfig = {
   output: 'standalone',
   compress: true,
   swcMinify: true,
+  poweredByHeader: false,
 
   async redirects() {
     return [

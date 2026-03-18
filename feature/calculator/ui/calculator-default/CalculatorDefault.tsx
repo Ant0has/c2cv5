@@ -5,7 +5,8 @@ import RoadIcon from "@/public/icons/RoadIcon";
 import TimeIcon from "@/public/icons/TimeIcon";
 import WalletIcon from "@/public/icons/WalletIcon";
 import SwapIcon from "@/public/icons/SwapIcon";
-import { ButtonTypes, Blocks } from "@/shared/types/enums";
+import { ButtonTypes, Blocks, Prices } from "@/shared/types/enums";
+import { IRouteData } from "@/shared/types/route.interface";
 import Button from "@/shared/components/ui/Button/Button";
 import SearchInput from "@/shared/components/ui/SearchInput/SearchInput";
 import Link from "next/link";
@@ -13,9 +14,9 @@ import clsx from 'clsx';
 import s from './CalculatorDefault.module.scss';
 
 interface AddressSelectDefaultProps {
-  selectedPlan: any;
+  selectedPlan: Prices;
   cityData?: string;
-  routeData?: any;
+  routeData?: IRouteData;
 }
 
 const AddressSelectDefault: FC<AddressSelectDefaultProps> = (props) => {
@@ -66,7 +67,7 @@ const AddressSelectDefault: FC<AddressSelectDefaultProps> = (props) => {
           </div>
 
           <div className={s.info}>
-            {infoData.slice(0, 3).map((info: any) => (
+            {infoData.slice(0, 3).map((info) => (
               <div key={info.id} className={s.card}>
                 <div className={s.icon}>
                   {info.icon === 'road' && <RoadIcon />}
