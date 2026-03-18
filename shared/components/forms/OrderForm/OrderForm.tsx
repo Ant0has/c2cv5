@@ -2,7 +2,7 @@ import { IOrderModalData } from "@/app/providers";
 import { mailService } from "@/shared/services/mail.service";
 import { ButtonTypes, Prices } from "@/shared/types/enums";
 import { IMailRequest } from "@/shared/types/types";
-import { DatePicker, Form, FormInstance, Input, Radio, notification } from "antd";
+import { DatePicker, Form, FormInstance, Input, Radio, RadioChangeEvent, notification } from "antd";
 import ru_RU from 'antd/es/date-picker/locale/ru_RU';
 import TextArea from "antd/es/input/TextArea";
 import dayjs from "dayjs";
@@ -25,7 +25,7 @@ const OrderForm: FC<IProps> = ({ form, orderModalData, handleClickLink, handleCl
 
   const [tripType, setTripType] = useState<string>('');
 
-  const handleTripTypeChange = (e: { target: { value: string } }) => {
+  const handleTripTypeChange = (e: RadioChangeEvent) => {
     const selectedType = e.target.value;
     setTripType(selectedType);
 
