@@ -10,38 +10,23 @@ export const checkString = (str: string) => {
   return trimmed === '-' ? '' : trimmed;
 }
 
-const getDeparturePoint = (point: string) => {
-  if(point === 'из Белгорода' || point === 'Белгорода') return 'Белгород'
-  if(point === 'из Москвы' || point === 'Москвы') return 'Москва'
-  if(point === 'из Краснодара' || point === 'Краснодара') return 'Краснодар'
-  if(point === 'из Екатеринбурга' || point === 'Екатеринбурга') return 'Екатеринбург'
-  if(point === 'из Тюменя' || point === 'Тюменя') return 'Тюмень'
-  if(point === 'из Ростова-на-Дону' || point === 'Ростова-на-Дону') return 'Ростов-на-Дону'
-  if(point === 'из Казани' || point === 'Казани') return 'Казань'
-  if(point === 'из Челябинска' || point === 'Челябинск') return 'Челябинск'
-  if(point === 'из Уфы' || point === 'Уфы') return 'Уфа'
-  if(point === 'из Самары' || point === 'Самары') return 'Самара'
-  if(point === 'из Воронежа' || point === 'Воронежа') return 'Воронеж'
-  if(point === 'из Нижнего-Новгорода' || point === 'Нижнего-Новгорода') return 'Нижний Новгород'
-  if(point === 'из Ростов-на-Дону' || point === 'Ростов-на-Дону') return 'Ростов-на-Дону'
-  if(point === 'из Казань' || point === 'Казань') return 'Казань'
-  if(point === 'из Челябинск' || point === 'Челябинск') return 'Челябинск'
-  if(point === 'из Уфы' || point === 'Уфы') return 'Уфа'
-  if(point === 'из Самары' || point === 'Самары') return 'Самара'
-  if(point === 'из Воронежа' || point === 'Воронежа') return 'Воронеж'
-  if(point === 'из Нижнего-Новгорода' || point === 'Нижнего-Новгорода') return 'Нижний Новгород'
-  if(point === 'из Ростов-на-Дону' || point === 'Ростов-на-Дону') return 'Ростов-на-Дону'
-  if(point === 'из Казань' || point === 'Казань') return 'Казань'
-  if(point === 'из Челябинск' || point === 'Челябинск') return 'Челябинск'
-  if(point === 'из Уфы' || point === 'Уфы') return 'Уфа'
-  if(point === 'из Самары' || point === 'Самары') return 'Самара'
-  if(point === 'из Воронежа' || point === 'Воронежа') return 'Воронеж'
-  if(point === 'из Нижнего-Новгорода' || point === 'Нижнего-Новгорода') return 'Нижний Новгород'
-  if(point === 'из Ростов-на-Дону' || point === 'Ростов-на-Дону') return 'Ростов-на-Дону'
-  if(point === 'из Казань' || point === 'Казань') return 'Казань'
-  if(point === 'из Челябинск' || point === 'Челябинск') return 'Челябинск'
+const departureCityMap: Record<string, string> = {
+  'Белгорода': 'Белгород', 'из Белгорода': 'Белгород',
+  'Москвы': 'Москва', 'из Москвы': 'Москва',
+  'Краснодара': 'Краснодар', 'из Краснодара': 'Краснодар',
+  'Екатеринбурга': 'Екатеринбург', 'из Екатеринбурга': 'Екатеринбург',
+  'Тюменя': 'Тюмень', 'из Тюменя': 'Тюмень',
+  'Ростова-на-Дону': 'Ростов-на-Дону', 'из Ростова-на-Дону': 'Ростов-на-Дону', 'из Ростов-на-Дону': 'Ростов-на-Дону',
+  'Казани': 'Казань', 'из Казани': 'Казань', 'Казань': 'Казань', 'из Казань': 'Казань',
+  'Челябинска': 'Челябинск', 'из Челябинска': 'Челябинск', 'Челябинск': 'Челябинск', 'из Челябинск': 'Челябинск',
+  'Уфы': 'Уфа', 'из Уфы': 'Уфа',
+  'Самары': 'Самара', 'из Самары': 'Самара',
+  'Воронежа': 'Воронеж', 'из Воронежа': 'Воронеж',
+  'Нижнего-Новгорода': 'Нижний Новгород', 'из Нижнего-Новгорода': 'Нижний Новгород',
+};
 
-  return point.replace(/^Из\s+/i, '').trim()
+const getDeparturePoint = (point: string): string => {
+  return departureCityMap[point] || point.replace(/^Из\s+/i, '').trim();
 }
 
 export interface ICalculatorProps {
@@ -68,8 +53,14 @@ export interface ICalculatorActions {
   handleChangeArrivalPoint: (value: string) => void;
   handleSearchArrivalPoint: (value: string) => Promise<void>;
   handleCalculate: () => Promise<void>;
-  setOrderModalData: (data: any) => void;
-  getRoutePanelRef: () => React.RefObject<any>;
+}
+
+export interface IInfoDataItem {
+  id: number;
+  icon: string | React.ReactNode;
+  value: string | number;
+  valueLabel?: string;
+  description: string;
 }
 
 export const useCalculator = ({ 
@@ -77,7 +68,7 @@ export const useCalculator = ({
   cityData, 
   routeData 
 }: ICalculatorProps) => {
-  const routePanelRef = useRef<any>(null);
+  const routePanelRef = useRef<unknown>(null);
 
   const initialPoints = (() => {
     const pointsArray = cityData?.split(',');
@@ -172,8 +163,9 @@ export const useCalculator = ({
     setState(prev => ({ ...prev, isLoading: true }));
 
     try {
-      if (routePanelRef.current) {
-        routePanelRef.current.routePanel.state.set({
+      const panel = routePanelRef.current as { routePanel: { state: { set: (opts: Record<string, string>) => void }; getRouteAsync: () => Promise<unknown> } } | null;
+      if (panel) {
+        panel.routePanel.state.set({
           from: state.departurePoint,
           to: state.arrivalPoint,
         });
@@ -181,8 +173,8 @@ export const useCalculator = ({
 
       setTimeout(async () => {
         try {
-          if (routePanelRef.current) {
-            const control = await routePanelRef.current.routePanel.getRouteAsync();
+          if (panel) {
+            const control = await panel.routePanel.getRouteAsync() as { getActiveRoute: () => { properties: { get: (key: string) => { value: number } | undefined } } } | null;
             if (control) {
               const activeRoute = control.getActiveRoute();
               if (activeRoute) {

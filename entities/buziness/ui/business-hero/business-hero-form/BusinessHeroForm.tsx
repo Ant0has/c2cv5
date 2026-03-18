@@ -11,19 +11,19 @@ import ChatIcon from "@/public/icons/ChatIcon";
 import PhoneIcon from "@/public/icons/PhoneIcon";
     
 const inputStyle = {
-    width: '100% !important',
-    backgroundColor: 'var(--light-gray) !important',
-    borderColor: 'transparent !important',
-    color: 'var(--dark) !important',
-    fontSize: '16px !important',
-    padding: '20px !important',
-    paddingInline: '24px !important',
-    height: '56px !important',
+    width: '100%',
+    backgroundColor: 'var(--light-gray)',
+    borderColor: 'transparent',
+    color: 'var(--dark)',
+    fontSize: '16px',
+    padding: '20px',
+    paddingInline: '24px',
+    height: '56px',
 }
 
 const buttonStyle = {
-    width: '100% !important',
-    height: '56px !important',
+    width: '100%',
+    height: '56px',
 }
 
 const BusinessHeroForm = () => {

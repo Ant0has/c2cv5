@@ -101,7 +101,7 @@ const AddressSelectDefault: FC<AddressSelectDefaultProps> = (props) => {
                   auto_class: selectedPlan,
                   order_from: state.departurePoint,
                   order_to: state.arrivalPoint,
-                  trip_price_from: state.price,
+                  trip_price_from: String(state.price),
                   block: Blocks.CALCULATOR,
                 })}
               />

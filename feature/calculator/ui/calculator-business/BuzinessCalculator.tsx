@@ -28,10 +28,14 @@ const inputStyle = {
 
 const autoCompleteStyle = { height: '56px', }
 
+import { ICalculatorActions, ICalculatorState } from '../../hooks/use-calculator';
+import { Prices } from '@/shared/types/enums';
+import { IRouteData } from '@/shared/types/route.interface';
+
 interface BuzinessCalculatorProps {
-  selectedPlan: any;
+  selectedPlan: Prices;
   cityData?: string;
-  routeData?: any;
+  routeData?: IRouteData;
   description?: string;
   buttonText?: string;
 }
@@ -44,13 +48,13 @@ const BuzinessCalculator: FC<BuzinessCalculatorProps> = (props) => {
   const [weight, setWeight] = useState<string>(weightOptions[0].value);
   const isDostavkaGruzov = pathname.includes('dostavka-gruzov');
 
-  const handleCalculate = (actions: any, state: any) => {
+  const handleCalculate = (actions: ICalculatorActions, state: ICalculatorState) => {
     b2bGoals.calcUsed(state.departurePoint, state.arrivalPoint);
     actions.handleCalculate();
     setIsShowResult(true);
   }
 
-  const handleOrderClick = (state: any) => {
+  const handleOrderClick = (state: ICalculatorState) => {
     setQuestionModalData({
       status: true,
       order_from: state.departurePoint,
@@ -64,7 +68,7 @@ const BuzinessCalculator: FC<BuzinessCalculatorProps> = (props) => {
   return (
     <CalculatorBase {...props}>
       {({ state, actions, infoData }) => {
-        const gridTemplateColumns = isDostavkaGruzov ? '1fr 1fr 1fr 220px !important' : '1fr 1fr 190px !important';
+        const gridTemplateColumns = isDostavkaGruzov ? '1fr 1fr 1fr 220px' : '1fr 1fr 190px';
         return (
           <div id="order" className={clsx(s.wrapper)} style={
             { maxWidth: isDostavkaGruzov ? '996px' : '792px' }}>

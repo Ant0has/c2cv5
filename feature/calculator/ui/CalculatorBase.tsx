@@ -1,17 +1,19 @@
 // components/AddressSelect/AddressSelectBase.tsx
 import { FC, ReactNode } from 'react';
-import { useCalculator, ICalculatorProps } from '../hooks/use-calculator';
+import { useCalculator, ICalculatorProps, ICalculatorState, ICalculatorActions, IInfoDataItem } from '../hooks/use-calculator';
 import { getCurrentKey } from "@/shared/services/get-current-key";
+import { Prices } from "@/shared/types/enums";
+import { IRouteData } from "@/shared/types/route.interface";
 import { YMaps, Map, RoutePanel } from "@pbe/react-yandex-maps";
 
 interface CalculatorBaseProps extends ICalculatorProps {
     children: (props: {
-        state: any;
-        actions: any;
-        infoData: any;
-        selectedPlan: any;
-        routeData: any;
-        routePanelRef: any;
+        state: ICalculatorState;
+        actions: ICalculatorActions;
+        infoData: IInfoDataItem[];
+        selectedPlan: Prices;
+        routeData?: IRouteData;
+        routePanelRef: React.MutableRefObject<unknown>;
     }) => ReactNode;
 }
 
@@ -53,12 +55,12 @@ const CalculatorBase: FC<CalculatorBaseProps> = ({
                         controls: [],
                     }}>
                     <RoutePanel
-                        instanceRef={(ref: any) => {
+                        instanceRef={(ref: unknown) => {
                             if (ref) {
                                 routePanelRef.current = ref;
-                            }
-                            if (ref) {
-                                ref.routePanel.options.set({
+                                // Yandex Maps API не имеет типов — используем type assertion
+                                const panel = ref as { routePanel: { options: { set: (opts: Record<string, unknown>) => void } } };
+                                panel.routePanel.options.set({
                                     visible: false,
                                     float: 'none',
                                     showHeader: false,

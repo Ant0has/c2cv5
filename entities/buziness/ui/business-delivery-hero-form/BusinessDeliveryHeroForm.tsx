@@ -11,8 +11,8 @@ import styles from './BusinessDeliveryHeroForm.module.scss'
 import { weightOptions } from "@/shared/constants";
 
 const buttonStyle = {
-    height: '56px !important',
-    fontSize: '18px !important',
+    height: '56px',
+    fontSize: '18px',
 }
 
 const whenOptions = [
