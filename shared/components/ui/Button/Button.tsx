@@ -1,4 +1,4 @@
-'use-clint'
+'use client'
 
 import { ButtonTypes } from "@/shared/types/enums";
 import { FC, ReactElement } from "react";

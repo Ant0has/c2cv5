@@ -7,8 +7,7 @@ import { YMaps } from "@pbe/react-yandex-maps";
 import { ConfigProvider, notification } from "antd";
 import { Dispatch, PropsWithChildren, SetStateAction, createContext, useEffect, useState } from "react";
 import { tokens } from "../shared/styles/style-tokens";
-import { usePathname, useSearchParams } from "next/navigation";
-import Script from "next/script";
+import { usePathname } from "next/navigation";
 
 interface ProvidersProps extends PropsWithChildren {
 	regions: IRegion[]
@@ -100,62 +99,6 @@ export function Providers({ children, regions }: ProvidersProps) {
 			</ConfigProvider >
 		</YMaps>
 	)
-}
-
-export const YandexMetrikaWrapper = () => {
-  const pathname = usePathname()
-  const yandexId = process.env.NEXT_PUBLIC_YANDEX_ID
-
-  if (!yandexId) {
-    console.warn('Yandex Metrika ID not found')
-    return null
-  }
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.ym) {
-      // Используем полный URL из window.location (включая query параметры)
-      const fullUrl = window.location.pathname + window.location.search
-      console.log('Yandex Metrika hit:', fullUrl)
-      window.ym(parseInt(yandexId), 'hit', fullUrl)
-    }
-  }, [pathname, yandexId]) 
-
-  return (
-    <>
-      <Script
-        id="yandex-metrika"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
-            (function(m,e,t,r,i,k,a){
-                m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-                m[i].l=1*new Date();
-                k=e.createElement(t),a=e.getElementsByTagName(t)[0];
-                k.async=1;k.src=r;a.parentNode.insertBefore(k,a);
-            })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
-
-            ym(${yandexId}, 'init', {
-                clickmap: true,
-                trackLinks: true,
-                accurateTrackBounce: true,
-                webvisor: true,
-                trackHash: true,
-                ecommerce: "dataLayer"
-            });
-          `,
-        }}
-      />
-      <noscript>
-        <div>
-          <img
-            src={`https://mc.yandex.ru/watch/${yandexId}`}
-            style={{ position: 'absolute', left: '-9999px' }}
-            alt=""
-          />
-        </div>
-      </noscript>
-    </>
-  )
 }
 
 export function YandexHit() {
