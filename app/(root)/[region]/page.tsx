@@ -10,6 +10,7 @@ import {
   generateSchemaOrg,
   generateFAQSchema,
   generateHubSchemaOrg,
+  generateAggregateRatingSchema,
 } from "@/shared/services/seo-utils";
 import { requisitsData } from "@/shared/data/requisits.data";
 
@@ -107,6 +108,8 @@ export default async function RegionPage({ params }: Props) {
 
   const faqSchema = generateFAQSchema(data);
 
+  const ratingSchema = generateAggregateRatingSchema(data);
+
   const hubSchema = generateHubSchemaOrg(data.city_from || '', data.city_to || '');
 
   const getValidSchema = () => {
@@ -129,6 +132,14 @@ export default async function RegionPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
+
+      {ratingSchema && (
+        <Script
+          id="schema-aggregate-rating"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ratingSchema) }}
+        />
+      )}
 
       <Home routeData={data} />
     </>

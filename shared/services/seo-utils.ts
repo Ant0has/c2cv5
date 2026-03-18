@@ -91,6 +91,30 @@ export function generateSchemaOrg(route: IRouteData) {
   };
 }
 
+export function generateAggregateRatingSchema(route: IRouteData) {
+  const reviews = route.reviews?.data || [];
+  const totalCount = route.reviews?.pagination?.total || 0;
+
+  if (totalCount === 0) return null;
+
+  const avgRating = reviews.length > 0
+    ? reviews.reduce((sum: number, r: any) => sum + (r.rate || 5), 0) / reviews.length
+    : 4.8;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "TaxiService",
+    "name": `Такси ${route.title || ''} | ${requisitsData.BRAND_NAME}`,
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": Math.round(avgRating * 10) / 10,
+      "bestRating": 5,
+      "worstRating": 1,
+      "ratingCount": totalCount
+    }
+  };
+}
+
 export function generateFAQSchema(route: IRouteData) {
   return {
     "@context": "https://schema.org",
