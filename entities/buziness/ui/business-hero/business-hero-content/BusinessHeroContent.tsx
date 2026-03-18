@@ -16,7 +16,6 @@ const BusinessHeroContent = ({ title, description, bullets, staticsList }: Props
 
   const contentTitle = title.map(item => {
     if (item.isPrimary) {
-      console.log(item.text);
       return <span key={item.text} className="text-primary">{` ${item.text} `}</span>
     }
     return `${item.text}`

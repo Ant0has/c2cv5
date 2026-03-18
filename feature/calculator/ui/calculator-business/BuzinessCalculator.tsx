@@ -64,7 +64,6 @@ const BuzinessCalculator: FC<BuzinessCalculatorProps> = (props) => {
   return (
     <CalculatorBase {...props}>
       {({ state, actions, infoData }) => {
-        console.log(state,'-----state-----');
         const gridTemplateColumns = isDostavkaGruzov ? '1fr 1fr 1fr 220px !important' : '1fr 1fr 190px !important';
         return (
           <div id="order" className={clsx(s.wrapper)} style={

@@ -221,8 +221,6 @@ export const useCalculator = ({
 
                   const timeValue = convertHoursToRoundedTime(distanceValue / SPEED);
 
-                  console.log(distanceValue,'-----distanceValue');
-                  console.log(timeValue,'-----timeValue');
 
                   setState(prev => ({
                     ...prev,
