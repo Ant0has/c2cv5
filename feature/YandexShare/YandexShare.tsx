@@ -78,7 +78,7 @@ const YandexShare = ({
       };
 
       script.onerror = () => {
-        console.error('Failed to load Yandex Share script');
+        // Yandex Share script failed to load
         if (shareRef.current) {
           shareRef.current.innerHTML = `
             <div style="border: 1px dashed #ccc; padding: 10px; text-align: center;">

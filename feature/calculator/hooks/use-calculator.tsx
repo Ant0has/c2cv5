@@ -228,7 +228,6 @@ export const useCalculator = ({
             }
           }
         } catch (error) {
-          console.error("Error calculating route:", error);
           message.error("Ошибка расчета маршрута");
           setState(prev => ({ ...prev, isLoading: false }));
         } finally {
@@ -237,7 +236,6 @@ export const useCalculator = ({
       }, 2000);
 
     } catch (error) {
-      console.error("Error setting route:", error);
       message.error("Ошибка установки маршрута");
       setState(prev => ({ ...prev, isLoading: false }));
     }

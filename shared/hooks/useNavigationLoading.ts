@@ -19,8 +19,8 @@ export const useNavigationLoading = () => {
         if (url && url.origin === window.location.origin && url.pathname !== currentUrl.pathname) {
           setIsLoading(true)
         }
-      } catch (error) {
-        console.error('Error in navigation loading:', error)
+      } catch {
+        // URL parsing failed — ignore
       }
     }
 

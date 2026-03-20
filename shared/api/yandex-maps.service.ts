@@ -37,7 +37,6 @@ class YandexMapsService {
       const suggestions = data[1];
       return suggestions.map((item: [string, string, string, { hl: Array<[number, number]> }]) => item[1]);
     } catch (error) {
-      console.error('Error fetching suggestions:', error);
       return [];
     }
   }

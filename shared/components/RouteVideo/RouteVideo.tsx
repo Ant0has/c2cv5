@@ -48,7 +48,6 @@ const RouteVideo: FC<IRouteVideoProps> = ({ videoUrl, title, route_video_thumbna
   };
 
   if (!isVideoFile(videoUrl)) {
-    console.warn(`URL ${videoUrl} не является поддерживаемым видеофайлом`);
     return null;
   }
 

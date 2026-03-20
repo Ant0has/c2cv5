@@ -172,14 +172,14 @@ const Calculator: FC<IProps> = () => {
             }
           }
         } catch (error) {
-          console.error("Ошибка при получении данных маршрута:", error);
+          // Error handled by finally block
         } finally {
           setIsRouteCalculating(false);
         }
       }, 2000);
 
     } catch (error) {
-      console.error("Ошибка при расчете маршрута:", error);
+      // Error handled below
       setIsRouteCalculating(false);
     }
   };

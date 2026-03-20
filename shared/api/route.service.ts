@@ -13,8 +13,7 @@ class RouteService {
 
             const data = await response.json()
             return data
-        } catch (error) {
-            console.error('Error fetching route:', error)
+        } catch {
             return null
         }
     }

@@ -10,8 +10,7 @@ class DestinationService {
             if (!response.ok) throw new Error('Failed to fetch destination')
             const data = await response.json()
             return data
-        } catch (error) {
-            console.error('Error fetching destination:', error)
+        } catch {
             return null
         }
     }

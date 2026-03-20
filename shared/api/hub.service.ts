@@ -10,8 +10,7 @@ class HubService {
             if (!response.ok) throw new Error('Failed to fetch hubs');
             const data = await response.json();
             return data;
-        } catch (error) {
-            console.error('Error fetching hubs:', error);
+        } catch {
             return [];
         }
     }
@@ -24,8 +23,7 @@ class HubService {
             if (!response.ok) throw new Error('Failed to fetch hub');
             const data = await response.json();
             return data;
-        } catch (error) {
-            console.error('Error fetching hub:', error);
+        } catch {
             return null;
         }
     }
