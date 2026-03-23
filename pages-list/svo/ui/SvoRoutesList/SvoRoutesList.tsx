@@ -10,20 +10,10 @@ interface Props {
 }
 
 // Cities without dedicated destination pages — linked directly to route pages
-// Removed: Каховка (has own destination page /svo/kahovka)
-// Removed: Аэропорт Луганск, Аэропорт Донецк, Авило-Успенка (404 broken links)
+// Only routes that exist in whitelist (return 200, not 410)
+// Removed 2026-03-23: 10 cities returning 410 (not in whitelist)
 const additionalCities = [
-  { name: 'Лутугино', region: 'ЛНР', routes: 'svo-taxi-lutugino' },
-  { name: 'Красный Луч', region: 'ЛНР', routes: 'svo-taxi-krasnyy-luch' },
   { name: 'Кременная', region: 'ЛНР', routes: 'svo-taxi-kremennaya' },
-  { name: 'Сватово', region: 'ЛНР', routes: 'svo-taxi-svatovo' },
-  { name: 'Энергодар', region: 'Запорожская обл.', routes: 'svo-taxi-energodar' },
-  { name: 'Днепрорудное', region: 'Запорожская обл.', routes: 'svo-taxi-dneprorudnoe' },
-  { name: 'Большой Суходол', region: 'Запорожская обл.', routes: 'svo-taxi-bolshoy-suhodol' },
-  { name: 'Новопетровка', region: 'Запорожская обл.', routes: 'svo-taxi-novopetrovka' },
-  { name: 'Новая Маячка', region: 'Херсонская обл.', routes: 'svo-taxi-novaya-mayachka' },
-  { name: 'КПП Успенка', region: 'КПП', routes: 'svo-taxi-kpp-uspenka' },
-  { name: 'Юрьевка', region: 'КПП', routes: 'svo-taxi-yurevka' },
 ]
 
 const SvoRoutesList = ({ hubSlug }: Props) => {
