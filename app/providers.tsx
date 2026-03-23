@@ -5,7 +5,7 @@ import { IRouteData } from "@/shared/types/route.interface";
 import { IMailRequest, IRegion } from "@/shared/types/types";
 import { YMaps } from "@pbe/react-yandex-maps";
 import { ConfigProvider, notification } from "antd";
-import { Dispatch, PropsWithChildren, SetStateAction, createContext, useEffect, useState } from "react";
+import { Dispatch, PropsWithChildren, SetStateAction, createContext, useEffect, useRef, useState } from "react";
 import { tokens } from "../shared/styles/style-tokens";
 import { usePathname } from "next/navigation";
 
@@ -103,13 +103,20 @@ export function Providers({ children, regions }: ProvidersProps) {
 
 export function YandexHit() {
   const pathname = usePathname()
+  const isFirstRender = useRef(true)
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      return // первый рендер — Метрика init сама обрабатывает
+    }
     if (typeof window === 'undefined') return
     if (!window.ym) return
-  
+
     const url = window.location.pathname + window.location.search
-    window.ym(Number(process.env.NEXT_PUBLIC_YANDEX_ID), "hit", url)
+    window.ym(Number(process.env.NEXT_PUBLIC_YANDEX_ID), "hit", url, {
+      title: document.title
+    })
   }, [pathname])
 
   return null

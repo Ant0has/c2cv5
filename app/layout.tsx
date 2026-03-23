@@ -112,10 +112,10 @@ export default async function RootLayout({
         ym(${process.env.NEXT_PUBLIC_YANDEX_ID}, "init", {
           clickmap:true,
           trackLinks:true,
-          accurateTrackBounce:true,
+          accurateTrackBounce:15000,
           webvisor:true,
           trackHash:true,
-          deferEvents: true
+          triggerEvent:true
         });
       `,
           }}
