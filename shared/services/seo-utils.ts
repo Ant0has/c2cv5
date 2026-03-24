@@ -203,6 +203,49 @@ export function generateBreadcrumbSchemaOrg() {
   };
 }
 
+export function extractCityFrom(data: IRouteData): string {
+  return data.regions_data?.meta_value || '';
+}
+
+export function extractCityTo(data: IRouteData): string {
+  if (data.city_seo_data) {
+    const parts = data.city_seo_data.split(',');
+    if (parts.length >= 2) return parts[1].trim();
+  }
+  return '';
+}
+
+export function generateRouteBreadcrumbSchema(data: IRouteData) {
+  const cityFrom = extractCityFrom(data);
+  const cityTo = extractCityTo(data);
+
+  const items = [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Главная",
+      "item": BASE_URL
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": `Такси межгород ${cityFrom}`,
+      "item": `${BASE_URL}/${data.regions_data?.url || ''}.html`
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": cityFrom && cityTo ? `${cityFrom} — ${cityTo}` : (data.title || '')
+    }
+  ];
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": items
+  };
+}
+
 export function generateHubSchemaOrg(city: string, region: string) {
   return {
     "@context": "https://schema.org",

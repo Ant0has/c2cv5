@@ -1,0 +1,57 @@
+.section {
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+
+.heading {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: var(--black);
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.link {
+  padding: 12px 24px;
+  border: 1px solid var(--light-gray);
+  border-radius: 16px;
+  color: #9b9b9b;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+
+  .heading {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+
+  .grid {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .link {
+    width: 100%;
+    padding: 10px 20px;
+  }
+}

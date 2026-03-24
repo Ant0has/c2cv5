@@ -11,8 +11,11 @@ import {
   generateFAQSchema,
   generateHubSchemaOrg,
   generateAggregateRatingSchema,
+  generateRouteBreadcrumbSchema,
+  extractCityFrom,
 } from "@/shared/services/seo-utils";
 import { requisitsData } from "@/shared/data/requisits.data";
+import ServerRouteLinks from "@/shared/components/ServerRouteLinks/ServerRouteLinks";
 
 interface Props {
   params: {
@@ -112,6 +115,14 @@ export default async function RegionPage({ params }: Props) {
 
   const hubSchema = generateHubSchemaOrg(data.city_from || '', data.city_to || '');
 
+  const breadcrumbSchema = generateRouteBreadcrumbSchema(data);
+
+  const cityFrom = extractCityFrom(data);
+
+  const relatedRoutes = (data.routes || [])
+    .filter((r) => r.url !== regionSlug)
+    .slice(0, 15);
+
   const getValidSchema = () => {
     if(data?.region_id === data?.regions_data?.ID) {
       return hubSchema;
@@ -141,7 +152,20 @@ export default async function RegionPage({ params }: Props) {
         />
       )}
 
+      <Script
+        id="schema-breadcrumbs"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+
       <Home routeData={data} />
+
+      {relatedRoutes.length > 0 && (
+        <ServerRouteLinks
+          routes={relatedRoutes}
+          heading={cityFrom ? `Другие маршруты из города ${cityFrom}` : 'Другие маршруты'}
+        />
+      )}
     </>
   );
 }
