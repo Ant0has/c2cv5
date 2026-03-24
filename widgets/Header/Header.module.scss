@@ -93,23 +93,17 @@
       }
 
       .marker {
-        display: none;
+        order: 1;
+        grid-area: a;
       }
 
       .markerInSocial {
-        display: block;
+        display: none;
       }
 
       .left,
       .right {
         display: contents;
-      }
-
-      .burger {
-        display: block;
-        order: 1;
-        width: 24px;
-        grid-area: a;
       }
 
       .logo {

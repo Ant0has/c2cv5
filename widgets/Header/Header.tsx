@@ -26,14 +26,6 @@ const Header = () => {
       <header className={headerClassName}>
         <div className={s.container}>
         <div className={s.left}>
-          <div
-            className={clsx(s.burger, { [s.open]: false })}
-          >
-            <Suspense>
-              <MenuContent />
-            </Suspense>
-          </div>
-
           <div className={s.logo}>
             <Link href='/'>
               {isDark ? <LogoLightIcon width={196} /> : <LogoIcon />}
