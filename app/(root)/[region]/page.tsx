@@ -13,6 +13,7 @@ import {
   generateAggregateRatingSchema,
   generateRouteBreadcrumbSchema,
   extractCityFrom,
+  extractCityTo,
 } from "@/shared/services/seo-utils";
 import { requisitsData } from "@/shared/data/requisits.data";
 import ServerRouteLinks from "@/shared/components/ServerRouteLinks/ServerRouteLinks";
@@ -118,10 +119,13 @@ export default async function RegionPage({ params }: Props) {
   const breadcrumbSchema = generateRouteBreadcrumbSchema(data);
 
   const cityFrom = extractCityFrom(data);
+  const cityTo = extractCityTo(data);
 
   const relatedRoutes = (data.routes || [])
     .filter((r) => r.url !== regionSlug)
     .slice(0, 15);
+
+  const routesToCity = (data.routesToCity || []).slice(0, 10);
 
   const getValidSchema = () => {
     if(data?.region_id === data?.regions_data?.ID) {
@@ -164,6 +168,13 @@ export default async function RegionPage({ params }: Props) {
         <ServerRouteLinks
           routes={relatedRoutes}
           heading={cityFrom ? `Другие маршруты из города ${cityFrom}` : 'Другие маршруты'}
+        />
+      )}
+
+      {routesToCity.length > 0 && (
+        <ServerRouteLinks
+          routes={routesToCity}
+          heading={cityTo ? `Маршруты в город ${cityTo}` : 'Маршруты в этот город'}
         />
       )}
     </>

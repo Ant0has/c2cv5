@@ -25,6 +25,7 @@ export interface IRouteData {
     duration?: string
     regions_data: IRegionData,
     routes: IRoute[]
+    routesToCity?: IRoute[]
     attractions: IAttraction[]
     is_indexable?: number
     canonical_url:string | null
