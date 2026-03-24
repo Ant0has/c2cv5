@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import clsx from "clsx"
 import Link from "next/link"
 import s from './MenuContent.module.scss'
@@ -18,9 +18,14 @@ interface IMenuRoutesProps {
 const MenuRoutes = ({ setIsOpenMenu }: IMenuRoutesProps) => {
     const [isMobile, setIsMobile] = useState<boolean>(false)
     const pathname = usePathname()
+    const isInitialRender = useRef(true)
 
-    // Close menu on navigation
+    // Close menu on navigation (skip initial render)
     useEffect(() => {
+        if (isInitialRender.current) {
+            isInitialRender.current = false
+            return
+        }
         setIsOpenMenu(false)
     }, [pathname])
 

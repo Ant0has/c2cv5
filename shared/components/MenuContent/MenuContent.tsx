@@ -76,7 +76,6 @@ const MenuContent: FC = () => {
       open={isOpenMenu}
       onOpenChange={(value) => setIsOpenMenu(value)}
       placement={isMobile ? 'bottomRight' : 'bottom'}
-      getPopupContainer={(trigger) => trigger.parentElement || document.body}
       className={s.icon}
     >
       <div style={{ cursor: 'pointer' }}>
