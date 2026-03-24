@@ -162,21 +162,21 @@ export default async function RegionPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      <Home routeData={data} />
+      <Home routeData={data}>
+        {relatedRoutes.length > 0 && (
+          <ServerRouteLinks
+            routes={relatedRoutes}
+            heading={cityFrom ? `Другие маршруты из города ${cityFrom}` : 'Другие маршруты'}
+          />
+        )}
 
-      {relatedRoutes.length > 0 && (
-        <ServerRouteLinks
-          routes={relatedRoutes}
-          heading={cityFrom ? `Другие маршруты из города ${cityFrom}` : 'Другие маршруты'}
-        />
-      )}
-
-      {routesToCity.length > 0 && (
-        <ServerRouteLinks
-          routes={routesToCity}
-          heading={cityTo ? `Маршруты в город ${cityTo}` : 'Маршруты в этот город'}
-        />
-      )}
+        {routesToCity.length > 0 && (
+          <ServerRouteLinks
+            routes={routesToCity}
+            heading={cityTo ? `Маршруты в город ${cityTo}` : 'Маршруты в этот город'}
+          />
+        )}
+      </Home>
     </>
   );
 }

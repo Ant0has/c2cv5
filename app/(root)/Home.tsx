@@ -6,12 +6,12 @@ import { scrollToBlockById } from "@/shared/services/scroll-to-block"
 import { IRouteData } from "@/shared/types/route.interface"
 import dynamic from "next/dynamic"
 import { usePathname } from "next/navigation"
-import { Suspense, useContext, useLayoutEffect, useMemo } from "react"
+import { Suspense, useContext, useLayoutEffect } from "react"
 import { RouteContext } from "../providers";
-import whitelist from "../../whitelist.json";
 
 interface Props {
 	routeData?: IRouteData
+	children?: React.ReactNode
 }
 
 const OrderStepsSection = dynamic(
@@ -30,14 +30,6 @@ const QuestionsSection = dynamic(
 		ssr: false,
 	}
 );
-
-const CitiesSection = dynamic(
-	() => import("@/pages-list/home/ui/Cities/Cities").then((mod) => mod.default),
-	{
-		loading: () => <LoadingSkeleton height="300px" />,
-		ssr: false,
-	}
-)
 
 const RouteDescriptionSection = dynamic(
 	() => import("@/pages-list/home/ui/RouteDescription/RouteDescription").then((mod) => mod.default),
@@ -95,22 +87,13 @@ const RouteVideoSection = dynamic(
 	}
 )
 
-export function Home({ routeData }: Props) {
+export function Home({ routeData, children }: Props) {
 	const { setRoute } = useContext(RouteContext)
 	const pathname = usePathname()
 
 	const cityTitle = (routeData?.title || '').replace(/Такси\s+/gi, '').trim()
 
 	const isMilitary = routeData?.is_svo === 1
-
-	const routesList = useMemo(() => {
-		// Получаем все маршруты для региона
-		const allRoutes = routeData?.routes || []
-		const list = new Set(whitelist)
-		
-		// Фильтруем — оставляем только те, что в whitelist
-		return allRoutes.filter(route => list.has(`${route.url}.html`))
-	  }, [routeData?.routes])
 
 	useLayoutEffect(() => {
 		routeData && setRoute(routeData)
@@ -148,9 +131,7 @@ export function Home({ routeData }: Props) {
 				)
 			}
 
-			<Suspense>
-				<CitiesSection routes={routesList} routeData={routeData} />
-			</Suspense>
+			{children}
 
 			{routeData && (
 				<Suspense>
