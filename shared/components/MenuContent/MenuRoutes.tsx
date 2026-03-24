@@ -1,138 +1,68 @@
 'use client'
 
-import { useContext, useState } from "react"
+import { useState, useEffect } from "react"
 import clsx from "clsx"
 import Link from "next/link"
-import { IRegion } from "@/shared/types/types"
 import s from './MenuContent.module.scss'
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import { IRoute, IRouteData } from "@/shared/types/route.interface"
-import { useMemo } from "react"
-import { RegionsContext } from "@/app/providers"
-
-const getValidName = (region: IRegion) => {
-    return region.region_value || region.meta_value || region.url || ''
-}
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Pagination } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/pagination'
+import { FEDERAL_DISTRICTS } from "@/pages-list/region-hubs/config/registry"
+import { usePathname } from "next/navigation"
 
 interface IMenuRoutesProps {
-    moscow: IRegion
-    piter: IRegion
-    krym: IRegion
-    route: IRouteData
     setIsOpenMenu: (value: boolean) => void
 }
 
-const MenuRoutes = ({ moscow, piter, krym, route, setIsOpenMenu }: IMenuRoutesProps) => {
+const MenuRoutes = ({ setIsOpenMenu }: IMenuRoutesProps) => {
     const [isMobile, setIsMobile] = useState<boolean>(false)
-    const regions = useContext(RegionsContext) as IRegion[]
+    const pathname = usePathname()
 
-
-
-
-
-    const splitIntoPages = (groups: Record<string, IRegion[]>) => {
-        const letters = Object.keys(groups);
-        let totalItems = 0;
-        const itemsPerGroup = letters.map(letter => ({
-            letter,
-            count: groups[letter].length
-        }));
-
-        // Считаем общее количество элементов
-        totalItems = itemsPerGroup.reduce((sum, group) => sum + group.count, 0);
-        const pagesCount = isMobile ? 7 : 3;
-        const targetItemsPerPage = Math.ceil(totalItems / pagesCount);
-
-        const pages: string[][] = [[]];
-        let currentPage = 0;
-        let currentPageItems = 0;
-
-        itemsPerGroup.forEach(({ letter, count }) => {
-            // Если текущая страница уже близка к целевому количеству и не последняя, начинаем новую
-            if (currentPageItems > targetItemsPerPage && currentPage < (pagesCount - 1)) {
-                currentPage++;
-                currentPageItems = 0;
-                pages[currentPage] = [];
+    useEffect(() => {
+        const checkMobile = () => {
+            if (typeof window !== 'undefined') {
+                setIsMobile(window.innerWidth <= 700)
             }
+        }
+        checkMobile()
+        if (typeof window !== 'undefined') {
+            window.addEventListener('resize', checkMobile)
+            return () => window.removeEventListener('resize', checkMobile)
+        }
+    }, [])
 
-            pages[currentPage].push(letter);
-            currentPageItems += count;
-        });
-
-        return pages;
+    // Split FOs into pages for Swiper
+    const pagesCount = isMobile ? 4 : 2
+    const fosPerPage = Math.ceil(FEDERAL_DISTRICTS.length / pagesCount)
+    const pages: typeof FEDERAL_DISTRICTS[] = []
+    for (let i = 0; i < FEDERAL_DISTRICTS.length; i += fosPerPage) {
+        pages.push(FEDERAL_DISTRICTS.slice(i, i + fosPerPage))
     }
-
-
-
-    const groupByFirstLetter = (data: IRegion[]): Record<string, IRegion[]> => {
-        return data
-            .sort((a, b) => getValidName(a).localeCompare(getValidName(b)))
-            .reduce((acc: Record<string, IRegion[]>, item) => {
-                const firstLetter = getValidName(item)[0].toUpperCase();
-                if (!acc[firstLetter]) {
-                    acc[firstLetter] = [];
-                }
-                acc[firstLetter].push(item);
-                return acc;
-            }, {});
-    };
-
-    const groupedData = useMemo(() => {
-        return groupByFirstLetter(regions)
-    }, [regions])
-
-    const pages = useMemo(() => {
-        return splitIntoPages(groupedData)
-    }, [groupedData, isMobile])
-
-    const renderPage = (letters: string[]) => (
-        <div className={clsx(s.content, { [s.contentMobile]: isMobile })}>
-            {letters.map((letter) => (
-                <div className={s.group} key={letter}>
-                    <h2>{letter}</h2>
-                    <ul className={s.list}>
-                        {groupedData[letter].map((region) => (
-                            <Link
-                                onClick={() => setIsOpenMenu(false)}
-                                className={clsx('text-black', { ['text-primary']: region.url === route?.regions_data?.url })}
-                                href={`/${region.url || ''}.html`}
-                                key={region.meta_id}
-                            >
-                                {getValidName(region)}
-                            </Link>
-                        ))}
-                    </ul>
-                </div>
-            ))}
-        </div>
-    )
 
     return (
         <>
             <div className={s.block}>
                 <Link
                     onClick={() => setIsOpenMenu(false)}
-                    className={clsx('text-black', { ['text-primary']: moscow.url === route?.regions_data?.url })}
-                    href={`/${moscow.url || ''}.html`}
+                    className={clsx('text-black', { ['text-primary']: pathname?.startsWith('/regions/cfo/moskva') })}
+                    href="/regions/cfo/moskva/"
                 >
-                    {getValidName(moscow)}
+                    Москва
                 </Link>
                 <Link
                     onClick={() => setIsOpenMenu(false)}
-                    className={clsx('text-black', { ['text-primary']: piter.url === route?.regions_data?.url })}
-                    href={`/${piter.url || ''}.html`}
+                    className={clsx('text-black', { ['text-primary']: pathname?.startsWith('/regions/szfo/sankt-peterburg') })}
+                    href="/regions/szfo/sankt-peterburg/"
                 >
-                    {getValidName(piter)}
+                    Санкт-Петербург
                 </Link>
                 <Link
                     onClick={() => setIsOpenMenu(false)}
-                    className={clsx('text-black', { ['text-primary']: krym.url === route?.regions_data?.url })}
-                    href={`/${krym.url || ''}.html`}
+                    className={clsx('text-black', { ['text-primary']: pathname?.startsWith('/regions/yufo/krasnodar') })}
+                    href="/regions/yufo/krasnodar/"
                 >
-                    {getValidName(krym)}
+                    Краснодар
                 </Link>
             </div>
 
@@ -143,9 +73,38 @@ const MenuRoutes = ({ moscow, piter, krym, route, setIsOpenMenu }: IMenuRoutesPr
                 style={{ maxWidth: isMobile ? '300px' : '620px' }}
                 className={s.swiper}
             >
-                {pages.map((page, index) => (
+                {pages.map((pageFos, index) => (
                     <SwiperSlide key={index}>
-                        {renderPage(page)}
+                        <div className={clsx(s.content, { [s.contentMobile]: isMobile })}>
+                            {pageFos.map((fo) => (
+                                <div className={s.group} key={fo.slug}>
+                                    <h2>
+                                        <Link
+                                            href={`/regions/${fo.slug}/`}
+                                            onClick={() => setIsOpenMenu(false)}
+                                            className="text-black"
+                                            style={{ textDecoration: 'none' }}
+                                        >
+                                            {fo.shortName}
+                                        </Link>
+                                    </h2>
+                                    <ul className={s.list}>
+                                        {fo.cities.map((city) => (
+                                            <Link
+                                                onClick={() => setIsOpenMenu(false)}
+                                                className={clsx('text-black', {
+                                                    ['text-primary']: pathname?.startsWith(`/regions/${fo.slug}/${city.slug}`)
+                                                })}
+                                                href={`/regions/${fo.slug}/${city.slug}/`}
+                                                key={city.slug}
+                                            >
+                                                {city.name}
+                                            </Link>
+                                        ))}
+                                    </ul>
+                                </div>
+                            ))}
+                        </div>
                     </SwiperSlide>
                 ))}
             </Swiper>
