@@ -1,5 +1,7 @@
 import { CityHubPageData, RegionHubRoute } from '../types'
 import { generateCityFaq } from '../config/faq'
+import { generateCityDescription, ADVANTAGES } from '../config/content'
+import OrderButton from './OrderButton'
 import s from './RegionCityHubPage.module.scss'
 
 interface Props {
@@ -41,6 +43,7 @@ export default function RegionCityHubPage({ data }: Props) {
   const { city, fo, routes, totalCount, minPrice } = data
   const faq = generateCityFaq(city.name, city.nameGenitive, minPrice, totalCount)
   const groups = groupByDistance(routes)
+  const description = generateCityDescription(city.name, city.nameGenitive, city.nameLocative, totalCount, minPrice)
 
   const popular = [...routes]
     .filter(r => r.distance_km && r.distance_km > 0)
@@ -57,36 +60,61 @@ export default function RegionCityHubPage({ data }: Props) {
 
   return (
     <div className={s.page}>
-      <div className="container">
-        <nav className={s.breadcrumbs}>
-          <a href="/">Главная</a>
-          <span className={s.sep}>/</span>
-          <a href="/regions/">Регионы</a>
-          <span className={s.sep}>/</span>
-          <a href={`/regions/${fo.slug}/`}>{fo.shortName}</a>
-          <span className={s.sep}>/</span>
-          <span>Такси межгород {city.name}</span>
-        </nav>
+      {/* Hero */}
+      <div className={s.hero}>
+        <div className="container">
+          <nav className={s.breadcrumbs}>
+            <a href="/">Главная</a>
+            <span className={s.sep}>/</span>
+            <a href="/regions/">Регионы</a>
+            <span className={s.sep}>/</span>
+            <a href={`/regions/${fo.slug}/`}>{fo.shortName}</a>
+            <span className={s.sep}>/</span>
+            <span>Такси межгород {city.name}</span>
+          </nav>
 
-        <h1 className={s.h1}>Такси межгород {city.name}</h1>
+          <h1 className={s.h1}>Такси межгород {city.name}</h1>
+          <p className={s.heroDescription}>{description}</p>
 
-        <div className={s.stats}>
-          <div className={s.stat}>
-            <span className={s.statValue}>{totalCount}</span>
-            <span className={s.statLabel}>направлений</span>
+          <div className={s.heroActions}>
+            <OrderButton cityName={city.nameGenitive.replace(/^из /i, '')} />
+            <a href="tel:+79381568757" className={s.phoneLink}>+7 (938) 156-87-57</a>
           </div>
-          {minPrice > 0 && (
+
+          <div className={s.stats}>
             <div className={s.stat}>
-              <span className={s.statValue}>от {formatPrice(minPrice)}₽</span>
-              <span className={s.statLabel}>минимальная цена</span>
+              <span className={s.statValue}>{totalCount}</span>
+              <span className={s.statLabel}>направлений</span>
             </div>
-          )}
-          <div className={s.stat}>
-            <span className={s.statValue}>от 30 мин</span>
-            <span className={s.statLabel}>подача авто</span>
+            {minPrice > 0 && (
+              <div className={s.stat}>
+                <span className={s.statValue}>от {formatPrice(minPrice)}₽</span>
+                <span className={s.statLabel}>минимальная цена</span>
+              </div>
+            )}
+            <div className={s.stat}>
+              <span className={s.statValue}>от 30 мин</span>
+              <span className={s.statLabel}>подача авто</span>
+            </div>
           </div>
         </div>
+      </div>
 
+      <div className="container">
+        {/* Преимущества */}
+        <section className={s.section}>
+          <h2 className={s.h2}>Почему выбирают City2City {city.nameLocative}</h2>
+          <div className={s.advantagesGrid}>
+            {ADVANTAGES.map((adv, i) => (
+              <div key={i} className={s.advantageCard}>
+                <h3 className={s.advantageTitle}>{adv.title}</h3>
+                <p className={s.advantageDesc}>{adv.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Популярные маршруты */}
         {popular.length > 0 && (
           <section className={s.section}>
             <h2 className={s.h2}>Популярные направления {city.nameGenitive}</h2>
@@ -106,6 +134,7 @@ export default function RegionCityHubPage({ data }: Props) {
           </section>
         )}
 
+        {/* Все маршруты по расстоянию */}
         {distanceSections.map(section => (
           <section key={section.title} className={s.section}>
             <h2 className={s.h2}>{section.title}</h2>
@@ -122,6 +151,14 @@ export default function RegionCityHubPage({ data }: Props) {
           </section>
         ))}
 
+        {/* CTA между секциями */}
+        <div className={s.ctaBlock}>
+          <h3 className={s.ctaTitle}>Нужен маршрут, которого нет в списке?</h3>
+          <p className={s.ctaText}>Мы организуем поездку по любому направлению {city.nameGenitive}. Позвоните или оставьте заявку.</p>
+          <OrderButton cityName={city.nameGenitive.replace(/^из /i, '')} />
+        </div>
+
+        {/* Соседние города */}
         {fo.cities.length > 1 && (
           <section className={s.section}>
             <h2 className={s.h2}>Такси межгород в других городах {fo.nameGenitive}</h2>
@@ -137,11 +174,12 @@ export default function RegionCityHubPage({ data }: Props) {
           </section>
         )}
 
+        {/* FAQ */}
         <section className={s.section}>
           <h2 className={s.h2}>Часто задаваемые вопросы</h2>
           <div className={s.faqList}>
             {faq.map((item, i) => (
-              <details key={i} className={s.faqItem}>
+              <details key={i} className={s.faqItem} open={i === 0}>
                 <summary className={s.faqQuestion}>{item.question}</summary>
                 <p className={s.faqAnswer}>{item.answer}</p>
               </details>
