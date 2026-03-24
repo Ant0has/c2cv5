@@ -19,6 +19,11 @@ const MenuRoutes = ({ setIsOpenMenu }: IMenuRoutesProps) => {
     const [isMobile, setIsMobile] = useState<boolean>(false)
     const pathname = usePathname()
 
+    // Close menu on navigation
+    useEffect(() => {
+        setIsOpenMenu(false)
+    }, [pathname])
+
     useEffect(() => {
         const checkMobile = () => {
             if (typeof window !== 'undefined') {

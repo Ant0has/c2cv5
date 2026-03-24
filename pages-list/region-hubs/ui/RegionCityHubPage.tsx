@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { CityHubPageData, RegionHubRoute } from '../types'
 import { generateCityFaq } from '../config/faq'
 import { generateCityDescription, ADVANTAGES } from '../config/content'
@@ -62,7 +63,16 @@ export default function RegionCityHubPage({ data }: Props) {
     <div className={s.page}>
       {/* Hero */}
       <div className={s.hero}>
-        <div className="container">
+        <Image
+          src={`/images/regions/${city.slug}.jpg`}
+          alt={`Такси межгород ${city.name}`}
+          fill
+          priority
+          quality={80}
+          className={s.heroImage}
+        />
+        <div className={s.heroOverlay} />
+        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
           <nav className={s.breadcrumbs}>
             <a href="/">Главная</a>
             <span className={s.sep}>/</span>
