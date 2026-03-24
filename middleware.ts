@@ -3,6 +3,67 @@ import type { NextRequest } from 'next/server'
 
 import whitelist from './whitelist.json'
 
+// 301 redirects: old city hub pages → new /regions/{fo}/{city}/
+const hubRedirects: Record<string, string> = {
+  'taxi777-mezhgorod-moscow.html': '/regions/cfo/moskva/',
+  'taxi-mezhgorod-voronezh.html': '/regions/cfo/voronezh/',
+  'taxi-mezhgorod-tula-71.html': '/regions/cfo/tula/',
+  'taxi-mezhgorod-bryansk-32.html': '/regions/cfo/bryansk/',
+  'taxi-mezhgorod-kaluga-39.html': '/regions/cfo/kaluga/',
+  'taxi-mezhgorod-tver-69.html': '/regions/cfo/tver/',
+  'taxi-mezhgorod-ryazan-62.html': '/regions/cfo/ryazan/',
+  'taxi-mezhgorod-yaroslavl-76.html': '/regions/cfo/yaroslavl/',
+  'taxi-mezhgorod-vladimir-33.html': '/regions/cfo/vladimir/',
+  'taxi-mezhgorod-ivanovo-37.html': '/regions/cfo/ivanovo/',
+  'taxi-mezhgorod-kostroma-44.html': '/regions/cfo/kostroma/',
+  'taxi-mezhgorod-smolensk-67.html': '/regions/cfo/smolensk/',
+  'taxi-mezhgorod-lipeck-48.html': '/regions/cfo/lipetsk/',
+  'taxi-mezhgorod-tambov-68.html': '/regions/cfo/tambov/',
+  'taxi-mezhgorod-orel-57.html': '/regions/cfo/orel/',
+  'taxi-mezhgorod-kursk-46.html': '/regions/cfo/kursk/',
+  'taxi-mezhgorod-belgorod.html': '/regions/cfo/belgorod/',
+  'taxi78-mezhgorod-piter.html': '/regions/szfo/sankt-peterburg/',
+  'taxi-mezhgorod-velikiy-novgorod-53.html': '/regions/szfo/velikiy-novgorod/',
+  'taxi-mezhgorod-syktyvkar.html': '/regions/szfo/syktyvkar/',
+  'taxi-mezhgorod-murmansk-51.html': '/regions/szfo/murmansk/',
+  'taxi-mezhgorod-arhangelsk.html': '/regions/szfo/arhangelsk/',
+  'taxi-mezhgorod-petrozavodsk.html': '/regions/szfo/petrozavodsk/',
+  '82-mezhgorod-krym.html': '/regions/yufo/krym/',
+  'taxi-mezhgorod-elista-08.html': '/regions/yufo/elista/',
+  'taxi-mezhgorod-stavropol.html': '/regions/skfo/stavropol/',
+  '102-taxi-mezhgorod-ufa.html': '/regions/pfo/ufa/',
+  '16-mezhgorod-kazan.html': '/regions/pfo/kazan/',
+  'taxi-mezhgorod-samara.html': '/regions/pfo/samara/',
+  'taxi-mezhgorod-orenburg-56.html': '/regions/pfo/orenburg/',
+  'taxi-mezhgorod-izhevsk-18.html': '/regions/pfo/izhevsk/',
+  'taxi-mezhgorod-nizhniy_novgorod.html': '/regions/pfo/nizhniy-novgorod/',
+  'taxi-mezhgorod-saratov.html': '/regions/pfo/saratov/',
+  'taxi-mezhgorod-ulyanovsk-73.html': '/regions/pfo/ulyanovsk/',
+  'taxi-mezhgorod-kirov-43.html': '/regions/pfo/kirov/',
+  'taxi-mezhgorod-cheboksary-21.html': '/regions/pfo/cheboksary/',
+  'taxi-mezhgorod-yoshkar-ola-12.html': '/regions/pfo/yoshkar-ola/',
+  'taxi-mezhgorod-saransk-13.html': '/regions/pfo/saransk/',
+  'taxi-mezhgorod-ekaterinburg.html': '/regions/ufo/ekaterinburg/',
+  'taxi-mezhgorod-chelyabinsk.html': '/regions/ufo/chelyabinsk/',
+  'taxi-mezhgorod-kurgan-45.html': '/regions/ufo/kurgan/',
+  'taxi-mezhgorod-novosibirsk-54.html': '/regions/sfo/novosibirsk/',
+  'taxi-mezhgorod-krasnojarsk.html': '/regions/sfo/krasnoyarsk/',
+  'taxi-mezhgorod-tomsk-70.html': '/regions/sfo/tomsk/',
+  'taxi-mezhgorod-barnaul-22.html': '/regions/sfo/barnaul/',
+  'taxi-mezhgorod-kemerovo-42.html': '/regions/sfo/kemerovo/',
+  'taxi-mezhgorod-omsk-55.html': '/regions/sfo/omsk/',
+  'taxi-mezhgorod-habarovsk.html': '/regions/dfo/habarovsk/',
+  'taxi-mezhgorod-jakutsk.html': '/regions/dfo/yakutsk/',
+  'taxi-mezhgorod-irkutsk.html': '/regions/dfo/irkutsk/',
+  'taxi-mezhgorod-vladivostok.html': '/regions/dfo/vladivostok/',
+  'taxi-mezhgorod-blagoveshhensk.html': '/regions/dfo/blagoveshchensk/',
+  'taxi-mezhgorod-chita.html': '/regions/dfo/chita/',
+  'taxi-mezhgorod-ulan-ude-03.html': '/regions/dfo/ulan-ude/',
+  'taxi-mezhgorod-kyzyl-17.html': '/regions/dfo/kyzyl/',
+  'taxi-mezhgorod-yuzhno-sahalinsk-65.html': '/regions/dfo/yuzhno-sahalinsk/',
+  'taxi-mezhgorod-birobidzhan-79.html': '/regions/dfo/birobidzhan/',
+}
+
 // 301 redirects: old non-svo SVO-city routes → svo-taxi versions
 const svoRedirects: Record<string, string> = {
   'donetsk-ekaterinburg.html': 'svo-taxi-ekaterinburg-donetsk.html',
@@ -85,6 +146,11 @@ export function middleware(request: NextRequest) {
   // 3. Проверка страниц маршрутов на наличие в whitelist
   if (pathname.endsWith('.html') && pathname !== '/') {
     const slug = pathname.slice(1)
+
+    // 301 redirect old city hub pages to /regions/{fo}/{city}/
+    if (hubRedirects[slug]) {
+      return NextResponse.redirect(new URL(hubRedirects[slug], request.url), 301)
+    }
 
     // 301 redirect old SVO-city routes to svo-taxi versions
     if (svoRedirects[slug]) {
