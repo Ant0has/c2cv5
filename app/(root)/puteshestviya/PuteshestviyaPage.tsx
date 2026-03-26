@@ -13,9 +13,6 @@ const DESTINATIONS = [
     image: '/images/puteshestviya/ruskeala.jpg',
     description: 'Мраморный каньон с бирюзовой водой и ретро-поезд «Рускеальский экспресс». В мае — без туристов, каньон только открывается после зимы.',
     why: 'В мае без толп, каньон только открывается',
-    transfer: 'Трансфер СПб → Рускеала',
-    price: '4 500',
-    routeUrl: '/sankt-peterburg-sortavala.html',
   },
   {
     id: 2,
@@ -24,9 +21,6 @@ const DESTINATIONS = [
     image: '/images/puteshestviya/kazan.jpg',
     description: 'Новая туристическая столица России. Кремль, мечеть Кул-Шариф, улица Баумана. На майские — фестиваль «Казанские узоры» 1-5 мая.',
     why: 'Фестиваль «Казанские узоры» 1-5 мая',
-    transfer: 'Трансфер Москва → Казань',
-    price: '12 500',
-    routeUrl: '/moskva-kazan.html',
   },
   {
     id: 3,
@@ -35,9 +29,6 @@ const DESTINATIONS = [
     image: '/images/puteshestviya/kavminvody.jpg',
     description: 'Горячий тренд 2026. Пятигорск, Кисловодск, Ессентуки — природа, лечебные источники и виды на Эльбрус. Весной — идеальная погода.',
     why: 'Идеальная погода, цветение, мало туристов',
-    transfer: 'Трансфер Краснодар → Пятигорск',
-    price: '5 000',
-    routeUrl: '/krasnodar-pyatigorsk.html',
   },
   {
     id: 4,
@@ -46,9 +37,6 @@ const DESTINATIONS = [
     image: '/images/puteshestviya/kaliningrad.jpg',
     description: 'Европейская атмосфера без загранпаспорта. Рыбная деревня, остров Канта, Куршская коса. Пляжное направление нового поколения.',
     why: 'Европа без визы, в мае уже тепло',
-    transfer: 'Трансфер Москва → Калининград',
-    price: '15 000',
-    routeUrl: null,
   },
   {
     id: 5,
@@ -57,9 +45,6 @@ const DESTINATIONS = [
     image: '/images/puteshestviya/kolomna.jpg',
     description: 'Идеально на 1 день из Москвы. Кремль, Музей пастилы, калачная. С детьми — лучший вариант на майские без ночёвки.',
     why: 'На 1 день из Москвы, идеально с детьми',
-    transfer: 'Трансфер Москва → Коломна',
-    price: '3 000',
-    routeUrl: '/moskva-kolomna.html',
   },
 ]
 
@@ -147,23 +132,6 @@ export default function PuteshestviyaPage() {
               <div className={s.cardWhy}>
                 <span className={s.cardWhyLabel}>Почему сейчас</span>
                 <span>{dest.why}</span>
-              </div>
-              <div className={s.cardTransfer}>
-                <div className={s.transferInfo}>
-                  <span className={s.transferLabel}>Как добраться</span>
-                  <span className={s.transferRoute}>{dest.transfer}</span>
-                </div>
-                {dest.routeUrl ? (
-                  <a
-                    href={dest.routeUrl}
-                    className={s.transferPrice}
-                    onClick={() => trackClick('route_click')}
-                  >
-                    от {dest.price}₽
-                  </a>
-                ) : (
-                  <span className={s.transferPrice}>от {dest.price}₽</span>
-                )}
               </div>
             </div>
           </article>
