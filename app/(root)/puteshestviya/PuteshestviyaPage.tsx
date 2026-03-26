@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import s from './puteshestviya.module.scss'
@@ -67,19 +66,8 @@ const MAX_URL = 'https://max.ru/id616606322786_biz'
 
 export default function PuteshestviyaPage() {
   const searchParams = useSearchParams()
-  const [showSticky, setShowSticky] = useState(false)
-
   const utmContent = searchParams.get('utm_content') || 'may'
   const headline = HEADLINES[utmContent] || HEADLINES.may
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPercent = window.scrollY / (document.body.scrollHeight - window.innerHeight)
-      setShowSticky(scrollPercent > 0.3)
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
 
   const trackClick = (goalName: string) => {
     if (typeof window !== 'undefined' && (window as any).ym) {
@@ -166,8 +154,8 @@ export default function PuteshestviyaPage() {
         <a href="/">На главную</a>
       </footer>
 
-      {/* Sticky bar */}
-      <div className={`${s.sticky} ${showSticky ? s.stickyVisible : ''}`}>
+      {/* Sticky bar — always visible */}
+      <div className={s.sticky}>
         <span className={s.stickyText}>Подписаться на канал</span>
         <a
           href={MAX_URL}

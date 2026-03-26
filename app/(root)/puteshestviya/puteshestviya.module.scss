@@ -103,28 +103,20 @@
 
 // Destinations
 .destinations {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 40px 20px 20px;
+  padding: 40px 0 20px;
 }
 
 .card {
-  margin-bottom: 48px;
+  margin-bottom: 0;
   background: white;
-  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
-  transition: transform 0.3s ease;
-
-  &:hover {
-    transform: translateY(-2px);
-  }
 }
 
 .cardImage {
   position: relative;
   width: 100%;
-  height: 280px;
+  height: 56vw;
+  max-height: 420px;
   overflow: hidden;
 }
 
@@ -248,16 +240,13 @@
 
 // CTA
 .cta {
-  padding: 60px 20px 80px;
+  padding: 0;
 }
 
 .ctaInner {
-  max-width: 560px;
-  margin: 0 auto;
   text-align: center;
-  padding: 48px 32px;
+  padding: 64px 24px 80px;
   background: #1a1a1a;
-  border-radius: 24px;
   position: relative;
   overflow: hidden;
 
@@ -268,7 +257,7 @@
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle at 50% 0%, rgba(255, 156, 0, 0.08) 0%, transparent 60%);
+    background: radial-gradient(circle at 50% 0%, rgba(255, 156, 0, 0.12) 0%, transparent 50%);
   }
 }
 
@@ -336,7 +325,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 24px;
+  padding: 20px 24px 72px;
   font-size: 13px;
   color: #aaa;
   border-top: 1px solid #eee;
@@ -348,7 +337,7 @@
   }
 }
 
-// Sticky bar
+// Sticky bar — always visible
 .sticky {
   position: fixed;
   bottom: 0;
@@ -361,13 +350,7 @@
   padding: 12px 20px;
   background: rgba(26, 26, 26, 0.95);
   backdrop-filter: blur(12px);
-  transform: translateY(100%);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   padding-bottom: max(12px, env(safe-area-inset-bottom));
-}
-
-.stickyVisible {
-  transform: translateY(0);
 }
 
 .stickyText {
