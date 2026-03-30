@@ -5,6 +5,7 @@ import type { Metadata, Viewport } from 'next';
 import { Inter as FontSans } from "next/font/google";
 import { Suspense } from "react";
 import { Providers, YandexHit } from './providers';
+import UTMTracker from '@/shared/components/UTMTracker/UTMTracker';
 
 import ModalsWrapper from "@/shared/components/modals/ModalsWrapper";
 import '@/shared/styles/main.scss';
@@ -124,6 +125,7 @@ export default async function RootLayout({
       <body className={inter.className} suppressHydrationWarning>
         <Providers regions={regions}>
           <YandexHit />
+          <UTMTracker />
           <div className="app-layout">
             <main className="app-main">
               <Suspense>

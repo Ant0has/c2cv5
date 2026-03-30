@@ -1,6 +1,7 @@
 import { UAParser } from "ua-parser-js";
 import { IMailRequest } from "../types/types";
 import { BASE_URL_API } from "../constants";
+import { getUTMData } from "./utm.service";
 
 
 class MailService {
@@ -25,10 +26,18 @@ class MailService {
   }
 
   async sendMail(payload: IMailRequest) {
+    const utmData = getUTMData()
     const requestBody = {
       ...payload,
       device_info: this.getDeviceInfo(),
-      сurrent_route: window?.location?.href || ''
+      сurrent_route: window?.location?.href || '',
+      utm_source: utmData?.utm_source || null,
+      utm_medium: utmData?.utm_medium || null,
+      utm_campaign: utmData?.utm_campaign || null,
+      utm_content: utmData?.utm_content || null,
+      utm_term: utmData?.utm_term || null,
+      landing_page: utmData?.landing_page || null,
+      referrer: utmData?.referrer || null,
     };
 
     try {
