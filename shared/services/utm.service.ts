@@ -31,6 +31,9 @@ export function saveUTMFromUrl(): void {
     const expires = new Date(Date.now() + COOKIE_DAYS * 24 * 60 * 60 * 1000).toUTCString()
     document.cookie = `${COOKIE_NAME}=${encodeURIComponent(JSON.stringify(utm))}; expires=${expires}; path=/; SameSite=Lax`
     localStorage.setItem(COOKIE_NAME, JSON.stringify(utm))
+
+    // Log visit to CRM for phone order matching
+    logVisitToCRM(utm)
   } else if (document.referrer && !document.referrer.includes('city2city.ru')) {
     const existing = localStorage.getItem(COOKIE_NAME)
     if (!existing) {
@@ -42,6 +45,23 @@ export function saveUTMFromUrl(): void {
       localStorage.setItem('referrer_data', JSON.stringify(data))
     }
   }
+}
+
+function logVisitToCRM(utm: Record<string, string>): void {
+  fetch('https://chat.city2city.ru/api/public/utm-visits', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-api-key': 'c2c-miniapp-2026' },
+    body: JSON.stringify({
+      utm_source: utm.utm_source,
+      utm_medium: utm.utm_medium,
+      utm_campaign: utm.utm_campaign,
+      utm_content: utm.utm_content,
+      utm_term: utm.utm_term,
+      landing_page: utm.landing_page,
+      referrer: utm.referrer,
+      page_title: document.title,
+    }),
+  }).catch(() => {})
 }
 
 export function getUTMData(): UTMData | null {
