@@ -3,7 +3,7 @@ import { COEFFICIENT_100, COEFFICIENT_100_150, COEFFICIENT_150_200, COEFFICIENT_
 import { Prices } from "@/shared/types/enums";
 import { IRouteData } from "@/shared/types/route.interface";
 import { message } from "antd";
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, useMemo } from 'react';
 
 export const checkString = (str: string) => {
   const trimmed = String(str).trim();
@@ -138,10 +138,19 @@ export const useCalculator = ({
     setState(prev => ({ ...prev, departurePoint: value }));
   };
 
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const debouncedSearch = useCallback((value: string, setter: (data: string[]) => void) => {
+    if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+    if (value.length < 2) return;
+    debounceTimerRef.current = setTimeout(async () => {
+      const response = await yandexMapsService.getSuggestions(value);
+      setter([...new Set(response)]);
+    }, 400);
+  }, []);
+
   const handleSearchDeparturePoint = async (value: string) => {
-    const response = await yandexMapsService.getSuggestions(value);
-    const uniqueData = [...new Set(response)];
-    setState(prev => ({ ...prev, departurePointData: uniqueData }));
+    debouncedSearch(value, (data) => setState(prev => ({ ...prev, departurePointData: data })));
   };
 
   const handleChangeArrivalPoint = (value: string) => {
@@ -149,9 +158,7 @@ export const useCalculator = ({
   };
 
   const handleSearchArrivalPoint = async (value: string) => {
-    const response = await yandexMapsService.getSuggestions(value);
-    const uniqueData = [...new Set(response)];
-    setState(prev => ({ ...prev, arrivalPointData: uniqueData }));
+    debouncedSearch(value, (data) => setState(prev => ({ ...prev, arrivalPointData: data })));
   };
 
   const handleCalculate = async () => {
