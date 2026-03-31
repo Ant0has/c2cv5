@@ -38,6 +38,7 @@ class MailService {
       utm_term: utmData?.utm_term || null,
       landing_page: utmData?.landing_page || null,
       referrer: utmData?.referrer || null,
+      yclid: utmData?.yclid || null,
     };
 
     try {

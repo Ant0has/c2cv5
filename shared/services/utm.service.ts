@@ -10,6 +10,7 @@ export interface UTMData {
   utm_term?: string
   landing_page?: string
   referrer?: string
+  yclid?: string
 }
 
 export function saveUTMFromUrl(): void {
@@ -17,6 +18,14 @@ export function saveUTMFromUrl(): void {
 
   const params = new URLSearchParams(window.location.search)
   const hasUTM = UTM_KEYS.some(key => params.has(key))
+
+  // Save yclid separately (Yandex Direct click ID)
+  const yclid = params.get('yclid')
+  if (yclid) {
+    const expires = new Date(Date.now() + COOKIE_DAYS * 24 * 60 * 60 * 1000).toUTCString()
+    document.cookie = `yclid=${yclid}; expires=${expires}; path=/; SameSite=Lax`
+    localStorage.setItem('yclid', yclid)
+  }
 
   if (hasUTM) {
     const utm: Record<string, string> = {}
@@ -27,6 +36,7 @@ export function saveUTMFromUrl(): void {
     utm.landing_page = window.location.pathname
     utm.referrer = document.referrer || ''
     utm.timestamp = new Date().toISOString()
+    if (yclid) utm.yclid = yclid
 
     const expires = new Date(Date.now() + COOKIE_DAYS * 24 * 60 * 60 * 1000).toUTCString()
     document.cookie = `${COOKIE_NAME}=${encodeURIComponent(JSON.stringify(utm))}; expires=${expires}; path=/; SameSite=Lax`
@@ -87,9 +97,17 @@ export function getUTMData(): UTMData | null {
   const ref = localStorage.getItem('referrer_data')
   if (ref) {
     try {
-      return JSON.parse(ref)
+      const data = JSON.parse(ref)
+      // Attach yclid if stored separately
+      const yclid = localStorage.getItem('yclid')
+      if (yclid && !data.yclid) data.yclid = yclid
+      return data
     } catch { /* ignore */ }
   }
+
+  // Return just yclid if nothing else
+  const yclid = localStorage.getItem('yclid')
+  if (yclid) return { yclid }
 
   return null
 }
