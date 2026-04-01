@@ -286,6 +286,12 @@ const OsrmCalculator: FC = () => {
           </div>
         </div>
 
+        <div style={{ marginBottom: 20 }}>
+          <Button disabled={!departurePoint || !arrivalPoint || isRouteCalculating}
+            type={ButtonTypes.PRIMARY} text={isRouteCalculating ? "Рассчитываю..." : "Рассчитать поездку"}
+            handleClick={handleCalculate} />
+        </div>
+
         {/* Route selector */}
         {routes.length > 1 && (
           <div className={ms.routeSelector}>
@@ -320,10 +326,6 @@ const OsrmCalculator: FC = () => {
           </div>
         </div>
       </div>
-
-      <Button disabled={!departurePoint || !arrivalPoint || isRouteCalculating}
-        type={ButtonTypes.PRIMARY} text={isRouteCalculating ? "Рассчитываю..." : "Рассчитать поездку"}
-        handleClick={handleCalculate} />
 
       {/* Map */}
       <div className={s.map}>
