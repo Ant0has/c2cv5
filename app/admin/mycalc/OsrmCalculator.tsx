@@ -36,6 +36,8 @@ interface DadataSuggestion {
     settlement: string | null;
     region: string | null;
     area: string | null;
+    street: string | null;
+    house: string | null;
   };
 }
 
@@ -46,19 +48,26 @@ interface RouteResult {
 }
 
 function formatSuggestion(s: DadataSuggestion): string {
-  const name = s.data.city || s.data.settlement || '';
+  const city = s.data.city || s.data.settlement || '';
   const region = s.data.region || '';
   const area = s.data.area || '';
+  const street = s.data.street || '';
+  const house = s.data.house || '';
 
-  if (!name) return s.value;
+  if (!city) return s.value;
 
-  // Если город = регион (Москва, Санкт-Петербург) — только город
-  if (name === region) return name;
+  const parts = [city];
 
-  // Город, Район, Область
-  const parts = [name];
-  if (area && area !== name && area !== region) parts.push(area + ' р-н');
-  if (region && region !== name) parts.push(region + ' обл');
+  // Добавить улицу и дом если есть
+  if (street) {
+    parts.push(street + (house ? ' ' + house : ''));
+  }
+
+  // Добавить район и область для маленьких городов
+  if (city !== region) {
+    if (area && area !== city && area !== region) parts.push(area + ' р-н');
+    if (region) parts.push(region + ' обл');
+  }
 
   return parts.join(', ');
 }
@@ -73,8 +82,6 @@ async function suggest(query: string): Promise<{ display: string; lat: number; l
     body: JSON.stringify({
       query,
       count: 7,
-      from_bound: { value: "city" },
-      to_bound: { value: "settlement" },
       locations: [{ country: "Россия" }],
     }),
   });
