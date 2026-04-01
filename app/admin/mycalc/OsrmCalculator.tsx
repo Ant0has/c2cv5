@@ -52,13 +52,13 @@ function formatSuggestion(s: DadataSuggestion): string {
 
   if (!name) return s.value;
 
-  // Если город = регион (Москва, Санкт-Петербург) — показать только город
+  // Если город = регион (Москва, Санкт-Петербург) — только город
   if (name === region) return name;
 
-  // Город, Область (без "область"/"край" для краткости)
+  // Город, Район, Область
   const parts = [name];
-  if (area && area !== name) parts.push(area);
-  else if (region && region !== name) parts.push(region);
+  if (area && area !== name && area !== region) parts.push(area + ' р-н');
+  if (region && region !== name) parts.push(region + ' обл');
 
   return parts.join(', ');
 }
