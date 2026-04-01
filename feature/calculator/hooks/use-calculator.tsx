@@ -1,9 +1,9 @@
-import { yandexMapsService } from "@/shared/api/yandex-maps.service";
+import { dadataOsrmService } from "@/shared/api/dadata-osrm.service";
 import { COEFFICIENT_100, COEFFICIENT_100_150, COEFFICIENT_150_200, COEFFICIENT_200, DEFAULT_DISTANCE, DEFAULT_PRICE, prices, SPEED } from "@/shared/constants";
 import { Prices } from "@/shared/types/enums";
 import { IRouteData } from "@/shared/types/route.interface";
 import { message } from "antd";
-import { useCallback, useEffect, useRef, useState, useMemo } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 export const checkString = (str: string) => {
   const trimmed = String(str).trim();
@@ -68,8 +68,6 @@ export const useCalculator = ({
   cityData, 
   routeData 
 }: ICalculatorProps) => {
-  const routePanelRef = useRef<unknown>(null);
-
   const initialPoints = (() => {
     const pointsArray = cityData?.split(',');
     const arrivalPoint = pointsArray?.[1] || '';
@@ -144,8 +142,8 @@ export const useCalculator = ({
     if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
     if (value.length < 2) return;
     debounceTimerRef.current = setTimeout(async () => {
-      const response = await yandexMapsService.getSuggestions(value);
-      setter([...new Set(response)]);
+      const response = await dadataOsrmService.getSuggestions(value);
+      setter(response);
     }, 400);
   }, []);
 
@@ -170,80 +168,62 @@ export const useCalculator = ({
     setState(prev => ({ ...prev, isLoading: true }));
 
     try {
-      const panel = routePanelRef.current as { routePanel: { state: { set: (opts: Record<string, string>) => void }; getRouteAsync: () => Promise<unknown> } } | null;
-      if (panel) {
-        panel.routePanel.state.set({
-          from: state.departurePoint,
-          to: state.arrivalPoint,
-        });
+      const fromCoords = await dadataOsrmService.getCoords(state.departurePoint);
+      const toCoords = await dadataOsrmService.getCoords(state.arrivalPoint);
+
+      if (!fromCoords || !toCoords) {
+        message.error("Не удалось определить координаты");
+        setState(prev => ({ ...prev, isLoading: false }));
+        return;
       }
 
-      setTimeout(async () => {
-        try {
-          if (panel) {
-            const control = await panel.routePanel.getRouteAsync() as { getActiveRoute: () => { properties: { get: (key: string) => { value: number } | undefined } } } | null;
-            if (control) {
-              const activeRoute = control.getActiveRoute();
-              if (activeRoute) {
-                const distance = activeRoute.properties.get("distance");
-                if (distance?.value) {
-                  const distanceValue = Math.ceil((distance.value / 1000) / 10) * 10;
-                  
-                  const convertHoursToRoundedTime = (hours: number): string => {
-                    let totalMinutes = Math.ceil(hours * 60 / 30) * 30;
-                    let totalHours = Math.floor(totalMinutes / 60);
-                    let weeks = Math.floor(totalHours / (24 * 7));
-                    let remainingHoursAfterWeeks = totalHours % (24 * 7);
-                    let days = Math.floor(remainingHoursAfterWeeks / 24);
-                    let roundedHours = remainingHoursAfterWeeks % 24;
-                    let roundedMinutes = totalMinutes % 60;
+      const distanceKm = await dadataOsrmService.getDistance(fromCoords.lat, fromCoords.lon, toCoords.lat, toCoords.lon);
 
-                    let result = [];
-                    if (weeks > 0) result.push(`${weeks} нед`);
-                    if (days > 0) result.push(`${days} дн`);
-                    if (roundedHours > 0) result.push(`${roundedHours} ч`);
-                    if (roundedMinutes > 0) result.push(`${roundedMinutes} мин`);
-                    return result.join(" ");
-                  };
+      if (!distanceKm) {
+        message.error("Не удалось рассчитать маршрут");
+        setState(prev => ({ ...prev, isLoading: false }));
+        return;
+      }
 
-                  const getCoefficient = (distance: number) => {
-                    if (distance < 100) return COEFFICIENT_100;
-                    if (distance >= 100 && distance < 150) return COEFFICIENT_100_150;
-                    if (distance >= 150 && distance < 200) return COEFFICIENT_150_200;
-                    return COEFFICIENT_200;
-                  };
+      const distanceValue = Math.ceil(distanceKm / 10) * 10;
 
-                  const getPrice = () => {
-                    const initialPrice = distanceValue * prices[selectedPlan as keyof typeof prices] * getCoefficient(distanceValue);
-                    return Math.ceil(initialPrice / 500) * 500;
-                  };
+      const convertHoursToRoundedTime = (hours: number): string => {
+        const totalMinutes = Math.ceil(hours * 60 / 30) * 30;
+        const totalHours = Math.floor(totalMinutes / 60);
+        const days = Math.floor(totalHours / 24);
+        const roundedHours = totalHours % 24;
+        const roundedMinutes = totalMinutes % 60;
 
-                  const timeValue = convertHoursToRoundedTime(distanceValue / SPEED);
+        const result = [];
+        if (days > 0) result.push(`${days} дн`);
+        if (roundedHours > 0) result.push(`${roundedHours} ч`);
+        if (roundedMinutes > 0) result.push(`${roundedMinutes} мин`);
+        return result.join(" ");
+      };
 
+      const getCoefficient = (d: number) => {
+        if (d < 100) return COEFFICIENT_100;
+        if (d >= 100 && d < 150) return COEFFICIENT_100_150;
+        if (d >= 150 && d < 200) return COEFFICIENT_150_200;
+        return COEFFICIENT_200;
+      };
 
-                  setState(prev => ({
-                    ...prev,
-                    // distance: `${distanceValue} км`,
-                    distance: distanceValue,
-                    time: timeValue,
-                    // price: `от ${getPrice()}р`,
-                    price: getPrice(),
-                    isLoading: false,
-                  }));
-                }
-              }
-            }
-          }
-        } catch (error) {
-          message.error("Ошибка расчета маршрута");
-          setState(prev => ({ ...prev, isLoading: false }));
-        } finally {
-          setState(prev => ({ ...prev, isLoading: false }));
-        }
-      }, 2000);
+      const getPrice = () => {
+        const initialPrice = distanceValue * prices[selectedPlan as keyof typeof prices] * getCoefficient(distanceValue);
+        return Math.ceil(initialPrice / 500) * 500;
+      };
 
-    } catch (error) {
-      message.error("Ошибка установки маршрута");
+      const timeValue = convertHoursToRoundedTime(distanceValue / SPEED);
+
+      setState(prev => ({
+        ...prev,
+        distance: distanceValue,
+        time: timeValue,
+        price: getPrice(),
+        isLoading: false,
+      }));
+    } catch {
+      message.error("Ошибка расчёта маршрута");
       setState(prev => ({ ...prev, isLoading: false }));
     }
   };
@@ -297,6 +277,5 @@ export const useCalculator = ({
     infoData,
     selectedPlan,
     routeData,
-    routePanelRef,
   };
 };

@@ -3,7 +3,6 @@
 import { Blocks } from "@/shared/types/enums";
 import { IRouteData } from "@/shared/types/route.interface";
 import { IMailRequest, IRegion } from "@/shared/types/types";
-import { YMaps } from "@pbe/react-yandex-maps";
 import { ConfigProvider, notification } from "antd";
 import { Dispatch, PropsWithChildren, SetStateAction, createContext, useEffect, useRef, useState } from "react";
 import { tokens } from "../shared/styles/style-tokens";
@@ -70,9 +69,6 @@ export function Providers({ children, regions }: ProvidersProps) {
   }, []);
 
 	return (
-		<YMaps query={{
-			apikey: process.env.NEXT_PUBLIC_YANDEX_MAPS_API_KEY
-		}}>
 			<ConfigProvider
 				wave={{ disabled: true }}
 				theme={{
@@ -97,7 +93,6 @@ export function Providers({ children, regions }: ProvidersProps) {
 					</RouteContext.Provider>
 				</RegionsContext.Provider>
 			</ConfigProvider >
-		</YMaps>
 	)
 }
 
