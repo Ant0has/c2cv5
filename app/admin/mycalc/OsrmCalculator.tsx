@@ -21,7 +21,7 @@ import { message } from "antd";
 const PLAN_COEFFICIENT = "plan_coefficient";
 const DADATA_API_KEY = "17364206d854a397d57b11d01e9aa93050089134";
 const DADATA_URL = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
-const OSRM_URL = "http://router.project-osrm.org";
+const OSRM_URL = "https://router.project-osrm.org";
 
 interface DadataSuggestion {
   value: string;
