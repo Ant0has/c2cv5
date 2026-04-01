@@ -35,8 +35,6 @@ class DadataOsrmService {
         body: JSON.stringify({
           query,
           count: 7,
-          from_bound: { value: "city" },
-          to_bound: { value: "settlement" },
           locations: [{ country: "Россия" }],
         }),
       });
