@@ -19,20 +19,48 @@ import s from "../calculator/Calculator.module.scss";
 import { message } from "antd";
 
 const PLAN_COEFFICIENT = "plan_coefficient";
-const NOMINATIM_URL = "https://nominatim.openstreetmap.org";
+const DADATA_API_KEY = "17364206d854a397d57b11d01e9aa93050089134";
+const DADATA_URL = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
 const OSRM_URL = "http://router.project-osrm.org";
 
-async function geocode(query: string): Promise<{ lat: number; lon: number; display: string }[]> {
-  const res = await fetch(
-    `${NOMINATIM_URL}/search?q=${encodeURIComponent(query + ", Россия")}&format=json&limit=5&countrycodes=ru&accept-language=ru`,
-    { headers: { "User-Agent": "city2city-calc/1.0" } }
-  );
+interface DadataSuggestion {
+  value: string;
+  data: {
+    geo_lat: string | null;
+    geo_lon: string | null;
+    city: string | null;
+    settlement: string | null;
+    region: string | null;
+  };
+}
+
+async function suggest(query: string): Promise<{ display: string; lat: number; lon: number }[]> {
+  const res = await fetch(DADATA_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Token ${DADATA_API_KEY}`,
+    },
+    body: JSON.stringify({
+      query,
+      count: 7,
+      from_bound: { value: "city" },
+      to_bound: { value: "settlement" },
+      locations: [{ country: "Россия" }],
+    }),
+  });
   const data = await res.json();
-  return data.map((item: { lat: string; lon: string; display_name: string }) => ({
-    lat: parseFloat(item.lat),
-    lon: parseFloat(item.lon),
-    display: item.display_name.split(",").slice(0, 3).join(","),
-  }));
+  return (data.suggestions || [])
+    .filter((s: DadataSuggestion) => s.data.geo_lat && s.data.geo_lon)
+    .map((s: DadataSuggestion) => ({
+      display: s.value,
+      lat: parseFloat(s.data.geo_lat!),
+      lon: parseFloat(s.data.geo_lon!),
+    }));
+}
+
+async function geocode(query: string): Promise<{ lat: number; lon: number; display: string }[]> {
+  return suggest(query);
 }
 
 async function getRoute(
@@ -250,7 +278,7 @@ const OsrmCalculator: FC = () => {
     <div className={clsx("container", s.wrapper)}>
       <div style={{ gridColumn: "1 / -1", padding: "8px 0", marginBottom: 8, borderBottom: "2px solid #FF9C00" }}>
         <span style={{ fontSize: 20, fontWeight: 700 }}>Калькулятор</span>
-        <span style={{ fontSize: 14, color: "#888", marginLeft: 12 }}>Расчёт через OSRM (без Яндекс.Карт)</span>
+        <span style={{ fontSize: 14, color: "#888", marginLeft: 12 }}>DaData + OSRM (без Яндекс.Карт)</span>
       </div>
 
       <div className={s.plans}>
