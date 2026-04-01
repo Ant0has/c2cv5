@@ -52,6 +52,7 @@ const SearchInput: FC<IProps> = (props) => {
     // Преобразуем данные в формат для AutoComplete
     if (data && data.length > 0) {
       setOptions(data.map(item => ({ value: item })));
+      setIsDropdownVisible(true);
     } else {
       setOptions([]);
     }
