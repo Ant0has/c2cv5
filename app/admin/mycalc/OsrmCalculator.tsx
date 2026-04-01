@@ -32,6 +32,10 @@ interface DadataSuggestion {
   data: {
     geo_lat: string | null;
     geo_lon: string | null;
+    city: string | null;
+    settlement: string | null;
+    region: string | null;
+    area: string | null;
   };
 }
 
@@ -39,6 +43,24 @@ interface RouteResult {
   distance: number;
   duration: number;
   geometry: string;
+}
+
+function formatSuggestion(s: DadataSuggestion): string {
+  const name = s.data.city || s.data.settlement || '';
+  const region = s.data.region || '';
+  const area = s.data.area || '';
+
+  if (!name) return s.value;
+
+  // Если город = регион (Москва, Санкт-Петербург) — показать только город
+  if (name === region) return name;
+
+  // Город, Область (без "область"/"край" для краткости)
+  const parts = [name];
+  if (area && area !== name) parts.push(area);
+  else if (region && region !== name) parts.push(region);
+
+  return parts.join(', ');
 }
 
 async function suggest(query: string): Promise<{ display: string; lat: number; lon: number }[]> {
@@ -60,7 +82,7 @@ async function suggest(query: string): Promise<{ display: string; lat: number; l
   return (data.suggestions || [])
     .filter((s: DadataSuggestion) => s.data.geo_lat && s.data.geo_lon)
     .map((s: DadataSuggestion) => ({
-      display: s.value,
+      display: formatSuggestion(s),
       lat: parseFloat(s.data.geo_lat!),
       lon: parseFloat(s.data.geo_lon!),
     }));
