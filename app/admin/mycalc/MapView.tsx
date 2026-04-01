@@ -120,5 +120,5 @@ export default function MapView({ routes, selectedRoute, fromCoords, toCoords, c
     }
   }, [routes, selectedRoute, fromCoords, toCoords, colors]);
 
-  return <div ref={containerRef} style={{ width: "100%", height: 500, borderRadius: 16, overflow: "hidden" }} />;
+  return <div ref={containerRef} style={{ width: "100%", height: "clamp(300px, 50vh, 500px)", borderRadius: 16, overflow: "hidden" }} />;
 }

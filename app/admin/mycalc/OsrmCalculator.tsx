@@ -249,9 +249,9 @@ const OsrmCalculator: FC = () => {
 
   return (
     <div className={clsx("container", s.wrapper)}>
-      <div style={{ gridColumn: "1 / -1", padding: "8px 0", marginBottom: 8, borderBottom: "2px solid #FF9C00" }}>
-        <span style={{ fontSize: 20, fontWeight: 700 }}>Калькулятор</span>
-        <span style={{ fontSize: 14, color: "#888", marginLeft: 12 }}>DaData + OSRM (без Яндекс.Карт)</span>
+      <div style={{ gridColumn: "1 / -1", padding: "8px 0", marginBottom: 8, borderBottom: "2px solid #FF9C00", width: "100%" }}>
+        <div style={{ fontSize: 20, fontWeight: 700 }}>Калькулятор</div>
+        <div style={{ fontSize: 13, color: "#888", marginTop: 4 }}>DaData + OSRM (без Яндекс.Карт)</div>
       </div>
 
       <div className={s.plans}>
