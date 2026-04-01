@@ -14,9 +14,13 @@ import {
 } from "@/shared/constants";
 import { ButtonTypes, Prices } from "@/shared/types/enums";
 import clsx from "clsx";
-import { ChangeEvent, FC, useRef, useState, useEffect } from "react";
+import { ChangeEvent, FC, useRef, useState, useEffect, useMemo } from "react";
 import s from "../calculator/Calculator.module.scss";
+import ms from "./mycalc.module.scss";
 import { message } from "antd";
+import dynamic from "next/dynamic";
+
+const MapView = dynamic(() => import("./MapView"), { ssr: false });
 
 const PLAN_COEFFICIENT = "plan_coefficient";
 const DADATA_API_KEY = "17364206d854a397d57b11d01e9aa93050089134";
@@ -28,10 +32,13 @@ interface DadataSuggestion {
   data: {
     geo_lat: string | null;
     geo_lon: string | null;
-    city: string | null;
-    settlement: string | null;
-    region: string | null;
   };
+}
+
+interface RouteResult {
+  distance: number;
+  duration: number;
+  geometry: string;
 }
 
 async function suggest(query: string): Promise<{ display: string; lat: number; lon: number }[]> {
@@ -59,26 +66,25 @@ async function suggest(query: string): Promise<{ display: string; lat: number; l
     }));
 }
 
-async function geocode(query: string): Promise<{ lat: number; lon: number; display: string }[]> {
-  return suggest(query);
-}
-
-async function getRoute(
+async function getRoutes(
   fromLat: number, fromLon: number,
   toLat: number, toLon: number
-): Promise<{ distance: number; duration: number } | null> {
+): Promise<RouteResult[]> {
   const res = await fetch(
-    `${OSRM_URL}/route/v1/driving/${fromLon},${fromLat};${toLon},${toLat}?overview=false`
+    `${OSRM_URL}/route/v1/driving/${fromLon},${fromLat};${toLon},${toLat}?overview=full&geometries=polyline&alternatives=3`
   );
   const data = await res.json();
   if (data.routes && data.routes.length > 0) {
-    return {
-      distance: Math.round(data.routes[0].distance / 1000),
-      duration: Math.round(data.routes[0].duration / 3600 * 2) / 2,
-    };
+    return data.routes.map((r: { distance: number; duration: number; geometry: string }) => ({
+      distance: Math.round(r.distance / 1000),
+      duration: Math.round(r.duration / 3600 * 2) / 2,
+      geometry: r.geometry,
+    }));
   }
-  return null;
+  return [];
 }
+
+const ROUTE_COLORS = ["#FF9C00", "#4A90D9", "#7B61FF"];
 
 const OsrmCalculator: FC = () => {
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -91,20 +97,18 @@ const OsrmCalculator: FC = () => {
     return prices;
   });
 
-  const [departurePoint, setDeparturePoint] = useState<string>("");
+  const [departurePoint, setDeparturePoint] = useState("");
   const [departurePointData, setDeparturePointData] = useState<string[]>([]);
   const [departureCoords, setDepartureCoords] = useState<{ lat: number; lon: number } | null>(null);
 
-  const [arrivalPoint, setArrivalPoint] = useState<string>("");
+  const [arrivalPoint, setArrivalPoint] = useState("");
   const [arrivalPointData, setArrivalPointData] = useState<string[]>([]);
   const [arrivalCoords, setArrivalCoords] = useState<{ lat: number; lon: number } | null>(null);
 
-  const [distance, setDistance] = useState<string>("-");
-  const [time, setTime] = useState<string>("-");
-  const [price, setPrice] = useState<number[]>();
+  const [routes, setRoutes] = useState<RouteResult[]>([]);
+  const [selectedRoute, setSelectedRoute] = useState(0);
   const [isRouteCalculating, setIsRouteCalculating] = useState(false);
 
-  // Store geocode results for coordinate lookup
   const geocodeCache = useRef<Map<string, { lat: number; lon: number }>>(new Map());
 
   const plans = [
@@ -123,7 +127,6 @@ const OsrmCalculator: FC = () => {
       if (d >= 150 && d < 200) return COEFFICIENT_150_200;
       return COEFFICIENT_200;
     };
-
     const result = [];
     for (const key in planCoefficient) {
       if (Object.prototype.hasOwnProperty.call(planCoefficient, key)) {
@@ -138,19 +141,20 @@ const OsrmCalculator: FC = () => {
   const convertHoursToRoundedTime = (hours: number): string => {
     const totalMinutes = Math.ceil((hours * 60) / 30) * 30;
     const totalHours = Math.floor(totalMinutes / 60);
-    const weeks = Math.floor(totalHours / (24 * 7));
-    const remainingHoursAfterWeeks = totalHours % (24 * 7);
-    const days = Math.floor(remainingHoursAfterWeeks / 24);
-    const roundedHours = remainingHoursAfterWeeks % 24;
+    const days = Math.floor(totalHours / 24);
+    const roundedHours = totalHours % 24;
     const roundedMinutes = totalMinutes % 60;
-
     const result = [];
-    if (weeks > 0) result.push(`${weeks} нед`);
     if (days > 0) result.push(`${days} дн`);
     if (roundedHours > 0) result.push(`${roundedHours} ч`);
     if (roundedMinutes > 0) result.push(`${roundedMinutes} мин`);
     return result.join(" ");
   };
+
+  const currentRoute = routes[selectedRoute];
+  const distance = currentRoute ? `${currentRoute.distance} км` : "-";
+  const time = currentRoute ? convertHoursToRoundedTime(currentRoute.distance / SPEED) : "-";
+  const price = currentRoute ? calculatePrice(currentRoute.distance) : undefined;
 
   const handleCalculate = async () => {
     if (!departurePoint || !arrivalPoint) {
@@ -159,14 +163,15 @@ const OsrmCalculator: FC = () => {
     }
 
     setIsRouteCalculating(true);
+    setRoutes([]);
+    setSelectedRoute(0);
 
     try {
-      // Geocode both points
       let fromCoords = departureCoords || geocodeCache.current.get(departurePoint);
       let toCoords = arrivalCoords || geocodeCache.current.get(arrivalPoint);
 
       if (!fromCoords) {
-        const results = await geocode(departurePoint);
+        const results = await suggest(departurePoint);
         if (results.length > 0) {
           fromCoords = { lat: results[0].lat, lon: results[0].lon };
           geocodeCache.current.set(departurePoint, fromCoords);
@@ -175,7 +180,7 @@ const OsrmCalculator: FC = () => {
       }
 
       if (!toCoords) {
-        const results = await geocode(arrivalPoint);
+        const results = await suggest(arrivalPoint);
         if (results.length > 0) {
           toCoords = { lat: results[0].lat, lon: results[0].lon };
           geocodeCache.current.set(arrivalPoint, toCoords);
@@ -185,20 +190,13 @@ const OsrmCalculator: FC = () => {
 
       if (!fromCoords || !toCoords) {
         message.error("Не удалось определить координаты городов");
-        setIsRouteCalculating(false);
         return;
       }
 
-      // Get route from OSRM
-      const route = await getRoute(fromCoords.lat, fromCoords.lon, toCoords.lat, toCoords.lon);
-
-      if (route) {
-        const distanceValue = route.distance;
-        const timeValue = convertHoursToRoundedTime(distanceValue / SPEED);
-
-        setDistance(`${distanceValue} км`);
-        setTime(timeValue);
-        setPrice(calculatePrice(distanceValue));
+      const foundRoutes = await getRoutes(fromCoords.lat, fromCoords.lon, toCoords.lat, toCoords.lon);
+      if (foundRoutes.length > 0) {
+        setRoutes(foundRoutes);
+        setSelectedRoute(0);
       } else {
         message.error("Не удалось рассчитать маршрут");
       }
@@ -210,39 +208,29 @@ const OsrmCalculator: FC = () => {
   };
 
   const handleClickSwapAddress = () => {
-    const tempPoint = departurePoint;
-    const tempData = departurePointData;
-    const tempCoords = departureCoords;
-
     setDeparturePoint(arrivalPoint);
-    setArrivalPoint(tempPoint);
+    setArrivalPoint(departurePoint);
     setDeparturePointData(arrivalPointData);
-    setArrivalPointData(tempData);
+    setArrivalPointData(departurePointData);
     setDepartureCoords(arrivalCoords);
-    setArrivalCoords(tempCoords);
+    setArrivalCoords(departureCoords);
+    setRoutes([]);
   };
 
-  const debouncedGeocode = (value: string, setter: (data: string[]) => void) => {
+  const debouncedSearch = (value: string, setter: (data: string[]) => void) => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
     if (value.length < 2) return;
     debounceRef.current = setTimeout(async () => {
-      const results = await geocode(value);
-      const names = results.map((r) => r.display);
-      // Cache coordinates for later use
-      results.forEach((r) => geocodeCache.current.set(r.display, { lat: r.lat, lon: r.lon }));
-      setter([...new Set(names)]);
+      const results = await suggest(value);
+      results.forEach(r => geocodeCache.current.set(r.display, { lat: r.lat, lon: r.lon }));
+      setter([...new Set(results.map(r => r.display))]);
     }, 400);
   };
 
   const handleChangeDeparturePoint = (value: string) => {
     setDeparturePoint(value);
-    // If selected from dropdown, set coords from cache
     const cached = geocodeCache.current.get(value);
     if (cached) setDepartureCoords(cached);
-  };
-
-  const handleSearchDeparturePoint = async (value: string) => {
-    debouncedGeocode(value, setDeparturePointData);
   };
 
   const handleChangeArrivalPoint = (value: string) => {
@@ -251,28 +239,13 @@ const OsrmCalculator: FC = () => {
     if (cached) setArrivalCoords(cached);
   };
 
-  const handleSearchArrivalPoint = async (value: string) => {
-    debouncedGeocode(value, setArrivalPointData);
-  };
-
-  const hanldeChangePlanCoefficient =
-    (key: string) => (e: ChangeEvent<HTMLInputElement>) => {
-      const val = e.target.value;
-      const changedData = { ...planCoefficient, [key]: Number(val) };
-      setPlanCoefficient(changedData);
-      if (typeof window !== "undefined") {
-        localStorage.setItem(PLAN_COEFFICIENT, JSON.stringify(changedData));
-      }
-    };
-
-  useEffect(() => {
-    if (distance !== "-" && !isRouteCalculating) {
-      const currentDistance = parseInt(distance);
-      if (!isNaN(currentDistance)) {
-        setPrice(calculatePrice(currentDistance));
-      }
+  const hanldeChangePlanCoefficient = (key: string) => (e: ChangeEvent<HTMLInputElement>) => {
+    const changedData = { ...planCoefficient, [key]: Number(e.target.value) };
+    setPlanCoefficient(changedData);
+    if (typeof window !== "undefined") {
+      localStorage.setItem(PLAN_COEFFICIENT, JSON.stringify(changedData));
     }
-  }, [planCoefficient]);
+  };
 
   return (
     <div className={clsx("container", s.wrapper)}>
@@ -285,23 +258,13 @@ const OsrmCalculator: FC = () => {
         {plans.map((plan) => (
           <div key={plan.key} className={clsx(s.container)}>
             <div className={s.button}>{plan.label}</div>
-            <input
-              className={s.input}
-              type="number"
-              value={plan.coefficient}
-              onChange={hanldeChangePlanCoefficient(plan.key)}
-            />
+            <input className={s.input} type="number" value={plan.coefficient} onChange={hanldeChangePlanCoefficient(plan.key)} />
           </div>
         ))}
-        <div
-          className={s.returnDefault}
-          onClick={() => {
-            setPlanCoefficient(prices as Record<Prices, number>);
-            if (typeof window !== "undefined") {
-              localStorage.setItem(PLAN_COEFFICIENT, JSON.stringify(prices));
-            }
-          }}
-        >
+        <div className={s.returnDefault} onClick={() => {
+          setPlanCoefficient(prices as Record<Prices, number>);
+          if (typeof window !== "undefined") localStorage.setItem(PLAN_COEFFICIENT, JSON.stringify(prices));
+        }}>
           Вернуть значения по умолчанию
         </div>
       </div>
@@ -310,34 +273,31 @@ const OsrmCalculator: FC = () => {
         <div className={s.selection}>
           <div className={s.part}>
             <div className={clsx(s.label, "font-16-normal")}>Точка отправления</div>
-            <SearchInput
-              className="departure-select address-select"
-              value={departurePoint}
-              placeholder="Москва"
-              data={departurePointData}
-              handleChange={handleChangeDeparturePoint}
-              handleSearch={handleSearchDeparturePoint}
-            />
+            <SearchInput className="departure-select address-select" value={departurePoint} placeholder="Москва" data={departurePointData}
+              handleChange={handleChangeDeparturePoint} handleSearch={(v: string) => debouncedSearch(v, setDeparturePointData)} />
           </div>
-
           <div className={s.swapButtonWrapper}>
-            <div onClick={handleClickSwapAddress} className={s.swapButton}>
-              <SwapIcon />
-            </div>
+            <div onClick={handleClickSwapAddress} className={s.swapButton}><SwapIcon /></div>
           </div>
-
           <div className={s.part}>
             <div className={clsx(s.label, "font-16-normal")}>Точка прибытия</div>
-            <SearchInput
-              className="arrival-select address-select"
-              value={arrivalPoint}
-              placeholder="Казань"
-              data={arrivalPointData}
-              handleChange={handleChangeArrivalPoint}
-              handleSearch={handleSearchArrivalPoint}
-            />
+            <SearchInput className="arrival-select address-select" value={arrivalPoint} placeholder="Казань" data={arrivalPointData}
+              handleChange={handleChangeArrivalPoint} handleSearch={(v: string) => debouncedSearch(v, setArrivalPointData)} />
           </div>
         </div>
+
+        {/* Route selector */}
+        {routes.length > 1 && (
+          <div className={ms.routeSelector}>
+            {routes.map((r, i) => (
+              <button key={i} className={clsx(ms.routeTab, { [ms.routeTabActive]: selectedRoute === i })}
+                style={{ borderColor: ROUTE_COLORS[i] }} onClick={() => setSelectedRoute(i)}>
+                <span className={ms.routeTabColor} style={{ background: ROUTE_COLORS[i] }} />
+                <span>Маршрут {i + 1}: {r.distance} км</span>
+              </button>
+            ))}
+          </div>
+        )}
 
         <div className={s.info}>
           <span>Протяженность маршрута: </span>
@@ -347,31 +307,34 @@ const OsrmCalculator: FC = () => {
           <span>Примерное время в пути: </span>
           <span className="font-18-semibold">{time}</span>
         </div>
-
         <div className={s.info}>
           <span>Стоимость: </span>
           <div className={s.priceGrid}>
-            {price ? (
-              price?.map((el, id) => (
-                <div className={s.priceElement} key={id}>
-                  <div className={s.pricePlan}>{plans[id].label}</div>
-                  <div className={s.priceValue}>{el}р</div>
-                  <div className={s.pricePlan}>{plans[id].coefficient}р за км</div>
-                </div>
-              ))
-            ) : (
-              <span className="font-18-semibold">-</span>
-            )}
+            {price ? price.map((el, id) => (
+              <div className={s.priceElement} key={id}>
+                <div className={s.pricePlan}>{plans[id].label}</div>
+                <div className={s.priceValue}>{el}р</div>
+                <div className={s.pricePlan}>{plans[id].coefficient}р за км</div>
+              </div>
+            )) : <span className="font-18-semibold">-</span>}
           </div>
         </div>
       </div>
 
-      <Button
-        disabled={!departurePoint || !arrivalPoint || isRouteCalculating}
-        type={ButtonTypes.PRIMARY}
-        text={isRouteCalculating ? "Рассчитываю..." : "Рассчитать поездку"}
-        handleClick={handleCalculate}
-      />
+      <Button disabled={!departurePoint || !arrivalPoint || isRouteCalculating}
+        type={ButtonTypes.PRIMARY} text={isRouteCalculating ? "Рассчитываю..." : "Рассчитать поездку"}
+        handleClick={handleCalculate} />
+
+      {/* Map */}
+      <div className={s.map}>
+        <MapView
+          routes={routes}
+          selectedRoute={selectedRoute}
+          fromCoords={departureCoords}
+          toCoords={arrivalCoords}
+          colors={ROUTE_COLORS}
+        />
+      </div>
     </div>
   );
 };
