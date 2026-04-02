@@ -42,9 +42,7 @@ class DadataOsrmService {
       const results = (data.suggestions || [])
         .filter((s: DadataSuggestion) => s.data.geo_lat && s.data.geo_lon)
         .map((s: DadataSuggestion) => {
-          const name = s.data.city || s.data.settlement || '';
-          const region = s.data.region || '';
-          const display = name === region ? name : (name && region ? `${name}, ${region}` : s.value);
+          const display = s.value;
 
           this.geocodeCache.set(display, {
             lat: parseFloat(s.data.geo_lat!),
@@ -53,7 +51,7 @@ class DadataOsrmService {
 
           return display;
         });
-      return [...new Set(results)] as string[];
+      return results as string[];
     } catch {
       return [];
     }
