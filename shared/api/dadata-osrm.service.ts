@@ -11,7 +11,32 @@ interface DadataSuggestion {
     settlement: string | null;
     region: string | null;
     area: string | null;
+    street: string | null;
+    house: string | null;
   };
+}
+
+function formatSuggestion(s: DadataSuggestion): string {
+  const city = s.data.city || s.data.settlement || '';
+  const region = s.data.region || '';
+  const area = s.data.area || '';
+  const street = s.data.street || '';
+  const house = s.data.house || '';
+
+  if (!city) return s.value;
+
+  const parts = [city];
+
+  if (street) {
+    parts.push(street + (house ? ' ' + house : ''));
+  }
+
+  if (city !== region) {
+    if (area && area !== city && area !== region) parts.push(area + ' р-н');
+    if (region) parts.push(region + ' обл');
+  }
+
+  return parts.join(', ');
 }
 
 export interface GeoResult {
@@ -42,7 +67,7 @@ class DadataOsrmService {
       const results = (data.suggestions || [])
         .filter((s: DadataSuggestion) => s.data.geo_lat && s.data.geo_lon)
         .map((s: DadataSuggestion) => {
-          const display = s.value;
+          const display = formatSuggestion(s);
 
           this.geocodeCache.set(display, {
             lat: parseFloat(s.data.geo_lat!),
