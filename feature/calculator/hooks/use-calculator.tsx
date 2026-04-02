@@ -3,7 +3,7 @@ import { COEFFICIENT_100, COEFFICIENT_100_150, COEFFICIENT_150_200, COEFFICIENT_
 import { Prices } from "@/shared/types/enums";
 import { IRouteData } from "@/shared/types/route.interface";
 import { message } from "antd";
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export const checkString = (str: string) => {
   const trimmed = String(str).trim();
@@ -136,19 +136,10 @@ export const useCalculator = ({
     setState(prev => ({ ...prev, departurePoint: value }));
   };
 
-  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const debouncedSearch = useCallback((value: string, setter: (data: string[]) => void) => {
-    if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
-    if (value.length < 2) return;
-    debounceTimerRef.current = setTimeout(async () => {
-      const response = await dadataOsrmService.getSuggestions(value);
-      setter(response);
-    }, 400);
-  }, []);
-
   const handleSearchDeparturePoint = async (value: string) => {
-    debouncedSearch(value, (data) => setState(prev => ({ ...prev, departurePointData: data })));
+    if (value.length < 2) return;
+    const response = await dadataOsrmService.getSuggestions(value);
+    setState(prev => ({ ...prev, departurePointData: response }));
   };
 
   const handleChangeArrivalPoint = (value: string) => {
@@ -156,7 +147,9 @@ export const useCalculator = ({
   };
 
   const handleSearchArrivalPoint = async (value: string) => {
-    debouncedSearch(value, (data) => setState(prev => ({ ...prev, arrivalPointData: data })));
+    if (value.length < 2) return;
+    const response = await dadataOsrmService.getSuggestions(value);
+    setState(prev => ({ ...prev, arrivalPointData: response }));
   };
 
   const handleCalculate = async () => {
