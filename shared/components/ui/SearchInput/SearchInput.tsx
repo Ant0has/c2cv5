@@ -17,25 +17,15 @@ const SearchInput: FC<IProps> = (props) => {
   const { data, value, className, placeholder, handleChange, handleSearch, autoCompleteStyle={}, inputStyle={}, isGrayPlaceholder=false } = props;
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState<{ value: string }[]>([]);
-  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   const handleInputChange = (val: string) => {
     setInputValue(val);
     handleSearch(val);
-    setIsDropdownVisible(true);
   };
 
   const handleSelect = (val: string) => {
     setInputValue(val);
     handleChange(val);
-    setIsDropdownVisible(false);
-  };
-
-  const handleInputBlur = () => {
-    setIsDropdownVisible(false);
-  };
-
-  const handleInputFocus = () => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -49,10 +39,8 @@ const SearchInput: FC<IProps> = (props) => {
   }, [value]);
 
   useEffect(() => {
-    // Преобразуем данные в формат для AutoComplete
     if (data && data.length > 0) {
       setOptions(data.map(item => ({ value: item })));
-      setIsDropdownVisible(true);
     } else {
       setOptions([]);
     }
@@ -65,9 +53,6 @@ const SearchInput: FC<IProps> = (props) => {
       options={options}
       onChange={handleInputChange}
       onSelect={handleSelect}
-      onFocus={handleInputFocus}
-      onBlur={handleInputBlur}
-      open={isDropdownVisible && options.length > 0}
       filterOption={false}
       style={{
         width: "100%",
