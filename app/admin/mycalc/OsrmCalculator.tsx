@@ -73,6 +73,10 @@ function formatSuggestion(s: DadataSuggestion): string {
 }
 
 async function suggest(query: string): Promise<{ display: string; lat: number; lon: number }[]> {
+  // Search custom POI first
+  const { searchPOI } = await import("@/shared/data/custom-poi");
+  const poiResults = searchPOI(query).map(p => ({ display: p.name, lat: p.lat, lon: p.lon }));
+
   const res = await fetch(DADATA_URL, {
     method: "POST",
     headers: {
@@ -86,13 +90,18 @@ async function suggest(query: string): Promise<{ display: string; lat: number; l
     }),
   });
   const data = await res.json();
-  return (data.suggestions || [])
+  const dadataResults = (data.suggestions || [])
     .filter((s: DadataSuggestion) => s.data.geo_lat && s.data.geo_lon)
     .map((s: DadataSuggestion) => ({
       display: formatSuggestion(s),
       lat: parseFloat(s.data.geo_lat!),
       lon: parseFloat(s.data.geo_lon!),
     }));
+
+  // POI first, then DaData
+  const poiNames = new Set(poiResults.map(p => p.display));
+  const combined = [...poiResults, ...dadataResults.filter((d: { display: string }) => !poiNames.has(d.display))];
+  return combined.slice(0, 10);
 }
 
 async function getRoutes(
