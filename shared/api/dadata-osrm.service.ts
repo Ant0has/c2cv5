@@ -1,3 +1,5 @@
+import { searchPOI } from "@/shared/data/custom-poi";
+
 const DADATA_API_KEY = "17364206d854a397d57b11d01e9aa93050089134";
 const DADATA_URL = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
 const OSRM_URL = "https://router.project-osrm.org";
@@ -50,6 +52,13 @@ class DadataOsrmService {
 
   async getSuggestions(query: string): Promise<string[]> {
     if (query.length < 2) return [];
+
+    // Search custom POI first (airports, borders)
+    const poiResults = searchPOI(query);
+    for (const poi of poiResults) {
+      this.geocodeCache.set(poi.name, { lat: poi.lat, lon: poi.lon });
+    }
+
     try {
       const res = await fetch(DADATA_URL, {
         method: "POST",
@@ -64,7 +73,7 @@ class DadataOsrmService {
         }),
       });
       const data = await res.json();
-      const results = (data.suggestions || [])
+      const dadataResults = (data.suggestions || [])
         .filter((s: DadataSuggestion) => s.data.geo_lat && s.data.geo_lon)
         .map((s: DadataSuggestion) => {
           const display = formatSuggestion(s);
@@ -75,10 +84,14 @@ class DadataOsrmService {
           });
 
           return display;
-        });
-      return results as string[];
+        }) as string[];
+
+      // POI first, then DaData (deduplicated)
+      const poiNames = poiResults.map(p => p.name);
+      const combined = [...poiNames, ...dadataResults.filter((d: string) => !poiNames.includes(d))];
+      return combined.slice(0, 10);
     } catch {
-      return [];
+      return poiResults.map(p => p.name);
     }
   }
 
