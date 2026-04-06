@@ -122,6 +122,24 @@ async function getRoutes(
   return [];
 }
 
+import { calculateTollCost, TOLL_POINTS } from "@/shared/data/toll-points";
+
+// Decode OSRM polyline for toll calculation
+function decodePolyline(encoded: string): [number, number][] {
+  const points: [number, number][] = [];
+  let index = 0, lat = 0, lng = 0;
+  while (index < encoded.length) {
+    let b, shift = 0, result = 0;
+    do { b = encoded.charCodeAt(index++) - 63; result |= (b & 0x1f) << shift; shift += 5; } while (b >= 0x20);
+    lat += (result & 1) ? ~(result >> 1) : (result >> 1);
+    shift = 0; result = 0;
+    do { b = encoded.charCodeAt(index++) - 63; result |= (b & 0x1f) << shift; shift += 5; } while (b >= 0x20);
+    lng += (result & 1) ? ~(result >> 1) : (result >> 1);
+    points.push([lat / 1e5, lng / 1e5]);
+  }
+  return points;
+}
+
 const ROUTE_COLORS = ["#FF9C00", "#4A90D9", "#7B61FF"];
 
 const OsrmCalculator: FC = () => {
@@ -146,6 +164,7 @@ const OsrmCalculator: FC = () => {
   const [routes, setRoutes] = useState<RouteResult[]>([]);
   const [selectedRoute, setSelectedRoute] = useState(0);
   const [isRouteCalculating, setIsRouteCalculating] = useState(false);
+  const [tollInfo, setTollInfo] = useState<{ totalCost: number; tolls: { id: string; road: string; name: string; fee: number }[] } | null>(null);
 
   const geocodeCache = useRef<Map<string, { lat: number; lon: number }>>(new Map());
 
@@ -193,6 +212,17 @@ const OsrmCalculator: FC = () => {
   const distance = currentRoute ? `${currentRoute.distance} км` : "-";
   const time = currentRoute ? convertHoursToRoundedTime(currentRoute.distance / SPEED) : "-";
   const price = currentRoute ? calculatePrice(currentRoute.distance) : undefined;
+
+  // Recalculate tolls when route changes
+  useEffect(() => {
+    if (currentRoute?.geometry) {
+      const points = decodePolyline(currentRoute.geometry);
+      const result = calculateTollCost(points);
+      setTollInfo(result);
+    } else {
+      setTollInfo(null);
+    }
+  }, [currentRoute]);
 
   const handleCalculate = async () => {
     if (!departurePoint || !arrivalPoint) {
@@ -363,6 +393,19 @@ const OsrmCalculator: FC = () => {
             )) : <span className="font-18-semibold">-</span>}
           </div>
         </div>
+        {/* Toll roads */}
+        {tollInfo && tollInfo.tolls.length > 0 && (
+          <div style={{ margin: '20px 0', padding: 16, background: '#fff3e0', borderRadius: 12, border: '1px solid #ffcc80' }}>
+            <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 8 }}>
+              Платные дороги: {tollInfo.totalCost}₽
+            </div>
+            {tollInfo.tolls.map(t => (
+              <div key={t.id} style={{ fontSize: 14, color: '#555', padding: '2px 0' }}>
+                {t.road} · {t.name}: {t.fee}₽
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Map */}
@@ -373,6 +416,10 @@ const OsrmCalculator: FC = () => {
           fromCoords={departureCoords}
           toCoords={arrivalCoords}
           colors={ROUTE_COLORS}
+          tollPoints={tollInfo?.tolls.map(t => {
+            const tp = TOLL_POINTS.find(p => p.id === t.id);
+            return tp ? { lat: tp.lat, lon: tp.lon, name: `${t.road} · ${t.name}` } : null;
+          }).filter(Boolean) as { lat: number; lon: number; name: string }[] || []}
         />
       </div>
     </div>

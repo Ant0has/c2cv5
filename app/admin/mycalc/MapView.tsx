@@ -16,6 +16,7 @@ interface Props {
   fromCoords: { lat: number; lon: number } | null;
   toCoords: { lat: number; lon: number } | null;
   colors: string[];
+  tollPoints?: { lat: number; lon: number; name: string }[];
 }
 
 // Decode OSRM polyline (Google encoding)
@@ -48,7 +49,7 @@ function decodePolyline(encoded: string): [number, number][] {
   return points;
 }
 
-export default function MapView({ routes, selectedRoute, fromCoords, toCoords, colors }: Props) {
+export default function MapView({ routes, selectedRoute, fromCoords, toCoords, colors, tollPoints = [] }: Props) {
   const mapRef = useRef<L.Map | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const layersRef = useRef<L.Layer[]>([]);
@@ -113,12 +114,20 @@ export default function MapView({ routes, selectedRoute, fromCoords, toCoords, c
       layersRef.current.push(marker);
     }
 
+    // Toll markers
+    for (const tp of tollPoints) {
+      const marker = L.circleMarker([tp.lat, tp.lon], {
+        radius: 6, fillColor: "#ff6600", fillOpacity: 1, color: "#fff", weight: 2,
+      }).bindTooltip(tp.name, { direction: 'top', offset: [0, -8] }).addTo(mapRef.current!);
+      layersRef.current.push(marker);
+    }
+
     // Fit bounds
     const selectedPoints = decodePolyline(routes[selectedRoute].geometry);
     if (selectedPoints.length > 0) {
       mapRef.current.fitBounds(L.latLngBounds(selectedPoints), { padding: [40, 40] });
     }
-  }, [routes, selectedRoute, fromCoords, toCoords, colors]);
+  }, [routes, selectedRoute, fromCoords, toCoords, colors, tollPoints]);
 
   return <div ref={containerRef} style={{ width: "100%", height: "clamp(300px, 50vh, 500px)", borderRadius: 16, overflow: "hidden" }} />;
 }
