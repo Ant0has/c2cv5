@@ -8,21 +8,16 @@ export const standardOptions = [
   },
   {
     id: 2,
-    label: 'Обратная поезда в тот же день',
-    value: 'скидка 50%'
-  },
-  {
-    id: 3,
     label: 'Ожидание при подаче 15 минут',
     value: 'Бесплатно'
   },
   {
-    id: 4,
+    id: 3,
     label: '1 час ожидание',
     value: '500 руб.'
   },
   {
-    id: 5,
+    id: 4,
     label: 'Остановка в пути более 15 минут',
     value: '500 руб.'
   },
@@ -31,21 +26,16 @@ export const standardOptions = [
 export const comfortOptions = [
   {
     id: 1,
-    label: 'Обратная поезда в тот же день',
-    value: 'скидка 50%'
-  },
-  {
-    id: 2,
     label: 'Ожидание при подаче 15 минут',
     value: 'Бесплатно'
   },
   {
-    id: 3,
+    id: 2,
     label: '1 час ожидание',
     value: '500 руб.'
   },
   {
-    id: 4,
+    id: 3,
     label: 'Остановка в пути более 15 минут',
     value: '500 руб.'
   },
@@ -54,21 +44,16 @@ export const comfortOptions = [
 export const comfortPlusOptions = [
   {
     id: 1,
-    label: 'Обратная поезда в тот же день',
-    value: 'скидка 50%'
-  },
-  {
-    id: 2,
     label: 'Ожидание при подаче 15 минут',
     value: 'Бесплатно'
   },
   {
-    id: 3,
+    id: 2,
     label: '1 час ожидание',
     value: '800 руб.'
   },
   {
-    id: 4,
+    id: 3,
     label: 'Остановка в пути более 15 минут',
     value: '500 руб.'
   },
@@ -82,21 +67,16 @@ export const businessOptions = [
   },
   {
     id: 2,
-    label: 'Обратная поезда в тот же день',
-    value: 'скидка 50%'
-  },
-  {
-    id: 3,
     label: 'Ожидание при подаче 15 минут',
     value: 'Бесплатно'
   },
   {
-    id: 4,
+    id: 3,
     label: '1 час ожидание',
     value: '1500 руб.'
   },
   {
-    id: 5,
+    id: 4,
     label: 'Остановка в пути более 15 минут',
     value: '1000 руб.'
   },
@@ -105,21 +85,16 @@ export const businessOptions = [
 export const minivanOptions = [
   {
     id: 1,
-    label: 'Обратная поезда в тот же день',
-    value: 'скидка 50%'
-  },
-  {
-    id: 2,
     label: 'Ожидание при подаче 15 минут',
     value: 'Бесплатно'
   },
   {
-    id: 3,
+    id: 2,
     label: '1 час ожидание',
     value: '1000 руб.'
   },
   {
-    id: 4,
+    id: 3,
     label: 'Остановка в пути более 15 минут',
     value: '1000 руб.'
   },

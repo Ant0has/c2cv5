@@ -39,7 +39,6 @@ export default function FoHubPage({ fo, citiesInfo }: Props) {
           {totalRoutes > 0 && ` Доступно ${totalRoutes} направлений`}
           {overallMinPrice > 0 && ` с ценами от ${overallMinPrice.toLocaleString('ru-RU')}₽`}.
           {' '}Фиксированные цены, подача автомобиля от 30 минут, комфортные иномарки.
-          При заказе поездки в обе стороны — скидка 50% на обратный путь.
         </p>
 
         <div className={s.statsRow}>
