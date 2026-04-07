@@ -73,22 +73,45 @@ class DadataOsrmService {
         }),
       });
       const data = await res.json();
-      const dadataResults = (data.suggestions || [])
-        .filter((s: DadataSuggestion) => s.data.geo_lat && s.data.geo_lon)
-        .map((s: DadataSuggestion) => {
-          const display = formatSuggestion(s);
+      const dadataRaw = (data.suggestions || [])
+        .filter((s: DadataSuggestion) => s.data.geo_lat && s.data.geo_lon);
 
-          this.geocodeCache.set(display, {
-            lat: parseFloat(s.data.geo_lat!),
-            lon: parseFloat(s.data.geo_lon!),
-          });
+      // Find pure city result (no street/house) — show first
+      const cityResults: string[] = [];
+      const otherResults: string[] = [];
 
-          return display;
-        }) as string[];
+      for (const s of dadataRaw) {
+        const display = formatSuggestion(s);
+        this.geocodeCache.set(display, {
+          lat: parseFloat(s.data.geo_lat!),
+          lon: parseFloat(s.data.geo_lon!),
+        });
+        // Pure city/settlement (no street, no house)
+        if (!s.data.street && !s.data.house && (s.data.city || s.data.settlement)) {
+          cityResults.push(display);
+        } else {
+          otherResults.push(display);
+        }
+      }
 
-      // POI first, then DaData (deduplicated)
+      // Order: [Pure city] → [POI of that city] → [Other DaData results]
       const poiNames = poiResults.map(p => p.name);
-      const combined = [...poiNames, ...dadataResults.filter((d: string) => !poiNames.includes(d))];
+      const seen = new Set<string>();
+      const combined: string[] = [];
+
+      // 1. Pure city results first
+      for (const c of cityResults) {
+        if (!seen.has(c)) { combined.push(c); seen.add(c); }
+      }
+      // 2. POI (airports, borders) — they reference the city
+      for (const p of poiNames) {
+        if (!seen.has(p)) { combined.push(p); seen.add(p); }
+      }
+      // 3. Other DaData results (with streets/houses)
+      for (const o of otherResults) {
+        if (!seen.has(o)) { combined.push(o); seen.add(o); }
+      }
+
       return combined.slice(0, 10);
     } catch {
       return poiResults.map(p => p.name);

@@ -90,17 +90,40 @@ async function suggest(query: string): Promise<{ display: string; lat: number; l
     }),
   });
   const data = await res.json();
-  const dadataResults = (data.suggestions || [])
-    .filter((s: DadataSuggestion) => s.data.geo_lat && s.data.geo_lon)
-    .map((s: DadataSuggestion) => ({
+  const dadataRaw = (data.suggestions || [])
+    .filter((s: DadataSuggestion) => s.data.geo_lat && s.data.geo_lon);
+
+  // Split DaData into pure cities and addresses with street/house
+  const cityResults: { display: string; lat: number; lon: number }[] = [];
+  const otherResults: { display: string; lat: number; lon: number }[] = [];
+
+  for (const s of dadataRaw) {
+    const item = {
       display: formatSuggestion(s),
       lat: parseFloat(s.data.geo_lat!),
       lon: parseFloat(s.data.geo_lon!),
-    }));
+    };
+    if (!s.data.street && !s.data.house && (s.data.city || s.data.settlement)) {
+      cityResults.push(item);
+    } else {
+      otherResults.push(item);
+    }
+  }
 
-  // POI first, then DaData
-  const poiNames = new Set(poiResults.map(p => p.display));
-  const combined = [...poiResults, ...dadataResults.filter((d: { display: string }) => !poiNames.has(d.display))];
+  // Order: [Pure city] → [POI of that city] → [Other DaData with addresses]
+  const seen = new Set<string>();
+  const combined: { display: string; lat: number; lon: number }[] = [];
+
+  for (const c of cityResults) {
+    if (!seen.has(c.display)) { combined.push(c); seen.add(c.display); }
+  }
+  for (const p of poiResults) {
+    if (!seen.has(p.display)) { combined.push(p); seen.add(p.display); }
+  }
+  for (const o of otherResults) {
+    if (!seen.has(o.display)) { combined.push(o); seen.add(o.display); }
+  }
+
   return combined.slice(0, 10);
 }
 
