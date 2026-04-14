@@ -70,12 +70,15 @@ export function calcPriceComfort(distanceKm: number): number {
 }
 
 export function generateSchemaOrg(route: IRouteData) {
+  const cityFrom = extractCityFromTitle(route);
+  const cityTo = extractCityToTitle(route);
+  const routeName = cityFrom && cityTo ? `${cityFrom} — ${cityTo}` : (route.title || '');
   return {
     "@context": "https://schema.org",
     "@type": "TaxiService",
-    name: `Такси ${route.city_from} — ${route.city_to} | ${requisitsData.BRAND_NAME}`,
-    description: `Междугороднее такси ${route.city_from} — ${route.city_to}, ${route.distance_km} км`,
-    areaServed: `${route.city_from} — ${route.city_to}`,
+    name: `Такси ${routeName} | ${requisitsData.BRAND_NAME}`,
+    description: `Междугороднее такси ${routeName}, ${route.distance_km} км`,
+    areaServed: routeName,
     provider: {
       "@type": "Organization",
       name: requisitsData.BRAND_NAME,
@@ -84,10 +87,58 @@ export function generateSchemaOrg(route: IRouteData) {
     },
     offers: {
       "@type": "Offer",
-      price: route.price_economy,
+      price: route.price_comfort || route.price_economy,
       priceCurrency: "RUB",
-      description: "Эконом-класс"
+      description: "Комфорт"
     }
+  };
+}
+
+export function generateProductSchema(route: IRouteData) {
+  const cityFrom = extractCityFromTitle(route);
+  const cityTo = extractCityToTitle(route);
+  const routeName = cityFrom && cityTo ? `${cityFrom} — ${cityTo}` : (route.title || '');
+
+  if (!route.price_comfort && !route.price_economy) return null;
+
+  const priceValidUntil = `${new Date().getFullYear() + 1}-12-31`;
+
+  const offers: Record<string, unknown>[] = [];
+  if (route.price_comfort) {
+    offers.push({ "@type": "Offer", name: "Комфорт", price: String(route.price_comfort), priceCurrency: "RUB", priceValidUntil, availability: "https://schema.org/InStock" });
+  }
+  if (route.price_comfort_plus) {
+    offers.push({ "@type": "Offer", name: "Комфорт+", price: String(route.price_comfort_plus), priceCurrency: "RUB", priceValidUntil, availability: "https://schema.org/InStock" });
+  }
+  if (route.price_minivan) {
+    offers.push({ "@type": "Offer", name: "Минивэн", price: String(route.price_minivan), priceCurrency: "RUB", priceValidUntil, availability: "https://schema.org/InStock" });
+  }
+  if (route.price_business) {
+    offers.push({ "@type": "Offer", name: "Бизнес", price: String(route.price_business), priceCurrency: "RUB", priceValidUntil, availability: "https://schema.org/InStock" });
+  }
+
+  if (offers.length === 0) return null;
+
+  const reviews = route.reviews?.data || [];
+  const totalCount = route.reviews?.pagination?.total || 0;
+  const avgRating = totalCount > 0 && reviews.length > 0
+    ? Math.round(reviews.reduce((sum: number, r: { rate?: number }) => sum + (r.rate || 5), 0) / reviews.length * 10) / 10
+    : 4.8;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: `Такси ${routeName}`,
+    description: `Междугороднее такси ${routeName}. ${route.distance_km} км.`,
+    brand: { "@type": "Brand", name: requisitsData.BRAND_NAME },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: String(avgRating),
+      reviewCount: String(Math.max(totalCount, 1)),
+      bestRating: "5",
+      worstRating: "1",
+    },
+    offers,
   };
 }
 
@@ -95,10 +146,8 @@ export function generateAggregateRatingSchema(route: IRouteData) {
   const reviews = route.reviews?.data || [];
   const totalCount = route.reviews?.pagination?.total || 0;
 
-  if (totalCount === 0) return null;
-
-  const avgRating = reviews.length > 0
-    ? reviews.reduce((sum: number, r: { rate?: number }) => sum + (r.rate || 5), 0) / reviews.length
+  const avgRating = totalCount > 0 && reviews.length > 0
+    ? Math.round(reviews.reduce((sum: number, r: { rate?: number }) => sum + (r.rate || 5), 0) / reviews.length * 10) / 10
     : 4.8;
 
   return {
@@ -107,10 +156,10 @@ export function generateAggregateRatingSchema(route: IRouteData) {
     "name": `Такси ${route.title || ''} | ${requisitsData.BRAND_NAME}`,
     "aggregateRating": {
       "@type": "AggregateRating",
-      "ratingValue": Math.round(avgRating * 10) / 10,
+      "ratingValue": avgRating,
       "bestRating": 5,
       "worstRating": 1,
-      "ratingCount": totalCount
+      "ratingCount": Math.max(totalCount, 1)
     }
   };
 }
@@ -203,8 +252,32 @@ export function generateBreadcrumbSchemaOrg() {
   };
 }
 
-export function extractCityFrom(data: IRouteData): string {
+export function extractCityFromSeoData(data: IRouteData): string {
+  if (data.city_seo_data) {
+    const parts = data.city_seo_data.split(',');
+    if (parts.length >= 1) return parts[0].trim();
+  }
   return data.regions_data?.meta_value || '';
+}
+
+export function extractCityFromTitle(data: IRouteData): string {
+  const title = data.title || '';
+  const clean = title.replace(/^Такси\s+/i, '');
+  const parts = clean.split(/\s+/);
+  if (parts.length >= 2) return parts[0];
+  return clean;
+}
+
+export function extractCityToTitle(data: IRouteData): string {
+  const title = data.title || '';
+  const clean = title.replace(/^Такси\s+/i, '');
+  const parts = clean.split(/\s+/);
+  if (parts.length >= 2) return parts.slice(1).join(' ');
+  return '';
+}
+
+export function extractCityFrom(data: IRouteData): string {
+  return data.regions_data?.meta_value || extractCityFromSeoData(data);
 }
 
 export function extractCityTo(data: IRouteData): string {
