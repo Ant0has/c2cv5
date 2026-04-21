@@ -1,3 +1,5 @@
+'use client'
+
 import { FEDERAL_DISTRICTS } from '@/pages-list/region-hubs/config/registry'
 import { PILOT_CITIES } from '@/pages-list/mezhgorod-city/config/pilot'
 import OrderButton from '@/pages-list/region-hubs/ui/OrderButton'
