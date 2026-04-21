@@ -4,24 +4,19 @@ import type { NextRequest } from 'next/server'
 import whitelist from './whitelist.json'
 
 // 301 redirects: old city hub pages → new /regions/{fo}/{city}/
+// NOTE: 8 пилотных городов (Воронеж, Калуга, Тверь, Ярославль, Владимир, Орёл,
+// Курск, Белгород) перехватываются nginx map (mezhgorod_redirects.map) → /mezhgorod/{city}.
+// Middleware их не обрабатывает: запрос до Next.js не доходит.
 const hubRedirects: Record<string, string> = {
   'taxi777-mezhgorod-moscow.html': '/regions/cfo/moskva/',
-  'taxi-mezhgorod-voronezh.html': '/regions/cfo/voronezh/',
   'taxi-mezhgorod-tula-71.html': '/regions/cfo/tula/',
   'taxi-mezhgorod-bryansk-32.html': '/regions/cfo/bryansk/',
-  'taxi-mezhgorod-kaluga-39.html': '/regions/cfo/kaluga/',
-  'taxi-mezhgorod-tver-69.html': '/regions/cfo/tver/',
   'taxi-mezhgorod-ryazan-62.html': '/regions/cfo/ryazan/',
-  'taxi-mezhgorod-yaroslavl-76.html': '/regions/cfo/yaroslavl/',
-  'taxi-mezhgorod-vladimir-33.html': '/regions/cfo/vladimir/',
   'taxi-mezhgorod-ivanovo-37.html': '/regions/cfo/ivanovo/',
   'taxi-mezhgorod-kostroma-44.html': '/regions/cfo/kostroma/',
   'taxi-mezhgorod-smolensk-67.html': '/regions/cfo/smolensk/',
   'taxi-mezhgorod-lipeck-48.html': '/regions/cfo/lipetsk/',
   'taxi-mezhgorod-tambov-68.html': '/regions/cfo/tambov/',
-  'taxi-mezhgorod-orel-57.html': '/regions/cfo/orel/',
-  'taxi-mezhgorod-kursk-46.html': '/regions/cfo/kursk/',
-  'taxi-mezhgorod-belgorod.html': '/regions/cfo/belgorod/',
   'taxi78-mezhgorod-piter.html': '/regions/szfo/sankt-peterburg/',
   'taxi-mezhgorod-velikiy-novgorod-53.html': '/regions/szfo/velikiy-novgorod/',
   'taxi-mezhgorod-syktyvkar.html': '/regions/szfo/syktyvkar/',

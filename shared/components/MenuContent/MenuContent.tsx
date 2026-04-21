@@ -52,6 +52,11 @@ const MenuContent: FC = () => {
               <div className={s.menuWrapperSectionContent}>
                 <ul>
                   <li>
+                    <Link href="/mezhgorod" onClick={() => setIsOpenMenu(false)} className={clsx('text-black', { ['text-primary']: pathname === '/mezhgorod' || pathname?.startsWith('/mezhgorod/') })}>
+                      Межгород
+                    </Link>
+                  </li>
+                  <li>
                     <Link href="/gornolyzhka" onClick={() => setIsOpenMenu(false)} className={clsx('text-black', { ['text-primary']: pathname === '/gornolyzhka' })}>
                       Горнолыжные курорты
                     </Link>
