@@ -9,7 +9,23 @@ import { Pagination } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import { FEDERAL_DISTRICTS } from "@/pages-list/region-hubs/config/registry"
+import { PILOT_CITIES } from "@/pages-list/mezhgorod-city/config/pilot"
 import { usePathname } from "next/navigation"
+
+const PILOT_SET = new Set(PILOT_CITIES.map(c => c.slug))
+// registry.ts использует slug 'orel', пилот использует 'oryol' (совпадает с 49 листьями БД)
+const LEGACY_TO_PILOT: Record<string, string> = { orel: 'oryol' }
+const pilotSlug = (citySlug: string) => LEGACY_TO_PILOT[citySlug] ?? citySlug
+const cityHref = (foSlug: string, citySlug: string) => {
+  const p = pilotSlug(citySlug)
+  return PILOT_SET.has(p) ? `/mezhgorod/${p}` : `/regions/${foSlug}/${citySlug}/`
+}
+const cityIsActive = (pathname: string | null, foSlug: string, citySlug: string) => {
+  const p = pilotSlug(citySlug)
+  return PILOT_SET.has(p)
+    ? pathname?.startsWith(`/mezhgorod/${p}`) ?? false
+    : pathname?.startsWith(`/regions/${foSlug}/${citySlug}`) ?? false
+}
 
 interface IMenuRoutesProps {
     setIsOpenMenu: (value: boolean) => void
@@ -103,9 +119,9 @@ const MenuRoutes = ({ setIsOpenMenu }: IMenuRoutesProps) => {
                                             <Link
                                                 onClick={() => setIsOpenMenu(false)}
                                                 className={clsx('text-black', {
-                                                    ['text-primary']: pathname?.startsWith(`/regions/${fo.slug}/${city.slug}`)
+                                                    ['text-primary']: cityIsActive(pathname, fo.slug, city.slug)
                                                 })}
-                                                href={`/regions/${fo.slug}/${city.slug}/`}
+                                                href={cityHref(fo.slug, city.slug)}
                                                 key={city.slug}
                                             >
                                                 {city.name}

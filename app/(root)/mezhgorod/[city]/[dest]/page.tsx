@@ -49,7 +49,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const data = await routeService.getRouteByUrl(dbUrl)
   if (!data) return {}
 
-  const canonicalUrl = `${BASE_URL}/mezhgorod/${params.city}/${params.dest}`
+  // Учитываем DB canonical_url: для дублей типа belgorod-smolensk-2 → belgorod-smolensk
+  // canonical должен указывать на основную страницу в новой структуре.
+  const canonicalPath = (() => {
+    const canon = data?.canonical_url
+    if (!canon) return `/mezhgorod/${params.city}/${params.dest}`
+    const prefix = `${params.city}-`
+    if (canon.startsWith(prefix)) {
+      return `/mezhgorod/${params.city}/${canon.slice(prefix.length)}`
+    }
+    return `/${canon}.html`
+  })()
+  const canonicalUrl = `${BASE_URL}${canonicalPath}`
   const siteName = requisitsData.BRAND_NAME
 
   const metaCityFrom = extractCityFromSeoData(data)
