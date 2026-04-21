@@ -4,9 +4,11 @@ import Script from 'next/script'
 import { FEDERAL_DISTRICTS } from '@/pages-list/region-hubs/config/registry'
 import { BASE_URL } from '@/shared/constants'
 import { requisitsData } from '@/shared/data/requisits.data'
+import { regionHubService } from '@/shared/api/region-hub.service'
 
 import MezhgorodRootPage from '@/pages-list/mezhgorod-root/ui/MezhgorodRootPage'
 import { ROOT_FAQ, TRUST_STATS } from '@/pages-list/mezhgorod-root/config/content'
+import { PILOT_CITIES } from '@/pages-list/mezhgorod-city/config/pilot'
 
 export const revalidate = 3600
 
@@ -43,8 +45,28 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default function MezhgorodRootRoute() {
+async function getPilotCityStats() {
+  const results = await Promise.all(
+    PILOT_CITIES.map(async (city) => {
+      const data = await regionHubService.getRoutesByRegionId(city.regionId)
+      const imageSlug = city.slug === 'oryol' ? 'oryol' : city.slug
+      return {
+        slug: city.slug,
+        name: city.name,
+        fo: city.fo,
+        foShortName: city.foShortName,
+        image: `/images/regions/${imageSlug}.jpg`,
+        routeCount: data?.totalCount || 0,
+        minPrice: data?.minPrice || 0,
+      }
+    }),
+  )
+  return results
+}
+
+export default async function MezhgorodRootRoute() {
   const stats = getStats()
+  const pilotCityStats = await getPilotCityStats()
 
   const itemListSchema = {
     '@context': 'https://schema.org',
@@ -132,7 +154,7 @@ export default function MezhgorodRootRoute() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <MezhgorodRootPage stats={stats} />
+      <MezhgorodRootPage stats={stats} pilotCityStats={pilotCityStats} />
     </>
   )
 }

@@ -17,8 +17,22 @@ import {
   TRUST_STATS,
   ORDER_STEPS,
   LEGAL_INFO,
+  REVIEWS,
+  DIRECTION_CATEGORIES,
 } from '../config/content'
 import StickyMobileCTA from './StickyMobileCTA'
+import ComparisonTable from './ComparisonTable'
+import SavingsCalculator from './SavingsCalculator'
+
+export interface PilotCityStat {
+  slug: string
+  name: string
+  fo: string
+  foShortName: string
+  image: string
+  routeCount: number
+  minPrice: number
+}
 
 interface Props {
   stats: {
@@ -26,12 +40,16 @@ interface Props {
     routeCount: string
     minPrice: string
   }
+  pilotCityStats: PilotCityStat[]
 }
 
-export default function MezhgorodRootPage({ stats }: Props) {
+export default function MezhgorodRootPage({ stats, pilotCityStats }: Props) {
   const pilotSet = new Set(PILOT_CITIES.map(c => c.slug))
   const cityHref = (foSlug: string, citySlug: string) =>
     pilotSet.has(citySlug) ? `/mezhgorod/${citySlug}` : `/regions/${foSlug}/${citySlug}/`
+
+  const [activeTab, setActiveTab] = useState(DIRECTION_CATEGORIES[0].key)
+  const activeCategory = DIRECTION_CATEGORIES.find(c => c.key === activeTab) || DIRECTION_CATEGORIES[0]
 
   // Live order counter — плавный рост базового значения в течение дня
   const [tripsToday, setTripsToday] = useState(TRUST_STATS.tripsToday)
@@ -167,17 +185,151 @@ export default function MezhgorodRootPage({ stats }: Props) {
           ))}
         </section>
 
-        {/* Популярные направления */}
+        {/* Популярные направления с ценами */}
         <section className={s.section}>
           <h2 className={s.h2}>Популярные направления</h2>
-          <nav className={s.routeGrid}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 12, marginTop: 20 }}>
             {POPULAR_ROUTES.map(r => (
-              <a key={r.url} href={r.url} className={s.routeCard}>
-                <span className={s.routeTitle}>{r.title}</span>
-                <span className={s.routeDistance}>{r.distanceKm} км</span>
+              <a key={r.url} href={r.url} style={{
+                display: 'flex', flexDirection: 'column', gap: 6,
+                padding: 16, background: '#fff', border: '1px solid #eee',
+                borderRadius: 10, textDecoration: 'none', color: '#222',
+                transition: 'transform 0.15s, box-shadow 0.15s',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)' }}
+              onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '' }}
+              >
+                <div style={{ fontSize: 15, fontWeight: 600 }}>{r.title}</div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                  <span style={{ fontSize: 18, fontWeight: 700, color: '#ff6b00' }}>от {r.priceComfort.toLocaleString('ru-RU')}₽</span>
+                  <span style={{ fontSize: 12, color: '#888' }}>{r.distanceKm} км · ~{r.timeH} ч</span>
+                </div>
               </a>
             ))}
-          </nav>
+          </div>
+        </section>
+
+        {/* Пилотные города — карточки с фото, кол-вом маршрутов, мин ценой */}
+        <section className={s.section}>
+          <h2 className={s.h2}>Топ направлений из пилотных регионов</h2>
+          <p style={{ color: '#666', fontSize: 15, marginBottom: 20, maxWidth: 720 }}>
+            9 городов с улучшенной структурой маршрутов. Все 655 направлений каждого города — на одной странице с фильтром по расстоянию.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
+            {pilotCityStats.map(city => (
+              <a key={city.slug} href={`/mezhgorod/${city.slug}`} style={{
+                display: 'flex', flexDirection: 'column',
+                borderRadius: 12, overflow: 'hidden',
+                background: '#fff', border: '1px solid #eee',
+                textDecoration: 'none', color: 'inherit',
+                transition: 'transform 0.15s, box-shadow 0.15s',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.12)' }}
+              onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '' }}
+              >
+                <div style={{ position: 'relative', height: 140, background: `url(${city.image}) center/cover`, overflow: 'hidden' }}>
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.55), transparent 55%)' }} />
+                  <div style={{ position: 'absolute', left: 14, bottom: 12, color: '#fff' }}>
+                    <div style={{ fontSize: 11, opacity: 0.85, textTransform: 'uppercase', letterSpacing: 0.5 }}>{city.foShortName}</div>
+                    <div style={{ fontSize: 22, fontWeight: 700, lineHeight: 1.1 }}>{city.name}</div>
+                  </div>
+                </div>
+                <div style={{ padding: 14, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: 14, color: '#666' }}>{city.routeCount} маршрутов</span>
+                  {city.minPrice > 0 && (
+                    <span style={{ fontSize: 16, fontWeight: 600, color: '#ff6b00' }}>от {city.minPrice.toLocaleString('ru-RU')}₽</span>
+                  )}
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+
+        {/* Вкладки «По типу направления» */}
+        <section className={s.section}>
+          <h2 className={s.h2}>Куда мы возим</h2>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 20, marginTop: 16 }}>
+            {DIRECTION_CATEGORIES.map(cat => (
+              <button
+                key={cat.key}
+                onClick={() => setActiveTab(cat.key)}
+                style={{
+                  padding: '10px 18px',
+                  border: '1px solid',
+                  borderColor: activeTab === cat.key ? '#ff6b00' : '#ddd',
+                  background: activeTab === cat.key ? '#ff6b00' : '#fff',
+                  color: activeTab === cat.key ? '#fff' : '#333',
+                  borderRadius: 24,
+                  fontSize: 14,
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                  transition: 'all 0.15s',
+                }}
+              >
+                <span style={{ marginRight: 6 }}>{cat.emoji}</span>{cat.label}
+              </button>
+            ))}
+          </div>
+          <div style={{ padding: 20, background: '#fafafa', borderRadius: 12 }}>
+            <p style={{ fontSize: 15, color: '#555', marginBottom: 16, lineHeight: 1.6 }}>{activeCategory.description}</p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 10 }}>
+              {activeCategory.routes.map(r => (
+                <a key={r.url} href={r.url} style={{
+                  padding: '10px 14px',
+                  background: '#fff',
+                  border: '1px solid #eee',
+                  borderRadius: 8,
+                  textDecoration: 'none',
+                  color: '#222',
+                  fontSize: 14,
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                  <span>{r.title}</span>
+                  {r.priceFrom && <span style={{ color: '#ff6b00', fontWeight: 600 }}>от {r.priceFrom.toLocaleString('ru-RU')}₽</span>}
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Таблица сравнения альтернатив */}
+        <section className={s.section}>
+          <h2 className={s.h2}>Чем такси межгород лучше альтернатив</h2>
+          <ComparisonTable />
+        </section>
+
+        {/* Savings calculator */}
+        <section className={s.section}>
+          <h2 className={s.h2}>Сколько вы сэкономите с такси</h2>
+          <p style={{ color: '#666', fontSize: 15, marginBottom: 20, maxWidth: 720 }}>
+            Посчитайте реальную стоимость поездки на своей машине: бензин, износ и ваше время за рулём. Обычно такси выходит дешевле на маршрутах от 300 км.
+          </p>
+          <SavingsCalculator />
+        </section>
+
+        {/* Отзывы реальных клиентов */}
+        <section className={s.section}>
+          <h2 className={s.h2}>Отзывы клиентов</h2>
+          <p style={{ color: '#666', fontSize: 15, marginBottom: 20 }}>
+            {TRUST_STATS.rating} ★ — средняя оценка по {TRUST_STATS.reviewsCount.toLocaleString('ru-RU')} отзывам
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 16 }}>
+            {REVIEWS.map((r, i) => (
+              <div key={i} style={{ padding: 18, background: '#fff', border: '1px solid #eee', borderRadius: 12 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
+                  <div>
+                    <div style={{ fontWeight: 600 }}>{r.username}</div>
+                    <div style={{ fontSize: 12, color: '#888' }}>{r.city} · {r.route}</div>
+                  </div>
+                  <div style={{ color: '#ff6b00', fontSize: 14, letterSpacing: 2 }}>★★★★★</div>
+                </div>
+                <p style={{ fontSize: 14, lineHeight: 1.55, color: '#333', margin: 0 }}>{r.text}</p>
+                <div style={{ fontSize: 11, color: '#999', marginTop: 10 }}>{new Date(r.date).toLocaleDateString('ru-RU')}</div>
+              </div>
+            ))}
+          </div>
         </section>
 
         {/* Преимущества */}

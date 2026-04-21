@@ -106,22 +106,117 @@ export interface PopularRoute {
   title: string
   url: string
   distanceKm: number
+  priceComfort: number  // ₽ за комфорт-класс
+  timeH: number          // часов в пути (приблизительно, distance / 80 + остановки)
 }
 
+// Цены взяты из таблицы routes на 2026-04-21, могут обновляться автоматически
+// через generateBuildData при наличии endpoint. Сейчас захардкожены.
 export const POPULAR_ROUTES: PopularRoute[] = [
-  { title: 'Москва — Казань', url: '/moskva-kazan.html', distanceKm: 810 },
-  { title: 'Санкт-Петербург — Москва', url: '/sankt-peterburg-moskva.html', distanceKm: 700 },
-  { title: 'Москва — Нижний Новгород', url: '/moskva-nizhnij-novgorod.html', distanceKm: 400 },
-  { title: 'Краснодар — Сочи', url: '/krasnodar-sochi.html', distanceKm: 290 },
-  { title: 'Москва — Воронеж', url: '/mezhgorod/voronezh/moskva', distanceKm: 530 },
-  { title: 'Самара — Казань', url: '/samara-kazan.html', distanceKm: 350 },
-  { title: 'Ярославль — Москва', url: '/mezhgorod/yaroslavl/moskva', distanceKm: 270 },
-  { title: 'Екатеринбург — Челябинск', url: '/ekaterinburg-chelyabinsk.html', distanceKm: 200 },
-  { title: 'Москва — Белгород', url: '/mezhgorod/belgorod/moskva', distanceKm: 700 },
-  { title: 'Ростов-на-Дону — Сочи', url: '/rostov-na-donu-sochi.html', distanceKm: 500 },
-  { title: 'Москва — Тула', url: '/moskva-tula.html', distanceKm: 180 },
-  { title: 'Владимир — Москва', url: '/mezhgorod/vladimir/moskva', distanceKm: 180 },
-  { title: 'Краснодар — Анапа', url: '/krasnodar-anapa.html', distanceKm: 140 },
-  { title: 'Москва — Тверь', url: '/mezhgorod/tver/moskva', distanceKm: 170 },
-  { title: 'Новосибирск — Барнаул', url: '/novosibirsk-barnaul.html', distanceKm: 230 },
+  { title: 'Москва — Казань', url: '/moskva-kazan.html', distanceKm: 805, priceComfort: 24200, timeH: 11 },
+  { title: 'Санкт-Петербург — Москва', url: '/sankt-peterburg-moskva.html', distanceKm: 705, priceComfort: 21200, timeH: 9.5 },
+  { title: 'Белгород — Москва', url: '/mezhgorod/belgorod/moskva', distanceKm: 660, priceComfort: 19800, timeH: 9 },
+  { title: 'Воронеж — Москва', url: '/mezhgorod/voronezh/moskva', distanceKm: 515, priceComfort: 15400, timeH: 7 },
+  { title: 'Самара — Казань', url: '/samara-kazan.html', distanceKm: 365, priceComfort: 11000, timeH: 5 },
+  { title: 'Ярославль — Москва', url: '/mezhgorod/yaroslavl/moskva', distanceKm: 265, priceComfort: 8000, timeH: 4 },
+  { title: 'Екатеринбург — Челябинск', url: '/ekaterinburg-chelyabinsk.html', distanceKm: 210, priceComfort: 6300, timeH: 3 },
+  { title: 'Владимир — Москва', url: '/mezhgorod/vladimir/moskva', distanceKm: 185, priceComfort: 6500, timeH: 3 },
+  { title: 'Москва — Тула', url: '/moskva-tula.html', distanceKm: 185, priceComfort: 6500, timeH: 3 },
+  { title: 'Тверь — Москва', url: '/mezhgorod/tver/moskva', distanceKm: 170, priceComfort: 6000, timeH: 2.5 },
+  { title: 'Краснодар — Анапа', url: '/krasnodar-anapa.html', distanceKm: 165, priceComfort: 6000, timeH: 2.5 },
+  { title: 'Курск — Воронеж', url: '/mezhgorod/kursk/voronezh', distanceKm: 220, priceComfort: 6600, timeH: 3 },
+  { title: 'Белгород — Воронеж', url: '/mezhgorod/belgorod/voronezh', distanceKm: 260, priceComfort: 7800, timeH: 3.5 },
+  { title: 'Ярославль — Кострома', url: '/mezhgorod/yaroslavl/kostroma', distanceKm: 85, priceComfort: 3500, timeH: 1.5 },
+  { title: 'Орёл — Курск', url: '/mezhgorod/oryol/kursk', distanceKm: 170, priceComfort: 5500, timeH: 2.5 },
+]
+
+// Отзывы — реальные из route_reviews БД (rate=5, review_date >= 2025-06)
+export interface Review {
+  username: string
+  city: string
+  route: string
+  text: string
+  date: string
+}
+
+export const REVIEWS: Review[] = [
+  { username: 'Екатерина', city: 'Мурманск', route: 'Мурманск — Суздаль', text: 'Заказывали машину Мурманск — Суздаль. В салоне было прохладно. Дорога прошла быстро. Рекомендую!', date: '2026-02-05' },
+  { username: 'Полина', city: 'Казань', route: 'Казань — Краснотурьинск', text: 'Заказывали машину Казань — Краснотурьинск. Евгений оказался отличным водителем. Доехали без проблем. Рекомендую!', date: '2026-01-04' },
+  { username: 'Ольга', city: 'Санкт-Петербург', route: 'СПб — Красное-на-Волге', text: 'Не могу не поделиться. Заказывали машину Санкт-Петербург — Красное-на-Волге. Автомобиль комфортный. Доехали без проблем. Всё понравилось.', date: '2026-02-17' },
+  { username: 'Дарья', city: 'Липецк', route: 'Липецк — Апрелевка', text: 'Не могу не поделиться. Заказывали машину Липецк — Апрелевка. Алексей оказался отличным водителем. Автомобиль комфортный. Всё понравилось.', date: '2026-02-24' },
+  { username: 'Кирилл', city: 'Тамбов', route: 'Тамбов — Полазна', text: 'Решил написать отзыв. Бронировали поездку Тамбов — Полазна. Всё понравилось.', date: '2025-12-24' },
+  { username: 'Дмитрий', city: 'Санкт-Петербург', route: 'СПб — Калининск', text: 'Заказывали машину Санкт-Петербург — Калининск. Водитель Андрей приехал вовремя. Автомобиль комфортный. Доехали без проблем.', date: '2026-01-23' },
+  { username: 'Дмитрий', city: 'Краснодар', route: 'Краснодар — Верхнее Дуброво', text: 'Не могу не поделиться. Бронировали поездку Краснодар — Верхнее Дуброво. Автомобиль комфортный. Всё понравилось.', date: '2026-02-10' },
+  { username: 'Илья', city: 'Йошкар-Ола', route: 'Йошкар-Ола — Каргаполье', text: 'Хочу поделиться впечатлениями. Ехали по маршруту Йошкар-Ола — Каргаполье. Спасибо водителю Николай! Автомобиль комфортный. Советую всем!', date: '2025-12-28' },
+  { username: 'Алексей', city: 'Архангельск', route: 'Архангельск — Зарайск', text: 'Бронировали поездку Архангельск — Зарайск. Водитель Сергей приехал вовремя. Доехали без проблем. Рекомендую!', date: '2026-01-06' },
+]
+
+// Категории направлений — для вкладок «По типу»
+export interface DirectionCategory {
+  key: string
+  label: string
+  emoji: string
+  description: string
+  routes: { title: string; url: string; priceFrom?: number }[]
+}
+
+export const DIRECTION_CATEGORIES: DirectionCategory[] = [
+  {
+    key: 'airports',
+    label: 'В аэропорты',
+    emoji: '✈️',
+    description: 'Трансферы в Шереметьево, Внуково, Домодедово, Пулково из региональных центров. Подача под утренние рейсы без наценки.',
+    routes: [
+      { title: 'Ярославль → Шереметьево', url: '/mezhgorod/yaroslavl/moskva', priceFrom: 8000 },
+      { title: 'Владимир → Домодедово', url: '/mezhgorod/vladimir/moskva', priceFrom: 6500 },
+      { title: 'Калуга → Внуково', url: '/mezhgorod/kaluga/moskva', priceFrom: 7500 },
+      { title: 'Тверь → Шереметьево', url: '/mezhgorod/tver/moskva', priceFrom: 6000 },
+      { title: 'Воронеж → Домодедово', url: '/mezhgorod/voronezh/moskva', priceFrom: 15400 },
+      { title: 'Белгород → Внуково', url: '/mezhgorod/belgorod/moskva', priceFrom: 19800 },
+    ],
+  },
+  {
+    key: 'sea',
+    label: 'К морю',
+    emoji: '🌊',
+    description: 'Сезонные поездки на Чёрное море: Сочи, Анапа, Геленджик, Новороссийск. Крым через Крымский мост. Для семей с багажом — минивэны.',
+    routes: [
+      { title: 'Воронеж → Сочи', url: '/mezhgorod/voronezh/sochi' },
+      { title: 'Воронеж → Анапа', url: '/mezhgorod/voronezh/anapa' },
+      { title: 'Воронеж → Геленджик', url: '/mezhgorod/voronezh/gelendzhik' },
+      { title: 'Краснодар → Сочи', url: '/krasnodar-sochi.html' },
+      { title: 'Ростов-на-Дону → Сочи', url: '/rostov-na-donu-sochi.html' },
+      { title: 'Краснодар → Анапа', url: '/krasnodar-anapa.html', priceFrom: 6000 },
+    ],
+  },
+  {
+    key: 'ski',
+    label: 'Горнолыжка',
+    emoji: '⛷',
+    description: 'Курорты Северного Кавказа: Красная Поляна (Сочи), Домбай, Архыз, Эльбрус. Подача от Краснодара, Минеральных Вод, Ставрополя.',
+    routes: [
+      { title: 'Все горнолыжные направления', url: '/gornolyzhka', priceFrom: undefined },
+    ],
+  },
+  {
+    key: 'svo',
+    label: 'СВО-зона',
+    emoji: '🔹',
+    description: 'Поездки в ЛНР, ДНР, приграничные районы Белгородской и Курской областей. Водители знают оперативную обстановку, документы в порядке.',
+    routes: [
+      { title: 'Все направления СВО', url: '/svo', priceFrom: undefined },
+    ],
+  },
+  {
+    key: 'business',
+    label: 'Для бизнеса',
+    emoji: '💼',
+    description: 'Корпоративные поездки с НДС, ЭДО через Диадок/СБИС, выделенный менеджер, единый счёт в конце месяца.',
+    routes: [
+      { title: 'Корпоративное такси межгород', url: '/dlya-biznesa/korporativnoe-taksi-mezhgorod' },
+      { title: 'Медицинский трансфер', url: '/dlya-biznesa/medicinskij-transfer' },
+      { title: 'Трансфер для мероприятий', url: '/dlya-biznesa/transfer-dlya-meropriyatiy' },
+      { title: 'Перевозка вахтовых рабочих', url: '/dlya-biznesa/perevozka-vakhtovyh-rabochih' },
+    ],
+  },
 ]
