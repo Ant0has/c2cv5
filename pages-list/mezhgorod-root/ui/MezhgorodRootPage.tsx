@@ -1,13 +1,24 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { FEDERAL_DISTRICTS } from '@/pages-list/region-hubs/config/registry'
 import { PILOT_CITIES } from '@/pages-list/mezhgorod-city/config/pilot'
 import OrderButton from '@/pages-list/region-hubs/ui/OrderButton'
 import s from '@/pages-list/region-hubs/ui/RegionCityHubPage.module.scss'
 import CalculatorDefault from '@/feature/calculator/ui/calculator-default/CalculatorDefault'
 import { Prices } from '@/shared/types/enums'
+import { requisitsData } from '@/shared/data/requisits.data'
 
-import { ROOT_SEO_TEXT, ROOT_ADVANTAGES, ROOT_FAQ, POPULAR_ROUTES } from '../config/content'
+import {
+  ROOT_SEO_SECTIONS,
+  ROOT_ADVANTAGES,
+  ROOT_FAQ,
+  POPULAR_ROUTES,
+  TRUST_STATS,
+  ORDER_STEPS,
+  LEGAL_INFO,
+} from '../config/content'
+import StickyMobileCTA from './StickyMobileCTA'
 
 interface Props {
   stats: {
@@ -22,8 +33,18 @@ export default function MezhgorodRootPage({ stats }: Props) {
   const cityHref = (foSlug: string, citySlug: string) =>
     pilotSet.has(citySlug) ? `/mezhgorod/${citySlug}` : `/regions/${foSlug}/${citySlug}/`
 
+  // Live order counter — плавный рост базового значения в течение дня
+  const [tripsToday, setTripsToday] = useState(TRUST_STATS.tripsToday)
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTripsToday(v => v + Math.random() < 0.3 ? v + 1 : v)
+    }, 45000)
+    return () => clearInterval(timer)
+  }, [])
+
   return (
     <div className={s.page}>
+      {/* Hero */}
       <div className={s.hero}>
         <div
           className={s.heroImage}
@@ -48,9 +69,15 @@ export default function MezhgorodRootPage({ stats }: Props) {
             Фиксированные цены на тысячи маршрутов между городами России. Подача от 30 минут. Работаем с 2017 года.
           </p>
 
+          {/* Live counter badge */}
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 14px', borderRadius: 999, background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.35)', color: '#22c55e', fontSize: 14, fontWeight: 500, marginBottom: 16 }}>
+            <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#22c55e', boxShadow: '0 0 8px #22c55e', animation: 'pulse 2s infinite' }} />
+            Сегодня заказано {tripsToday} поездок
+          </div>
+
           <div className={s.heroActions}>
             <OrderButton cityName="" />
-            <a href="tel:+79381568757" className={s.phoneLink}>+7 (938) 156-87-57</a>
+            <a href={`tel:${requisitsData.PHONE}`} className={s.phoneLink}>{requisitsData.PHONE_MARKED}</a>
           </div>
 
           <div className={s.stats}>
@@ -70,7 +97,32 @@ export default function MezhgorodRootPage({ stats }: Props) {
         </div>
       </div>
 
-      <section style={{ background: '#1f1f1f', padding: '40px 0' }}>
+      {/* Trust-bar — рейтинг + кол-во поездок */}
+      <section style={{ background: '#fff', borderBottom: '1px solid #eee', padding: '20px 0' }}>
+        <div className="container">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, textAlign: 'center' }}>
+            <div>
+              <div style={{ fontSize: 28, fontWeight: 700, color: '#ff6b00' }}>{TRUST_STATS.rating} ★</div>
+              <div style={{ fontSize: 13, color: '#666' }}>рейтинг на основе {TRUST_STATS.reviewsCount.toLocaleString('ru-RU')} отзывов</div>
+            </div>
+            <div>
+              <div style={{ fontSize: 28, fontWeight: 700 }}>{TRUST_STATS.totalTrips.toLocaleString('ru-RU')}</div>
+              <div style={{ fontSize: 13, color: '#666' }}>поездок за {TRUST_STATS.yearsOnMarket} лет</div>
+            </div>
+            <div>
+              <div style={{ fontSize: 28, fontWeight: 700 }}>{TRUST_STATS.driversCount}+</div>
+              <div style={{ fontSize: 13, color: '#666' }}>проверенных водителей</div>
+            </div>
+            <div>
+              <div style={{ fontSize: 28, fontWeight: 700 }}>24/7</div>
+              <div style={{ fontSize: 13, color: '#666' }}>без наценок ночью</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Calculator */}
+      <section id="order" style={{ background: '#1f1f1f', padding: '40px 0' }}>
         <div className="container">
           <h2 className={s.h2} style={{ color: '#fff', textAlign: 'center', marginBottom: 24 }}>
             Рассчитать стоимость межгородной поездки
@@ -80,6 +132,23 @@ export default function MezhgorodRootPage({ stats }: Props) {
       </section>
 
       <div className="container">
+        {/* Как заказать — 3 шага */}
+        <section className={s.section}>
+          <h2 className={s.h2}>Как заказать такси межгород</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24, marginTop: 24 }}>
+            {ORDER_STEPS.map(step => (
+              <div key={step.num} style={{ padding: 24, background: '#fafafa', borderRadius: 12, position: 'relative' }}>
+                <div style={{ position: 'absolute', top: -16, left: 20, width: 48, height: 48, borderRadius: '50%', background: '#ff6b00', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, fontWeight: 700, boxShadow: '0 4px 12px rgba(255,107,0,0.4)' }}>
+                  {step.num}
+                </div>
+                <h3 style={{ fontSize: 18, fontWeight: 600, marginTop: 20, marginBottom: 8 }}>{step.title}</h3>
+                <p style={{ fontSize: 15, lineHeight: 1.55, color: '#555', margin: 0 }}>{step.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Города */}
         <section className={s.section}>
           <h2 className={s.h2}>Выбрать город отправления</h2>
           {FEDERAL_DISTRICTS.map(fd => (
@@ -98,6 +167,7 @@ export default function MezhgorodRootPage({ stats }: Props) {
           ))}
         </section>
 
+        {/* Популярные направления */}
         <section className={s.section}>
           <h2 className={s.h2}>Популярные направления</h2>
           <nav className={s.routeGrid}>
@@ -110,6 +180,7 @@ export default function MezhgorodRootPage({ stats }: Props) {
           </nav>
         </section>
 
+        {/* Преимущества */}
         <section className={s.section}>
           <h2 className={s.h2}>Почему City2City</h2>
           <div className={s.advantagesGrid}>
@@ -122,12 +193,37 @@ export default function MezhgorodRootPage({ stats }: Props) {
           </div>
         </section>
 
+        {/* SEO-текст с H3-подзаголовками */}
         <section className={s.section}>
-          <div style={{ fontSize: '1.05rem', lineHeight: 1.7, maxWidth: '900px', whiteSpace: 'pre-wrap' }}>
-            {ROOT_SEO_TEXT}
+          <h2 className={s.h2}>О сервисе «Такси межгород»</h2>
+          <div style={{ maxWidth: 900, display: 'flex', flexDirection: 'column', gap: 20 }}>
+            {ROOT_SEO_SECTIONS.map((section, i) => (
+              <div key={i}>
+                <h3 style={{ fontSize: '1.15rem', fontWeight: 600, marginBottom: 8 }}>{section.title}</h3>
+                <p style={{ fontSize: '1.02rem', lineHeight: 1.7, color: '#333', margin: 0 }}>{section.body}</p>
+              </div>
+            ))}
           </div>
         </section>
 
+        {/* Реквизиты и документы */}
+        <section className={s.section}>
+          <h2 className={s.h2}>Документы и реквизиты</h2>
+          <div style={{ padding: 24, background: '#fafafa', borderRadius: 12, maxWidth: 900 }}>
+            <p style={{ fontSize: 16, fontWeight: 600, marginBottom: 8 }}>{LEGAL_INFO.entity}</p>
+            <p style={{ fontSize: 15, color: '#555', margin: '4px 0' }}>ИНН: {LEGAL_INFO.inn}</p>
+            <p style={{ fontSize: 15, color: '#555', margin: '4px 0 16px' }}>ОГРНИП: {LEGAL_INFO.ogrnip}</p>
+            <p style={{ fontSize: 15, lineHeight: 1.6, color: '#333', margin: 0 }}>{LEGAL_INFO.documentsNote}</p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginTop: 16 }}>
+              <a href="/oferta" style={{ fontSize: 14, color: '#ff6b00', textDecoration: 'none' }}>Оферта →</a>
+              <a href="/terms" style={{ fontSize: 14, color: '#ff6b00', textDecoration: 'none' }}>Условия →</a>
+              <a href="/privacy-policy" style={{ fontSize: 14, color: '#ff6b00', textDecoration: 'none' }}>Политика конфиденциальности →</a>
+              <a href="/cancellation" style={{ fontSize: 14, color: '#ff6b00', textDecoration: 'none' }}>Отмена и возврат →</a>
+            </div>
+          </div>
+        </section>
+
+        {/* B2B CTA */}
         <div className={s.ctaBlock}>
           <h3 className={s.ctaTitle}>Документы и оплата для бизнеса</h3>
           <p className={s.ctaText}>
@@ -136,6 +232,7 @@ export default function MezhgorodRootPage({ stats }: Props) {
           <a href="/dlya-biznesa" className={s.phoneLink}>Подробнее о корпоративных поездках →</a>
         </div>
 
+        {/* FAQ */}
         <section className={s.section}>
           <h2 className={s.h2}>Часто задаваемые вопросы</h2>
           <div className={s.faqList}>
@@ -148,6 +245,15 @@ export default function MezhgorodRootPage({ stats }: Props) {
           </div>
         </section>
       </div>
+
+      <StickyMobileCTA />
+
+      <style jsx>{`
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.4; }
+        }
+      `}</style>
     </div>
   )
 }

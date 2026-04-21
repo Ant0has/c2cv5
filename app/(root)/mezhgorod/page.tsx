@@ -6,7 +6,7 @@ import { BASE_URL } from '@/shared/constants'
 import { requisitsData } from '@/shared/data/requisits.data'
 
 import MezhgorodRootPage from '@/pages-list/mezhgorod-root/ui/MezhgorodRootPage'
-import { ROOT_FAQ } from '@/pages-list/mezhgorod-root/config/content'
+import { ROOT_FAQ, TRUST_STATS } from '@/pages-list/mezhgorod-root/config/content'
 
 export const revalidate = 3600
 
@@ -80,8 +80,43 @@ export default function MezhgorodRootRoute() {
     ],
   }
 
+  // LocalBusiness с aggregateRating — Rich Snippets с рейтингом в выдаче
+  const localBusinessSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'TaxiService',
+    '@id': `${BASE_URL}/mezhgorod`,
+    name: `${requisitsData.BRAND_NAME} — такси межгород по России`,
+    url: `${BASE_URL}/mezhgorod`,
+    telephone: requisitsData.PHONE_MARKED,
+    areaServed: { '@type': 'Country', name: 'Россия' },
+    provider: {
+      '@type': 'Organization',
+      name: requisitsData.BRAND_NAME,
+      url: BASE_URL,
+    },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: TRUST_STATS.rating,
+      reviewCount: TRUST_STATS.reviewsCount,
+      bestRating: 5,
+      worstRating: 1,
+    },
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'RUB',
+      lowPrice: '1500',
+      highPrice: '50000',
+      availability: 'https://schema.org/InStock',
+    },
+  }
+
   return (
     <>
+      <Script
+        id="schema-localbusiness-mezhgorod"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+      />
       <Script
         id="schema-itemlist-mezhgorod-root"
         type="application/ld+json"
