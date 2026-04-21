@@ -227,18 +227,16 @@ export default function MezhgorodRootPage({ stats, pilotCityStats }: Props) {
               onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.12)' }}
               onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '' }}
               >
-                <div style={{ position: 'relative', height: 140, background: `url(${city.image}) center/cover`, overflow: 'hidden' }}>
-                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.55), transparent 55%)' }} />
-                  <div style={{ position: 'absolute', left: 14, bottom: 12, color: '#fff' }}>
-                    <div style={{ fontSize: 11, opacity: 0.85, textTransform: 'uppercase', letterSpacing: 0.5 }}>{city.foShortName}</div>
-                    <div style={{ fontSize: 22, fontWeight: 700, lineHeight: 1.1 }}>{city.name}</div>
+                <div style={{ height: 140, background: `url(${city.image}) center/cover`, overflow: 'hidden' }} />
+                <div style={{ padding: '14px 16px 10px' }}>
+                  <div style={{ fontSize: 11, color: '#888', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 2 }}>{city.foShortName}</div>
+                  <div style={{ fontSize: 20, fontWeight: 700, color: '#1a1a1a', marginBottom: 6 }}>{city.name}</div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: 13, color: '#666' }}>{city.routeCount} маршрутов</span>
+                    {city.minPrice > 0 && (
+                      <span style={{ fontSize: 15, fontWeight: 600, color: '#ff6b00' }}>от {city.minPrice.toLocaleString('ru-RU')}₽</span>
+                    )}
                   </div>
-                </div>
-                <div style={{ padding: 14, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: 14, color: '#666' }}>{city.routeCount} маршрутов</span>
-                  {city.minPrice > 0 && (
-                    <span style={{ fontSize: 16, fontWeight: 600, color: '#ff6b00' }}>от {city.minPrice.toLocaleString('ru-RU')}₽</span>
-                  )}
                 </div>
               </a>
             ))}
@@ -285,9 +283,12 @@ export default function MezhgorodRootPage({ stats, pilotCityStats }: Props) {
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
+                  gap: 12,
                 }}>
                   <span>{r.title}</span>
-                  {r.priceFrom && <span style={{ color: '#ff6b00', fontWeight: 600 }}>от {r.priceFrom.toLocaleString('ru-RU')}₽</span>}
+                  <span style={{ color: '#ff6b00', fontWeight: 600, whiteSpace: 'nowrap' }}>
+                    от {(r.priceFrom ?? 2500).toLocaleString('ru-RU')}₽
+                  </span>
                 </a>
               ))}
             </div>

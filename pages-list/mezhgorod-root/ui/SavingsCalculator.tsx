@@ -45,74 +45,90 @@ export default function SavingsCalculator() {
     }
   }, [distance, fuelPrice, consumption, hourValue])
 
-  const inputStyle: React.CSSProperties = {
-    width: '100%',
-    padding: '8px 12px',
-    border: '1px solid #ddd',
-    borderRadius: 8,
-    fontSize: 14,
-    marginTop: 4,
-  }
-  const labelStyle: React.CSSProperties = {
-    display: 'block',
-    fontSize: 13,
-    color: '#666',
-    marginBottom: 2,
-  }
-
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'minmax(260px, 1fr) minmax(260px, 1fr)', gap: 24, alignItems: 'start' }}>
+    <div className="savingsCalc">
+      <style>{`
+        .savingsCalc { display: grid; gap: 20px; grid-template-columns: 1fr; }
+        @media (min-width: 760px) {
+          .savingsCalc { grid-template-columns: 340px 1fr; }
+        }
+        .savingsCalc .inputs { padding: 20px; background: #fafafa; border-radius: 12px; }
+        .savingsCalc .inputRow { display: grid; grid-template-columns: 1fr 110px; gap: 12px; align-items: center; margin-bottom: 12px; }
+        .savingsCalc .inputRow:last-child { margin-bottom: 0; }
+        .savingsCalc .inputRow label { font-size: 13px; color: #555; }
+        .savingsCalc .inputRow input { width: 100%; padding: 8px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; text-align: right; }
+        .savingsCalc .result { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; align-items: stretch; }
+        .savingsCalc .col { padding: 18px; border-radius: 12px; display: flex; flex-direction: column; justify-content: space-between; }
+        .savingsCalc .col.car { background: #fef2f2; border: 1px solid #fecaca; }
+        .savingsCalc .col.taxi { background: #f0fdf4; border: 1px solid #bbf7d0; }
+        .savingsCalc .col .label { font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+        .savingsCalc .col .price { font-size: 30px; font-weight: 800; line-height: 1.1; margin-bottom: 6px; }
+        .savingsCalc .col.car .price { color: #dc2626; }
+        .savingsCalc .col.taxi .price { color: #16a34a; }
+        .savingsCalc .col .detail { font-size: 12px; color: #555; line-height: 1.4; margin-top: auto; padding-top: 10px; }
+        .savingsCalc .verdict { margin-top: 14px; padding: 14px 18px; border-radius: 10px; text-align: center; }
+        .savingsCalc .verdict.save { background: #dcfce7; color: #166534; }
+        .savingsCalc .verdict.lose { background: #fef3c7; color: #92400e; }
+        .savingsCalc .verdict .big { font-size: 26px; font-weight: 700; margin: 4px 0; }
+        .savingsCalc .verdict.save .big { color: #16a34a; }
+      `}</style>
+
       {/* Inputs */}
-      <div style={{ padding: 20, background: '#fafafa', borderRadius: 12 }}>
-        <h3 style={{ fontSize: 16, fontWeight: 600, margin: '0 0 16px' }}>Ваши параметры</h3>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-          <div>
-            <label style={labelStyle}>Расстояние поездки (км)</label>
-            <input type="number" min={50} max={3000} value={distance} onChange={e => setDistance(Number(e.target.value))} style={inputStyle} />
-          </div>
-          <div>
-            <label style={labelStyle}>Цена бензина (₽/л)</label>
-            <input type="number" min={30} max={150} value={fuelPrice} onChange={e => setFuelPrice(Number(e.target.value))} style={inputStyle} />
-          </div>
-          <div>
-            <label style={labelStyle}>Расход топлива (л/100км)</label>
-            <input type="number" min={4} max={20} step={0.1} value={consumption} onChange={e => setConsumption(Number(e.target.value))} style={inputStyle} />
-          </div>
-          <div>
-            <label style={labelStyle}>Стоимость вашего часа (₽)</label>
-            <input type="number" min={100} max={5000} step={50} value={hourValue} onChange={e => setHourValue(Number(e.target.value))} style={inputStyle} />
-          </div>
+      <div className="inputs">
+        <h3 style={{ fontSize: 15, fontWeight: 600, margin: '0 0 14px', color: '#333' }}>Ваши параметры</h3>
+        <div className="inputRow">
+          <label>Расстояние, км</label>
+          <input type="number" min={50} max={3000} value={distance} onChange={e => setDistance(Number(e.target.value))} />
+        </div>
+        <div className="inputRow">
+          <label>Цена бензина, ₽/л</label>
+          <input type="number" min={30} max={150} value={fuelPrice} onChange={e => setFuelPrice(Number(e.target.value))} />
+        </div>
+        <div className="inputRow">
+          <label>Расход, л/100км</label>
+          <input type="number" min={4} max={20} step={0.1} value={consumption} onChange={e => setConsumption(Number(e.target.value))} />
+        </div>
+        <div className="inputRow">
+          <label>Ваш час, ₽</label>
+          <input type="number" min={100} max={5000} step={50} value={hourValue} onChange={e => setHourValue(Number(e.target.value))} />
         </div>
       </div>
 
       {/* Result */}
-      <div style={{ padding: 20, background: '#fff7ed', borderRadius: 12, border: '1px solid #fed7aa' }}>
-        <h3 style={{ fontSize: 16, fontWeight: 600, margin: '0 0 16px' }}>Сравнение</h3>
-
-        <div style={{ marginBottom: 18 }}>
-          <div style={{ fontSize: 13, color: '#888', marginBottom: 4 }}>Своя машина на {distance} км ({result.tripHours} ч)</div>
-          <div style={{ fontSize: 24, fontWeight: 700, color: '#dc2626' }}>{result.ownCar.toLocaleString('ru-RU')}₽</div>
-          <div style={{ fontSize: 11, color: '#666', marginTop: 4 }}>
-            {result.fuelCost.toLocaleString('ru-RU')}₽ бензин · {result.depreciationCost.toLocaleString('ru-RU')}₽ амортизация · {result.timeCost.toLocaleString('ru-RU')}₽ ваше время
+      <div>
+        <div className="result">
+          <div className="col car">
+            <div>
+              <div className="label">Своя машина</div>
+              <div className="price">{result.ownCar.toLocaleString('ru-RU')}₽</div>
+            </div>
+            <div className="detail">
+              {result.fuelCost.toLocaleString('ru-RU')}₽ бензин<br />
+              {result.depreciationCost.toLocaleString('ru-RU')}₽ износ<br />
+              {result.timeCost.toLocaleString('ru-RU')}₽ ваше время ({result.tripHours}ч)
+            </div>
           </div>
-        </div>
-
-        <div style={{ marginBottom: 18 }}>
-          <div style={{ fontSize: 13, color: '#888', marginBottom: 4 }}>Такси межгород Комфорт</div>
-          <div style={{ fontSize: 24, fontWeight: 700, color: '#16a34a' }}>{result.taxi.toLocaleString('ru-RU')}₽</div>
-          <div style={{ fontSize: 11, color: '#666', marginTop: 4 }}>Водитель за рулём — ваше время свободно</div>
+          <div className="col taxi">
+            <div>
+              <div className="label">Такси Комфорт</div>
+              <div className="price">{result.taxi.toLocaleString('ru-RU')}₽</div>
+            </div>
+            <div className="detail">
+              Водитель за рулём<br />
+              Ваше время свободно<br />
+              Фиксированная цена
+            </div>
+          </div>
         </div>
 
         {result.savings > 0 ? (
-          <div style={{ padding: 14, background: '#dcfce7', borderRadius: 8, textAlign: 'center' }}>
-            <div style={{ fontSize: 13, color: '#166534', marginBottom: 4 }}>Вы сэкономите с такси</div>
-            <div style={{ fontSize: 28, fontWeight: 700, color: '#16a34a' }}>{result.savings.toLocaleString('ru-RU')}₽</div>
-            <div style={{ fontSize: 12, color: '#166534', marginTop: 2 }}>{result.savingsPercent}% от поездки на своей машине</div>
+          <div className="verdict save">
+            Экономия с такси
+            <div className="big">{result.savings.toLocaleString('ru-RU')}₽ · −{result.savingsPercent}%</div>
           </div>
         ) : (
-          <div style={{ padding: 14, background: '#fef3c7', borderRadius: 8, textAlign: 'center' }}>
-            <div style={{ fontSize: 13, color: '#92400e' }}>На этом маршруте своя машина выходит дешевле</div>
-            <div style={{ fontSize: 12, color: '#92400e', marginTop: 4 }}>Но вы всё равно тратите {result.tripHours} ч за рулём</div>
+          <div className="verdict lose">
+            На этом маршруте своя машина дешевле, но вы потратите {result.tripHours}ч за рулём
           </div>
         )}
       </div>
