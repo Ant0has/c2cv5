@@ -14,6 +14,7 @@ const FooterNavigation = ({route}: {route: IRouteData}) => {
   const { setQuestionModalData } = useContext(ModalContext)
 
   const navList = useMemo(() => ([
+    { id: 13, label: 'Такси межгород', route: '/mezhgorod' },
     { id: 4, label: 'О компании', route: routesConfig.getAboutRoute() },
     { id: 7, label: 'Контакты', route: routesConfig.getContactsRoute() },
     { id: 2, label: 'Рассчитать', route: '', handleClick: () => scrollToBlockById('order') },

@@ -2,6 +2,8 @@ import { FEDERAL_DISTRICTS } from '@/pages-list/region-hubs/config/registry'
 import { PILOT_CITIES } from '@/pages-list/mezhgorod-city/config/pilot'
 import OrderButton from '@/pages-list/region-hubs/ui/OrderButton'
 import s from '@/pages-list/region-hubs/ui/RegionCityHubPage.module.scss'
+import CalculatorDefault from '@/feature/calculator/ui/calculator-default/CalculatorDefault'
+import { Prices } from '@/shared/types/enums'
 
 import { ROOT_SEO_TEXT, ROOT_ADVANTAGES, ROOT_FAQ, POPULAR_ROUTES } from '../config/content'
 
@@ -65,6 +67,15 @@ export default function MezhgorodRootPage({ stats }: Props) {
           </div>
         </div>
       </div>
+
+      <section style={{ background: '#1f1f1f', padding: '40px 0' }}>
+        <div className="container">
+          <h2 className={s.h2} style={{ color: '#fff', textAlign: 'center', marginBottom: 24 }}>
+            Рассчитать стоимость межгородной поездки
+          </h2>
+          <CalculatorDefault selectedPlan={Prices.COMFORT} />
+        </div>
+      </section>
 
       <div className="container">
         <section className={s.section}>
