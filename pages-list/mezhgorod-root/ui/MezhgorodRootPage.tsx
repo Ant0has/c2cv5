@@ -209,11 +209,11 @@ export default function MezhgorodRootPage({ stats, pilotCityStats }: Props) {
           </div>
         </section>
 
-        {/* Пилотные города — карточки с фото, кол-вом маршрутов, мин ценой */}
+        {/* Города с фото, кол-вом маршрутов, мин ценой */}
         <section className={s.section}>
-          <h2 className={s.h2}>Топ направлений из пилотных регионов</h2>
+          <h2 className={s.h2}>Города с самым широким выбором маршрутов</h2>
           <p style={{ color: '#666', fontSize: 15, marginBottom: 20, maxWidth: 720 }}>
-            9 городов с улучшенной структурой маршрутов. Все 655 направлений каждого города — на одной странице с фильтром по расстоянию.
+            Все направления каждого города — на одной странице с фильтром по расстоянию и ценам.
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
             {pilotCityStats.map(city => (
