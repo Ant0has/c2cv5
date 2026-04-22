@@ -111,11 +111,6 @@ export default function Page() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <MedicinskijTransferPage key="medicinskij-transfer" />
-      <Script
-        id="novofon-calltracking"
-        strategy="afterInteractive"
-        src="https://widget.novofon.ru/novofon.js?k=YbOrnMDxXg3gve1tb9Wt5RrWVM4dv8dI"
-      />
     </>
   )
 }

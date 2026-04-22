@@ -100,11 +100,6 @@ export default async function CityHubRoute({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <CityHubPage data={data} />
-      <Script
-        id="novofon-calltracking"
-        strategy="afterInteractive"
-        src="https://widget.novofon.ru/novofon.js?k=YbOrnMDxXg3gve1tb9Wt5RrWVM4dv8dI"
-      />
     </>
   )
 }
