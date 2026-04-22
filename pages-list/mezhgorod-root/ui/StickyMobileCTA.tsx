@@ -9,7 +9,6 @@ const styles: Record<string, React.CSSProperties> = {
     left: 0,
     right: 0,
     zIndex: 50,
-    display: 'flex',
     gap: 8,
     padding: '10px 12px',
     background: 'rgba(20,20,20,0.95)',
