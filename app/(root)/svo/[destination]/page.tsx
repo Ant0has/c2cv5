@@ -1,8 +1,11 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
+import Script from "next/script";
 import { BASE_URL } from "@/shared/constants";
 import { SITE_NAME } from "@/shared/constants/seo.constants";
 import { destinationService } from "@/shared/api/destination.service";
+import { requisitsData } from "@/shared/data/requisits.data";
+import { TRUST_STATS } from "@/pages-list/mezhgorod-root/config/content";
 import DestinationPage from "@/pages-list/destination/ui/destination-page/DestinationPage";
 import { KPP_BY_DESTINATION_SLUG, SVO_REGION_BY_DEST, SVO_TRUST_FACTS, yearsForCity } from "@/pages-list/destination/config/svo-data";
 
@@ -92,5 +95,64 @@ export default async function Page({ params }: Props) {
     notFound();
   }
 
-  return <DestinationPage destination={destination} />;
+  const isSvo = destination.hub?.slug === 'svo';
+  const cityName = destination.toCity || destination.name;
+  const region = SVO_REGION_BY_DEST[params.destination];
+  const pageUrl = `${BASE_URL}/svo/${params.destination}`;
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Главная', item: BASE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Такси в зону СВО', item: `${BASE_URL}/svo` },
+      { '@type': 'ListItem', position: 3, name: cityName, item: pageUrl },
+    ],
+  };
+
+  const taxiServiceSchema = isSvo ? {
+    '@context': 'https://schema.org',
+    '@type': 'TaxiService',
+    '@id': pageUrl,
+    name: `${requisitsData.BRAND_NAME} — трансфер в ${cityName}${region ? ` (${region})` : ''}`,
+    url: pageUrl,
+    telephone: requisitsData.PHONE_MARKED,
+    areaServed: { '@type': region ? 'AdministrativeArea' : 'City', name: region || cityName },
+    provider: {
+      '@type': 'Organization',
+      name: requisitsData.BRAND_NAME,
+      url: BASE_URL,
+    },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: TRUST_STATS.rating,
+      reviewCount: TRUST_STATS.reviewsCount,
+      bestRating: 5,
+      worstRating: 1,
+    },
+    offers: destination.price ? {
+      '@type': 'Offer',
+      priceCurrency: 'RUB',
+      price: String(destination.price),
+      availability: 'https://schema.org/InStock',
+    } : undefined,
+  } : null;
+
+  return (
+    <>
+      <Script
+        id={`schema-breadcrumbs-svo-${params.destination}`}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      {taxiServiceSchema && (
+        <Script
+          id={`schema-taxi-service-svo-${params.destination}`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(taxiServiceSchema) }}
+        />
+      )}
+      <DestinationPage destination={destination} />
+    </>
+  );
 }
