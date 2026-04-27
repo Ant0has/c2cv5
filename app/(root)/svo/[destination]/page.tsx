@@ -31,12 +31,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const cityName = destination.toCity || destination.name;
 
   const title = isSvo
-    ? `Трансфер в ${cityName}${region ? ` (${region})` : ''} — водители работают по региону ${SVO_TRUST_FACTS.yearsInRegion} лет`
+    ? `Трансфер в ${cityName}${region ? ` (${region})` : ''} 2026 — водители работают по региону ${SVO_TRUST_FACTS.yearsInRegion} лет`
     : (destination.seoTitle || `Трансфер ${destination.name}${priceFormatted ? ` от ${priceFormatted} ₽` : ''}`);
 
   const descriptionParts = isSvo
     ? [
-        `Трансфер в ${cityName}${kpp ? ` через ${kpp.fullName}` : ''}.`,
+        `Актуально на 2026 год: трансфер в ${cityName}${kpp ? ` через ${kpp.fullName}` : ''}.`,
         `Водители работают по ${region || 'новым регионам'} ${SVO_TRUST_FACTS.yearsInRegion} лет (с до-СВО),`,
         `${SVO_TRUST_FACTS.tripsCompleted}+ выполненных поездок.`,
         'Связь с диспетчером 24/7, документы для въезда — на странице.',
@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = descriptionParts.filter(Boolean).join(' ');
 
   const keywords = isSvo
-    ? `трансфер в ${cityName}, такси Москва ${cityName}, поездка в ${region || cityName}, такси через КПП${kpp ? ' ' + kpp.name : ''}, такси в новые регионы`
+    ? `трансфер в ${cityName} 2026, такси Москва ${cityName}, поездка в ${region || cityName}, такси через КПП${kpp ? ' ' + kpp.name : ''}, такси в новые регионы 2026`
     : (destination.seoKeywords ||
        `трансфер ${destination.name}, такси ${destination.name}, междугороднее такси ${destination.toCity}, заказать трансфер в ${destination.toCity}`);
 

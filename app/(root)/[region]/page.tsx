@@ -59,10 +59,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // SVO-специфичные метаданные для маршрутных страниц зоны СВО
   const isSvoRoute = data?.is_svo === 1;
   const svoTitle = isSvoRoute && metaCityFrom && metaCityTo
-    ? `Такси ${metaCityFrom} — ${metaCityTo} (зона СВО) — водители работают по региону 8 лет`
+    ? `Такси ${metaCityFrom} — ${metaCityTo} 2026 (зона СВО) — водители работают по региону 8 лет`
     : null;
   const svoDescription = isSvoRoute && metaCityFrom && metaCityTo
-    ? `Трансфер ${metaCityFrom} — ${metaCityTo} в зону СВО. Водители работают по ДНР/ЛНР 8 лет (с до-СВО), 500+ выполненных поездок. Связь с диспетчером 24/7, документы для въезда — на странице. ${distanceKm ? `${distanceKm} км${durationStr ? `, ~${durationStr} ч` : ''}.` : ''}`
+    ? `Актуально на 2026 год: трансфер ${metaCityFrom} — ${metaCityTo} в зону СВО. Водители работают по ДНР/ЛНР 8 лет (с до-СВО), 500+ поездок. Связь с диспетчером 24/7, документы для въезда — на странице. ${distanceKm ? `${distanceKm} км${durationStr ? `, ~${durationStr} ч` : ''}.` : ''}`
     : null;
 
   const title = svoTitle ?? (
