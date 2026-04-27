@@ -56,15 +56,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const durationHours = distanceKm ? Math.max(1, Math.round(distanceKm / 70 * 2) / 2) : 0;
   const durationStr = durationHours ? (durationHours === Math.floor(durationHours) ? `${durationHours}` : `${durationHours.toFixed(1)}`) : '';
 
-  const title = metaCityFrom && metaCityTo && distanceKm
-    ? `Такси ${metaCityFrom} — ${metaCityTo}: ${distanceKm} км${priceStr ? ` от ${priceStr}₽` : ''} | Заказать трансфер онлайн`
-    : data?.seo_title
-      ? `${data.seo_title}`
-      : `Такси ${data?.title} — междугородние перевозки | ${requisitsData.BRAND_NAME}`;
+  // SVO-специфичные метаданные для маршрутных страниц зоны СВО
+  const isSvoRoute = data?.is_svo === 1;
+  const svoTitle = isSvoRoute && metaCityFrom && metaCityTo
+    ? `Такси ${metaCityFrom} — ${metaCityTo} (зона СВО) — водители работают по региону 8 лет`
+    : null;
+  const svoDescription = isSvoRoute && metaCityFrom && metaCityTo
+    ? `Трансфер ${metaCityFrom} — ${metaCityTo} в зону СВО. Водители работают по ДНР/ЛНР 8 лет (с до-СВО), 500+ выполненных поездок. Связь с диспетчером 24/7, документы для въезда — на странице. ${distanceKm ? `${distanceKm} км${durationStr ? `, ~${durationStr} ч` : ''}.` : ''}`
+    : null;
 
-  const description = metaCityFrom && metaCityTo && distanceKm
-    ? `Такси ${metaCityFrom} — ${metaCityTo}${priceStr ? ` от ${priceStr}₽` : ''}. ${distanceKm} км${durationStr ? `, ~${durationStr} ч` : ''}. ✅ Фиксированная цена ✅ Подача от 30 мин ✅ Без предоплаты. Заказать онлайн или ${requisitsData.PHONE_MARKED}`
-    : data?.seo_description || `Заказать междугороднее такси. Комфортные автомобили, опытные водители, фиксированные цены. Тел: ${requisitsData.PHONE_MARKED}`;
+  const title = svoTitle ?? (
+    metaCityFrom && metaCityTo && distanceKm
+      ? `Такси ${metaCityFrom} — ${metaCityTo}: ${distanceKm} км${priceStr ? ` от ${priceStr}₽` : ''} | Заказать трансфер онлайн`
+      : data?.seo_title
+        ? `${data.seo_title}`
+        : `Такси ${data?.title} — междугородние перевозки | ${requisitsData.BRAND_NAME}`
+  );
+
+  const description = svoDescription ?? (
+    metaCityFrom && metaCityTo && distanceKm
+      ? `Такси ${metaCityFrom} — ${metaCityTo}${priceStr ? ` от ${priceStr}₽` : ''}. ${distanceKm} км${durationStr ? `, ~${durationStr} ч` : ''}. ✅ Фиксированная цена ✅ Подача от 30 мин ✅ Без предоплаты. Заказать онлайн или ${requisitsData.PHONE_MARKED}`
+      : data?.seo_description || `Заказать междугороднее такси. Комфортные автомобили, опытные водители, фиксированные цены. Тел: ${requisitsData.PHONE_MARKED}`
+  );
 
   const keywords =
     data?.meta?.keywords ||

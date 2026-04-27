@@ -127,6 +127,25 @@ export function buildRouteStages(destSlug: string, destName: string, distanceKm:
   ]
 }
 
+/**
+ * Извлекает SVO-slug из URL маршрута вида `svo-taxi-{from}-{to}` или `{from}-{to}` (без префикса).
+ * Возвращает первый slug, который есть в KPP_BY_DESTINATION_SLUG (он и есть СВО-город).
+ * Поддерживает многословные slug-и (mariupol, krasnyy-luch, severodonetsk).
+ */
+export function extractSvoCityFromRouteUrl(routeUrl: string): string | null {
+  if (!routeUrl) return null
+  const stripped = routeUrl.replace(/^svo-taxi-/, '').replace(/\.html$/, '')
+  const parts = stripped.split('-')
+  // Пробуем head и tail с длинных вариантов
+  for (let i = parts.length; i >= 1; i--) {
+    const head = parts.slice(0, i).join('-')
+    if (KPP_BY_DESTINATION_SLUG[head]) return head
+    const tail = parts.slice(parts.length - i).join('-')
+    if (KPP_BY_DESTINATION_SLUG[tail]) return tail
+  }
+  return null
+}
+
 export const SVO_REGION_BY_DEST: Record<string, string> = {
   donetsk: 'ДНР', makeevka: 'ДНР', gorlovka: 'ДНР', yenakievo: 'ДНР', starobeshevo: 'ДНР', snezhnoe: 'ДНР',
   lugansk: 'ЛНР', alchevsk: 'ЛНР', stahanov: 'ЛНР', bryanka: 'ЛНР', antracit: 'ЛНР', sverdlovsk: 'ЛНР', rovenki: 'ЛНР', 'krasnyy-luch': 'ЛНР', kamenka: 'ЛНР', krasnodon: 'ЛНР',

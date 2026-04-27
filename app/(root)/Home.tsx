@@ -22,6 +22,14 @@ const OrderStepsSection = dynamic(
 	}
 );
 
+const SvoRouteBlocks = dynamic(
+	() => import("@/pages-list/destination/ui/svo-blocks/SvoRouteBlocks").then((mod) => mod.default),
+	{
+		loading: () => <LoadingSkeleton height="600px" />,
+		ssr: true,
+	}
+);
+
 const QuestionsSection = dynamic(
 
 	() => import("@/pages-list/home/ui/Questions/Questions").then((mod) => mod.default),
@@ -108,6 +116,12 @@ export function Home({ routeData, children }: Props) {
 			</Suspense>
 
 			<Price routeData={routeData} title={cityTitle} cityData={routeData?.city_seo_data} />
+
+			{isMilitary && routeData && (
+				<Suspense>
+					<SvoRouteBlocks route={routeData} />
+				</Suspense>
+			)}
 
 			<Suspense>
 				<OrderStepsSection isMilitary={isMilitary} />
