@@ -2,10 +2,32 @@
 // Источник: docs/svo_redesign/data/{02_kpp_directory.json, 03_seed_donetsk_PRIORITY.json}
 
 export const SVO_TRUST_FACTS = {
+  /** @deprecated используй yearsForCity(slug) */
   yearsInRegion: 8,
+  yearsLong: 8,    // Донецк, Луганск (с 2017, до начала СВО)
+  yearsShort: 4,   // остальные новые регионы (с 2022, с момента СВО)
   tripsCompleted: 500,
   dispatcher24_7: true,
 } as const
+
+/** Города где работаем 8 лет (с 2017, до СВО). Остальные — 4 года (с 2022). */
+const LONG_HISTORY_CITIES = new Set(['donetsk', 'lugansk'])
+
+/** Возвращает кол-во лет работы по городу-СВО (slug). */
+export function yearsForCity(slug?: string | null): number {
+  if (slug && LONG_HISTORY_CITIES.has(slug)) return SVO_TRUST_FACTS.yearsLong
+  return SVO_TRUST_FACTS.yearsShort
+}
+
+/** Для маршрутов: если хоть одна сторона — Донецк/Луганск, то 8 лет, иначе 4. */
+export function yearsForRoute(routeUrl: string): number {
+  if (!routeUrl) return SVO_TRUST_FACTS.yearsShort
+  const lower = routeUrl.toLowerCase()
+  for (const city of LONG_HISTORY_CITIES) {
+    if (lower.includes(city)) return SVO_TRUST_FACTS.yearsLong
+  }
+  return SVO_TRUST_FACTS.yearsShort
+}
 
 export interface KppInfo {
   name: string

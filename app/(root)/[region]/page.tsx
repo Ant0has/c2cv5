@@ -58,11 +58,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   // SVO-специфичные метаданные для маршрутных страниц зоны СВО
   const isSvoRoute = data?.is_svo === 1;
+  const svoUrl = data?.url || '';
+  const svoYrs: number = isSvoRoute ? (svoUrl.includes('donetsk') || svoUrl.includes('lugansk') ? 8 : 4) : 0;
+  const svoYrsWord = svoYrs === 1 ? 'год' : svoYrs < 5 ? 'года' : 'лет';
+  const svoYrsCtx = svoYrs === 8 ? '(с до-СВО)' : '(с момента СВО)';
+
   const svoTitle = isSvoRoute && metaCityFrom && metaCityTo
-    ? `Такси ${metaCityFrom} — ${metaCityTo} 2026 (зона СВО) — водители работают по региону 8 лет`
+    ? `Такси ${metaCityFrom} — ${metaCityTo} 2026 (зона СВО) — водители работают по региону ${svoYrs} ${svoYrsWord}`
     : null;
   const svoDescription = isSvoRoute && metaCityFrom && metaCityTo
-    ? `Актуально на 2026 год: трансфер ${metaCityFrom} — ${metaCityTo} в зону СВО. Водители работают по ДНР/ЛНР 8 лет (с до-СВО), 500+ поездок. Связь с диспетчером 24/7, документы для въезда — на странице. ${distanceKm ? `${distanceKm} км${durationStr ? `, ~${durationStr} ч` : ''}.` : ''}`
+    ? `Актуально на 2026 год: трансфер ${metaCityFrom} — ${metaCityTo} в зону СВО. Водители работают по новым регионам ${svoYrs} ${svoYrsWord} ${svoYrsCtx}, 500+ поездок. Связь с диспетчером 24/7, документы для въезда — на странице. ${distanceKm ? `${distanceKm} км${durationStr ? `, ~${durationStr} ч` : ''}.` : ''}`
     : null;
 
   const title = svoTitle ?? (

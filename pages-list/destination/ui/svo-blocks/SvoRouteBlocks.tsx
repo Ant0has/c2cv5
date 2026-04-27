@@ -8,6 +8,7 @@ import {
   SVO_SAFETY_FEATURES,
   SVO_FAQ,
   SVO_TRUST_FACTS,
+  yearsForCity,
   SVO_REGION_BY_DEST,
   buildRouteStages,
   extractSvoCityFromRouteUrl,
@@ -34,7 +35,10 @@ export default function SvoRouteBlocks({ route }: Props) {
   const stages = buildRouteStages(slug, cityName, distanceKm)
 
   const trustPills = [
-    `${SVO_TRUST_FACTS.yearsInRegion} лет работы по ${region}`,
+    (() => {
+      const y = yearsForCity(slug)
+      return `${y} ${y === 1 ? 'год' : y < 5 ? 'года' : 'лет'} работы по ${region}`
+    })(),
     kpp ? `Через ${kpp.fullName}` : `Через КПП в ${region}`,
     'Диспетчер 24/7',
     `${SVO_TRUST_FACTS.tripsCompleted}+ выполненных поездок`,

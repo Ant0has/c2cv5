@@ -11,6 +11,7 @@ import {
   SVO_TRUST_FACTS,
   SVO_REGION_BY_DEST,
   buildRouteStages,
+  yearsForCity,
 } from '@/pages-list/destination/config/svo-data'
 import s from './SvoDestinationView.module.scss'
 
@@ -35,8 +36,9 @@ export default function SvoDestinationView({ destination, calculatorSlot, belowS
   const distanceKm = Number(destination.distance) || 1100
   const routeStages = buildRouteStages(slug, destination.toCity || destination.name, distanceKm)
 
+  const years = yearsForCity(slug)
   const trustPills = [
-    `${SVO_TRUST_FACTS.yearsInRegion} лет работы по ${region}`,
+    `${years} ${years === 1 ? 'год' : years < 5 ? 'года' : 'лет'} работы по ${region}`,
     kpp ? `Через ${kpp.fullName}` : `Через КПП в ${region}`,
     'Диспетчер 24/7',
     `${SVO_TRUST_FACTS.tripsCompleted}+ выполненных поездок`,
@@ -68,7 +70,7 @@ export default function SvoDestinationView({ destination, calculatorSlot, belowS
           </nav>
 
           <h1 className={s.h1}>
-            Доставим в {destination.toCity || destination.name} ({region}) — {SVO_TRUST_FACTS.yearsInRegion} лет работаем по региону
+            Доставим в {destination.toCity || destination.name} ({region}) — {years} {years === 1 ? 'год' : years < 5 ? 'года' : 'лет'} работаем по региону
           </h1>
           <p className={s.subtitle}>
             Возим семьи к военнослужащим, гуманитарные миссии, журналистов с аккредитацией.{kpp ? ` Через ${kpp.fullName}.` : ''} Связь с диспетчером 24/7.

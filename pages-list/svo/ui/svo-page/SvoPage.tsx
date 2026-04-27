@@ -70,7 +70,7 @@ const SvoPage = ({ hub }: SvoPageProps) => {
   const regions: RegionFilter[] = ['all', 'ДНР', 'ЛНР', 'Запорожская обл.', 'Херсонская обл.', 'КПП'];
 
   const trustPills = [
-    `${SVO_TRUST_FACTS.yearsInRegion} лет работы по ДНР/ЛНР`,
+    `${SVO_TRUST_FACTS.yearsLong} лет в Донецке и Луганске, ${SVO_TRUST_FACTS.yearsShort} года по остальным регионам`,
     'Через 7 КПП',
     'Диспетчер 24/7',
     `${SVO_TRUST_FACTS.tripsCompleted}+ выполненных поездок`,
@@ -111,7 +111,7 @@ const SvoPage = ({ hub }: SvoPageProps) => {
           </nav>
 
           <h1 className={s.h1}>
-            Доставим в любую точку ДНР, ЛНР и Новороссии — {SVO_TRUST_FACTS.yearsInRegion} лет работаем по региону
+            Доставим в любую точку ДНР, ЛНР и Новороссии — {SVO_TRUST_FACTS.yearsLong} лет в Донецке и Луганске, {SVO_TRUST_FACTS.yearsShort} года по остальным регионам
           </h1>
           <p className={s.subtitle}>
             Возим семьи к военнослужащим, гуманитарные миссии, журналистов с аккредитацией. Через 7 КПП. Связь с диспетчером 24/7.

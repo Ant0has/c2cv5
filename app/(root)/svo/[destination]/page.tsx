@@ -4,7 +4,7 @@ import { BASE_URL } from "@/shared/constants";
 import { SITE_NAME } from "@/shared/constants/seo.constants";
 import { destinationService } from "@/shared/api/destination.service";
 import DestinationPage from "@/pages-list/destination/ui/destination-page/DestinationPage";
-import { KPP_BY_DESTINATION_SLUG, SVO_REGION_BY_DEST, SVO_TRUST_FACTS } from "@/pages-list/destination/config/svo-data";
+import { KPP_BY_DESTINATION_SLUG, SVO_REGION_BY_DEST, SVO_TRUST_FACTS, yearsForCity } from "@/pages-list/destination/config/svo-data";
 
 interface Props {
   params: {
@@ -30,14 +30,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const kpp = KPP_BY_DESTINATION_SLUG[params.destination];
   const cityName = destination.toCity || destination.name;
 
+  const yrs = yearsForCity(params.destination);
+  const yrsWord = yrs === 1 ? 'год' : yrs < 5 ? 'года' : 'лет';
+  const yrsContext = yrs === 8 ? '(с до-СВО)' : '(с момента СВО)';
+
   const title = isSvo
-    ? `Трансфер в ${cityName}${region ? ` (${region})` : ''} 2026 — водители работают по региону ${SVO_TRUST_FACTS.yearsInRegion} лет`
+    ? `Трансфер в ${cityName}${region ? ` (${region})` : ''} 2026 — водители работают по региону ${yrs} ${yrsWord}`
     : (destination.seoTitle || `Трансфер ${destination.name}${priceFormatted ? ` от ${priceFormatted} ₽` : ''}`);
 
   const descriptionParts = isSvo
     ? [
         `Актуально на 2026 год: трансфер в ${cityName}${kpp ? ` через ${kpp.fullName}` : ''}.`,
-        `Водители работают по ${region || 'новым регионам'} ${SVO_TRUST_FACTS.yearsInRegion} лет (с до-СВО),`,
+        `Водители работают по ${region || 'новым регионам'} ${yrs} ${yrsWord} ${yrsContext},`,
         `${SVO_TRUST_FACTS.tripsCompleted}+ выполненных поездок.`,
         'Связь с диспетчером 24/7, документы для въезда — на странице.',
       ]
