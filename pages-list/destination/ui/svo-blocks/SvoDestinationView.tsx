@@ -58,10 +58,10 @@ export default function SvoDestinationView({ destination, calculatorSlot, belowS
           </nav>
 
           <h1 className={s.h1}>
-            Трансфер в {destination.toCity || destination.name} — зона СВО ({region})
+            Доставим в {destination.toCity || destination.name} ({region}) — {SVO_TRUST_FACTS.yearsInRegion} лет работаем по региону
           </h1>
           <p className={s.subtitle}>
-            {SVO_TRUST_FACTS.yearsInRegion} лет работы по ДНР/ЛНР · {SVO_TRUST_FACTS.tripsCompleted}+ выполненных поездок · водители с опытом региона до начала СВО
+            Возим семьи к военнослужащим, гуманитарные миссии, журналистов с аккредитацией.{kpp ? ` Через ${kpp.fullName}.` : ''} Связь с диспетчером 24/7.
           </p>
 
           <div className={s.trustPills}>
@@ -71,10 +71,11 @@ export default function SvoDestinationView({ destination, calculatorSlot, belowS
           </div>
 
           <div className={s.heroActions}>
-            <button onClick={scrollToCalc} className={s.ctaPrimary}>Рассчитать стоимость</button>
-            <a href={`tel:${requisitsData.PHONE}`} className={s.ctaPhone}>
-              {requisitsData.PHONE_MARKED}
+            <a href={`tel:${requisitsData.PHONE}`} className={s.ctaUrgent}>
+              <span className={s.urgentDot} />
+              Выезд сегодня — звонок диспетчеру
             </a>
+            <button onClick={scrollToCalc} className={s.ctaSecondary}>Рассчитать стоимость</button>
           </div>
         </div>
       </section>

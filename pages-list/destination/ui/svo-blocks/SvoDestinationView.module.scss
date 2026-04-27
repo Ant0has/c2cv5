@@ -14,14 +14,17 @@
 
 .heroBg {
   position: absolute; inset: 0;
-  background: url('/images/military/welcome-background.png') center/cover no-repeat,
+  background: url('/images/svo/hero-bg.jpg') center/cover no-repeat,
               linear-gradient(135deg, #1a2332 0%, #2d3a4f 100%);
   z-index: -2;
 }
 
+/* Затемнение под белый текст: верх темнее (для breadcrumbs/h1), низ светлее */
 .heroOverlay {
   position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0.65) 0%, rgba(15,20,30,0.85) 100%);
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.6) 100%),
+    linear-gradient(90deg, rgba(15,20,30,0.5) 0%, transparent 50%);
   z-index: -1;
 }
 
@@ -74,6 +77,36 @@
   display: flex; flex-wrap: wrap; gap: 12px;
   align-items: center;
 }
+
+/* Срочная CTA — ярко-красная для интента «надо ехать сегодня» */
+.ctaUrgent {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 26px;
+  background: #dc2626;
+  color: #fff !important;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 6px 22px rgba(220,38,38,0.5);
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+  &:hover { transform: translateY(-1px); box-shadow: 0 8px 26px rgba(220,38,38,0.6); background: #ef4444; }
+}
+.urgentDot {
+  width: 9px; height: 9px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(255,255,255,0.9);
+  animation: urgentPulse 1.6s infinite;
+}
+@keyframes urgentPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* Обычная (вторичная) CTA — оранжевая, как раньше */
 .ctaPrimary {
   padding: 14px 28px;
   background: #ff6b00;
@@ -86,6 +119,21 @@
   box-shadow: 0 6px 20px rgba(255,107,0,0.4);
   transition: transform 0.15s, box-shadow 0.15s;
   &:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(255,107,0,0.5); }
+}
+
+/* Светлая прозрачная кнопка для второстепенного действия */
+.ctaSecondary {
+  padding: 14px 22px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.4);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s;
+  &:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.6); }
 }
 .ctaPhone {
   padding: 14px 22px;
