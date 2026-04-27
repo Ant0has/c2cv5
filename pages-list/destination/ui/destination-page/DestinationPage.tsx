@@ -15,6 +15,7 @@ import PaymentMethods from "@/pages-list/destination/ui/PaymentMethods/PaymentMe
 import s from './DestinationPage.module.scss'
 import HubHero from "@/pages-list/gornolyzhka/ui/HubHero/HubHero"
 import { formatPrice } from "@/shared/services/seo-utils"
+import SvoDestinationView from "@/pages-list/destination/ui/svo-blocks/SvoDestinationView"
 
 interface Props {
     destination: IHubDestination
@@ -83,6 +84,31 @@ const DestinationPage = ({ destination }: Props) => {
 
         return result;
 
+    }
+
+    // SVO-режим: специализированная страница для зоны СВО.
+    // Скрываем тарифный регламент, гарантии и погоду — только релевантные блоки.
+    if (destination.hub?.slug === 'svo') {
+        return (
+            <SvoDestinationView
+                destination={destination}
+                calculatorSlot={
+                    <div className="container">
+                        <TripCounter destination={destination} />
+                        <Price title={routeName} />
+                    </div>
+                }
+                belowSlot={
+                    <>
+                        {destination.description && (
+                            <DestinationDescription destination={destination} />
+                        )}
+                        <RouteReviews destination={destination} />
+                        <PaymentMethods />
+                    </>
+                }
+            />
+        )
     }
 
     return (

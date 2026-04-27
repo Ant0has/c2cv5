@@ -4,6 +4,7 @@ import { BASE_URL } from "@/shared/constants";
 import { SITE_NAME } from "@/shared/constants/seo.constants";
 import { destinationService } from "@/shared/api/destination.service";
 import DestinationPage from "@/pages-list/destination/ui/destination-page/DestinationPage";
+import { KPP_BY_DESTINATION_SLUG, SVO_REGION_BY_DEST, SVO_TRUST_FACTS } from "@/pages-list/destination/config/svo-data";
 
 interface Props {
   params: {
@@ -19,26 +20,41 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const canonicalUrl = `${BASE_URL}/svo/${params.destination}`;
+  const isSvo = destination.hub?.slug === 'svo';
 
   const priceFormatted = destination.price
     ? new Intl.NumberFormat('ru-RU').format(Number(destination.price))
     : null;
 
-  const title = destination.seoTitle ||
-    `Трансфер ${destination.name}${priceFormatted ? ` от ${priceFormatted} ₽` : ''}`;
+  const region = SVO_REGION_BY_DEST[params.destination];
+  const kpp = KPP_BY_DESTINATION_SLUG[params.destination];
+  const cityName = destination.toCity || destination.name;
 
-  const descriptionParts = [
-    `Заказать трансфер в ${destination.toCity || destination.name}.`,
-    destination.distance ? `Расстояние ${destination.distance} км.` : '',
-    destination.duration ? `Время в пути ${destination.duration}.` : '',
-    priceFormatted ? `Цена от ${priceFormatted} ₽.` : '',
-    'Комфортные автомобили, опытные водители. Работаем 24/7.',
-  ].filter(Boolean).join(' ');
+  const title = isSvo
+    ? `Трансфер в ${cityName}${region ? ` (${region})` : ''} — водители работают по региону ${SVO_TRUST_FACTS.yearsInRegion} лет | ${SITE_NAME}`
+    : (destination.seoTitle || `Трансфер ${destination.name}${priceFormatted ? ` от ${priceFormatted} ₽` : ''}`);
 
-  const description = destination.seoDescription || descriptionParts;
+  const descriptionParts = isSvo
+    ? [
+        `Трансфер в ${cityName}${kpp ? ` через ${kpp.fullName}` : ''}.`,
+        `Водители работают по ${region || 'новым регионам'} ${SVO_TRUST_FACTS.yearsInRegion} лет (с до-СВО),`,
+        `${SVO_TRUST_FACTS.tripsCompleted}+ выполненных поездок.`,
+        'Связь с диспетчером 24/7, документы для въезда — на странице.',
+      ]
+    : [
+        `Заказать трансфер в ${destination.toCity || destination.name}.`,
+        destination.distance ? `Расстояние ${destination.distance} км.` : '',
+        destination.duration ? `Время в пути ${destination.duration}.` : '',
+        priceFormatted ? `Цена от ${priceFormatted} ₽.` : '',
+        'Комфортные автомобили, опытные водители. Работаем 24/7.',
+      ];
 
-  const keywords = destination.seoKeywords ||
-    `трансфер ${destination.name}, такси ${destination.name}, междугороднее такси ${destination.toCity}, заказать трансфер в ${destination.toCity}`;
+  const description = descriptionParts.filter(Boolean).join(' ');
+
+  const keywords = isSvo
+    ? `трансфер в ${cityName}, такси Москва ${cityName}, поездка в ${region || cityName}, такси через КПП${kpp ? ' ' + kpp.name : ''}, такси в новые регионы`
+    : (destination.seoKeywords ||
+       `трансфер ${destination.name}, такси ${destination.name}, междугороднее такси ${destination.toCity}, заказать трансфер в ${destination.toCity}`);
 
   return {
     title,
