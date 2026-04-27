@@ -108,8 +108,7 @@ export default function SvoDestinationView({ destination, calculatorSlot, belowS
       {/* Маршрут через КПП */}
       <section className={`container ${s.section}`}>
         <h2 className={s.h2}>
-          Маршрут до {destination.toCity || destination.name}
-          {kpp ? ` через ${kpp.fullName}` : ''}
+          Этапы маршрута{kpp ? ` через ${kpp.fullName}` : ''}
         </h2>
         <div className={s.stages}>
           {routeStages.map((stage, i) => (
@@ -144,7 +143,7 @@ export default function SvoDestinationView({ destination, calculatorSlot, belowS
 
       {/* Целевая аудитория */}
       <section className={`container ${s.section}`}>
-        <h2 className={s.h2}>Кому подходит трансфер в {destination.toCity || destination.name}</h2>
+        <h2 className={s.h2}>Кому подходит этот трансфер</h2>
         <div className={s.audienceGrid}>
           <div className={s.audienceCard}>
             <h3>Гражданским</h3>
@@ -170,7 +169,7 @@ export default function SvoDestinationView({ destination, calculatorSlot, belowS
 
       {/* СВО-FAQ */}
       <section className={`container ${s.section}`}>
-        <h2 className={s.h2}>Частые вопросы по поездкам в {destination.toCity || destination.name}</h2>
+        <h2 className={s.h2}>Частые вопросы</h2>
         <div className={s.faqList}>
           {SVO_FAQ.map((q, i) => (
             <details key={i} className={s.faqItem} open={i === 0}>

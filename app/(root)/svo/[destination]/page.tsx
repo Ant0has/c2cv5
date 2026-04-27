@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const cityName = destination.toCity || destination.name;
 
   const title = isSvo
-    ? `Трансфер в ${cityName}${region ? ` (${region})` : ''} — водители работают по региону ${SVO_TRUST_FACTS.yearsInRegion} лет | ${SITE_NAME}`
+    ? `Трансфер в ${cityName}${region ? ` (${region})` : ''} — водители работают по региону ${SVO_TRUST_FACTS.yearsInRegion} лет`
     : (destination.seoTitle || `Трансфер ${destination.name}${priceFormatted ? ` от ${priceFormatted} ₽` : ''}`);
 
   const descriptionParts = isSvo
