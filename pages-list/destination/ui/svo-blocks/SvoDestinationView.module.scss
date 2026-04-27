@@ -33,16 +33,18 @@
     max-width: 40%;
     opacity: 0.7;
   }
-  /* Мобилка: уменьшенный силуэт в правом нижнем углу как watermark, текст поверх остаётся читаем */
+  /* Мобилка: силуэт виден в правом нижнем углу, текст поверх остаётся читаем */
   @media (max-width: 768px) {
-    max-width: 65%;
-    height: 75%;
-    right: -8%;
+    display: block !important;
+    max-width: 60%;
+    height: 70%;
+    right: -5%;
     bottom: 0;
-    opacity: 0.32;
-    filter: drop-shadow(0 0 14px rgba(0,0,0,0.5)) saturate(0.9) contrast(1.1);
-    -webkit-mask-image: linear-gradient(to top left, rgba(0,0,0,1) 25%, rgba(0,0,0,0.4) 65%, rgba(0,0,0,0) 95%);
-    mask-image: linear-gradient(to top left, rgba(0,0,0,1) 25%, rgba(0,0,0,0.4) 65%, rgba(0,0,0,0) 95%);
+    opacity: 0.6;
+    z-index: 0;
+    filter: drop-shadow(0 0 12px rgba(0,0,0,0.6)) saturate(1) contrast(1.1);
+    -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 50%, rgba(0,0,0,0.5) 80%, rgba(0,0,0,0) 100%);
+    mask-image: linear-gradient(to left, rgba(0,0,0,1) 50%, rgba(0,0,0,0.5) 80%, rgba(0,0,0,0) 100%);
   }
 }
 
