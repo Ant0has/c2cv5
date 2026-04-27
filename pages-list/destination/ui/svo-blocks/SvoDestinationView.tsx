@@ -48,6 +48,12 @@ export default function SvoDestinationView({ destination, calculatorSlot, belowS
       <section className={s.hero}>
         <div className={s.heroBg} />
         <div className={s.heroOverlay} />
+        <img
+          src="/images/military/man.png"
+          alt=""
+          aria-hidden="true"
+          className={s.heroSilhouette}
+        />
         <div className="container">
           <nav className={s.breadcrumbs}>
             <a href="/">Главная</a>
@@ -184,7 +190,7 @@ export default function SvoDestinationView({ destination, calculatorSlot, belowS
       {/* Контакт диспетчера внизу */}
       <section className={`container ${s.helpBlock}`}>
         <Image
-          src="/images/military/welcome-image.png"
+          src="/images/military/man.png"
           alt=""
           width={120}
           height={120}

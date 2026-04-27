@@ -93,6 +93,12 @@ const SvoPage = ({ hub }: SvoPageProps) => {
       <section className={s.hero}>
         <div className={s.heroBg} />
         <div className={s.heroOverlay} />
+        <img
+          src="/images/military/man.png"
+          alt=""
+          aria-hidden="true"
+          className={s.heroSilhouette}
+        />
         <div className="container">
           <nav className={s.breadcrumbs}>
             <a href="/">Главная</a>
