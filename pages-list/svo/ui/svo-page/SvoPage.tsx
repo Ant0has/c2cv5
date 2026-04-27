@@ -13,6 +13,7 @@ import s from "@/pages-list/destination/ui/svo-blocks/SvoDestinationView.module.
 import styles from "./SvoPage.module.scss";
 import SvoDestinationCard from "../SvoDestinationCard/SvoDestinationCard";
 import SvoRoutesList from "../SvoRoutesList/SvoRoutesList";
+import SvoStickyMobileCTA from "@/pages-list/destination/ui/svo-blocks/SvoStickyMobileCTA";
 import clsx from "clsx";
 import { useState, useMemo } from "react";
 
@@ -258,6 +259,8 @@ const SvoPage = ({ hub }: SvoPageProps) => {
           <a href={`tel:${requisitsData.PHONE}`} className={s.ctaPhoneBig}>{requisitsData.PHONE_MARKED}</a>
         </div>
       </section>
+
+      <SvoStickyMobileCTA />
     </div>
   );
 };

@@ -13,6 +13,7 @@ import {
   buildRouteStages,
   yearsForCity,
 } from '@/pages-list/destination/config/svo-data'
+import SvoStickyMobileCTA from './SvoStickyMobileCTA'
 import s from './SvoDestinationView.module.scss'
 
 interface Props {
@@ -210,6 +211,8 @@ export default function SvoDestinationView({ destination, calculatorSlot, belowS
           </a>
         </div>
       </section>
+
+      <SvoStickyMobileCTA />
     </div>
   )
 }
