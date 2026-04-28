@@ -13,6 +13,8 @@ export interface RegionCity {
   nameLocative: string
   regionId: number
   oldHubUrl: string
+  /** Скрыть из главного меню. Страница хаба и редиректы oldHubUrl продолжают работать. */
+  menuHidden?: boolean
 }
 
 export interface RegionHubRoute {

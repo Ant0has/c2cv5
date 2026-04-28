@@ -58,12 +58,17 @@ const MenuRoutes = ({ setIsOpenMenu }: IMenuRoutesProps) => {
         }
     }, [])
 
+    // Filter out hidden cities and skip FOs that end up with no visible cities
+    const visibleFos = FEDERAL_DISTRICTS
+        .map(fo => ({ ...fo, cities: fo.cities.filter(c => !c.menuHidden) }))
+        .filter(fo => fo.cities.length > 0)
+
     // Split FOs into pages for Swiper
     const pagesCount = isMobile ? 4 : 2
-    const fosPerPage = Math.ceil(FEDERAL_DISTRICTS.length / pagesCount)
-    const pages: typeof FEDERAL_DISTRICTS[] = []
-    for (let i = 0; i < FEDERAL_DISTRICTS.length; i += fosPerPage) {
-        pages.push(FEDERAL_DISTRICTS.slice(i, i + fosPerPage))
+    const fosPerPage = Math.ceil(visibleFos.length / pagesCount)
+    const pages: typeof visibleFos[] = []
+    for (let i = 0; i < visibleFos.length; i += fosPerPage) {
+        pages.push(visibleFos.slice(i, i + fosPerPage))
     }
 
     return (

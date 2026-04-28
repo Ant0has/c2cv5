@@ -33,11 +33,14 @@ export const FEDERAL_DISTRICTS: FederalDistrict[] = [
     nameGenitive: 'Северо-Западного федерального округа',
     cities: [
       { slug: 'sankt-peterburg', name: 'Санкт-Петербург', nameGenitive: 'из Санкт-Петербурга', nameLocative: 'в Санкт-Петербурге', regionId: 2, oldHubUrl: 'taxi78-mezhgorod-piter' },
-      { slug: 'velikiy-novgorod', name: 'Великий Новгород', nameGenitive: 'из Великого Новгорода', nameLocative: 'в Великом Новгороде', regionId: 28, oldHubUrl: 'taxi-mezhgorod-velikiy-novgorod-53' },
-      { slug: 'syktyvkar', name: 'Сыктывкар', nameGenitive: 'из Сыктывкара', nameLocative: 'в Сыктывкаре', regionId: 44, oldHubUrl: 'taxi-mezhgorod-syktyvkar' },
-      { slug: 'murmansk', name: 'Мурманск', nameGenitive: 'из Мурманска', nameLocative: 'в Мурманске', regionId: 26, oldHubUrl: 'taxi-mezhgorod-murmansk-51' },
-      { slug: 'arhangelsk', name: 'Архангельск', nameGenitive: 'из Архангельска', nameLocative: 'в Архангельске', regionId: 4, oldHubUrl: 'taxi-mezhgorod-arhangelsk' },
+      { slug: 'pskov', name: 'Псков', nameGenitive: 'из Пскова', nameLocative: 'в Пскове', regionId: 31, oldHubUrl: 'taxi60-mezhgorod-pskov' },
+      { slug: 'vologda', name: 'Вологда', nameGenitive: 'из Вологды', nameLocative: 'в Вологде', regionId: 11, oldHubUrl: 'taxi-mezhgorod-vologda-34' },
+      { slug: 'cherepovec', name: 'Череповец', nameGenitive: 'из Череповца', nameLocative: 'в Череповце', regionId: 11, oldHubUrl: '' },
       { slug: 'petrozavodsk', name: 'Петрозаводск', nameGenitive: 'из Петрозаводска', nameLocative: 'в Петрозаводске', regionId: 43, oldHubUrl: 'taxi-mezhgorod-petrozavodsk' },
+      { slug: 'arhangelsk', name: 'Архангельск', nameGenitive: 'из Архангельска', nameLocative: 'в Архангельске', regionId: 4, oldHubUrl: 'taxi-mezhgorod-arhangelsk' },
+      { slug: 'murmansk', name: 'Мурманск', nameGenitive: 'из Мурманска', nameLocative: 'в Мурманске', regionId: 26, oldHubUrl: 'taxi-mezhgorod-murmansk-51' },
+      { slug: 'velikiy-novgorod', name: 'Великий Новгород', nameGenitive: 'из Великого Новгорода', nameLocative: 'в Великом Новгороде', regionId: 28, oldHubUrl: 'taxi-mezhgorod-velikiy-novgorod-53', menuHidden: true },
+      { slug: 'syktyvkar', name: 'Сыктывкар', nameGenitive: 'из Сыктывкара', nameLocative: 'в Сыктывкаре', regionId: 44, oldHubUrl: 'taxi-mezhgorod-syktyvkar', menuHidden: true },
     ],
   },
   {
@@ -47,8 +50,11 @@ export const FEDERAL_DISTRICTS: FederalDistrict[] = [
     nameGenitive: 'Южного федерального округа',
     cities: [
       { slug: 'krasnodar', name: 'Краснодар', nameGenitive: 'из Краснодара', nameLocative: 'в Краснодаре', regionId: 17, oldHubUrl: '' },
-      { slug: 'krym', name: 'Крым', nameGenitive: 'из Крыма', nameLocative: 'в Крыму', regionId: 45, oldHubUrl: '82-mezhgorod-krym' },
-      { slug: 'elista', name: 'Элиста', nameGenitive: 'из Элисты', nameLocative: 'в Элисте', regionId: 42, oldHubUrl: 'taxi-mezhgorod-elista-08' },
+      { slug: 'rostov-na-donu', name: 'Ростов-на-Дону', nameGenitive: 'из Ростова-на-Дону', nameLocative: 'в Ростове-на-Дону', regionId: 37, oldHubUrl: 'taxi61-mezhgorod-ro' },
+      { slug: 'volgograd', name: 'Волгоград', nameGenitive: 'из Волгограда', nameLocative: 'в Волгограде', regionId: 10, oldHubUrl: 'taxi35-mezhgorod-volgograd' },
+      { slug: 'astrahan', name: 'Астрахань', nameGenitive: 'из Астрахани', nameLocative: 'в Астрахани', regionId: 6, oldHubUrl: 'taxi30-mezhgorod-astrahan' },
+      { slug: 'krym', name: 'Крым', nameGenitive: 'из Крыма', nameLocative: 'в Крыму', regionId: 45, oldHubUrl: '82-mezhgorod-krym', menuHidden: true },
+      { slug: 'elista', name: 'Элиста', nameGenitive: 'из Элисты', nameLocative: 'в Элисте', regionId: 42, oldHubUrl: 'taxi-mezhgorod-elista-08', menuHidden: true },
     ],
   },
   {
@@ -57,7 +63,7 @@ export const FEDERAL_DISTRICTS: FederalDistrict[] = [
     shortName: 'СКФО',
     nameGenitive: 'Северо-Кавказского федерального округа',
     cities: [
-      { slug: 'stavropol', name: 'Ставрополь', nameGenitive: 'из Ставрополя', nameLocative: 'в Ставрополе', regionId: 56, oldHubUrl: 'taxi-mezhgorod-stavropol' },
+      { slug: 'stavropol', name: 'Ставрополь', nameGenitive: 'из Ставрополя', nameLocative: 'в Ставрополе', regionId: 56, oldHubUrl: 'taxi-mezhgorod-stavropol', menuHidden: true },
     ],
   },
   {
@@ -79,6 +85,7 @@ export const FEDERAL_DISTRICTS: FederalDistrict[] = [
       { slug: 'yoshkar-ola', name: 'Йошкар-Ола', nameGenitive: 'из Йошкар-Олы', nameLocative: 'в Йошкар-Оле', regionId: 46, oldHubUrl: 'taxi-mezhgorod-yoshkar-ola-12' },
       { slug: 'saransk', name: 'Саранск', nameGenitive: 'из Саранска', nameLocative: 'в Саранске', regionId: 47, oldHubUrl: 'taxi-mezhgorod-saransk-13' },
       { slug: 'penza', name: 'Пенза', nameGenitive: 'из Пензы', nameLocative: 'в Пензе', regionId: 30, oldHubUrl: '' },
+      { slug: 'perm', name: 'Пермь', nameGenitive: 'из Перми', nameLocative: 'в Перми', regionId: 32, oldHubUrl: 'taxi59-mezhgorod-perm' },
     ],
   },
   {
@@ -90,6 +97,9 @@ export const FEDERAL_DISTRICTS: FederalDistrict[] = [
       { slug: 'ekaterinburg', name: 'Екатеринбург', nameGenitive: 'из Екатеринбурга', nameLocative: 'в Екатеринбурге', regionId: 55, oldHubUrl: 'taxi-mezhgorod-ekaterinburg' },
       { slug: 'chelyabinsk', name: 'Челябинск', nameGenitive: 'из Челябинска', nameLocative: 'в Челябинске', regionId: 66, oldHubUrl: 'taxi-mezhgorod-chelyabinsk' },
       { slug: 'kurgan', name: 'Курган', nameGenitive: 'из Кургана', nameLocative: 'в Кургане', regionId: 23, oldHubUrl: 'taxi-mezhgorod-kurgan-45' },
+      { slug: 'tyumen', name: 'Тюмень', nameGenitive: 'из Тюмени', nameLocative: 'в Тюмени', regionId: 61, oldHubUrl: 'taxi72-mezhgorod-to' },
+      { slug: 'hanty-mansiysk', name: 'Ханты-Мансийск', nameGenitive: 'из Ханты-Мансийска', nameLocative: 'в Ханты-Мансийске', regionId: 65, oldHubUrl: 'taxi86-mezhgorod-hanty_mansiysk' },
+      { slug: 'surgut', name: 'Сургут', nameGenitive: 'из Сургута', nameLocative: 'в Сургуте', regionId: 65, oldHubUrl: '' },
     ],
   },
   {
