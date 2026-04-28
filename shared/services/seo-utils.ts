@@ -73,12 +73,14 @@ export function generateSchemaOrg(route: IRouteData) {
   const cityFrom = extractCityFromTitle(route);
   const cityTo = extractCityToTitle(route);
   const routeName = cityFrom && cityTo ? `${cityFrom} — ${cityTo}` : (route.title || '');
+  const todayIso = new Date().toISOString().slice(0, 10);
   return {
     "@context": "https://schema.org",
     "@type": "TaxiService",
     name: `Такси ${routeName} | ${requisitsData.BRAND_NAME}`,
     description: `Междугороднее такси ${routeName}, ${route.distance_km} км`,
     areaServed: routeName,
+    dateModified: todayIso,
     provider: {
       "@type": "Organization",
       name: requisitsData.BRAND_NAME,
@@ -89,6 +91,7 @@ export function generateSchemaOrg(route: IRouteData) {
       "@type": "Offer",
       price: route.price_comfort || route.price_economy,
       priceCurrency: "RUB",
+      priceValidUntil: `${new Date().getFullYear()}-12-31`,
       description: "Комфорт"
     }
   };

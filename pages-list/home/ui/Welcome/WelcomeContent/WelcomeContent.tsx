@@ -13,6 +13,7 @@ interface IProps {
 const WelcomeContent: FC<IProps> = ({ city, isMilitary, route }) => {
 
   const advantages = getAdvantages(route, city)
+  const today = new Date().toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' })
 
   return (
     <>
@@ -28,6 +29,12 @@ const WelcomeContent: FC<IProps> = ({ city, isMilitary, route }) => {
         }, s.description)}>
           Услуги качественного сервиса заказа такси в России
         </h4>
+        <p className={clsx('font-14-normal margin-t-8', {
+          'text-white': isMilitary,
+          'text-black': !isMilitary,
+        })} style={{ opacity: 0.75 }}>
+          Цены актуальны на {today}
+        </p>
         <ul className={clsx(s.advantages, 'margin-t-16')}>
           {advantages.map(advantage => (
             <li key={advantage.id} className={clsx(s.advantage)}>

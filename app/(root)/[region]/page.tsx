@@ -70,18 +70,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ? `Актуально на 2026 год: трансфер ${metaCityFrom} — ${metaCityTo} в зону СВО. Водители работают по новым регионам ${svoYrs} ${svoYrsWord} ${svoYrsCtx}, 500+ поездок. Связь с диспетчером 24/7, документы для въезда — на странице. ${distanceKm ? `${distanceKm} км${durationStr ? `, ~${durationStr} ч` : ''}.` : ''}`
     : null;
 
+  const currentYear = new Date().getFullYear();
+
   const title = svoTitle ?? (
     metaCityFrom && metaCityTo && distanceKm
-      ? `Такси ${metaCityFrom} — ${metaCityTo}: ${distanceKm} км${priceStr ? ` от ${priceStr}₽` : ''} | Заказать трансфер онлайн`
+      ? `Такси ${metaCityFrom} — ${metaCityTo} в ${currentYear} году: ${distanceKm} км${priceStr ? ` от ${priceStr}₽` : ''} | Заказать трансфер онлайн`
       : data?.seo_title
-        ? `${data.seo_title}`
-        : `Такси ${data?.title} — междугородние перевозки | ${requisitsData.BRAND_NAME}`
+        ? `${data.seo_title} ${currentYear}`
+        : `Такси ${data?.title} ${currentYear} — междугородние перевозки | ${requisitsData.BRAND_NAME}`
   );
 
   const description = svoDescription ?? (
     metaCityFrom && metaCityTo && distanceKm
-      ? `Такси ${metaCityFrom} — ${metaCityTo}${priceStr ? ` от ${priceStr}₽` : ''}. ${distanceKm} км${durationStr ? `, ~${durationStr} ч` : ''}. ✅ Фиксированная цена ✅ Подача от 30 мин ✅ Без предоплаты. Заказать онлайн или ${requisitsData.PHONE_MARKED}`
-      : data?.seo_description || `Заказать междугороднее такси. Комфортные автомобили, опытные водители, фиксированные цены. Тел: ${requisitsData.PHONE_MARKED}`
+      ? `Такси ${metaCityFrom} — ${metaCityTo} по цене ${currentYear} года${priceStr ? ` от ${priceStr}₽` : ''}. ${distanceKm} км${durationStr ? `, ~${durationStr} ч` : ''}. ✅ Фиксированная цена ✅ Подача от 30 мин ✅ Без предоплаты. Заказать онлайн или ${requisitsData.PHONE_MARKED}`
+      : data?.seo_description || `Заказать междугороднее такси по цене ${currentYear} года. Комфортные автомобили, опытные водители, фиксированные цены. Тел: ${requisitsData.PHONE_MARKED}`
   );
 
   const keywords =

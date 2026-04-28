@@ -1,6 +1,7 @@
 'use client'
 import Price from "@/pages-list/home/ui/Price/Price"
 import Welcome from "@/pages-list/home/ui/Welcome/Welcome"
+import PopularDirections from "@/pages-list/home/ui/PopularDirections/PopularDirections"
 import { LoadingSkeleton } from "@/shared/components/loadingSkeleton/LoadingSkeleton"
 import { scrollToBlockById } from "@/shared/services/scroll-to-block"
 import { IRouteData } from "@/shared/types/route.interface"
@@ -116,6 +117,8 @@ export function Home({ routeData, children }: Props) {
 			</Suspense>
 
 			<Price routeData={routeData} title={cityTitle} cityData={routeData?.city_seo_data} />
+
+			{pathname === '/' && <PopularDirections />}
 
 			{isMilitary && routeData && (
 				<Suspense>

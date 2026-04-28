@@ -30,8 +30,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const minPrice = data?.minPrice || 0
   const priceStr = minPrice > 0 ? `от ${minPrice.toLocaleString('ru-RU')}₽` : ''
 
-  const title = `Такси межгород ${city.name} — заказать трансфер ${city.nameGenitive} | ${requisitsData.BRAND_NAME}`
-  const description = `Заказать такси межгород ${city.nameGenitive}. ${totalCount} направлений${priceStr ? `, ${priceStr}` : ''}. Фиксированная цена, подача от 30 минут. Тел: ${requisitsData.PHONE_MARKED}`
+  const currentYear = new Date().getFullYear()
+  const title = `Такси межгород ${city.name} в ${currentYear} году — заказать трансфер ${city.nameGenitive} | ${requisitsData.BRAND_NAME}`
+  const description = `Заказать такси межгород ${city.nameGenitive} по цене ${currentYear} года. ${totalCount} направлений${priceStr ? `, ${priceStr}` : ''}. Фиксированная цена, подача от 30 минут. Тел: ${requisitsData.PHONE_MARKED}`
 
   return {
     title,

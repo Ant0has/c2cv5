@@ -117,6 +117,17 @@ const svoRedirects: Record<string, string> = {
 export function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl
 
+  // 301 canonical для Орла: все варианты слагов (orel/oryol) и обе структуры
+  // (/regions/cfo/{slug}/ и /mezhgorod/{slug}/) сводятся к /mezhgorod/oryol/.
+  // Пилотный slug = oryol (из БД), legacy slug = orel (из registry).
+  if (
+    pathname === '/regions/cfo/orel' || pathname === '/regions/cfo/orel/' ||
+    pathname === '/regions/cfo/oryol' || pathname === '/regions/cfo/oryol/' ||
+    pathname === '/mezhgorod/orel' || pathname === '/mezhgorod/orel/'
+  ) {
+    return NextResponse.redirect(new URL('/mezhgorod/oryol/', request.url), 301)
+  }
+
   // Strip tracking/ad GET params with 301 redirect
   const junkParams = ['ttpage', 'etext', 'pm_source', 'pm_block', 'pm_position']
   const hasJunk = junkParams.some(p => searchParams.has(p))
