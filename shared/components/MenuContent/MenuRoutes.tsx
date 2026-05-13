@@ -9,23 +9,11 @@ import { Pagination } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import { FEDERAL_DISTRICTS } from "@/pages-list/region-hubs/config/registry"
-import { PILOT_CITIES } from "@/pages-list/mezhgorod-city/config/pilot"
 import { usePathname } from "next/navigation"
 
-const PILOT_SET = new Set(PILOT_CITIES.map(c => c.slug))
-// registry.ts использует slug 'orel', пилот использует 'oryol' (совпадает с 49 листьями БД)
-const LEGACY_TO_PILOT: Record<string, string> = { orel: 'oryol' }
-const pilotSlug = (citySlug: string) => LEGACY_TO_PILOT[citySlug] ?? citySlug
-const cityHref = (foSlug: string, citySlug: string) => {
-  const p = pilotSlug(citySlug)
-  return PILOT_SET.has(p) ? `/mezhgorod/${p}` : `/regions/${foSlug}/${citySlug}/`
-}
-const cityIsActive = (pathname: string | null, foSlug: string, citySlug: string) => {
-  const p = pilotSlug(citySlug)
-  return PILOT_SET.has(p)
-    ? pathname?.startsWith(`/mezhgorod/${p}`) ?? false
-    : pathname?.startsWith(`/regions/${foSlug}/${citySlug}`) ?? false
-}
+const cityHref = (citySlug: string) => `/mezhgorod/${citySlug}`
+const cityIsActive = (pathname: string | null, citySlug: string) =>
+    pathname?.startsWith(`/mezhgorod/${citySlug}`) ?? false
 
 interface IMenuRoutesProps {
     setIsOpenMenu: (value: boolean) => void
@@ -76,22 +64,22 @@ const MenuRoutes = ({ setIsOpenMenu }: IMenuRoutesProps) => {
             <div className={s.block}>
                 <Link
                     onClick={() => setIsOpenMenu(false)}
-                    className={clsx('text-black', { ['text-primary']: pathname?.startsWith('/regions/cfo/moskva') })}
-                    href="/regions/cfo/moskva/"
+                    className={clsx('text-black', { ['text-primary']: cityIsActive(pathname, 'moskva') })}
+                    href="/mezhgorod/moskva/"
                 >
                     Москва
                 </Link>
                 <Link
                     onClick={() => setIsOpenMenu(false)}
-                    className={clsx('text-black', { ['text-primary']: pathname?.startsWith('/regions/szfo/sankt-peterburg') })}
-                    href="/regions/szfo/sankt-peterburg/"
+                    className={clsx('text-black', { ['text-primary']: cityIsActive(pathname, 'sankt-peterburg') })}
+                    href="/mezhgorod/sankt-peterburg/"
                 >
                     Санкт-Петербург
                 </Link>
                 <Link
                     onClick={() => setIsOpenMenu(false)}
-                    className={clsx('text-black', { ['text-primary']: pathname?.startsWith('/regions/yufo/krasnodar') })}
-                    href="/regions/yufo/krasnodar/"
+                    className={clsx('text-black', { ['text-primary']: cityIsActive(pathname, 'krasnodar') })}
+                    href="/mezhgorod/krasnodar/"
                 >
                     Краснодар
                 </Link>
@@ -110,23 +98,18 @@ const MenuRoutes = ({ setIsOpenMenu }: IMenuRoutesProps) => {
                             {pageFos.map((fo) => (
                                 <div className={s.group} key={fo.slug}>
                                     <h2>
-                                        <Link
-                                            href={`/regions/${fo.slug}/`}
-                                            onClick={() => setIsOpenMenu(false)}
-                                            className="text-black"
-                                            style={{ textDecoration: 'none' }}
-                                        >
+                                        <span className="text-black" style={{ fontWeight: 600 }}>
                                             {fo.shortName}
-                                        </Link>
+                                        </span>
                                     </h2>
                                     <ul className={s.list}>
                                         {fo.cities.map((city) => (
                                             <Link
                                                 onClick={() => setIsOpenMenu(false)}
                                                 className={clsx('text-black', {
-                                                    ['text-primary']: cityIsActive(pathname, fo.slug, city.slug)
+                                                    ['text-primary']: cityIsActive(pathname, city.slug)
                                                 })}
-                                                href={cityHref(fo.slug, city.slug)}
+                                                href={cityHref(city.slug)}
                                                 key={city.slug}
                                             >
                                                 {city.name}

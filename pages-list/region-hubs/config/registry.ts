@@ -21,7 +21,7 @@ export const FEDERAL_DISTRICTS: FederalDistrict[] = [
       { slug: 'smolensk', name: 'Смоленск', nameGenitive: 'из Смоленска', nameLocative: 'в Смоленске', regionId: 54, oldHubUrl: 'taxi-mezhgorod-smolensk-67' },
       { slug: 'lipetsk', name: 'Липецк', nameGenitive: 'из Липецка', nameLocative: 'в Липецке', regionId: 25, oldHubUrl: 'taxi-mezhgorod-lipeck-48' },
       { slug: 'tambov', name: 'Тамбов', nameGenitive: 'из Тамбова', nameLocative: 'в Тамбове', regionId: 57, oldHubUrl: 'taxi-mezhgorod-tambov-68' },
-      { slug: 'orel', name: 'Орёл', nameGenitive: 'из Орла', nameLocative: 'в Орле', regionId: 36, oldHubUrl: 'taxi-mezhgorod-orel-57' },
+      { slug: 'oryol', name: 'Орёл', nameGenitive: 'из Орла', nameLocative: 'в Орле', regionId: 36, oldHubUrl: 'taxi-mezhgorod-orel-57' },
       { slug: 'kursk', name: 'Курск', nameGenitive: 'из Курска', nameLocative: 'в Курске', regionId: 24, oldHubUrl: 'taxi-mezhgorod-kursk-46' },
       { slug: 'belgorod', name: 'Белгород', nameGenitive: 'из Белгорода', nameLocative: 'в Белгороде', regionId: 7, oldHubUrl: 'taxi-mezhgorod-belgorod' },
     ],

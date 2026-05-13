@@ -1,3 +1,5 @@
+import { FEDERAL_DISTRICTS } from '@/pages-list/region-hubs/config/registry'
+
 export interface PilotCity {
   slug: string
   name: string
@@ -8,17 +10,20 @@ export interface PilotCity {
   foShortName: string
 }
 
-export const PILOT_CITIES: PilotCity[] = [
-  { slug: 'vologda',   name: 'Вологда',   nameGenitive: 'из Вологды',    nameLocative: 'в Вологде',    regionId: 11, fo: 'szfo', foShortName: 'СЗФО' },
-  { slug: 'yaroslavl', name: 'Ярославль', nameGenitive: 'из Ярославля',  nameLocative: 'в Ярославле',  regionId: 69, fo: 'cfo',  foShortName: 'ЦФО' },
-  { slug: 'vladimir',  name: 'Владимир',  nameGenitive: 'из Владимира',  nameLocative: 'во Владимире', regionId: 9,  fo: 'cfo',  foShortName: 'ЦФО' },
-  { slug: 'kaluga',    name: 'Калуга',    nameGenitive: 'из Калуги',     nameLocative: 'в Калуге',     regionId: 19, fo: 'cfo',  foShortName: 'ЦФО' },
-  { slug: 'oryol',     name: 'Орёл',      nameGenitive: 'из Орла',       nameLocative: 'в Орле',       regionId: 36, fo: 'cfo',  foShortName: 'ЦФО' },
-  { slug: 'kursk',     name: 'Курск',     nameGenitive: 'из Курска',     nameLocative: 'в Курске',     regionId: 24, fo: 'cfo',  foShortName: 'ЦФО' },
-  { slug: 'tver',      name: 'Тверь',     nameGenitive: 'из Твери',      nameLocative: 'в Твери',      regionId: 59, fo: 'cfo',  foShortName: 'ЦФО' },
-  { slug: 'belgorod',  name: 'Белгород',  nameGenitive: 'из Белгорода',  nameLocative: 'в Белгороде',  regionId: 7,  fo: 'cfo',  foShortName: 'ЦФО' },
-  { slug: 'voronezh',  name: 'Воронеж',   nameGenitive: 'из Воронежа',   nameLocative: 'в Воронеже',   regionId: 12, fo: 'cfo',  foShortName: 'ЦФО' },
-]
+// PILOT_CITIES построен из registry — единый источник правды по всем 69 городам.
+// Раньше здесь был жёсткий список 9 пилотов; теперь все региональные хабы
+// живут на /mezhgorod/{city}/.
+export const PILOT_CITIES: PilotCity[] = FEDERAL_DISTRICTS.flatMap(fd =>
+  fd.cities.map(c => ({
+    slug: c.slug,
+    name: c.name,
+    nameGenitive: c.nameGenitive,
+    nameLocative: c.nameLocative,
+    regionId: c.regionId,
+    fo: fd.slug,
+    foShortName: fd.shortName,
+  })),
+)
 
 export const getPilotCityParams = () => PILOT_CITIES.map(c => ({ city: c.slug }))
 
@@ -26,6 +31,6 @@ export const getCityBySlug = (slug: string) => PILOT_CITIES.find(c => c.slug ===
 
 export const isPilotCity = (slug: string) => PILOT_CITIES.some(c => c.slug === slug)
 
-// routes в БД хранятся как `{fromSlug}-{toSlug}`. Для Орла БД использует slug `oryol`,
-// для остальных 8 городов — slug совпадает с city.slug пилота.
+// routes в БД хранятся как `{fromSlug}-{toSlug}`. URL-slug совпадает с DB-slug
+// для всех 69 городов (для Орла registry.slug = 'oryol' = БД-slug).
 export const buildLeafDbUrl = (citySlug: string, destSlug: string) => `${citySlug}-${destSlug}`
