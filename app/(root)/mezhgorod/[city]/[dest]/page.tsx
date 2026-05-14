@@ -8,7 +8,7 @@ import { regionHubService } from '@/shared/api/region-hub.service'
 import { BASE_URL } from '@/shared/constants'
 import { requisitsData } from '@/shared/data/requisits.data'
 import ServerRouteLinks from '@/shared/components/ServerRouteLinks/ServerRouteLinks'
-import { getCityBySlug, buildLeafDbUrl, PILOT_CITIES } from '@/pages-list/mezhgorod-city/config/pilot'
+import { getCityBySlug, buildLeafDbUrl, cityToDbSlug, PILOT_CITIES } from '@/pages-list/mezhgorod-city/config/pilot'
 import {
   generateSchemaOrg,
   generateProductSchema,
@@ -31,7 +31,7 @@ export async function generateStaticParams() {
   for (const city of PILOT_CITIES) {
     const data = await regionHubService.getRoutesByRegionId(city.regionId)
     if (!data) continue
-    const prefix = `${city.slug}-`
+    const prefix = `${cityToDbSlug(city.slug)}-`
     for (const route of data.routes) {
       if (route.url.startsWith(prefix)) {
         params.push({ city: city.slug, dest: route.url.slice(prefix.length) })
@@ -54,9 +54,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const canonicalPath = (() => {
     const canon = data?.canonical_url
     if (!canon) return `/mezhgorod/${params.city}/${params.dest}`
-    const prefix = `${params.city}-`
-    if (canon.startsWith(prefix)) {
-      return `/mezhgorod/${params.city}/${canon.slice(prefix.length)}`
+    const dbPrefix = `${cityToDbSlug(params.city)}-`
+    if (canon.startsWith(dbPrefix)) {
+      return `/mezhgorod/${params.city}/${canon.slice(dbPrefix.length)}`
     }
     return `/${canon}.html`
   })()

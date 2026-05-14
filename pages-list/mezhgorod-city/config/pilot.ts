@@ -31,6 +31,23 @@ export const getCityBySlug = (slug: string) => PILOT_CITIES.find(c => c.slug ===
 
 export const isPilotCity = (slug: string) => PILOT_CITIES.some(c => c.slug === slug)
 
-// routes в БД хранятся как `{fromSlug}-{toSlug}`. URL-slug совпадает с DB-slug
-// для всех 69 городов (для Орла registry.slug = 'oryol' = БД-slug).
-export const buildLeafDbUrl = (citySlug: string, destSlug: string) => `${citySlug}-${destSlug}`
+// Для некоторых городов URL-slug отличается от slug в таблице routes БД.
+// Маппинг URL → DB. Пополнять по мере обнаружения mismatch'ей.
+export const URL_TO_DB_SLUG: Record<string, string> = {
+  arhangelsk: 'arxangelsk',
+  'ulan-ude': 'ulan-udje',
+  // Будущие пакеты (предварительно — проверять при включении города):
+  // lipetsk: 'lipeck',
+  // 'nizhniy-novgorod': 'nizhnij-novgorod',
+  // 'velikiy-novgorod': 'velikij-novgorod',
+  // 'rostov-na-donu': 'rostov',
+  // krasnoyarsk: 'krasnojarsk',
+  // astrahan: 'astraxan',
+  // yakutsk: 'jakutsk',
+}
+
+export const cityToDbSlug = (citySlug: string) => URL_TO_DB_SLUG[citySlug] ?? citySlug
+
+// routes в БД хранятся как `{fromDbSlug}-{toSlug}`.
+export const buildLeafDbUrl = (citySlug: string, destSlug: string) =>
+  `${cityToDbSlug(citySlug)}-${destSlug}`
