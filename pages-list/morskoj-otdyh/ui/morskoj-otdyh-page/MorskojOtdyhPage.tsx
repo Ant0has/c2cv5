@@ -5,7 +5,6 @@ import HubHero from "@/pages-list/gornolyzhka/ui/HubHero/HubHero";
 import styles from './MorskojOtdyhPage.module.scss';
 import SeaDestinationCard from "../SeaDestinationCard/SeaDestinationCard";
 import clsx from "clsx";
-import { useIsMobile } from "@/shared/hooks/useResize";
 import { useState, useMemo } from "react";
 
 interface MorskojOtdyhPageProps {
@@ -112,7 +111,6 @@ const SEA_MAP: Record<string, { name: string; order: number }> = {
 type SeaFilter = 'all' | 'Чёрное море' | 'Крым' | 'Каспийское море' | 'Азовское море';
 
 const MorskojOtdyhPage = ({ hub }: MorskojOtdyhPageProps) => {
-    const isMobile = useIsMobile();
     const [activeSea, setActiveSea] = useState<SeaFilter>('all');
 
     const { seaGroups, filteredDestinations } = useMemo(() => {
@@ -166,7 +164,7 @@ const MorskojOtdyhPage = ({ hub }: MorskojOtdyhPageProps) => {
             <HubHero hub={hub} benefits={seaBenefits} />
 
             {/* Sea filter */}
-            <section className={clsx(styles.filterSection, 'container', { 'padding-y-40': !isMobile })} id="seas">
+            <section className={clsx(styles.filterSection, 'container', 'padding-y-40')} id="seas">
                 <h2 className={clsx('title', 'margin-b-24')}>Направления по морям</h2>
 
                 <div className={styles.seaTabs}>
@@ -200,7 +198,7 @@ const MorskojOtdyhPage = ({ hub }: MorskojOtdyhPageProps) => {
 
             {/* FAQ Section */}
             {faqData.length > 0 && (
-                <section className={clsx(styles.faqSection, 'container', { 'padding-y-40': !isMobile })} id="faq">
+                <section className={clsx(styles.faqSection, 'container', 'padding-y-40')} id="faq">
                     <h2 className={clsx('title', 'margin-b-32')}>Частые вопросы</h2>
                     <div className={styles.faqList}>
                         {faqData.map((item: { question: string; answer: string }, index: number) => (

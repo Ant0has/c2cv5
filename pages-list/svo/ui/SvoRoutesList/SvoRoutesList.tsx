@@ -1,9 +1,6 @@
-'use client'
-
 import Link from "next/link"
 import s from './SvoRoutesList.module.scss'
 import clsx from "clsx"
-import { useIsMobile } from "@/shared/hooks/useResize"
 
 interface Props {
   hubSlug: string
@@ -17,10 +14,8 @@ const additionalCities = [
 ]
 
 const SvoRoutesList = ({ hubSlug }: Props) => {
-  const isMobile = useIsMobile()
-
   return (
-    <section className={clsx(s.routesList, 'container', { 'padding-y-40': !isMobile })} id="more-routes">
+    <section className={clsx(s.routesList, 'container', 'padding-y-40')} id="more-routes">
       <h2 className={clsx('title', 'margin-b-24')}>Другие направления</h2>
       <p className={s.description}>
         Помимо основных городов, мы также выполняем трансферы в следующие населённые пункты новых территорий:

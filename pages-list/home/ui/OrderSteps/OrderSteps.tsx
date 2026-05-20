@@ -13,7 +13,6 @@ import { ModalContext } from "@/app/providers";
 import bigCarImage from "@/public/images/cars/car-big.png";
 import bigCarMilitaryImage from "@/public/images/military/cars/car-big.png";
 import { requisitsData } from "@/shared/data/requisits.data";
-import { useIsMobile } from "@/shared/hooks/useResize";
 
 interface IProps {
   isMilitary?: boolean;
@@ -21,13 +20,12 @@ interface IProps {
 
 const OrderSteps: FC<IProps> = ({ isMilitary }) => {
   const { setQuestionModalData } = useContext(ModalContext);
-  const isMobile = useIsMobile();
 
   const {markedPhone:markedPhoneFirst,phone:phoneFirst} = formatPhoneNumber(requisitsData.PHONE)
 
   return (
     <div className={s.wrapper}>
-      <div className={clsx('container relative', { 'padding-y-104': !isMobile })}>
+      <div className={clsx('container relative', 'padding-y-104')}>
         <OrderStepsContent />
 
         <div className={s.actions}>

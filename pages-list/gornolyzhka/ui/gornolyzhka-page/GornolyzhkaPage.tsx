@@ -7,14 +7,12 @@ import styles from './GornolyzhkaPage.module.scss';
 import DestinationCard from "../DestinationCard/DestinationCard";
 import { hubBenefits } from "@/shared/data/hub.data";
 import clsx from "clsx";
-import { useIsMobile } from "@/shared/hooks/useResize";
 
 interface GornolyghkaPageProps {
     hub: IHub;
 }
 
 const GornolyghkaPage = ({ hub }: GornolyghkaPageProps) => {
-    const isMobile = useIsMobile();
     const seoText = `
     <h2>Трансфер ${hub.name}</h2>
     <p>Служба City2City предлагает комфортные трансферы по направлению ${hub.name}.
@@ -38,7 +36,7 @@ const GornolyghkaPage = ({ hub }: GornolyghkaPageProps) => {
         <div className={styles.hubPage}>
             <HubHero hub={hub} benefits={hubBenefits} />
 
-            <section className={clsx(styles.destinationSection, 'container', { 'padding-y-40': !isMobile })} id="destinations">
+            <section className={clsx(styles.destinationSection, 'container', 'padding-y-40')} id="destinations">
                 <h2 className={clsx('title', 'margin-b-32')}>Популярные направления</h2>
 
                 <div className={styles.destinationGrid}>

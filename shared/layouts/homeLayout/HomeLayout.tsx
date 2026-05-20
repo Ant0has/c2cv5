@@ -1,7 +1,6 @@
 'use client'
 import clsx from 'clsx';
 import s from './HomeLayout.module.scss';
-import { useIsMobile } from '@/shared/hooks/useResize';
 
 interface IHomeLayoutProps {
     children: React.ReactNode;
@@ -9,9 +8,8 @@ interface IHomeLayoutProps {
     top?: React.ReactNode;
 }
 export const HomeLayout = ({ children, className, top }: IHomeLayoutProps) => {
-    const isMobile = useIsMobile();
     return (
-        <div className={clsx('container', { 'padding-y-104': !isMobile }, className)}>
+        <div className={clsx('container', 'padding-y-104', className)}>
             {top && top}
             {children}
         </div >

@@ -7,7 +7,6 @@ import WelcomeContent from './WelcomeContent/WelcomeContent';
 
 import militaryImage from '@/public/images/military/welcome-image.png';
 import welcomeImage from '@/public/images/welcome-image.png';
-import { useIsMobile } from '@/shared/hooks/useResize';
 import { IRouteData } from '@/shared/types/route.interface';
 
 interface IWelcomeProps {
@@ -18,11 +17,9 @@ interface IWelcomeProps {
 }
 
 const Welcome: FC<IWelcomeProps> = ({ city, isMilitary,route, handleGoToOrder  }) => {
-  const isMobile = useIsMobile();
-
   return (
     <div className={clsx(s.wrapper, { [s.military]: isMilitary })}>
-      <div className={clsx('container', { 'padding-y-104': !isMobile })}>
+      <div className={clsx('container', 'padding-y-104')}>
         <div className={clsx(s.content)}>
           <div className={s.left}>
             <WelcomeContent city={city} isMilitary={isMilitary} route={route} />

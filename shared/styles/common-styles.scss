@@ -321,6 +321,16 @@
   padding-bottom: 104px;
 }
 
+// CLS fix: на мобилке вертикальные padding обнуляются.
+// Раньше это делалось через JS (useIsMobile) — давало layout shift при гидрации.
+@media (max-width: 768px) {
+  .padding-y-40,
+  .padding-y-104 {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+
 .padding-l-4 {
   padding-left: 4px;
 }
