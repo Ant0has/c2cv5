@@ -396,7 +396,7 @@ const OsrmCalculator: FC = () => {
       <div className={s.block}>
         <div className={s.selection}>
           <div className={s.part}>
-            <div className={clsx(s.label, "font-16-normal")}>Точка отправления</div>
+            <div className={clsx(s.label, "font-16-normal", ms.mobileHidden)}>Точка отправления</div>
             <SearchInput className="departure-select address-select" value={departurePoint} placeholder="Москва" data={departurePointData}
               handleChange={handleChangeDeparturePoint} handleSearch={(v: string) => debouncedSearch(v, setDeparturePointData)} />
           </div>
@@ -404,7 +404,7 @@ const OsrmCalculator: FC = () => {
             <div onClick={handleClickSwapAddress} className={s.swapButton}><SwapIcon /></div>
           </div>
           <div className={s.part}>
-            <div className={clsx(s.label, "font-16-normal")}>Точка прибытия</div>
+            <div className={clsx(s.label, "font-16-normal", ms.mobileHidden)}>Точка прибытия</div>
             <SearchInput className="arrival-select address-select" value={arrivalPoint} placeholder="Казань" data={arrivalPointData}
               handleChange={handleChangeArrivalPoint} handleSearch={(v: string) => debouncedSearch(v, setArrivalPointData)} />
           </div>

@@ -138,7 +138,7 @@
     background: #ffffff;
   }
   &:nth-child(even) {
-    background: #f6f6f6;
+    background: #e4e4e4;
   }
 }
 
@@ -167,4 +167,12 @@
   color: #1a1a1a;
   white-space: nowrap;
   flex-shrink: 0;
+}
+
+/* Скрыть подписи "Точка отправления / прибытия" на мобиле — экономим вертикаль,
+   чтобы кнопка "Рассчитать" не пряталась под клавиатурой */
+@media (max-width: 768px) {
+  .mobileHidden {
+    display: none;
+  }
 }
