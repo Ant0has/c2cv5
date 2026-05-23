@@ -31,12 +31,13 @@ interface Tariff {
   label: string;
   defaultPrice: number;
   color: string;
+  highlight?: boolean;
 }
 
 const TARIFFS: Tariff[] = [
   { key: "standard",       label: "Стандарт",              defaultPrice: 25, color: COLOR_ORANGE },
   { key: "standard_2026",  label: "Стандарт (2026)",       defaultPrice: 27, color: COLOR_ORANGE },
-  { key: "comfort",        label: "Комфорт",               defaultPrice: 30, color: COLOR_ORANGE },
+  { key: "comfort",        label: "Комфорт",               defaultPrice: 30, color: COLOR_ORANGE, highlight: true },
   { key: "comfort_sib",    label: "Комфорт (2026/Сибирь)", defaultPrice: 35, color: COLOR_ORANGE },
   { key: "comfort_plus",   label: "К+ (ДВ)",               defaultPrice: 40, color: COLOR_PURPLE },
   { key: "minivan_driver", label: "Минивэн (Водителю)",    defaultPrice: 50, color: COLOR_GREEN },
@@ -230,6 +231,7 @@ const OsrmCalculator: FC = () => {
     key: t.key,
     label: t.label,
     color: t.color,
+    highlight: t.highlight ?? false,
     coefficient: planCoefficient[t.key] ?? t.defaultPrice,
   }));
 
@@ -446,6 +448,7 @@ const OsrmCalculator: FC = () => {
                 className={clsx(
                   ms.resultsRow,
                   id % 2 === 0 ? ms.resultsRowBold : ms.resultsRowNormal,
+                  plans[id].highlight && ms.resultsRowHighlight,
                 )}
               >
                 <span className={ms.resultsLabel} style={{ color: plans[id].color }}>

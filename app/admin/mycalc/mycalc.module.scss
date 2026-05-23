@@ -150,6 +150,15 @@
   font-weight: 400;
 }
 
+/* Подсветка ключевого тарифа (Комфорт) — чтобы сразу бросалось в глаза */
+.resultsRow.resultsRowHighlight {
+  font-weight: 800;
+  font-size: 17px;
+  background: rgba(217, 119, 6, 0.12);
+  border-left: 4px solid #D97706;
+  padding-left: 12px;
+}
+
 .resultsLabel {
   flex: 1;
   font-size: 15px;
