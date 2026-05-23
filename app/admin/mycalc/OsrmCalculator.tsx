@@ -21,7 +21,7 @@ import dynamic from "next/dynamic";
 const MapView = dynamic(() => import("./MapView"), { ssr: false });
 
 /* ===== Локальные тарифы калькулятора (не связаны с глобальным Prices enum) ===== */
-const COLOR_ORANGE = "#FF9C00";
+const COLOR_ORANGE = "#D97706";
 const COLOR_PURPLE = "#7B61FF";
 const COLOR_GREEN = "#16A34A";
 const COLOR_BLACK = "#1a1a1a";
@@ -437,30 +437,25 @@ const OsrmCalculator: FC = () => {
           <span>Примерное время в пути: </span>
           <span className="font-18-semibold">{time}</span>
         </div>
-        <div className={s.info}>
-          <span>Стоимость:</span>
-          {price ? (
-            <div className={ms.resultsList}>
-              {price.map((el, id) => (
-                <div
-                  key={id}
-                  className={clsx(
-                    ms.resultsRow,
-                    id % 2 === 0 ? ms.resultsRowBold : ms.resultsRowNormal,
-                  )}
-                >
-                  <span className={ms.resultsLabel} style={{ color: plans[id].color }}>
-                    {plans[id].label}
-                  </span>
-                  <span className={ms.resultsPerKm}>{plans[id].coefficient}₽/км</span>
-                  <span className={ms.resultsPrice}>{el.toLocaleString("ru-RU")} ₽</span>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <span className="font-18-semibold"> -</span>
-          )}
-        </div>
+        {price ? (
+          <div className={ms.resultsList}>
+            {price.map((el, id) => (
+              <div
+                key={id}
+                className={clsx(
+                  ms.resultsRow,
+                  id % 2 === 0 ? ms.resultsRowBold : ms.resultsRowNormal,
+                )}
+              >
+                <span className={ms.resultsLabel} style={{ color: plans[id].color }}>
+                  {plans[id].label}
+                </span>
+                <span className={ms.resultsPerKm}>{plans[id].coefficient}₽/км</span>
+                <span className={ms.resultsPrice}>{el.toLocaleString("ru-RU")} ₽</span>
+              </div>
+            ))}
+          </div>
+        ) : null}
         {/* Toll roads */}
         {tollInfo && tollInfo.tolls.length > 0 && (
           <div style={{ margin: '20px 0', padding: 16, background: '#fff3e0', borderRadius: 12, border: '1px solid #ffcc80' }}>
