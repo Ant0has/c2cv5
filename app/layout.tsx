@@ -8,6 +8,7 @@ import { Providers, YandexHit } from './providers';
 import UTMTracker from '@/shared/components/UTMTracker/UTMTracker';
 
 import ModalsWrapper from "@/shared/components/modals/ModalsWrapper";
+import ChatWidget from "@/shared/components/ChatWidget/ChatWidget";
 import '@/shared/styles/main.scss';
 
 import Script from 'next/script';
@@ -137,17 +138,8 @@ export default async function RootLayout({
           </div>
         </Providers>
 
-        {/* Chat Widget */}
-        <Script
-          id="chat-widget"
-          strategy="lazyOnload"
-          src="https://chat.city2city.ru/widget.js"
-          data-source="city2city.ru"
-          data-brand={requisitsData.BRAND_NAME}
-          data-color="var(--primary)"
-          data-bg-color="#000"
-          data-tooltip="Не работает WhatsApp/Telegram? Пиши СЮДА!"
-        />
+        {/* Chat Widget — скрыт на /admin/* */}
+        <ChatWidget />
       </body>
     </html>
   )
