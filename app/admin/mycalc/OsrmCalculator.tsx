@@ -1,7 +1,6 @@
 "use client";
 
 import SwapIcon from "@/public/icons/SwapIcon";
-import { planLabel } from "@/pages-list/home/ui/Price/data";
 import Button from "@/shared/components/ui/Button/Button";
 import SearchInput from "@/shared/components/ui/SearchInput/SearchInput";
 import {
@@ -9,12 +8,11 @@ import {
   COEFFICIENT_100_150,
   COEFFICIENT_150_200,
   COEFFICIENT_200,
-  prices,
   SPEED,
 } from "@/shared/constants";
-import { ButtonTypes, Prices } from "@/shared/types/enums";
+import { ButtonTypes } from "@/shared/types/enums";
 import clsx from "clsx";
-import { ChangeEvent, FC, useRef, useState, useEffect, useMemo } from "react";
+import { ChangeEvent, FC, useRef, useState, useEffect } from "react";
 import s from "../calculator/Calculator.module.scss";
 import ms from "./mycalc.module.scss";
 import { message } from "antd";
@@ -22,7 +20,35 @@ import dynamic from "next/dynamic";
 
 const MapView = dynamic(() => import("./MapView"), { ssr: false });
 
-const PLAN_COEFFICIENT = "plan_coefficient";
+/* ===== Локальные тарифы калькулятора (не связаны с глобальным Prices enum) ===== */
+const COLOR_ORANGE = "#FF9C00";
+const COLOR_PURPLE = "#7B61FF";
+const COLOR_GREEN = "#16A34A";
+const COLOR_BLACK = "#1a1a1a";
+
+interface Tariff {
+  key: string;
+  label: string;
+  defaultPrice: number;
+  color: string;
+}
+
+const TARIFFS: Tariff[] = [
+  { key: "standard",       label: "Стандарт",              defaultPrice: 25, color: COLOR_ORANGE },
+  { key: "standard_2026",  label: "Стандарт (2026)",       defaultPrice: 27, color: COLOR_ORANGE },
+  { key: "comfort",        label: "Комфорт",               defaultPrice: 30, color: COLOR_ORANGE },
+  { key: "comfort_sib",    label: "Комфорт (2026/Сибирь)", defaultPrice: 35, color: COLOR_ORANGE },
+  { key: "comfort_plus",   label: "К+ (ДВ)",               defaultPrice: 40, color: COLOR_PURPLE },
+  { key: "minivan_driver", label: "Минивэн (Водителю)",    defaultPrice: 50, color: COLOR_GREEN },
+  { key: "minivan",        label: "Минивэн",               defaultPrice: 60, color: COLOR_GREEN },
+  { key: "business",       label: "Бизнес класс",          defaultPrice: 80, color: COLOR_BLACK },
+];
+
+const DEFAULT_PRICES: Record<string, number> = Object.fromEntries(
+  TARIFFS.map(t => [t.key, t.defaultPrice]),
+);
+
+const PLAN_COEFFICIENT = "mycalc_plan_prices_v2";
 const DADATA_API_KEY = "17364206d854a397d57b11d01e9aa93050089134";
 const DADATA_URL = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
 const OSRM_URL = "https://router.project-osrm.org";
@@ -168,12 +194,21 @@ const ROUTE_COLORS = ["#FF9C00", "#4A90D9", "#7B61FF"];
 const OsrmCalculator: FC = () => {
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const [planCoefficient, setPlanCoefficient] = useState<Record<Prices, number>>(() => {
+  const [planCoefficient, setPlanCoefficient] = useState<Record<string, number>>(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem(PLAN_COEFFICIENT);
-      return saved ? JSON.parse(saved) : prices;
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved) as Record<string, number>;
+          // Дополняем недостающие ключи дефолтами (на случай если добавились новые тарифы)
+          return { ...DEFAULT_PRICES, ...parsed };
+        } catch {
+          return DEFAULT_PRICES;
+        }
+      }
+      return DEFAULT_PRICES;
     }
-    return prices;
+    return DEFAULT_PRICES;
   });
 
   const [departurePoint, setDeparturePoint] = useState("");
@@ -191,14 +226,12 @@ const OsrmCalculator: FC = () => {
 
   const geocodeCache = useRef<Map<string, { lat: number; lon: number }>>(new Map());
 
-  const plans = [
-    { key: Prices.STANDARD, label: planLabel[Prices.STANDARD], coefficient: planCoefficient[Prices.STANDARD] },
-    { key: Prices.COMFORT, label: planLabel[Prices.COMFORT], coefficient: planCoefficient[Prices.COMFORT] },
-    { key: Prices.COMFORT_PLUS, label: planLabel[Prices.COMFORT_PLUS], coefficient: planCoefficient[Prices.COMFORT_PLUS] },
-    { key: Prices.BUSINESS, label: planLabel[Prices.BUSINESS], coefficient: planCoefficient[Prices.BUSINESS] },
-    { key: Prices.MINIVAN, label: planLabel[Prices.MINIVAN], coefficient: planCoefficient[Prices.MINIVAN] },
-    { key: Prices.DELIVERY, label: planLabel[Prices.DELIVERY], coefficient: planCoefficient[Prices.DELIVERY] },
-  ];
+  const plans = TARIFFS.map(t => ({
+    key: t.key,
+    label: t.label,
+    color: t.color,
+    coefficient: planCoefficient[t.key] ?? t.defaultPrice,
+  }));
 
   const calculatePrice = (distanceValue: number) => {
     const getCoefficient = (d: number) => {
@@ -207,15 +240,12 @@ const OsrmCalculator: FC = () => {
       if (d >= 150 && d < 200) return COEFFICIENT_150_200;
       return COEFFICIENT_200;
     };
-    const result = [];
-    for (const key in planCoefficient) {
-      if (Object.prototype.hasOwnProperty.call(planCoefficient, key)) {
-        const currentPrice = planCoefficient[key as Prices];
-        const initialPrice = distanceValue * currentPrice * getCoefficient(distanceValue);
-        result.push(Math.ceil(initialPrice / 500) * 500);
-      }
-    }
-    return result;
+    // Идём строго по TARIFFS — чтобы порядок и индексы совпадали с plans[]
+    return TARIFFS.map(t => {
+      const currentPrice = planCoefficient[t.key] ?? t.defaultPrice;
+      const initialPrice = distanceValue * currentPrice * getCoefficient(distanceValue);
+      return Math.ceil(initialPrice / 500) * 500;
+    });
   };
 
   const convertHoursToRoundedTime = (hours: number): string => {
@@ -345,20 +375,23 @@ const OsrmCalculator: FC = () => {
         <div style={{ fontSize: 13, color: "#888", marginTop: 4 }}>DaData + OSRM (без Яндекс.Карт)</div>
       </div>
 
-      <div className={s.plans}>
-        {plans.map((plan) => (
-          <div key={plan.key} className={clsx(s.container)}>
-            <div className={s.button}>{plan.label}</div>
-            <input className={s.input} type="number" value={plan.coefficient} onChange={hanldeChangePlanCoefficient(plan.key)} />
-          </div>
-        ))}
-        <div className={s.returnDefault} onClick={() => {
-          setPlanCoefficient(prices as Record<Prices, number>);
-          if (typeof window !== "undefined") localStorage.setItem(PLAN_COEFFICIENT, JSON.stringify(prices));
+      <details className={ms.tariffSettings}>
+        <summary>Настройки тарифов (₽ за км)</summary>
+        <div className={ms.tariffSettingsList}>
+          {plans.map((plan) => (
+            <div key={plan.key} className={ms.tariffSettingsRow}>
+              <label style={{ color: plan.color, fontWeight: 600 }}>{plan.label}</label>
+              <input type="number" value={plan.coefficient} onChange={hanldeChangePlanCoefficient(plan.key)} />
+            </div>
+          ))}
+        </div>
+        <div className={ms.tariffSettingsReset} onClick={() => {
+          setPlanCoefficient(DEFAULT_PRICES);
+          if (typeof window !== "undefined") localStorage.setItem(PLAN_COEFFICIENT, JSON.stringify(DEFAULT_PRICES));
         }}>
           Вернуть значения по умолчанию
         </div>
-      </div>
+      </details>
 
       <div className={s.block}>
         <div className={s.selection}>
@@ -405,16 +438,28 @@ const OsrmCalculator: FC = () => {
           <span className="font-18-semibold">{time}</span>
         </div>
         <div className={s.info}>
-          <span>Стоимость: </span>
-          <div className={s.priceGrid}>
-            {price ? price.map((el, id) => (
-              <div className={s.priceElement} key={id}>
-                <div className={s.pricePlan}>{plans[id].label}</div>
-                <div className={s.priceValue}>{el}р</div>
-                <div className={s.pricePlan}>{plans[id].coefficient}р за км</div>
-              </div>
-            )) : <span className="font-18-semibold">-</span>}
-          </div>
+          <span>Стоимость:</span>
+          {price ? (
+            <div className={ms.resultsList}>
+              {price.map((el, id) => (
+                <div
+                  key={id}
+                  className={clsx(
+                    ms.resultsRow,
+                    id % 2 === 0 ? ms.resultsRowBold : ms.resultsRowNormal,
+                  )}
+                >
+                  <span className={ms.resultsLabel} style={{ color: plans[id].color }}>
+                    {plans[id].label}
+                  </span>
+                  <span className={ms.resultsPerKm}>{plans[id].coefficient}₽/км</span>
+                  <span className={ms.resultsPrice}>{el.toLocaleString("ru-RU")} ₽</span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <span className="font-18-semibold"> -</span>
+          )}
         </div>
         {/* Toll roads */}
         {tollInfo && tollInfo.tolls.length > 0 && (

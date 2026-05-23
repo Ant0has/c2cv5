@@ -44,3 +44,127 @@
     justify-content: center;
   }
 }
+
+/* ===== Тарифы: настройки (collapsible) ===== */
+.tariffSettings {
+  margin-bottom: 16px;
+  background: #fafafa;
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  padding: 8px 16px;
+
+  summary {
+    cursor: pointer;
+    padding: 8px 0;
+    font-weight: 600;
+    user-select: none;
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::before {
+      content: "▶ ";
+      display: inline-block;
+      transition: transform 0.2s;
+      margin-right: 4px;
+    }
+  }
+
+  &[open] summary::before {
+    transform: rotate(90deg);
+  }
+}
+
+.tariffSettingsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px;
+  padding: 12px 0 8px;
+}
+
+.tariffSettingsRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  label {
+    flex: 1;
+    font-size: 14px;
+  }
+
+  input {
+    width: 70px;
+    padding: 6px 8px;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    text-align: right;
+    font-size: 14px;
+  }
+}
+
+.tariffSettingsReset {
+  cursor: pointer;
+  color: #888;
+  font-size: 13px;
+  text-decoration: underline;
+  padding: 8px 0 4px;
+
+  &:hover {
+    color: #FF9C00;
+  }
+}
+
+/* ===== Результаты: одна колонка ===== */
+.resultsList {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.resultsRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 10px 16px;
+  gap: 12px;
+
+  /* Чередование строк, чтобы не сливались */
+  &:nth-child(odd) {
+    background: #ffffff;
+  }
+  &:nth-child(even) {
+    background: #f6f6f6;
+  }
+}
+
+.resultsRowBold {
+  font-weight: 700;
+}
+
+.resultsRowNormal {
+  font-weight: 400;
+}
+
+.resultsLabel {
+  flex: 1;
+  font-size: 15px;
+}
+
+.resultsPerKm {
+  color: #888;
+  font-size: 13px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.resultsPrice {
+  font-size: 16px;
+  color: #1a1a1a;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
