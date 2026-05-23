@@ -241,10 +241,11 @@ const OsrmCalculator: FC = () => {
       return COEFFICIENT_200;
     };
     // Идём строго по TARIFFS — чтобы порядок и индексы совпадали с plans[]
+    // Служебный калькулятор: без округления до 500, только до целого рубля
     return TARIFFS.map(t => {
       const currentPrice = planCoefficient[t.key] ?? t.defaultPrice;
       const initialPrice = distanceValue * currentPrice * getCoefficient(distanceValue);
-      return Math.ceil(initialPrice / 500) * 500;
+      return Math.round(initialPrice);
     });
   };
 
