@@ -14,19 +14,22 @@ interface Direction {
 // (1) anchor-text с конкретным маршрутом (Yandex видит релевантность по запросу),
 // (2) клики реальных пользователей → поведенческий сигнал > чем dropdown-меню,
 // (3) внутренний trust-trail для всех слабых маршрутных страниц.
+// URL пока на старых .html — Москва ещё не мигрирована в новую иерархию (пакет C-6).
+// canonical у этих страниц = .html, поэтому ссылки тут на .html, чтобы не дробить SEO-вес.
+// Краснодар→Москва и НН→Москва: в БД есть только обратное направление, поэтому такая семантика.
 const DIRECTIONS: Direction[] = [
-  { href: '/mezhgorod/moskva/sankt-peterburg', from: 'Москва', to: 'Санкт-Петербург', km: 711, priceFrom: 18000 },
-  { href: '/mezhgorod/sankt-peterburg/moskva', from: 'Санкт-Петербург', to: 'Москва', km: 711, priceFrom: 18000 },
-  { href: '/mezhgorod/moskva/voronezh', from: 'Москва', to: 'Воронеж', km: 515, priceFrom: 13500 },
-  { href: '/mezhgorod/moskva/krasnodar', from: 'Москва', to: 'Краснодар', km: 1390, priceFrom: 28000 },
-  { href: '/mezhgorod/moskva/sochi', from: 'Москва', to: 'Сочи', km: 1620, priceFrom: 32000 },
+  { href: '/moskva-piter.html', from: 'Москва', to: 'Санкт-Петербург', km: 711, priceFrom: 18000 },
+  { href: '/sankt-peterburg-moskva.html', from: 'Санкт-Петербург', to: 'Москва', km: 711, priceFrom: 18000 },
+  { href: '/moskva-voronezh.html', from: 'Москва', to: 'Воронеж', km: 515, priceFrom: 13500 },
+  { href: '/krasnodar-moskva.html', from: 'Краснодар', to: 'Москва', km: 1390, priceFrom: 28000 },
+  { href: '/moskva-sochi.html', from: 'Москва', to: 'Сочи', km: 1620, priceFrom: 32000 },
   { href: '/svo-taxi-moskva-donetsk.html', from: 'Москва', to: 'Донецк', km: 1170, priceFrom: 13000 },
-  { href: '/mezhgorod/moskva/nizhniy-novgorod', from: 'Москва', to: 'Нижний Новгород', km: 425, priceFrom: 11000 },
-  { href: '/mezhgorod/moskva/yaroslavl', from: 'Москва', to: 'Ярославль', km: 270, priceFrom: 7500 },
-  { href: '/mezhgorod/moskva/tula', from: 'Москва', to: 'Тула', km: 195, priceFrom: 5500 },
-  { href: '/mezhgorod/moskva/kazan', from: 'Москва', to: 'Казань', km: 820, priceFrom: 18500 },
-  { href: '/mezhgorod/moskva/samara', from: 'Москва', to: 'Самара', km: 1050, priceFrom: 22500 },
-  { href: '/mezhgorod/moskva/ekaterinburg', from: 'Москва', to: 'Екатеринбург', km: 1790, priceFrom: 36000 },
+  { href: '/nizhnij-novgorod-moskva.html', from: 'Нижний Новгород', to: 'Москва', km: 425, priceFrom: 11000 },
+  { href: '/moskva-yaroslavl.html', from: 'Москва', to: 'Ярославль', km: 270, priceFrom: 7500 },
+  { href: '/moskva-tula.html', from: 'Москва', to: 'Тула', km: 195, priceFrom: 5500 },
+  { href: '/moskva-kazan.html', from: 'Москва', to: 'Казань', km: 820, priceFrom: 18500 },
+  { href: '/moskva-samara.html', from: 'Москва', to: 'Самара', km: 1050, priceFrom: 22500 },
+  { href: '/moskva-ekaterinburg.html', from: 'Москва', to: 'Екатеринбург', km: 1790, priceFrom: 36000 },
 ]
 
 export default function PopularDirections() {
