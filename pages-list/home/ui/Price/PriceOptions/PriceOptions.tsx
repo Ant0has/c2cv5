@@ -1,5 +1,5 @@
 import { IPriceOptions } from "@/shared/types/types";
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import s from './PriceOptions.module.scss'
 import clsx from "clsx";
 
@@ -7,13 +7,17 @@ interface IProps {
   title: string
   options: IPriceOptions[]
   isMilitary?: boolean
+  /** Опциональный слот между заголовком и таблицей опций (для CapacityBlock и т.п.) */
+  slot?: ReactNode
 }
 
-const PriceOptions: FC<IProps> = ({ title, options, isMilitary }) => {
+const PriceOptions: FC<IProps> = ({ title, options, isMilitary, slot }) => {
 
   return (
     <div className={clsx(s.options, { [s.military]: isMilitary })}>
       <h3 className={clsx(s.title, 'font-24-medium')}>{title}</h3>
+
+      {slot}
 
       <div className={s.table}>
         {options.map(option => (

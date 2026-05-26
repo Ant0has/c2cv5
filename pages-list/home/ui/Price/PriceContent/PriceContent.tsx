@@ -6,9 +6,12 @@ import { Collapse, CollapseProps } from "antd";
 import clsx from "clsx";
 import Image, { StaticImageData } from "next/image";
 import { FC } from "react";
+import { usePathname } from "next/navigation";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import AdditionalServices from "../AdditionalServices/AdditionalServices";
+import CapacityBlock from "../CapacityBlock/CapacityBlock";
+import { isCapacityPilotRoute } from "../CapacityBlock/capacity-data";
 import {
   additionalServices,
   businessOptions,
@@ -119,6 +122,9 @@ const PriceContent: FC<IProps> = ({ type, isMilitary }) => {
     },
   };
 
+  const pathname = usePathname()
+  const showCapacityBlock = isCapacityPilotRoute(pathname)
+
   return (
     <div className={clsx(s.content, { [s.military]: isMilitary })}>
       <div className={s.top}>
@@ -127,6 +133,7 @@ const PriceContent: FC<IProps> = ({ type, isMilitary }) => {
             isMilitary={isMilitary}
             title={contentByType[type as keyof typeof contentByType].title}
             options={contentByType[type as keyof typeof contentByType].options}
+            slot={showCapacityBlock ? <CapacityBlock type={type} /> : undefined}
           />
         </div>
 
