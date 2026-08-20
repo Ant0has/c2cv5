@@ -124,6 +124,15 @@ const QuestionForm: FC<IProps> = ({ buttonText, className, form, handleClickLink
             placeholder="Номер телефона" />
         </Form.Item>
 
+        {/* Honeypot: люди поле не видят, заполняют только боты — такие заявки отбрасываются */}
+        <Form.Item
+          name="confirm_email"
+          style={{ position: 'absolute', left: '-9999px', width: 0, height: 0, margin: 0, overflow: 'hidden' }}
+          aria-hidden="true"
+        >
+          <Input tabIndex={-1} autoComplete="off" placeholder="Email" />
+        </Form.Item>
+
         <div className={s.bottom}>
           <Button
             type={ButtonTypes.PRIMARY}

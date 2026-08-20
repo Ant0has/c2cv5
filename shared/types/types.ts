@@ -48,6 +48,8 @@ export interface IMailRequest {
   order_to?: string;
   trip_price_from?: string;
   сurrent_route?: string | null;
+  form_token?: string;
+  confirm_email?: string;
 
   status?: boolean
 }

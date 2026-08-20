@@ -25,10 +25,22 @@ class MailService {
     return `${os.name} ${os.version}, ${browser.name} ${browser.version}`;
   }
 
+  // Токен выдаёт бэкенд, без валидного токена заявка отбрасывается (антибот)
+  private async getFormToken(): Promise<string> {
+    try {
+      const response = await fetch(`${BASE_URL_API}/mail/token`, { cache: 'no-store' });
+      const data = await response.json();
+      return data?.token || '';
+    } catch {
+      return '';
+    }
+  }
+
   async sendMail(payload: IMailRequest) {
     const utmData = getUTMData()
     const requestBody = {
       ...payload,
+      form_token: await this.getFormToken(),
       device_info: this.getDeviceInfo(),
       сurrent_route: window?.location?.href || '',
       utm_source: utmData?.utm_source || null,
