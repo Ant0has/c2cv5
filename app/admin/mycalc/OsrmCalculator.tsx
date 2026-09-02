@@ -12,11 +12,22 @@ import {
 } from "@/shared/constants";
 import { ButtonTypes } from "@/shared/types/enums";
 import clsx from "clsx";
-import { ChangeEvent, FC, useRef, useState, useEffect } from "react";
+import {
+  ChangeEvent,
+  FC,
+  MutableRefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import s from "../calculator/Calculator.module.scss";
 import ms from "./mycalc.module.scss";
 import { message } from "antd";
 import dynamic from "next/dynamic";
+import YandexRouteMap, {
+  YandexRouteMapHandle,
+} from "./YandexRouteMap";
 
 const MapView = dynamic(() => import("./MapView"), { ssr: false });
 
@@ -53,9 +64,11 @@ const PLAN_COEFFICIENT = "mycalc_plan_prices_v2";
 const DADATA_API_KEY = "17364206d854a397d57b11d01e9aa93050089134";
 const DADATA_URL = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
 const OSRM_URL = "https://router.project-osrm.org";
+const OSRM_TIMEOUT_MS = 15_000;
 
 interface DadataSuggestion {
   value: string;
+  unrestricted_value?: string;
   data: {
     geo_lat: string | null;
     geo_lon: string | null;
@@ -65,44 +78,88 @@ interface DadataSuggestion {
     area: string | null;
     street: string | null;
     house: string | null;
+    fias_id?: string | null;
+    qc_geo?: number | string | null;
   };
+}
+
+interface SuggestedPoint {
+  display: string;
+  lat?: number;
+  lon?: number;
+  source: "dadata" | "poi";
+  fiasId?: string;
+  qcGeo?: number;
+  hasHouse?: boolean;
+  unrestrictedValue?: string;
+  verified: boolean;
+}
+
+interface ResolvedPoint extends SuggestedPoint {
+  lat: number;
+  lon: number;
 }
 
 interface RouteResult {
   distance: number;
   duration: number;
   geometry: string;
+  points: [number, number][];
+  provider: "yandex" | "osrm";
 }
 
 function formatSuggestion(s: DadataSuggestion): string {
-  const city = s.data.city || s.data.settlement || '';
-  const region = s.data.region || '';
-  const area = s.data.area || '';
-  const street = s.data.street || '';
-  const house = s.data.house || '';
-
-  if (!city) return s.value;
-
-  const parts = [city];
-
-  // Добавить улицу и дом если есть
-  if (street) {
-    parts.push(street + (house ? ' ' + house : ''));
-  }
-
-  // Добавить район и область для маленьких городов
-  if (city !== region) {
-    if (area && area !== city && area !== region) parts.push(area + ' р-н');
-    if (region) parts.push(region + ' обл');
-  }
-
-  return parts.join(', ');
+  // value формирует сама DaData: в нём сохраняются корпус, строение и прочие
+  // уточнения, критичные для выбора правильной точки. Ручное сокращение адреса
+  // может склеить разные здания в одну строку и одну запись кеша.
+  return s.value.trim() || s.unrestricted_value?.trim() || "Адрес без названия";
 }
 
-async function suggest(query: string): Promise<{ display: string; lat: number; lon: number }[]> {
+function normalizeQcGeo(value: number | string | null | undefined): number | undefined {
+  if (value === null || value === undefined || value === "") return undefined;
+  const normalized = Number(value);
+  return Number.isFinite(normalized) ? normalized : undefined;
+}
+
+function dadataSuggestionToPoint(
+  suggestion: DadataSuggestion,
+  verified: boolean,
+  displayOverride?: string,
+): SuggestedPoint {
+  const lat = suggestion.data.geo_lat ? Number(suggestion.data.geo_lat) : undefined;
+  const lon = suggestion.data.geo_lon ? Number(suggestion.data.geo_lon) : undefined;
+  const point: SuggestedPoint = {
+    display: displayOverride || formatSuggestion(suggestion),
+    source: "dadata",
+    fiasId: suggestion.data.fias_id || undefined,
+    qcGeo: normalizeQcGeo(suggestion.data.qc_geo),
+    hasHouse: Boolean(suggestion.data.house),
+    unrestrictedValue: suggestion.unrestricted_value,
+    verified,
+  };
+
+  if (Number.isFinite(lat) && Number.isFinite(lon)) {
+    point.lat = lat;
+    point.lon = lon;
+  }
+
+  return point;
+}
+
+function hasCoordinates(point: SuggestedPoint): point is ResolvedPoint {
+  return Number.isFinite(point.lat) && Number.isFinite(point.lon);
+}
+
+async function suggest(query: string): Promise<SuggestedPoint[]> {
   // Search custom POI first
   const { searchPOI } = await import("@/shared/data/custom-poi");
-  const poiResults = searchPOI(query).map(p => ({ display: p.name, lat: p.lat, lon: p.lon }));
+  const poiResults: SuggestedPoint[] = searchPOI(query).map(p => ({
+    display: p.name,
+    lat: p.lat,
+    lon: p.lon,
+    source: "poi",
+    verified: true,
+  }));
 
   const res = await fetch(DADATA_URL, {
     method: "POST",
@@ -116,20 +173,17 @@ async function suggest(query: string): Promise<{ display: string; lat: number; l
       locations: [{ country: "Россия" }],
     }),
   });
+  if (!res.ok) throw new Error(`DaData вернула HTTP ${res.status}`);
+
   const data = await res.json();
-  const dadataRaw = (data.suggestions || [])
-    .filter((s: DadataSuggestion) => s.data.geo_lat && s.data.geo_lon);
+  const dadataRaw = (data.suggestions || []) as DadataSuggestion[];
 
   // Split DaData into pure cities and addresses with street/house
-  const cityResults: { display: string; lat: number; lon: number }[] = [];
-  const otherResults: { display: string; lat: number; lon: number }[] = [];
+  const cityResults: SuggestedPoint[] = [];
+  const otherResults: SuggestedPoint[] = [];
 
   for (const s of dadataRaw) {
-    const item = {
-      display: formatSuggestion(s),
-      lat: parseFloat(s.data.geo_lat!),
-      lon: parseFloat(s.data.geo_lon!),
-    };
+    const item = dadataSuggestionToPoint(s, false);
     if (!s.data.street && !s.data.house && (s.data.city || s.data.settlement)) {
       cityResults.push(item);
     } else {
@@ -139,7 +193,7 @@ async function suggest(query: string): Promise<{ display: string; lat: number; l
 
   // Order: [Pure city] → [POI of that city] → [Other DaData with addresses]
   const seen = new Set<string>();
-  const combined: { display: string; lat: number; lon: number }[] = [];
+  const combined: SuggestedPoint[] = [];
 
   for (const c of cityResults) {
     if (!seen.has(c.display)) { combined.push(c); seen.add(c.display); }
@@ -154,19 +208,64 @@ async function suggest(query: string): Promise<{ display: string; lat: number; l
   return combined.slice(0, 10);
 }
 
-async function getRoutes(
+async function resolveDadataPoint(point: SuggestedPoint): Promise<ResolvedPoint> {
+  if ((point.source === "poi" || point.verified) && hasCoordinates(point)) return point;
+
+  const res = await fetch(DADATA_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Token ${DADATA_API_KEY}`,
+    },
+    body: JSON.stringify({
+      query: point.unrestrictedValue || point.display,
+      count: 1,
+      locations: [{ country: "Россия" }],
+    }),
+  });
+  if (!res.ok) throw new Error(`DaData вернула HTTP ${res.status}`);
+
+  const data = await res.json();
+  const exactSuggestion = (data.suggestions || [])[0] as DadataSuggestion | undefined;
+
+  if (!exactSuggestion) throw new Error("DaData не вернула точные координаты");
+
+  const resolved = dadataSuggestionToPoint(exactSuggestion, true, point.display);
+  if (!hasCoordinates(resolved)) {
+    throw new Error("DaData не вернула точные координаты");
+  }
+
+  return resolved;
+}
+
+function isApproximatePoint(point: ResolvedPoint): boolean {
+  if (point.source === "poi") return false;
+  if (!point.verified) return true;
+  // qc_geo=0 — точные координаты дома. Значения 1–5 означают ближайший дом,
+  // улицу, населённый пункт или город; для расчёта маржи это нужно показывать
+  // оператору как приблизительную точку, даже если выбран только город.
+  return point.qcGeo === undefined || point.qcGeo > 0;
+}
+
+async function getOsrmRoutes(
   fromLat: number, fromLon: number,
-  toLat: number, toLon: number
+  toLat: number, toLon: number,
+  signal: AbortSignal,
 ): Promise<RouteResult[]> {
   const res = await fetch(
-    `${OSRM_URL}/route/v1/driving/${fromLon},${fromLat};${toLon},${toLat}?overview=full&geometries=polyline&alternatives=3`
+    `${OSRM_URL}/route/v1/driving/${fromLon},${fromLat};${toLon},${toLat}?overview=full&geometries=polyline&alternatives=3`,
+    { signal },
   );
+  if (!res.ok) throw new Error(`OSRM вернул HTTP ${res.status}`);
+
   const data = await res.json();
   if (data.routes && data.routes.length > 0) {
     return data.routes.map((r: { distance: number; duration: number; geometry: string }) => ({
-      distance: Math.round(r.distance / 1000),
-      duration: Math.round(r.duration / 3600 * 2) / 2,
+      distance: r.distance / 1000,
+      duration: r.duration / 3600,
       geometry: r.geometry,
+      points: decodePolyline(r.geometry),
+      provider: "osrm" as const,
     }));
   }
   return [];
@@ -192,8 +291,24 @@ function decodePolyline(encoded: string): [number, number][] {
 
 const ROUTE_COLORS = ["#FF9C00", "#4A90D9", "#7B61FF"];
 
+function formatDistance(distanceKm: number): string {
+  // Не округляем значение через тарифный порог: 99,999 км не должно выглядеть
+  // как 100 км, пока к нему применяется коэффициент диапазона < 100 км.
+  const visibleDistance = Math.floor((distanceKm + Number.EPSILON) * 100) / 100;
+  return visibleDistance.toLocaleString("ru-RU", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  });
+}
+
 const OsrmCalculator: FC = () => {
-  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const departureDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const arrivalDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const departureSearchSequenceRef = useRef(0);
+  const arrivalSearchSequenceRef = useRef(0);
+  const routeRequestSequenceRef = useRef(0);
+  const yandexRouteMapRef = useRef<YandexRouteMapHandle | null>(null);
+  const osrmAbortControllerRef = useRef<AbortController | null>(null);
 
   const [planCoefficient, setPlanCoefficient] = useState<Record<string, number>>(() => {
     if (typeof window !== "undefined") {
@@ -214,18 +329,22 @@ const OsrmCalculator: FC = () => {
 
   const [departurePoint, setDeparturePoint] = useState("");
   const [departurePointData, setDeparturePointData] = useState<string[]>([]);
-  const [departureCoords, setDepartureCoords] = useState<{ lat: number; lon: number } | null>(null);
+  const [departureCoords, setDepartureCoords] = useState<ResolvedPoint | null>(null);
+  const [isDepartureResolving, setIsDepartureResolving] = useState(false);
 
   const [arrivalPoint, setArrivalPoint] = useState("");
   const [arrivalPointData, setArrivalPointData] = useState<string[]>([]);
-  const [arrivalCoords, setArrivalCoords] = useState<{ lat: number; lon: number } | null>(null);
+  const [arrivalCoords, setArrivalCoords] = useState<ResolvedPoint | null>(null);
+  const [isArrivalResolving, setIsArrivalResolving] = useState(false);
 
   const [routes, setRoutes] = useState<RouteResult[]>([]);
   const [selectedRoute, setSelectedRoute] = useState(0);
   const [isRouteCalculating, setIsRouteCalculating] = useState(false);
+  const [routeProvider, setRouteProvider] = useState<"yandex" | "osrm" | null>(null);
+  const [routeNotice, setRouteNotice] = useState<string | null>(null);
   const [tollInfo, setTollInfo] = useState<{ totalCost: number; tolls: { id: string; road: string; name: string; fee: number }[] } | null>(null);
 
-  const geocodeCache = useRef<Map<string, { lat: number; lon: number }>>(new Map());
+  const geocodeCache = useRef<Map<string, SuggestedPoint>>(new Map());
 
   const plans = TARIFFS.map(t => ({
     key: t.key,
@@ -265,103 +384,291 @@ const OsrmCalculator: FC = () => {
   };
 
   const currentRoute = routes[selectedRoute];
-  const distance = currentRoute ? `${currentRoute.distance} км` : "-";
-  const time = currentRoute ? convertHoursToRoundedTime(currentRoute.distance / SPEED) : "-";
-  const price = currentRoute ? calculatePrice(currentRoute.distance) : undefined;
+  const distance = currentRoute ? `${formatDistance(currentRoute.distance)} км` : "-";
+  const time = currentRoute
+    ? convertHoursToRoundedTime(currentRoute.duration || currentRoute.distance / SPEED)
+    : "-";
+  const price = currentRoute && routeProvider === "yandex"
+    ? calculatePrice(currentRoute.distance)
+    : undefined;
 
   // Recalculate tolls when route changes
   useEffect(() => {
-    if (currentRoute?.geometry) {
-      const points = decodePolyline(currentRoute.geometry);
-      const result = calculateTollCost(points);
+    if (currentRoute?.points.length) {
+      const result = calculateTollCost(currentRoute.points);
       setTollInfo(result);
     } else {
       setTollInfo(null);
     }
   }, [currentRoute]);
 
+  const clearCalculatedRoute = useCallback(() => {
+    routeRequestSequenceRef.current += 1;
+    yandexRouteMapRef.current?.clearRoute();
+    osrmAbortControllerRef.current?.abort();
+    osrmAbortControllerRef.current = null;
+    setRoutes([]);
+    setSelectedRoute(0);
+    setRouteProvider(null);
+    setRouteNotice(null);
+    setTollInfo(null);
+    setIsRouteCalculating(false);
+  }, []);
+
   const handleCalculate = async () => {
-    if (!departurePoint || !arrivalPoint) {
-      alert("Заполните точки отправления и прибытия");
+    if (!departureCoords || !arrivalCoords) {
+      message.error("Выберите обе точки из подсказок DaData");
       return;
     }
 
+    const requestSequence = routeRequestSequenceRef.current + 1;
+    routeRequestSequenceRef.current = requestSequence;
+    yandexRouteMapRef.current?.clearRoute();
+    osrmAbortControllerRef.current?.abort();
+    osrmAbortControllerRef.current = null;
     setIsRouteCalculating(true);
     setRoutes([]);
     setSelectedRoute(0);
+    setRouteProvider(null);
+    setRouteNotice(null);
 
     try {
-      let fromCoords = departureCoords || geocodeCache.current.get(departurePoint);
-      let toCoords = arrivalCoords || geocodeCache.current.get(arrivalPoint);
-
-      if (!fromCoords) {
-        const results = await suggest(departurePoint);
-        if (results.length > 0) {
-          fromCoords = { lat: results[0].lat, lon: results[0].lon };
-          geocodeCache.current.set(departurePoint, fromCoords);
-          setDepartureCoords(fromCoords);
-        }
+      if (
+        isApproximatePoint(departureCoords) ||
+        isApproximatePoint(arrivalCoords)
+      ) {
+        message.warning("Один из адресов DaData определила приблизительно. Проверьте выбранный вариант.");
       }
 
-      if (!toCoords) {
-        const results = await suggest(arrivalPoint);
-        if (results.length > 0) {
-          toCoords = { lat: results[0].lat, lon: results[0].lon };
-          geocodeCache.current.set(arrivalPoint, toCoords);
-          setArrivalCoords(toCoords);
-        }
+      if (!yandexRouteMapRef.current) {
+        throw new Error("Модуль Яндекс Маршрутов ещё не готов");
       }
 
-      if (!fromCoords || !toCoords) {
-        message.error("Не удалось определить координаты городов");
-        return;
-      }
+      const yandexResponse = await yandexRouteMapRef.current.calculateRoute(
+        departureCoords,
+        arrivalCoords,
+      );
+      if (routeRequestSequenceRef.current !== requestSequence) return;
 
-      const foundRoutes = await getRoutes(fromCoords.lat, fromCoords.lon, toCoords.lat, toCoords.lon);
-      if (foundRoutes.length > 0) {
-        setRoutes(foundRoutes);
-        setSelectedRoute(0);
-      } else {
-        message.error("Не удалось рассчитать маршрут");
-      }
+      const yandexRoutes: RouteResult[] = yandexResponse.routes.map(route => ({
+        ...route,
+        geometry: "",
+        provider: "yandex",
+      }));
+
+      setRoutes(yandexRoutes);
+      setSelectedRoute(Math.min(yandexResponse.activeRouteIndex, yandexRoutes.length - 1));
+      setRouteProvider("yandex");
     } catch {
-      message.error("Ошибка расчёта маршрута");
+      if (routeRequestSequenceRef.current !== requestSequence) return;
+      yandexRouteMapRef.current?.clearRoute();
+
+      const osrmAbortController = new AbortController();
+      const osrmTimeoutId = setTimeout(
+        () => osrmAbortController.abort(),
+        OSRM_TIMEOUT_MS,
+      );
+      osrmAbortControllerRef.current = osrmAbortController;
+
+      try {
+        const fallbackRoutes = await getOsrmRoutes(
+          departureCoords.lat,
+          departureCoords.lon,
+          arrivalCoords.lat,
+          arrivalCoords.lon,
+          osrmAbortController.signal,
+        );
+        if (routeRequestSequenceRef.current !== requestSequence) return;
+
+        if (fallbackRoutes.length === 0) throw new Error("OSRM не вернул маршрут");
+
+        setRoutes(fallbackRoutes);
+        setSelectedRoute(0);
+        setRouteProvider("osrm");
+        setRouteNotice(
+          "Яндекс временно недоступен — показан резервный маршрут OSRM. Тарифные цены не рассчитаны, чтобы резервный километраж не повлиял на маржу.",
+        );
+        message.warning("Яндекс не ответил. Использован резервный маршрут OSRM.");
+      } catch {
+        if (routeRequestSequenceRef.current === requestSequence) {
+          message.error("Не удалось рассчитать маршрут ни через Яндекс, ни через резервный сервис");
+        }
+      } finally {
+        clearTimeout(osrmTimeoutId);
+        if (osrmAbortControllerRef.current === osrmAbortController) {
+          osrmAbortControllerRef.current = null;
+        }
+      }
     } finally {
-      setIsRouteCalculating(false);
+      if (routeRequestSequenceRef.current === requestSequence) {
+        setIsRouteCalculating(false);
+      }
     }
   };
 
   const handleClickSwapAddress = () => {
+    departureSearchSequenceRef.current += 1;
+    arrivalSearchSequenceRef.current += 1;
+    setIsDepartureResolving(false);
+    setIsArrivalResolving(false);
     setDeparturePoint(arrivalPoint);
     setArrivalPoint(departurePoint);
     setDeparturePointData(arrivalPointData);
     setArrivalPointData(departurePointData);
     setDepartureCoords(arrivalCoords);
     setArrivalCoords(departureCoords);
-    setRoutes([]);
+    clearCalculatedRoute();
   };
 
-  const debouncedSearch = (value: string, setter: (data: string[]) => void) => {
+  const debouncedSearch = (
+    value: string,
+    setter: (data: string[]) => void,
+    debounceRef: MutableRefObject<ReturnType<typeof setTimeout> | null>,
+    searchSequenceRef: MutableRefObject<number>,
+  ) => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
-    if (value.length < 2) return;
+    const searchSequence = searchSequenceRef.current + 1;
+    searchSequenceRef.current = searchSequence;
+
+    if (value.trim().length < 2) {
+      setter([]);
+      return;
+    }
+
     debounceRef.current = setTimeout(async () => {
-      const results = await suggest(value);
-      results.forEach(r => geocodeCache.current.set(r.display, { lat: r.lat, lon: r.lon }));
-      setter([...new Set(results.map(r => r.display))]);
+      try {
+        const results = await suggest(value.trim());
+        if (searchSequenceRef.current !== searchSequence) return;
+
+        results.forEach(result => {
+          const cached = geocodeCache.current.get(result.display);
+          if (!cached?.verified) geocodeCache.current.set(result.display, result);
+        });
+        setter(results.map(result => result.display));
+      } catch {
+        if (searchSequenceRef.current === searchSequence) setter([]);
+      }
     }, 400);
   };
 
-  const handleChangeDeparturePoint = (value: string) => {
+  const handleChangeDeparturePoint = async (value: string) => {
+    if (departureDebounceRef.current) clearTimeout(departureDebounceRef.current);
+    departureSearchSequenceRef.current += 1;
+    const selectionSequence = departureSearchSequenceRef.current;
     setDeparturePoint(value);
     const cached = geocodeCache.current.get(value);
-    if (cached) setDepartureCoords(cached);
+    setDepartureCoords(null);
+    setIsDepartureResolving(false);
+    clearCalculatedRoute();
+
+    if (!cached) return;
+    if (cached.verified && hasCoordinates(cached)) {
+      setDepartureCoords(cached);
+      return;
+    }
+
+    setIsDepartureResolving(true);
+    try {
+      const resolved = await resolveDadataPoint(cached);
+      if (departureSearchSequenceRef.current !== selectionSequence) return;
+      geocodeCache.current.set(value, resolved);
+      geocodeCache.current.set(resolved.display, resolved);
+      setDepartureCoords(resolved);
+    } catch {
+      if (departureSearchSequenceRef.current !== selectionSequence) return;
+      if (hasCoordinates(cached)) {
+        setDepartureCoords(cached);
+        message.warning("DaData не смогла дополнительно уточнить точку. Проверьте адрес перед расчётом.");
+      } else {
+        message.error("DaData не смогла определить координаты выбранной точки");
+      }
+    } finally {
+      if (departureSearchSequenceRef.current === selectionSequence) {
+        setIsDepartureResolving(false);
+      }
+    }
   };
 
-  const handleChangeArrivalPoint = (value: string) => {
+  const handleChangeArrivalPoint = async (value: string) => {
+    if (arrivalDebounceRef.current) clearTimeout(arrivalDebounceRef.current);
+    arrivalSearchSequenceRef.current += 1;
+    const selectionSequence = arrivalSearchSequenceRef.current;
     setArrivalPoint(value);
     const cached = geocodeCache.current.get(value);
-    if (cached) setArrivalCoords(cached);
+    setArrivalCoords(null);
+    setIsArrivalResolving(false);
+    clearCalculatedRoute();
+
+    if (!cached) return;
+    if (cached.verified && hasCoordinates(cached)) {
+      setArrivalCoords(cached);
+      return;
+    }
+
+    setIsArrivalResolving(true);
+    try {
+      const resolved = await resolveDadataPoint(cached);
+      if (arrivalSearchSequenceRef.current !== selectionSequence) return;
+      geocodeCache.current.set(value, resolved);
+      geocodeCache.current.set(resolved.display, resolved);
+      setArrivalCoords(resolved);
+    } catch {
+      if (arrivalSearchSequenceRef.current !== selectionSequence) return;
+      if (hasCoordinates(cached)) {
+        setArrivalCoords(cached);
+        message.warning("DaData не смогла дополнительно уточнить точку. Проверьте адрес перед расчётом.");
+      } else {
+        message.error("DaData не смогла определить координаты выбранной точки");
+      }
+    } finally {
+      if (arrivalSearchSequenceRef.current === selectionSequence) {
+        setIsArrivalResolving(false);
+      }
+    }
   };
+
+  const handleSearchDeparturePoint = (value: string) => {
+    setDeparturePoint(value);
+    setDepartureCoords(null);
+    setIsDepartureResolving(false);
+    clearCalculatedRoute();
+    debouncedSearch(
+      value,
+      setDeparturePointData,
+      departureDebounceRef,
+      departureSearchSequenceRef,
+    );
+  };
+
+  const handleSearchArrivalPoint = (value: string) => {
+    setArrivalPoint(value);
+    setArrivalCoords(null);
+    setIsArrivalResolving(false);
+    clearCalculatedRoute();
+    debouncedSearch(
+      value,
+      setArrivalPointData,
+      arrivalDebounceRef,
+      arrivalSearchSequenceRef,
+    );
+  };
+
+  const handleSelectRoute = (index: number) => {
+    setSelectedRoute(index);
+    if (routeProvider === "yandex") {
+      yandexRouteMapRef.current?.selectRoute(index);
+    }
+  };
+
+  useEffect(() => () => {
+    routeRequestSequenceRef.current += 1;
+    departureSearchSequenceRef.current += 1;
+    arrivalSearchSequenceRef.current += 1;
+    yandexRouteMapRef.current?.clearRoute();
+    osrmAbortControllerRef.current?.abort();
+    if (departureDebounceRef.current) clearTimeout(departureDebounceRef.current);
+    if (arrivalDebounceRef.current) clearTimeout(arrivalDebounceRef.current);
+  }, []);
 
   const hanldeChangePlanCoefficient = (key: string) => (e: ChangeEvent<HTMLInputElement>) => {
     const changedData = { ...planCoefficient, [key]: Number(e.target.value) };
@@ -371,11 +678,32 @@ const OsrmCalculator: FC = () => {
     }
   };
 
+  const tollMapPoints = tollInfo?.tolls.map(toll => {
+    const point = TOLL_POINTS.find(item => item.id === toll.id);
+    return point
+      ? { lat: point.lat, lon: point.lon, name: `${toll.road} · ${toll.name}` }
+      : null;
+  }).filter(Boolean) as { lat: number; lon: number; name: string }[] | undefined;
+  const isPointResolving = isDepartureResolving || isArrivalResolving;
+  const hasApproximateSelectedPoint = Boolean(
+    (departureCoords && isApproximatePoint(departureCoords)) ||
+    (arrivalCoords && isApproximatePoint(arrivalCoords)),
+  );
+  const addressHintText = isPointResolving
+    ? "DaData уточняет координаты выбранной точки…"
+    : hasApproximateSelectedPoint
+      ? "Одна из точек определена приблизительно — проверьте выбранный адрес."
+      : departureCoords && arrivalCoords
+        ? "Обе точки выбраны: Яндекс получит координаты без повторного поиска адресов."
+        : "Для точного расчёта выберите обе точки из выпадающих подсказок.";
+
   return (
     <div className={clsx("container", s.wrapper)}>
       <div style={{ gridColumn: "1 / -1", padding: "8px 0", marginBottom: 8, borderBottom: "2px solid #FF9C00", width: "100%" }}>
         <div style={{ fontSize: 20, fontWeight: 700 }}>Калькулятор</div>
-        <div style={{ fontSize: 13, color: "#888", marginTop: 4 }}>DaData + OSRM (без Яндекс.Карт)</div>
+        <div style={{ fontSize: 13, color: "#888", marginTop: 4 }}>
+          DaData → Яндекс Карты · OSRM — резерв
+        </div>
       </div>
 
       <details className={ms.tariffSettings}>
@@ -401,7 +729,7 @@ const OsrmCalculator: FC = () => {
           <div className={s.part}>
             <div className={clsx(s.label, "font-16-normal", ms.mobileHidden)}>Точка отправления</div>
             <SearchInput className="departure-select address-select" value={departurePoint} placeholder="Москва" data={departurePointData}
-              handleChange={handleChangeDeparturePoint} handleSearch={(v: string) => debouncedSearch(v, setDeparturePointData)} />
+              handleChange={handleChangeDeparturePoint} handleSearch={handleSearchDeparturePoint} />
           </div>
           <div className={s.swapButtonWrapper}>
             <div onClick={handleClickSwapAddress} className={s.swapButton}><SwapIcon /></div>
@@ -409,12 +737,23 @@ const OsrmCalculator: FC = () => {
           <div className={s.part}>
             <div className={clsx(s.label, "font-16-normal", ms.mobileHidden)}>Точка прибытия</div>
             <SearchInput className="arrival-select address-select" value={arrivalPoint} placeholder="Казань" data={arrivalPointData}
-              handleChange={handleChangeArrivalPoint} handleSearch={(v: string) => debouncedSearch(v, setArrivalPointData)} />
+              handleChange={handleChangeArrivalPoint} handleSearch={handleSearchArrivalPoint} />
           </div>
         </div>
 
+        <div className={clsx(ms.addressHint, {
+          [ms.addressHintReady]: Boolean(
+            departureCoords &&
+            arrivalCoords &&
+            !hasApproximateSelectedPoint &&
+            !isPointResolving,
+          ),
+        })}>
+          {addressHintText}
+        </div>
+
         <div style={{ marginBottom: 20 }}>
-          <Button disabled={!departurePoint || !arrivalPoint || isRouteCalculating}
+          <Button disabled={!departureCoords || !arrivalCoords || isPointResolving || isRouteCalculating}
             type={ButtonTypes.PRIMARY} text={isRouteCalculating ? "Рассчитываю..." : "Рассчитать поездку"}
             handleClick={handleCalculate} />
         </div>
@@ -424,13 +763,24 @@ const OsrmCalculator: FC = () => {
           <div className={ms.routeSelector}>
             {routes.map((r, i) => (
               <button key={i} className={clsx(ms.routeTab, { [ms.routeTabActive]: selectedRoute === i })}
-                style={{ borderColor: ROUTE_COLORS[i] }} onClick={() => setSelectedRoute(i)}>
+                style={{ borderColor: ROUTE_COLORS[i] }} onClick={() => handleSelectRoute(i)}>
                 <span className={ms.routeTabColor} style={{ background: ROUTE_COLORS[i] }} />
-                <span>Маршрут {i + 1}: {r.distance} км</span>
+                <span>Маршрут {i + 1}: {formatDistance(r.distance)} км</span>
               </button>
             ))}
           </div>
         )}
+
+        {routeProvider && (
+          <div className={clsx(ms.routeSource, {
+            [ms.routeSourceYandex]: routeProvider === "yandex",
+            [ms.routeSourceFallback]: routeProvider === "osrm",
+          })}>
+            Источник километража: {routeProvider === "yandex" ? "Яндекс Карты" : "OSRM (резерв)"}
+          </div>
+        )}
+
+        {routeNotice && <div className={ms.routeNotice}>{routeNotice}</div>}
 
         <div className={s.info}>
           <span>Протяженность маршрута: </span>
@@ -477,17 +827,23 @@ const OsrmCalculator: FC = () => {
 
       {/* Map */}
       <div className={s.map}>
-        <MapView
-          routes={routes}
-          selectedRoute={selectedRoute}
-          fromCoords={departureCoords}
-          toCoords={arrivalCoords}
-          colors={ROUTE_COLORS}
-          tollPoints={tollInfo?.tolls.map(t => {
-            const tp = TOLL_POINTS.find(p => p.id === t.id);
-            return tp ? { lat: tp.lat, lon: tp.lon, name: `${t.road} · ${t.name}` } : null;
-          }).filter(Boolean) as { lat: number; lon: number; name: string }[] || []}
-        />
+        <div style={{ display: routeProvider === "osrm" ? "none" : "block" }}>
+          <YandexRouteMap
+            ref={yandexRouteMapRef}
+            onActiveRouteChange={setSelectedRoute}
+            tollPoints={tollMapPoints || []}
+          />
+        </div>
+        {routeProvider === "osrm" && (
+          <MapView
+            routes={routes}
+            selectedRoute={selectedRoute}
+            fromCoords={departureCoords}
+            toCoords={arrivalCoords}
+            colors={ROUTE_COLORS}
+            tollPoints={tollMapPoints || []}
+          />
+        )}
       </div>
     </div>
   );

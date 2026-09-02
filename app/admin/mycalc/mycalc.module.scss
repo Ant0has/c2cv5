@@ -34,6 +34,50 @@
   flex-shrink: 0;
 }
 
+.addressHint {
+  margin: -8px 0 16px;
+  color: #8a5a00;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.addressHintReady {
+  color: #16803a;
+}
+
+.routeSource {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 14px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.routeSourceYandex {
+  color: #126b31;
+  background: #eaf8ef;
+  border: 1px solid #b9e6c8;
+}
+
+.routeSourceFallback {
+  color: #8a4d00;
+  background: #fff3e0;
+  border: 1px solid #ffcc80;
+}
+
+.routeNotice {
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  border-left: 4px solid #d97706;
+  border-radius: 8px;
+  background: #fff8eb;
+  color: #704000;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
 @media (max-width: 480px) {
   .routeSelector {
     flex-direction: column;

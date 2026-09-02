@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import OsrmCalculator from './OsrmCalculator'
 
 export const metadata: Metadata = {
-  title: 'Калькулятор (OSRM)',
-  description: 'Расчёт маршрутов через OSRM',
+  title: 'Служебный калькулятор маршрутов',
+  description: 'Расчёт маршрутов по координатам DaData через Яндекс Карты',
   robots: {
     index: false,
     follow: false,
