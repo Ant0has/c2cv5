@@ -206,7 +206,10 @@ function readRoutes(
 
 const YandexRouteMapInner = forwardRef<YandexRouteMapHandle, InnerProps>(
   ({ avoidTrafficJams, keySlot, onActiveRouteChange, onUsageEvent, tollPoints = [] }, ref) => {
-    const ymapsApi = useYMaps(["multiRouter.MultiRoute"]);
+    // Provider загружает официальный package.full целиком. Дополнительный
+    // modules.require("multiRouter.MultiRoute") в @pbe/react-yandex-maps 1.2.5
+    // нестабилен и может завершаться `Failed to bundle "full"`.
+    const ymapsApi = useYMaps();
     const ymapsApiRef = useRef<typeof ymaps | null>(null);
     const mapRef = useRef<ymaps.Map | null>(null);
     const mountedRouteRef = useRef<MountedRoute | null>(null);
@@ -502,6 +505,7 @@ const YandexRouteMapProvider = forwardRef<YandexRouteMapHandle, Props>((props, r
         apikey: keyConfig.apiKey,
         lang: "ru_RU",
         coordorder: "latlong",
+        load: "package.full",
       }}
     >
       <YandexRouteMapInner
