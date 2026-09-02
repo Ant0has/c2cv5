@@ -3,13 +3,6 @@
 import SwapIcon from "@/public/icons/SwapIcon";
 import Button from "@/shared/components/ui/Button/Button";
 import SearchInput from "@/shared/components/ui/SearchInput/SearchInput";
-import {
-  COEFFICIENT_100,
-  COEFFICIENT_100_150,
-  COEFFICIENT_150_200,
-  COEFFICIENT_200,
-  SPEED,
-} from "@/shared/constants";
 import { ButtonTypes } from "@/shared/types/enums";
 import clsx from "clsx";
 import {
@@ -27,7 +20,12 @@ import { message } from "antd";
 import dynamic from "next/dynamic";
 import YandexRouteMap, {
   YandexRouteMapHandle,
+  YandexRouteUsageRecord,
 } from "./YandexRouteMap";
+import {
+  MycalcUsageEvent,
+  useMycalcUsage,
+} from "./usage-counter";
 
 const MapView = dynamic(() => import("./MapView"), { ssr: false });
 
@@ -60,11 +58,46 @@ const DEFAULT_PRICES: Record<string, number> = Object.fromEntries(
   TARIFFS.map(t => [t.key, t.defaultPrice]),
 );
 
+function sanitizePlanPrices(value: unknown): Record<string, number> {
+  const source = value && typeof value === "object"
+    ? value as Record<string, unknown>
+    : {};
+
+  return Object.fromEntries(TARIFFS.map(tariff => {
+    const candidate = Number(source[tariff.key]);
+    return [
+      tariff.key,
+      Number.isFinite(candidate) && candidate > 0
+        ? candidate
+        : tariff.defaultPrice,
+    ];
+  }));
+}
+
 const PLAN_COEFFICIENT = "mycalc_plan_prices_v2";
 const DADATA_API_KEY = "17364206d854a397d57b11d01e9aa93050089134";
 const DADATA_URL = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
 const OSRM_URL = "https://router.project-osrm.org";
+const DADATA_TIMEOUT_MS = 8_000;
 const OSRM_TIMEOUT_MS = 15_000;
+
+// Служебная конфигурация намеренно локальна: изменение формулы клиентского
+// калькулятора не должно автоматически менять расчёт на /admin/mycalc.
+const SPEED = 80;
+const COEFFICIENT_100 = 1.5;
+const COEFFICIENT_100_150 = 1.2;
+const COEFFICIENT_150_200 = 1.1;
+const COEFFICIENT_200 = 1;
+
+type RouteMode = "base" | "traffic";
+type UsageRecorder = (event: MycalcUsageEvent) => void;
+
+class RequestTimeoutError extends Error {
+  constructor(service: string) {
+    super(`${service} не ответил вовремя`);
+    this.name = "RequestTimeoutError";
+  }
+}
 
 interface DadataSuggestion {
   value: string;
@@ -150,7 +183,58 @@ function hasCoordinates(point: SuggestedPoint): point is ResolvedPoint {
   return Number.isFinite(point.lat) && Number.isFinite(point.lon);
 }
 
-async function suggest(query: string): Promise<SuggestedPoint[]> {
+async function fetchJsonWithTimeout<T>(
+  input: RequestInfo | URL,
+  init: RequestInit,
+  timeoutMs: number,
+  service: string,
+): Promise<T> {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    const response = await fetch(input, { ...init, signal: controller.signal });
+    if (!response.ok) throw new Error(`${service} вернул HTTP ${response.status}`);
+    return await response.json() as T;
+  } catch (error) {
+    if (controller.signal.aborted) throw new RequestTimeoutError(service);
+    throw error;
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
+function normalizeAddressIdentity(value?: string): string {
+  return (value || "")
+    .normalize("NFKC")
+    .toLocaleLowerCase("ru-RU")
+    .replace(/\s+/g, " ")
+    .replace(/\s*,\s*/g, ",")
+    .trim();
+}
+
+function isSameDadataObject(
+  selected: SuggestedPoint,
+  exactSuggestion: DadataSuggestion,
+): boolean {
+  const exactFiasId = exactSuggestion.data.fias_id || undefined;
+  if (selected.fiasId) return selected.fiasId === exactFiasId;
+
+  const selectedIdentity = normalizeAddressIdentity(
+    selected.unrestrictedValue || selected.display,
+  );
+  const exactIdentities = [
+    exactSuggestion.unrestricted_value,
+    exactSuggestion.value,
+  ].map(normalizeAddressIdentity);
+
+  return Boolean(selectedIdentity) && exactIdentities.includes(selectedIdentity);
+}
+
+async function suggest(
+  query: string,
+  recordUsage: UsageRecorder,
+): Promise<SuggestedPoint[]> {
   // Search custom POI first
   const { searchPOI } = await import("@/shared/data/custom-poi");
   const poiResults: SuggestedPoint[] = searchPOI(query).map(p => ({
@@ -161,81 +245,103 @@ async function suggest(query: string): Promise<SuggestedPoint[]> {
     verified: true,
   }));
 
-  const res = await fetch(DADATA_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Token ${DADATA_API_KEY}`,
-    },
-    body: JSON.stringify({
-      query,
-      count: 7,
-      locations: [{ country: "Россия" }],
-    }),
-  });
-  if (!res.ok) throw new Error(`DaData вернула HTTP ${res.status}`);
+  recordUsage("dadata.suggest.attempt");
+  try {
+    const data = await fetchJsonWithTimeout<{ suggestions?: DadataSuggestion[] }>(DADATA_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Token ${DADATA_API_KEY}`,
+      },
+      body: JSON.stringify({
+        query,
+        count: 7,
+        locations: [{ country: "Россия" }],
+      }),
+    }, DADATA_TIMEOUT_MS, "DaData");
+    const dadataRaw = (data.suggestions || []) as DadataSuggestion[];
 
-  const data = await res.json();
-  const dadataRaw = (data.suggestions || []) as DadataSuggestion[];
+    // Split DaData into pure cities and addresses with street/house
+    const cityResults: SuggestedPoint[] = [];
+    const otherResults: SuggestedPoint[] = [];
 
-  // Split DaData into pure cities and addresses with street/house
-  const cityResults: SuggestedPoint[] = [];
-  const otherResults: SuggestedPoint[] = [];
-
-  for (const s of dadataRaw) {
-    const item = dadataSuggestionToPoint(s, false);
-    if (!s.data.street && !s.data.house && (s.data.city || s.data.settlement)) {
-      cityResults.push(item);
-    } else {
-      otherResults.push(item);
+    for (const s of dadataRaw) {
+      const item = dadataSuggestionToPoint(s, false);
+      if (!s.data.street && !s.data.house && (s.data.city || s.data.settlement)) {
+        cityResults.push(item);
+      } else {
+        otherResults.push(item);
+      }
     }
-  }
 
-  // Order: [Pure city] → [POI of that city] → [Other DaData with addresses]
-  const seen = new Set<string>();
-  const combined: SuggestedPoint[] = [];
+    // Order: [Pure city] → [POI of that city] → [Other DaData with addresses]
+    const seen = new Set<string>();
+    const combined: SuggestedPoint[] = [];
 
-  for (const c of cityResults) {
-    if (!seen.has(c.display)) { combined.push(c); seen.add(c.display); }
-  }
-  for (const p of poiResults) {
-    if (!seen.has(p.display)) { combined.push(p); seen.add(p.display); }
-  }
-  for (const o of otherResults) {
-    if (!seen.has(o.display)) { combined.push(o); seen.add(o.display); }
-  }
+    for (const c of cityResults) {
+      if (!seen.has(c.display)) { combined.push(c); seen.add(c.display); }
+    }
+    for (const p of poiResults) {
+      if (!seen.has(p.display)) { combined.push(p); seen.add(p.display); }
+    }
+    for (const o of otherResults) {
+      if (!seen.has(o.display)) { combined.push(o); seen.add(o.display); }
+    }
 
-  return combined.slice(0, 10);
+    recordUsage("dadata.suggest.success");
+    return combined.slice(0, 10);
+  } catch (error) {
+    recordUsage(
+      error instanceof RequestTimeoutError
+        ? "dadata.suggest.timeout"
+        : "dadata.suggest.fail",
+    );
+    throw error;
+  }
 }
 
-async function resolveDadataPoint(point: SuggestedPoint): Promise<ResolvedPoint> {
+async function resolveDadataPoint(
+  point: SuggestedPoint,
+  recordUsage: UsageRecorder,
+): Promise<ResolvedPoint> {
   if ((point.source === "poi" || point.verified) && hasCoordinates(point)) return point;
 
-  const res = await fetch(DADATA_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Token ${DADATA_API_KEY}`,
-    },
-    body: JSON.stringify({
-      query: point.unrestrictedValue || point.display,
-      count: 1,
-      locations: [{ country: "Россия" }],
-    }),
-  });
-  if (!res.ok) throw new Error(`DaData вернула HTTP ${res.status}`);
+  recordUsage("dadata.exact.attempt");
+  try {
+    const data = await fetchJsonWithTimeout<{ suggestions?: DadataSuggestion[] }>(DADATA_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Token ${DADATA_API_KEY}`,
+      },
+      body: JSON.stringify({
+        query: point.unrestrictedValue || point.display,
+        count: 1,
+        locations: [{ country: "Россия" }],
+      }),
+    }, DADATA_TIMEOUT_MS, "DaData");
+    const exactSuggestion = (data.suggestions || [])[0] as DadataSuggestion | undefined;
 
-  const data = await res.json();
-  const exactSuggestion = (data.suggestions || [])[0] as DadataSuggestion | undefined;
+    if (!exactSuggestion) throw new Error("DaData не вернула точные координаты");
+    if (!isSameDadataObject(point, exactSuggestion)) {
+      throw new Error("DaData вернула другой адрес при уточнении");
+    }
 
-  if (!exactSuggestion) throw new Error("DaData не вернула точные координаты");
+    const resolved = dadataSuggestionToPoint(exactSuggestion, true, point.display);
+    if (!hasCoordinates(resolved)) {
+      throw new Error("DaData не вернула точные координаты");
+    }
 
-  const resolved = dadataSuggestionToPoint(exactSuggestion, true, point.display);
-  if (!hasCoordinates(resolved)) {
-    throw new Error("DaData не вернула точные координаты");
+    recordUsage("dadata.exact.success");
+    return resolved;
+  } catch (error) {
+    recordUsage(
+      error instanceof RequestTimeoutError
+        ? "dadata.exact.timeout"
+        : "dadata.exact.fail",
+    );
+    throw error;
   }
-
-  return resolved;
 }
 
 function isApproximatePoint(point: ResolvedPoint): boolean {
@@ -245,6 +351,17 @@ function isApproximatePoint(point: ResolvedPoint): boolean {
   // улицу, населённый пункт или город; для расчёта маржи это нужно показывать
   // оператору как приблизительную точку, даже если выбран только город.
   return point.qcGeo === undefined || point.qcGeo > 0;
+}
+
+function getPointQualityError(point: ResolvedPoint): string | null {
+  if (point.source === "poi") return null;
+  if (point.qcGeo === undefined || point.qcGeo >= 5) {
+    return `Не подтверждена точность координат: ${point.display}`;
+  }
+  if (point.hasHouse && point.qcGeo >= 2) {
+    return `Для дома DaData определила только улицу или населённый пункт: ${point.display}`;
+  }
+  return null;
 }
 
 async function getOsrmRoutes(
@@ -302,6 +419,12 @@ function formatDistance(distanceKm: number): string {
 }
 
 const OsrmCalculator: FC = () => {
+  const {
+    countersToday,
+    countersMonth,
+    record: recordUsage,
+    resetLocal: resetLocalUsage,
+  } = useMycalcUsage();
   const departureDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const arrivalDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const departureSearchSequenceRef = useRef(0);
@@ -309,15 +432,14 @@ const OsrmCalculator: FC = () => {
   const routeRequestSequenceRef = useRef(0);
   const yandexRouteMapRef = useRef<YandexRouteMapHandle | null>(null);
   const osrmAbortControllerRef = useRef<AbortController | null>(null);
+  const resolvePointInFlightRef = useRef<Map<string, Promise<ResolvedPoint>>>(new Map());
 
   const [planCoefficient, setPlanCoefficient] = useState<Record<string, number>>(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem(PLAN_COEFFICIENT);
       if (saved) {
         try {
-          const parsed = JSON.parse(saved) as Record<string, number>;
-          // Дополняем недостающие ключи дефолтами (на случай если добавились новые тарифы)
-          return { ...DEFAULT_PRICES, ...parsed };
+          return sanitizePlanPrices(JSON.parse(saved));
         } catch {
           return DEFAULT_PRICES;
         }
@@ -339,12 +461,30 @@ const OsrmCalculator: FC = () => {
 
   const [routes, setRoutes] = useState<RouteResult[]>([]);
   const [selectedRoute, setSelectedRoute] = useState(0);
+  const [routeMode, setRouteMode] = useState<RouteMode>("base");
   const [isRouteCalculating, setIsRouteCalculating] = useState(false);
   const [routeProvider, setRouteProvider] = useState<"yandex" | "osrm" | null>(null);
   const [routeNotice, setRouteNotice] = useState<string | null>(null);
   const [tollInfo, setTollInfo] = useState<{ totalCost: number; tolls: { id: string; road: string; name: string; fee: number }[] } | null>(null);
 
   const geocodeCache = useRef<Map<string, SuggestedPoint>>(new Map());
+
+  const resolveSelectedPoint = useCallback((point: SuggestedPoint) => {
+    const identity =
+      point.fiasId ||
+      point.unrestrictedValue ||
+      point.display;
+    const existingRequest = resolvePointInFlightRef.current.get(identity);
+    if (existingRequest) return existingRequest;
+
+    const request = resolveDadataPoint(point, recordUsage).finally(() => {
+      if (resolvePointInFlightRef.current.get(identity) === request) {
+        resolvePointInFlightRef.current.delete(identity);
+      }
+    });
+    resolvePointInFlightRef.current.set(identity, request);
+    return request;
+  }, [recordUsage]);
 
   const plans = TARIFFS.map(t => ({
     key: t.key,
@@ -415,9 +555,21 @@ const OsrmCalculator: FC = () => {
     setIsRouteCalculating(false);
   }, []);
 
+  const handleYandexUsageEvent = useCallback((usage: YandexRouteUsageRecord) => {
+    recordUsage(`yandex.${usage.keySlot}.route.${usage.event}` as MycalcUsageEvent);
+  }, [recordUsage]);
+
   const handleCalculate = async () => {
     if (!departureCoords || !arrivalCoords) {
       message.error("Выберите обе точки из подсказок DaData");
+      return;
+    }
+
+    const pointQualityError =
+      getPointQualityError(departureCoords) ||
+      getPointQualityError(arrivalCoords);
+    if (pointQualityError) {
+      message.error(pointQualityError);
       return;
     }
 
@@ -464,11 +616,16 @@ const OsrmCalculator: FC = () => {
       yandexRouteMapRef.current?.clearRoute();
 
       const osrmAbortController = new AbortController();
+      let osrmTimedOut = false;
       const osrmTimeoutId = setTimeout(
-        () => osrmAbortController.abort(),
+        () => {
+          osrmTimedOut = true;
+          osrmAbortController.abort();
+        },
         OSRM_TIMEOUT_MS,
       );
       osrmAbortControllerRef.current = osrmAbortController;
+      recordUsage("osrm.route.attempt");
 
       try {
         const fallbackRoutes = await getOsrmRoutes(
@@ -478,9 +635,9 @@ const OsrmCalculator: FC = () => {
           arrivalCoords.lon,
           osrmAbortController.signal,
         );
-        if (routeRequestSequenceRef.current !== requestSequence) return;
-
         if (fallbackRoutes.length === 0) throw new Error("OSRM не вернул маршрут");
+        recordUsage("osrm.route.success");
+        if (routeRequestSequenceRef.current !== requestSequence) return;
 
         setRoutes(fallbackRoutes);
         setSelectedRoute(0);
@@ -490,6 +647,13 @@ const OsrmCalculator: FC = () => {
         );
         message.warning("Яндекс не ответил. Использован резервный маршрут OSRM.");
       } catch {
+        recordUsage(
+          osrmAbortController.signal.aborted
+            ? osrmTimedOut
+              ? "osrm.route.timeout"
+              : "osrm.route.cancel"
+            : "osrm.route.fail",
+        );
         if (routeRequestSequenceRef.current === requestSequence) {
           message.error("Не удалось рассчитать маршрут ни через Яндекс, ни через резервный сервис");
         }
@@ -537,7 +701,7 @@ const OsrmCalculator: FC = () => {
 
     debounceRef.current = setTimeout(async () => {
       try {
-        const results = await suggest(value.trim());
+        const results = await suggest(value.trim(), recordUsage);
         if (searchSequenceRef.current !== searchSequence) return;
 
         results.forEach(result => {
@@ -569,19 +733,15 @@ const OsrmCalculator: FC = () => {
 
     setIsDepartureResolving(true);
     try {
-      const resolved = await resolveDadataPoint(cached);
+      const resolved = await resolveSelectedPoint(cached);
       if (departureSearchSequenceRef.current !== selectionSequence) return;
       geocodeCache.current.set(value, resolved);
       geocodeCache.current.set(resolved.display, resolved);
       setDepartureCoords(resolved);
     } catch {
       if (departureSearchSequenceRef.current !== selectionSequence) return;
-      if (hasCoordinates(cached)) {
-        setDepartureCoords(cached);
-        message.warning("DaData не смогла дополнительно уточнить точку. Проверьте адрес перед расчётом.");
-      } else {
-        message.error("DaData не смогла определить координаты выбранной точки");
-      }
+      setDepartureCoords(null);
+      message.error("DaData не смогла подтвердить выбранную точку. Выберите адрес ещё раз.");
     } finally {
       if (departureSearchSequenceRef.current === selectionSequence) {
         setIsDepartureResolving(false);
@@ -607,19 +767,15 @@ const OsrmCalculator: FC = () => {
 
     setIsArrivalResolving(true);
     try {
-      const resolved = await resolveDadataPoint(cached);
+      const resolved = await resolveSelectedPoint(cached);
       if (arrivalSearchSequenceRef.current !== selectionSequence) return;
       geocodeCache.current.set(value, resolved);
       geocodeCache.current.set(resolved.display, resolved);
       setArrivalCoords(resolved);
     } catch {
       if (arrivalSearchSequenceRef.current !== selectionSequence) return;
-      if (hasCoordinates(cached)) {
-        setArrivalCoords(cached);
-        message.warning("DaData не смогла дополнительно уточнить точку. Проверьте адрес перед расчётом.");
-      } else {
-        message.error("DaData не смогла определить координаты выбранной точки");
-      }
+      setArrivalCoords(null);
+      message.error("DaData не смогла подтвердить выбранную точку. Выберите адрес ещё раз.");
     } finally {
       if (arrivalSearchSequenceRef.current === selectionSequence) {
         setIsArrivalResolving(false);
@@ -671,7 +827,10 @@ const OsrmCalculator: FC = () => {
   }, []);
 
   const hanldeChangePlanCoefficient = (key: string) => (e: ChangeEvent<HTMLInputElement>) => {
-    const changedData = { ...planCoefficient, [key]: Number(e.target.value) };
+    const nextValue = Number(e.target.value);
+    if (!Number.isFinite(nextValue) || nextValue <= 0) return;
+
+    const changedData = { ...planCoefficient, [key]: nextValue };
     setPlanCoefficient(changedData);
     if (typeof window !== "undefined") {
       localStorage.setItem(PLAN_COEFFICIENT, JSON.stringify(changedData));
@@ -691,11 +850,50 @@ const OsrmCalculator: FC = () => {
   );
   const addressHintText = isPointResolving
     ? "DaData уточняет координаты выбранной точки…"
-    : hasApproximateSelectedPoint
-      ? "Одна из точек определена приблизительно — проверьте выбранный адрес."
-      : departureCoords && arrivalCoords
-        ? "Обе точки выбраны: Яндекс получит координаты без повторного поиска адресов."
-        : "Для точного расчёта выберите обе точки из выпадающих подсказок.";
+    : !departureCoords || !arrivalCoords
+      ? "Для точного расчёта выберите обе точки из выпадающих подсказок."
+      : hasApproximateSelectedPoint
+        ? "Одна из точек определена приблизительно — проверьте выбранный адрес."
+        : "Обе точки выбраны: Яндекс получит координаты без повторного поиска адресов.";
+  const usageRows = [
+    {
+      label: "DaData: подсказки",
+      today: countersToday["dadata.suggest.attempt"],
+      month: countersMonth["dadata.suggest.attempt"],
+    },
+    {
+      label: "DaData: уточнение координат",
+      today: countersToday["dadata.exact.attempt"],
+      month: countersMonth["dadata.exact.attempt"],
+    },
+    ...(["key1", "key2", "key3"] as const).map((keySlot, index) => ({
+      label: `Яндекс: ключ ${index + 1}, запросы`,
+      today: countersToday[`yandex.${keySlot}.route.attempt`],
+      month: countersMonth[`yandex.${keySlot}.route.attempt`],
+    })),
+    {
+      label: "Яндекс: ошибки/таймауты/отмены",
+      today: (["key1", "key2", "key3"] as const).reduce(
+        (total, keySlot) => total +
+          countersToday[`yandex.${keySlot}.route.fail`] +
+          countersToday[`yandex.${keySlot}.route.timeout`] +
+          countersToday[`yandex.${keySlot}.route.cancel`],
+        0,
+      ),
+      month: (["key1", "key2", "key3"] as const).reduce(
+        (total, keySlot) => total +
+          countersMonth[`yandex.${keySlot}.route.fail`] +
+          countersMonth[`yandex.${keySlot}.route.timeout`] +
+          countersMonth[`yandex.${keySlot}.route.cancel`],
+        0,
+      ),
+    },
+    {
+      label: "OSRM: резервные запросы",
+      today: countersToday["osrm.route.attempt"],
+      month: countersMonth["osrm.route.attempt"],
+    },
+  ];
 
   return (
     <div className={clsx("container", s.wrapper)}>
@@ -706,13 +904,46 @@ const OsrmCalculator: FC = () => {
         </div>
       </div>
 
+      <details className={ms.usagePanel}>
+        <summary>Примерные счётчики API (этот браузер)</summary>
+        <div className={ms.usageTable}>
+          <div className={ms.usageTableHeader}>Событие</div>
+          <div className={ms.usageTableHeader}>Сегодня</div>
+          <div className={ms.usageTableHeader}>Месяц</div>
+          {usageRows.map(row => (
+            <div className={ms.usageTableRow} key={row.label}>
+              <span>{row.label}</span>
+              <strong>{row.today.toLocaleString("ru-RU")}</strong>
+              <strong>{row.month.toLocaleString("ru-RU")}</strong>
+            </div>
+          ))}
+        </div>
+        <p className={ms.usageNote}>
+          Это локальная статистика текущего браузера; при нескольких открытых вкладках
+          возможна небольшая погрешность. Квота DaData остаётся общей.
+          Точный общий расход Яндекса смотрите в{" "}
+          <a href="https://developer.tech.yandex.ru/" target="_blank" rel="noreferrer">
+            кабинете разработчика
+          </a>.
+        </p>
+        <button className={ms.usageReset} type="button" onClick={resetLocalUsage}>
+          Сбросить локальные счётчики
+        </button>
+      </details>
+
       <details className={ms.tariffSettings}>
         <summary>Настройки тарифов (₽ за км)</summary>
         <div className={ms.tariffSettingsList}>
           {plans.map((plan) => (
             <div key={plan.key} className={ms.tariffSettingsRow}>
               <label style={{ color: plan.color, fontWeight: 600 }}>{plan.label}</label>
-              <input type="number" value={plan.coefficient} onChange={hanldeChangePlanCoefficient(plan.key)} />
+              <input
+                type="number"
+                min="0.01"
+                step="0.01"
+                value={plan.coefficient}
+                onChange={hanldeChangePlanCoefficient(plan.key)}
+              />
             </div>
           ))}
         </div>
@@ -753,6 +984,40 @@ const OsrmCalculator: FC = () => {
         </div>
 
         <div style={{ marginBottom: 20 }}>
+          <div className={ms.routeMode}>
+            <label className={clsx(ms.routeModeOption, { [ms.routeModeOptionActive]: routeMode === "base" })}>
+              <input
+                type="radio"
+                name="mycalc-route-mode"
+                value="base"
+                checked={routeMode === "base"}
+                onChange={() => {
+                  setRouteMode("base");
+                  clearCalculatedRoute();
+                }}
+              />
+              <span>
+                <strong>Базовый маршрут</strong>
+                <small>без учёта текущих пробок — для стабильного сравнения</small>
+              </span>
+            </label>
+            <label className={clsx(ms.routeModeOption, { [ms.routeModeOptionActive]: routeMode === "traffic" })}>
+              <input
+                type="radio"
+                name="mycalc-route-mode"
+                value="traffic"
+                checked={routeMode === "traffic"}
+                onChange={() => {
+                  setRouteMode("traffic");
+                  clearCalculatedRoute();
+                }}
+              />
+              <span>
+                <strong>Как в Яндекс Картах сейчас</strong>
+                <small>с учётом текущей дорожной ситуации</small>
+              </span>
+            </label>
+          </div>
           <Button disabled={!departureCoords || !arrivalCoords || isPointResolving || isRouteCalculating}
             type={ButtonTypes.PRIMARY} text={isRouteCalculating ? "Рассчитываю..." : "Рассчитать поездку"}
             handleClick={handleCalculate} />
@@ -776,7 +1041,9 @@ const OsrmCalculator: FC = () => {
             [ms.routeSourceYandex]: routeProvider === "yandex",
             [ms.routeSourceFallback]: routeProvider === "osrm",
           })}>
-            Источник километража: {routeProvider === "yandex" ? "Яндекс Карты" : "OSRM (резерв)"}
+            Источник километража: {routeProvider === "yandex"
+              ? `Яндекс Карты (${routeMode === "traffic" ? "с пробками" : "без пробок"})`
+              : "OSRM (резерв)"}
           </div>
         )}
 
@@ -830,7 +1097,9 @@ const OsrmCalculator: FC = () => {
         <div style={{ display: routeProvider === "osrm" ? "none" : "block" }}>
           <YandexRouteMap
             ref={yandexRouteMapRef}
+            avoidTrafficJams={routeMode === "traffic"}
             onActiveRouteChange={setSelectedRoute}
+            onUsageEvent={handleYandexUsageEvent}
             tollPoints={tollMapPoints || []}
           />
         </div>

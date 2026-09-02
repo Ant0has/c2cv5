@@ -78,6 +78,116 @@
   line-height: 1.45;
 }
 
+.usagePanel {
+  grid-column: 1 / -1;
+  width: 100%;
+  margin-bottom: 16px;
+  padding: 8px 14px 12px;
+  border: 1px solid #e4e4e4;
+  border-radius: 12px;
+  background: #fafafa;
+
+  summary {
+    padding: 5px 0;
+    cursor: pointer;
+    font-weight: 600;
+  }
+}
+
+.usageTable {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) 90px 90px;
+  margin-top: 10px;
+  overflow: hidden;
+  border: 1px solid #e7e7e7;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.usageTableHeader {
+  padding: 7px 10px;
+  background: #f0f0f0;
+  color: #666;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: right;
+
+  &:first-child {
+    text-align: left;
+  }
+}
+
+.usageTableRow {
+  display: contents;
+
+  span,
+  strong {
+    padding: 7px 10px;
+    border-top: 1px solid #eee;
+    font-size: 13px;
+  }
+
+  strong {
+    text-align: right;
+  }
+}
+
+.usageNote {
+  margin: 10px 0 6px;
+  color: #666;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.usageReset {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #777;
+  cursor: pointer;
+  font-size: 12px;
+  text-decoration: underline;
+}
+
+.routeMode {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.routeModeOption {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+
+  input {
+    margin-top: 3px;
+  }
+
+  span {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  small {
+    color: #777;
+    font-size: 12px;
+    line-height: 1.35;
+  }
+}
+
+.routeModeOptionActive {
+  border-color: #d97706;
+  background: #fff8eb;
+}
+
 @media (max-width: 480px) {
   .routeSelector {
     flex-direction: column;
@@ -86,6 +196,14 @@
   .routeTab {
     width: 100%;
     justify-content: center;
+  }
+
+  .routeMode {
+    grid-template-columns: 1fr;
+  }
+
+  .usageTable {
+    grid-template-columns: minmax(130px, 1fr) 64px 64px;
   }
 }
 

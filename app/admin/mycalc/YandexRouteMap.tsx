@@ -1,6 +1,5 @@
 "use client";
 
-import { getCurrentKey } from "@/shared/services/get-current-key";
 import {
   FullscreenControl,
   Map,
@@ -44,6 +43,20 @@ export interface YandexRouteMapHandle {
   clearRoute: () => void;
 }
 
+export type YandexRouteUsageEvent =
+  | "attempt"
+  | "success"
+  | "fail"
+  | "timeout"
+  | "cancel";
+
+export type YandexKeySlot = "key1" | "key2" | "key3";
+
+export interface YandexRouteUsageRecord {
+  event: YandexRouteUsageEvent;
+  keySlot: YandexKeySlot;
+}
+
 interface TollPoint {
   lat: number;
   lon: number;
@@ -51,23 +64,58 @@ interface TollPoint {
 }
 
 interface Props {
+  avoidTrafficJams: boolean;
   onActiveRouteChange: (index: number) => void;
+  onUsageEvent?: (record: YandexRouteUsageRecord) => void;
   tollPoints?: TollPoint[];
+}
+
+interface InnerProps extends Props {
+  keySlot: YandexKeySlot;
 }
 
 interface MountedRoute {
   multiRoute: ymaps.multiRouter.MultiRoute;
+  onRequestSend: () => void;
   onRequestSuccess: (event: object | ymaps.IEvent) => void;
   onRequestFail: (event: object | ymaps.IEvent) => void;
   onRequestCancel: () => void;
   onActiveRouteChange: () => void;
   timeoutId: ReturnType<typeof setTimeout>;
   reject: (error: Error) => void;
+  hasRequestSent: boolean;
   settled: boolean;
 }
 
 const ROUTE_TIMEOUT_MS = 30_000;
 const MAP_READY_TIMEOUT_MS = 8_000;
+
+function getYandexKeyConfig(): { apiKey: string; keySlot: YandexKeySlot } {
+  const apiKeys = [
+    process.env.NEXT_PUBLIC_YANDEX_MAPS_API_KEY_1,
+    process.env.NEXT_PUBLIC_YANDEX_MAPS_API_KEY_2,
+    process.env.NEXT_PUBLIC_YANDEX_MAPS_API_KEY_3,
+  ];
+  const moscowHour = Number(
+    new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Europe/Moscow",
+      hour: "2-digit",
+      hourCycle: "h23",
+    }).format(new Date()),
+  );
+  const keyIndex =
+    moscowHour >= 6 && moscowHour < 14
+      ? 0
+      : moscowHour >= 14 && moscowHour < 22
+        ? 1
+        : 2;
+  const keySlot = (["key1", "key2", "key3"] as const)[keyIndex];
+
+  return {
+    apiKey: apiKeys.every(Boolean) ? apiKeys[keyIndex] || "" : "",
+    keySlot,
+  };
+}
 
 function getEventValue(event: object | ymaps.IEvent, key: string): unknown {
   return (event as ymaps.IEvent).get(key);
@@ -116,15 +164,19 @@ function getRoutePoints(route: ymaps.IGeoObject): [number, number][] {
   return result;
 }
 
-function readRoutes(multiRoute: ymaps.multiRouter.MultiRoute): YandexRouteResponse {
+function readRoutes(
+  multiRoute: ymaps.multiRouter.MultiRoute,
+  useTrafficDuration: boolean,
+): YandexRouteResponse {
   const collection = multiRoute.getRoutes();
   const indexedRoutes: { collectionIndex: number; route: YandexRouteSummary }[] = [];
 
   for (let index = 0; index < collection.getLength(); index += 1) {
     const route = collection.get(index);
     const distanceMeters = getMetricValue(route, "distance");
-    const durationSeconds =
-      getMetricValue(route, "durationInTraffic") || getMetricValue(route, "duration");
+    const durationSeconds = useTrafficDuration
+      ? getMetricValue(route, "durationInTraffic") || getMetricValue(route, "duration")
+      : getMetricValue(route, "duration");
 
     if (distanceMeters <= 0) continue;
 
@@ -152,8 +204,8 @@ function readRoutes(multiRoute: ymaps.multiRouter.MultiRoute): YandexRouteRespon
   };
 }
 
-const YandexRouteMapInner = forwardRef<YandexRouteMapHandle, Props>(
-  ({ onActiveRouteChange, tollPoints = [] }, ref) => {
+const YandexRouteMapInner = forwardRef<YandexRouteMapHandle, InnerProps>(
+  ({ avoidTrafficJams, keySlot, onActiveRouteChange, onUsageEvent, tollPoints = [] }, ref) => {
     const ymapsApi = useYMaps(["multiRouter.MultiRoute"]);
     const ymapsApiRef = useRef<typeof ymaps | null>(null);
     const mapRef = useRef<ymaps.Map | null>(null);
@@ -161,6 +213,7 @@ const YandexRouteMapInner = forwardRef<YandexRouteMapHandle, Props>(
     const calculationSequenceRef = useRef(0);
     const visibleRouteIndexesRef = useRef<number[]>([]);
     const activeRouteCallbackRef = useRef(onActiveRouteChange);
+    const usageCallbackRef = useRef(onUsageEvent);
 
     useEffect(() => {
       ymapsApiRef.current = ymapsApi;
@@ -170,11 +223,16 @@ const YandexRouteMapInner = forwardRef<YandexRouteMapHandle, Props>(
       activeRouteCallbackRef.current = onActiveRouteChange;
     }, [onActiveRouteChange]);
 
+    useEffect(() => {
+      usageCallbackRef.current = onUsageEvent;
+    }, [onUsageEvent]);
+
     const removeCurrentRoute = useCallback((rejectPending = true) => {
       const mounted = mountedRouteRef.current;
       if (!mounted) return;
 
       clearTimeout(mounted.timeoutId);
+      mounted.multiRoute.model.events.remove("requestsend", mounted.onRequestSend);
       mounted.multiRoute.model.events.remove("requestsuccess", mounted.onRequestSuccess);
       mounted.multiRoute.model.events.remove("requestfail", mounted.onRequestFail);
       mounted.multiRoute.model.events.remove("requestcancel", mounted.onRequestCancel);
@@ -182,6 +240,9 @@ const YandexRouteMapInner = forwardRef<YandexRouteMapHandle, Props>(
 
       if (!mounted.settled && rejectPending) {
         mounted.settled = true;
+        if (mounted.hasRequestSent) {
+          usageCallbackRef.current?.({ event: "cancel", keySlot });
+        }
         mounted.reject(new Error("Предыдущий запрос маршрута отменён"));
       }
 
@@ -189,7 +250,7 @@ const YandexRouteMapInner = forwardRef<YandexRouteMapHandle, Props>(
       mounted.multiRoute.model.destroy();
       mountedRouteRef.current = null;
       visibleRouteIndexesRef.current = [];
-    }, []);
+    }, [keySlot]);
 
     useEffect(() => () => {
       calculationSequenceRef.current += 1;
@@ -235,8 +296,7 @@ const YandexRouteMapInner = forwardRef<YandexRouteMapHandle, Props>(
                 results: 3,
                 reverseGeocoding: false,
                 searchCoordOrder: "latlong",
-                // Обычные Яндекс.Карты выбирают актуальный быстрый вариант с учётом пробок.
-                avoidTrafficJams: true,
+                avoidTrafficJams,
               },
             },
             {
@@ -251,24 +311,48 @@ const YandexRouteMapInner = forwardRef<YandexRouteMapHandle, Props>(
               zoomMargin: 40,
             },
           );
-
           const finishRequestListeners = () => {
             const mounted = mountedRouteRef.current;
             if (!mounted || mounted.multiRoute !== multiRoute) return;
             clearTimeout(mounted.timeoutId);
+            multiRoute.model.events.remove("requestsend", mounted.onRequestSend);
             multiRoute.model.events.remove("requestsuccess", mounted.onRequestSuccess);
             multiRoute.model.events.remove("requestfail", mounted.onRequestFail);
             multiRoute.model.events.remove("requestcancel", mounted.onRequestCancel);
           };
 
-          const onRequestSuccess = (event: object | ymaps.IEvent) => {
+          const onRequestSend = () => {
+            const mounted = mountedRouteRef.current;
+            if (!mounted || mounted.multiRoute !== multiRoute || mounted.settled) return;
+            mounted.hasRequestSent = true;
+            usageCallbackRef.current?.({
+              event: "attempt",
+              keySlot,
+            });
+          };
+
+          const onRequestSuccess = () => {
             const mounted = mountedRouteRef.current;
             if (!mounted || mounted.multiRoute !== multiRoute || mounted.settled) return;
 
-            const response = readRoutes(multiRoute);
+            let response: YandexRouteResponse;
+            try {
+              response = readRoutes(multiRoute, avoidTrafficJams);
+            } catch (error) {
+              mounted.settled = true;
+              finishRequestListeners();
+              if (mounted.hasRequestSent) {
+                usageCallbackRef.current?.({ event: "fail", keySlot });
+              }
+              reject(error instanceof Error ? error : new Error("Не удалось прочитать маршрут Яндекса"));
+              return;
+            }
             if (response.routes.length === 0) {
               mounted.settled = true;
               finishRequestListeners();
+              if (mounted.hasRequestSent) {
+                usageCallbackRef.current?.({ event: "fail", keySlot });
+              }
               reject(new Error("Яндекс не вернул маршрут с расстоянием"));
               return;
             }
@@ -277,6 +361,9 @@ const YandexRouteMapInner = forwardRef<YandexRouteMapHandle, Props>(
             finishRequestListeners();
             visibleRouteIndexesRef.current = response.collectionIndexes;
             activeRouteCallbackRef.current(response.activeRouteIndex);
+            if (mounted.hasRequestSent) {
+              usageCallbackRef.current?.({ event: "success", keySlot });
+            }
             resolve(response);
           };
 
@@ -287,6 +374,9 @@ const YandexRouteMapInner = forwardRef<YandexRouteMapHandle, Props>(
             const routeError = getEventValue(event, "error");
             mounted.settled = true;
             finishRequestListeners();
+            if (mounted.hasRequestSent) {
+              usageCallbackRef.current?.({ event: "fail", keySlot });
+            }
             reject(routeError instanceof Error ? routeError : new Error("Ошибка Яндекс Маршрутов"));
           };
 
@@ -296,6 +386,9 @@ const YandexRouteMapInner = forwardRef<YandexRouteMapHandle, Props>(
 
             mounted.settled = true;
             finishRequestListeners();
+            if (mounted.hasRequestSent) {
+              usageCallbackRef.current?.({ event: "cancel", keySlot });
+            }
             reject(new Error("Яндекс отменил запрос маршрута"));
           };
 
@@ -313,20 +406,26 @@ const YandexRouteMapInner = forwardRef<YandexRouteMapHandle, Props>(
 
             mounted.settled = true;
             finishRequestListeners();
+            if (mounted.hasRequestSent) {
+              usageCallbackRef.current?.({ event: "timeout", keySlot });
+            }
             reject(new Error("Яндекс не ответил за 30 секунд"));
           }, ROUTE_TIMEOUT_MS);
 
           mountedRouteRef.current = {
             multiRoute,
+            onRequestSend,
             onRequestSuccess,
             onRequestFail,
             onRequestCancel,
             onActiveRouteChange,
             timeoutId,
             reject,
+            hasRequestSent: false,
             settled: false,
           };
 
+          multiRoute.model.events.add("requestsend", onRequestSend);
           multiRoute.model.events.add("requestsuccess", onRequestSuccess);
           multiRoute.model.events.add("requestfail", onRequestFail);
           multiRoute.model.events.add("requestcancel", onRequestCancel);
@@ -334,7 +433,7 @@ const YandexRouteMapInner = forwardRef<YandexRouteMapHandle, Props>(
           map.geoObjects.add(multiRoute);
         });
       },
-      [removeCurrentRoute, waitUntilReady],
+      [avoidTrafficJams, keySlot, removeCurrentRoute, waitUntilReady],
     );
 
     useImperativeHandle(
@@ -386,17 +485,35 @@ const YandexRouteMapInner = forwardRef<YandexRouteMapHandle, Props>(
 YandexRouteMapInner.displayName = "YandexRouteMapInner";
 
 const YandexRouteMap = forwardRef<YandexRouteMapHandle, Props>((props, ref) => (
-  <YMaps
-    preload
-    query={{
-      apikey: getCurrentKey(),
-      lang: "ru_RU",
-      coordorder: "latlong",
-    }}
-  >
-    <YandexRouteMapInner ref={ref} {...props} />
-  </YMaps>
+  <YandexRouteMapProvider ref={ref} {...props} />
 ));
+
+const YandexRouteMapProvider = forwardRef<YandexRouteMapHandle, Props>((props, ref) => {
+  const keyConfigRef = useRef<{ apiKey: string; keySlot: YandexKeySlot } | null>(null);
+  if (!keyConfigRef.current) {
+    keyConfigRef.current = getYandexKeyConfig();
+  }
+  const keyConfig = keyConfigRef.current;
+
+  return (
+    <YMaps
+      preload
+      query={{
+        apikey: keyConfig.apiKey,
+        lang: "ru_RU",
+        coordorder: "latlong",
+      }}
+    >
+      <YandexRouteMapInner
+        ref={ref}
+        {...props}
+        keySlot={keyConfig.keySlot}
+      />
+    </YMaps>
+  );
+});
+
+YandexRouteMapProvider.displayName = "YandexRouteMapProvider";
 
 YandexRouteMap.displayName = "YandexRouteMap";
 
