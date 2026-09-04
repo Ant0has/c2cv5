@@ -26,6 +26,7 @@ import {
   MycalcUsageEvent,
   useMycalcUsage,
 } from "./usage-counter";
+import { formatDadataSuggestion } from "./format-dadata-suggestion";
 
 const MapView = dynamic(() => import("./MapView"), { ssr: false });
 
@@ -106,9 +107,15 @@ interface DadataSuggestion {
     geo_lat: string | null;
     geo_lon: string | null;
     city: string | null;
+    city_with_type?: string | null;
+    city_district?: string | null;
+    city_district_with_type?: string | null;
     settlement: string | null;
+    settlement_with_type?: string | null;
     region: string | null;
+    region_with_type?: string | null;
     area: string | null;
+    area_with_type?: string | null;
     street: string | null;
     house: string | null;
     fias_id?: string | null;
@@ -142,10 +149,7 @@ interface RouteResult {
 }
 
 function formatSuggestion(s: DadataSuggestion): string {
-  // value формирует сама DaData: в нём сохраняются корпус, строение и прочие
-  // уточнения, критичные для выбора правильной точки. Ручное сокращение адреса
-  // может склеить разные здания в одну строку и одну запись кеша.
-  return s.value.trim() || s.unrestricted_value?.trim() || "Адрес без названия";
+  return formatDadataSuggestion(s);
 }
 
 function normalizeQcGeo(value: number | string | null | undefined): number | undefined {
