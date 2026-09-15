@@ -4,6 +4,7 @@ import { generateCityFaq } from '../config/faq'
 import { generateCityDescription, ADVANTAGES } from '../config/content'
 import OrderButton from './OrderButton'
 import s from './RegionCityHubPage.module.scss'
+import { routeToUrl, resolveVerifiedRoutePath } from '@/shared/lib/route-url'
 
 interface Props {
   data: CityHubPageData
@@ -76,9 +77,9 @@ export default function RegionCityHubPage({ data }: Props) {
           <nav className={s.breadcrumbs}>
             <a href="/">Главная</a>
             <span className={s.sep}>/</span>
-            <a href="/regions/">Регионы</a>
+            <a href={resolveVerifiedRoutePath('/regions/')}>Регионы</a>
             <span className={s.sep}>/</span>
-            <a href={`/regions/${fo.slug}/`}>{fo.shortName}</a>
+            <a href={resolveVerifiedRoutePath(`/regions/${fo.slug}/`)}>{fo.shortName}</a>
             <span className={s.sep}>/</span>
             <span>Такси межгород {city.name}</span>
           </nav>
@@ -130,7 +131,7 @@ export default function RegionCityHubPage({ data }: Props) {
             <h2 className={s.h2}>Популярные направления {city.nameGenitive}</h2>
             <nav className={s.routeGrid}>
               {popular.map(route => (
-                <a key={route.ID} href={`/${route.url}.html`} className={s.routeCard}>
+                <a key={route.ID} href={routeToUrl(route.url)} className={s.routeCard}>
                   <span className={s.routeTitle}>{route.title}</span>
                   {route.price_economy && route.price_economy > 0 && (
                     <span className={s.routePrice}>от {formatPrice(route.price_economy)}₽</span>
@@ -150,7 +151,7 @@ export default function RegionCityHubPage({ data }: Props) {
             <h2 className={s.h2}>{section.title}</h2>
             <nav className={s.routeList}>
               {section.routes.map(route => (
-                <a key={route.ID} href={`/${route.url}.html`} className={s.routeLink}>
+                <a key={route.ID} href={routeToUrl(route.url)} className={s.routeLink}>
                   <span>{route.title}</span>
                   {route.price_economy && route.price_economy > 0 && (
                     <span className={s.price}>от {formatPrice(route.price_economy)}₽</span>
@@ -176,7 +177,7 @@ export default function RegionCityHubPage({ data }: Props) {
               {fo.cities
                 .filter(c => c.slug !== city.slug)
                 .map(c => (
-                  <a key={c.slug} href={`/regions/${fo.slug}/${c.slug}/`} className={s.neighborLink}>
+                  <a key={c.slug} href={resolveVerifiedRoutePath(`/regions/${fo.slug}/${c.slug}/`)} className={s.neighborLink}>
                     Такси межгород {c.name}
                   </a>
                 ))}

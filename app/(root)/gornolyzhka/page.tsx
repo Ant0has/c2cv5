@@ -1,4 +1,5 @@
 import GornolyghkaPage from "@/pages-list/gornolyzhka";
+import { hubWithDirectHtmlLinks } from "@/shared/lib/html-links";
 import type { Metadata } from "next";
 import { BASE_URL } from "@/shared/constants";
 import { SITE_NAME } from "@/shared/constants/seo.constants";
@@ -44,5 +45,5 @@ export default async function Page() {
     if (!hub) {
         notFound();
     }
-    return <GornolyghkaPage hub={hub} />;
+    return <GornolyghkaPage hub={hubWithDirectHtmlLinks(hub)} />;
 }

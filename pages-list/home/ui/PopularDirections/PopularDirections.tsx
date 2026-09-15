@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import s from './PopularDirections.module.scss'
+import { resolvePublicRoutePath } from '@/shared/lib/public-route-url'
 
 interface Direction {
   href: string
@@ -40,7 +41,7 @@ export default function PopularDirections() {
 
       <div className={s.grid}>
         {DIRECTIONS.map((d) => (
-          <Link key={d.href} href={d.href} className={s.card} prefetch={false}>
+          <Link key={d.href} href={resolvePublicRoutePath(d.href)} className={s.card} prefetch={false}>
             <div className={s.cardRoute}>
               <span className={s.cardCity}>{d.from}</span>
               <span className={s.cardArrow}>→</span>

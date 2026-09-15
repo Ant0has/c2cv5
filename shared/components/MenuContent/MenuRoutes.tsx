@@ -10,6 +10,7 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import { FEDERAL_DISTRICTS } from "@/pages-list/region-hubs/config/registry"
 import { usePathname } from "next/navigation"
+import { resolvePublicRoutePath } from '@/shared/lib/public-route-url'
 
 const cityHref = (citySlug: string) => `/mezhgorod/${citySlug}`
 const cityIsActive = (pathname: string | null, citySlug: string) =>
@@ -65,21 +66,21 @@ const MenuRoutes = ({ setIsOpenMenu }: IMenuRoutesProps) => {
                 <Link
                     onClick={() => setIsOpenMenu(false)}
                     className={clsx('text-black', { ['text-primary']: cityIsActive(pathname, 'moskva') })}
-                    href="/mezhgorod/moskva/"
+                    href={resolvePublicRoutePath('/mezhgorod/moskva/')}
                 >
                     Москва
                 </Link>
                 <Link
                     onClick={() => setIsOpenMenu(false)}
                     className={clsx('text-black', { ['text-primary']: cityIsActive(pathname, 'sankt-peterburg') })}
-                    href="/mezhgorod/sankt-peterburg/"
+                    href={resolvePublicRoutePath('/mezhgorod/sankt-peterburg/')}
                 >
                     Санкт-Петербург
                 </Link>
                 <Link
                     onClick={() => setIsOpenMenu(false)}
                     className={clsx('text-black', { ['text-primary']: cityIsActive(pathname, 'krasnodar') })}
-                    href="/mezhgorod/krasnodar/"
+                    href={resolvePublicRoutePath('/mezhgorod/krasnodar/')}
                 >
                     Краснодар
                 </Link>

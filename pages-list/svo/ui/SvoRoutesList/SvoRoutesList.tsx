@@ -1,6 +1,7 @@
 import Link from "next/link"
 import s from './SvoRoutesList.module.scss'
 import clsx from "clsx"
+import { resolvePublicRoutePath } from '@/shared/lib/public-route-url'
 
 interface Props {
   hubSlug: string
@@ -10,7 +11,7 @@ interface Props {
 // Only routes that exist in whitelist (return 200, not 410)
 // Removed 2026-03-23: 10 cities returning 410 (not in whitelist)
 const additionalCities = [
-  { name: 'Кременная', region: 'ЛНР', routes: 'svo-taxi-kremennaya' },
+  { name: 'Кременная', region: 'ЛНР', href: '/svo-taxi-kremennaya-moskva.html' },
 ]
 
 const SvoRoutesList = ({ hubSlug }: Props) => {
@@ -24,7 +25,7 @@ const SvoRoutesList = ({ hubSlug }: Props) => {
         {additionalCities.map((city) => (
           <Link
             key={city.name}
-            href={`/${city.routes}-moskva.html`}
+            href={resolvePublicRoutePath(city.href)}
             className={s.cityLink}
           >
             <span className={s.cityName}>{city.name}</span>

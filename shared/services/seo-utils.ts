@@ -2,6 +2,7 @@
 import { IRouteData } from "../types/route.interface";
 import { requisitsData } from "../data/requisits.data";
 import { BASE_URL } from "../constants";
+import { resolvePublicRoutePath } from "../lib/public-route-url";
 
 export const CONFIG = {
   LAUNCH_DATE: new Date('2024-01-01'),
@@ -306,7 +307,7 @@ export function generateRouteBreadcrumbSchema(data: IRouteData) {
       "@type": "ListItem",
       "position": 2,
       "name": `Такси межгород ${cityFrom}`,
-      "item": `${BASE_URL}/${data.regions_data?.url || ''}.html`
+      "item": `${BASE_URL}${resolvePublicRoutePath(`/${data.regions_data?.url || ''}.html`)}`
     },
     {
       "@type": "ListItem",

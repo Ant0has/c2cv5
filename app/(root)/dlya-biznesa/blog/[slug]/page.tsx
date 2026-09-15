@@ -1,4 +1,5 @@
 import BlogArticlePage from '@/pages-list/blog/ui/blog-article-page/BlogArticlePage'
+import { resolveHtmlRouteLinks } from "@/shared/lib/html-links";
 import { getArticleData } from '@/pages-list/blog/data'
 import { getAllArticleParams, getArticleEntryBySlug } from '@/pages-list/blog/config/registry'
 import { getSegmentBySlug } from '@/pages-list/blog/config/segments'
@@ -93,7 +94,7 @@ export default async function ArticleRoute({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <BlogArticlePage data={data} />
+      <BlogArticlePage data={{ ...data, content: resolveHtmlRouteLinks(data.content) }} />
     </>
   )
 }

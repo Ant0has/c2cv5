@@ -9,6 +9,7 @@ import { regionHubService } from '@/shared/api/region-hub.service'
 import MezhgorodRootPage from '@/pages-list/mezhgorod-root/ui/MezhgorodRootPage'
 import { ROOT_FAQ, TRUST_STATS } from '@/pages-list/mezhgorod-root/config/content'
 import { PILOT_CITIES } from '@/pages-list/mezhgorod-city/config/pilot'
+import { resolveVerifiedRoutePath } from '@/shared/lib/route-url'
 
 export const revalidate = 3600
 
@@ -78,7 +79,7 @@ export default async function MezhgorodRootRoute() {
         '@type': 'ListItem',
         position: i + 1,
         name: `Такси межгород ${city.name}`,
-        url: `${BASE_URL}/regions/${fd.slug}/${city.slug}/`,
+        url: `${BASE_URL}${resolveVerifiedRoutePath(`/regions/${fd.slug}/${city.slug}/`)}`,
       })),
     ),
   }

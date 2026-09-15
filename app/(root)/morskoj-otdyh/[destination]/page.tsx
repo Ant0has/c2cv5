@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { destinationWithDirectHtmlLinks } from "@/shared/lib/html-links";
 import { Metadata } from "next";
 import { BASE_URL } from "@/shared/constants";
 import { SITE_NAME } from "@/shared/constants/seo.constants";
@@ -73,5 +74,5 @@ export default async function Page({ params }: Props) {
     notFound();
   }
 
-  return <DestinationPage destination={destination} />;
+  return <DestinationPage destination={destinationWithDirectHtmlLinks(destination)} />;
 }

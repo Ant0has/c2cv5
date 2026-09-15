@@ -1,4 +1,5 @@
 import MorskojOtdyhPage from "@/pages-list/morskoj-otdyh";
+import { hubWithDirectHtmlLinks } from "@/shared/lib/html-links";
 import type { Metadata } from "next";
 import { BASE_URL } from "@/shared/constants";
 import { SITE_NAME } from "@/shared/constants/seo.constants";
@@ -44,5 +45,5 @@ export default async function Page() {
     if (!hub) {
         notFound();
     }
-    return <MorskojOtdyhPage hub={hub} />;
+    return <MorskojOtdyhPage hub={hubWithDirectHtmlLinks(hub)} />;
 }

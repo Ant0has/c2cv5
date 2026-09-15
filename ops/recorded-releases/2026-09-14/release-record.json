@@ -1,0 +1,230 @@
+{
+  "workDate": "2026-09-14",
+  "recordPreparedAt": "2026-09-15T04:45:34.623Z",
+  "releaseId": "links-20260914T182738Z-6d36161bb21c",
+  "buildId": "tAWgWtMfLTftbhQKrVc5q",
+  "sourceArchiveSha256": "6d36161bb21c0ec6cc4b5b220f79f496273dab13a6b9a706b9a7d0f0a947e47c",
+  "changes": [
+    {
+      "path": "app/(root)/[region]/page.tsx",
+      "beforeSha256": "dad8bfe284cc3a49c4af0208da169e33422f43518cce1e67970cfa853a395ff9",
+      "afterSha256": "9ee344e3217fa9b0ddc8d010204aac5aa9748ab364b979c649eed48613618360",
+      "bytes": 7505
+    },
+    {
+      "path": "app/(root)/dlya-biznesa/blog/[slug]/page.tsx",
+      "beforeSha256": "fc83163d227f215b183eaac4451d46c3a8ac65aaee74a23f6b97112321be84d0",
+      "afterSha256": "fe9abfed75597d840be20737048ea5556f91f0982fd2bb586a542e890c38959e",
+      "bytes": 3178
+    },
+    {
+      "path": "app/(root)/dlya-biznesa/cases/[slug]/page.tsx",
+      "beforeSha256": "6e76e6091ffcd9336045ae2c8158d86a3ad82adcd0869b32d868329cbd39a58a",
+      "afterSha256": "df738d1739c83d60977c186c098aebcc2ae2833df7cbaa22f0017e2a957008ff",
+      "bytes": 3186
+    },
+    {
+      "path": "app/(root)/gornolyzhka/[destination]/page.tsx",
+      "beforeSha256": "dc39a51439d69e893eff40a42d73e15221517c82816a53c0462e473fe5e92bd3",
+      "afterSha256": "ee3b5042ea5988ecad51005565f95ae5431bdc7659fa7b465a008ba871ab555c",
+      "bytes": 2561
+    },
+    {
+      "path": "app/(root)/gornolyzhka/page.tsx",
+      "beforeSha256": "78710d08e35e3df92802ec9e11ceb5342d89cab8f28bb2db451c974838df30cf",
+      "afterSha256": "384fbe0221e2a41ba515b8f105e9623c42e50fa25bac4c194cc4b531a8ea8d3f",
+      "bytes": 1945
+    },
+    {
+      "path": "app/(root)/mezhgorod/[city]/[dest]/page.tsx",
+      "beforeSha256": "a5088b26152cd2e3d44b7f1b6571078b9977a46984cb9b7afe102c184f12c0dc",
+      "afterSha256": "9dcb2cbb18b98546054096d9eed2e9cd7a10eff2899545515fa16bf244a82d58",
+      "bytes": 7408
+    },
+    {
+      "path": "app/(root)/mezhgorod/page.tsx",
+      "beforeSha256": "4a71901317dbe38d16fbaba522b8e12f7ceecf00e24b3914fb07a6a2b0655c7e",
+      "afterSha256": "c4ab0a6a6c46c4714a1d0a3e04fed84728a6018d2f52907cdd5f4351420a74ae",
+      "bytes": 5654
+    },
+    {
+      "path": "app/(root)/morskoj-otdyh/[destination]/page.tsx",
+      "beforeSha256": "7402e09b9d50180c5a627f6e0ebd68db11909f348fe46dbf858c0d150a09e76a",
+      "afterSha256": "5c04a4be4e3125dd313f5946cf910250193d64e175bf6977439bd21557dd33ae",
+      "bytes": 2623
+    },
+    {
+      "path": "app/(root)/morskoj-otdyh/page.tsx",
+      "beforeSha256": "a02c20ca4eef87084cf4193adf14bba82424a9d784ac46d95020a9380ae855f0",
+      "afterSha256": "086a63a400f5028caf05a40cf04ceddddffa2b580942d37156ae929c63ca2ac6",
+      "bytes": 2002
+    },
+    {
+      "path": "app/(root)/svo/[destination]/page.tsx",
+      "beforeSha256": "6a6b32fdade2aabcab6d81aa026c3394c3ad0ac6c05c80d8f54913579e5e08e1",
+      "afterSha256": "8a868e24ce9e0cb3f49220f3a4a7fe0da8239aa44094b4dcb2af62a95b127ceb",
+      "bytes": 6274
+    },
+    {
+      "path": "pages-list/home/ui/PopularDirections/PopularDirections.tsx",
+      "beforeSha256": "7de16552537f6d0b8c555b5b14a9faad5d220a5f80bd4c49ba0623058d2d8d35",
+      "afterSha256": "d7bda87cc09c99f98694c4355422b88cd35e2024399595fb7ea2166adee8b568",
+      "bytes": 3659
+    },
+    {
+      "path": "pages-list/mezhgorod-city/ui/MezhgorodCityHubPage.tsx",
+      "beforeSha256": "61bc7d2ddecbf32acb8517e2899904fda7c4dccbe4d46633ff6295220989d71e",
+      "afterSha256": "e229ddedc77cea83e37cf63db0a873ba64a22fb173895ad48add9cf56fe55ddb",
+      "bytes": 8857
+    },
+    {
+      "path": "pages-list/mezhgorod-root/ui/MezhgorodRootPage.tsx",
+      "beforeSha256": "c0d1954d2eae8d73557ac3ef45113471c3b836c603ca3e6afdab00f301696943",
+      "afterSha256": "fb127e30b1d0c53bc7cbf9af32ddd4eb650c92f6eaf01ca87eebe51b56377b70",
+      "bytes": 20747
+    },
+    {
+      "path": "pages-list/not-found/NotFound.tsx",
+      "beforeSha256": "d481cbaadd4cfbfffa2ddfc038a4b43b9f4b87997283ce3bd5d287f744ae2e8e",
+      "afterSha256": "714934a23fef96e1cbf32741a8b705426cc6bff70cc2204b581d9fa48ef37d43",
+      "bytes": 3305
+    },
+    {
+      "path": "pages-list/region-hubs/ui/RegionCityHubPage.tsx",
+      "beforeSha256": "b699692760f063c425b1c69610ece9d59f96c121a82a933db6ca23e03a700fd3",
+      "afterSha256": "684e97330fdbd66eb4991479a2b6a88f77210b5617262071eef913341c980920",
+      "bytes": 8170
+    },
+    {
+      "path": "pages-list/svo/ui/SvoRoutesList/SvoRoutesList.tsx",
+      "beforeSha256": "d5422727ea99c5fea4c70a7da97768d5a5812162864e44e4c3037dc3c6f8cff2",
+      "afterSha256": "06d6d7b6363449c928c84342f447c6f2cb89d5ca0917bbf4c80fea55a9a1fc1b",
+      "bytes": 1486
+    },
+    {
+      "path": "shared/components/MenuContent/MenuRoutes.tsx",
+      "beforeSha256": "48ea01a1620b55dd3124f40ad6ced8bb41ef4396c6f94c7498573b6db0f348b9",
+      "afterSha256": "a02cfb552e21ccaf8b4ef2880e3b76ec2740990c83f1173d7aab116a2feee18e",
+      "bytes": 5263
+    },
+    {
+      "path": "shared/components/ServerRouteLinks/ServerRouteLinks.tsx",
+      "beforeSha256": "b077d0b30b05108f4cf53c4e59767a3224b239caea40736d39fa1ada96992cb4",
+      "afterSha256": "b2319e6ef11e3f82842dc39e2080c28c97f3afa0b62bf5905ee1f62bb3a39b34",
+      "bytes": 981
+    },
+    {
+      "path": "shared/data/public-route-redirects.json",
+      "beforeSha256": null,
+      "afterSha256": "b4e66a97d39d691e744dece732ea6b9de26082191ce7c04174043f2d6aeed853",
+      "bytes": 19608
+    },
+    {
+      "path": "shared/data/verified-route-redirects.json",
+      "beforeSha256": null,
+      "afterSha256": "395250e216685c081e9713f860a8fd88ab97413e29e59d637980c1be70ea400a",
+      "bytes": 289200
+    },
+    {
+      "path": "shared/lib/html-links-core.ts",
+      "beforeSha256": null,
+      "afterSha256": "96590d5a7863bc9875b46935a76c739c7b1083ab1cc7d6d88a372f60b7b9a423",
+      "bytes": 4832
+    },
+    {
+      "path": "shared/lib/html-links.ts",
+      "beforeSha256": null,
+      "afterSha256": "51f6eaa85485b2ffedcf0bc575627770cd713fdce8d6a50ba9ccd9b8140c14a3",
+      "bytes": 1648
+    },
+    {
+      "path": "shared/lib/public-route-url.ts",
+      "beforeSha256": null,
+      "afterSha256": "bc2b192b5b0a867ce06620ba7c5e831d59058f39a64dfde94acc1f1d216c148b",
+      "bytes": 346
+    },
+    {
+      "path": "shared/lib/route-url-core.ts",
+      "beforeSha256": null,
+      "afterSha256": "ff7c49088a8175250ebe0394a31fcad6194d4327140259f40497138cdf95181c",
+      "bytes": 968
+    },
+    {
+      "path": "shared/lib/route-url.ts",
+      "beforeSha256": null,
+      "afterSha256": "90305061b623d2904f80c87f3be2057e46ca066c6f3f6841d2b933f1af66f02f",
+      "bytes": 1494
+    },
+    {
+      "path": "shared/services/seo-utils.ts",
+      "beforeSha256": "39c6c7f7a5ad65be828de59400ae5977735fd3ccd3d94dce5da1d3f616f087b7",
+      "afterSha256": "4e7c1715d27f0157fcdec1c8af7ebc5d152c633d34cf440bfc6b9a16d53ed85e",
+      "bytes": 11149
+    },
+    {
+      "path": "scripts/generate-public-route-redirects.cjs",
+      "beforeSha256": null,
+      "afterSha256": "50e8c2f76284e3111dd3a320498ff0a339eb28beb2ee0579cee05045ce8715a3",
+      "bytes": 2958
+    },
+    {
+      "path": "tests/direct-internal-links.test.cjs",
+      "beforeSha256": null,
+      "afterSha256": "f529278d56cecac8f1f9dd76e221a28ab5c6aeef1ab2f48837f24ee37cfc96a8",
+      "bytes": 14350
+    },
+    {
+      "path": "tests/html-links.test.cjs",
+      "beforeSha256": null,
+      "afterSha256": "20ef179dcef06bd6569afad4e4d7fc7697aa16e7768ccbf75e3112bb0b47d830",
+      "bytes": 4259
+    }
+  ],
+  "records": [
+    {
+      "path": "mezhgorod_redirects.conf",
+      "sha256": "34d03ac04c3ec29b3add5812960c72f35d9aa25884901dd550dd8387fba3f0f6",
+      "bytes": 268285
+    },
+    {
+      "path": "sitemap.xml",
+      "sha256": "21ad0f6631f956c95ea0684468158d9e1add56d938f5c2a92aa491141aff0c9c",
+      "bytes": 847812
+    },
+    {
+      "path": "production-changes.patch",
+      "sha256": "463ad750ed4a1ab2ce4e1016733d5d4c70168d512c41d5ad3adf6da363778613",
+      "bytes": 1489798
+    },
+    {
+      "path": "nginx-runtime.patch",
+      "sha256": "c65ce0216c8cfd68b085064e7b85be184dafa862b5db16e03866db5b96d10ef3",
+      "bytes": 2133
+    }
+  ],
+  "verification": {
+    "newRedirectPairs": 3345,
+    "flattenedAliases": 36,
+    "preservedNginxRules": 889,
+    "nginxRules": 4270,
+    "redirectReleaseRequests": 8448,
+    "redirectReleaseFailures": 0,
+    "legacySourceUrls": 6720,
+    "availableLegacySourceUrls": 6675,
+    "preexistingUnavailableSourceUrls": 45,
+    "legacyHttpObservations": 10107,
+    "sitemapUrls": 5345,
+    "navigationMappings": 4590,
+    "uniqueNavigationTargets": 4333,
+    "clientMappings": 347,
+    "publicQaRequests": 149,
+    "publicHtmlPages": 15,
+    "publicAssetChecks": 128,
+    "publicControlChecks": 6,
+    "publicFailures": 0,
+    "manualSchemaCoverageReviews": 5,
+    "sourceFilesSynced": 29,
+    "pm2LiveAndSavedProcesses": 9
+  },
+  "note": "These are recorded results of the reviewed release, not an executable deployment bundle or a fresh audit. Public sitemap is archived separately to avoid silently staging older unrelated URL/date changes. Earlier production changes remain unstaged; full production build is not represented by the isolated code commit alone."
+}

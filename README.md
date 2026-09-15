@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# City2City — сайт междугородних поездок
 
-## Getting Started
+Фронтенд [city2city.ru](https://city2city.ru): каталог междугородних маршрутов, городские и тематические разделы, страницы направлений, формы обращения и служебный калькулятор. Проект разрабатывает и эксплуатирует Антон.
 
-First, run the development server:
+## Документация
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- [Текущее состояние, публикация и резервная версия](docs/PROJECT_STATUS.md).
+- [Изменения и проверки за 14 сентября 2026](docs/changes/2026-09-14.md).
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Перед публикацией читать актуальное состояние: после выпуска 14.09.2026 старый `deploy.sh` без адаптации не соответствует работающей версии.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Устройство
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Next.js App Router, TypeScript, React; в проверенной сборке Next.js **14.2.35**, React **18.3.1**. Точные зависимости фиксирует `package-lock.json`, а не диапазоны версий в `package.json`.
+- Production: standalone-сборка Node.js за Nginx, процессы под PM2. Маршрутные данные получает API; калькулятор размещён отдельным процессом.
+- `app/` — обработчики страниц и служебные экраны; `pages-list/` — компоненты страниц; `shared/` — общие компоненты, API и правила ссылок; `public/` — статические ресурсы и sitemap.
 
-## Learn More
+## Правило адресов маршрутов
 
-To learn more about Next.js, take a look at the following resources:
+Если для одинакового маршрута подтверждён иерархический основной адрес, старый `.html` перенаправляет на него постоянным 301, а внутренние ссылки сразу используют конечный URL. Рабочие `.html` без подтверждённой замены сохраняются.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Точные соответствия хранятся в `shared/data/verified-route-redirects.json`; браузер получает сокращённую `public-route-redirects.json`. Общие функции находятся в `shared/lib/route-url*`, обработка ссылок внутри HTML — в `shared/lib/html-links*`. Уже корректный иерархический путь имеет приоритет; название города, похожий URL или один canonical не разрешают объединять разные маршрутные записи.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Локальная работа и проверки
 
-## Deploy on Vercel
+`npm run dev` запускает среду разработки. Нужна отдельная безопасная конфигурация доступа к API; не копировать секреты в Git и не отправлять тестовые заказы в CRM. `npm run build` создаёт сборку, но сам по себе не является процедурой публикации production.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+В `tests/` есть проверки точных соответствий, сохранности HTML и привязки цен к ссылкам. Полный `direct-internal-links.test.cjs` дополнительно использует снимок `../baseline-front` и проверенную карту `../url-map/proposed-exact-href-map.json` из пакета выпуска; без них нельзя считать чистый checkout полноценным воспроизведением приёмки.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Состояние Git и работающего сайта — не одно и то же: на сервере могут быть более ранние незакоммиченные изменения. Не сбрасывать их и не включать автоматически в коммит исправления ссылок. Подробности и ограничения — в [статусе проекта](docs/PROJECT_STATUS.md).

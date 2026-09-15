@@ -3,6 +3,7 @@ import cn from 'classnames';
 import styles from './NotFound.module.scss';
 import Image from 'next/image';
 import { requisitsData } from '@/shared/data/requisits.data';
+import { resolvePublicRoutePath } from '@/shared/lib/public-route-url';
 
 const popularRoutes = [
   { label: 'Москва — Тула', href: '/moskva-tula.html' },
@@ -69,7 +70,7 @@ export const NotFoundPage = () => {
             <h2 className={styles.routesTitle}>Популярные маршруты</h2>
             <div className={styles.routesList}>
               {popularRoutes.map((route) => (
-                <Link key={route.href} href={route.href} className={styles.routeLink}>
+                <Link key={route.href} href={resolvePublicRoutePath(route.href)} className={styles.routeLink}>
                   {route.label}
                 </Link>
               ))}

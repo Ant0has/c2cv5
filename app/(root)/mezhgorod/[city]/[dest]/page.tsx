@@ -3,6 +3,7 @@ import { Metadata } from 'next'
 import Script from 'next/script'
 
 import { Home } from '../../../Home'
+import { routeDataWithDirectHtmlLinks } from '@/shared/lib/html-links'
 import { routeService } from '@/shared/api/route.service'
 import { regionHubService } from '@/shared/api/region-hub.service'
 import { BASE_URL } from '@/shared/constants'
@@ -173,7 +174,7 @@ export default async function MezhgorodLeafRoute({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <Home routeData={data}>
+      <Home routeData={routeDataWithDirectHtmlLinks(data)}>
         {relatedRoutes.length > 0 && (
           <ServerRouteLinks
             routes={relatedRoutes}

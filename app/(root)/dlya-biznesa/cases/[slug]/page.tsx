@@ -1,4 +1,5 @@
 import CaseDetailPage from '@/pages-list/cases/ui/case-detail-page/CaseDetailPage'
+import { resolveHtmlRouteLinks } from "@/shared/lib/html-links";
 import { getCaseData } from '@/pages-list/cases/data'
 import { getAllCaseParams, getCaseEntryBySlug } from '@/pages-list/cases/config/registry'
 import { getSegmentBySlug } from '@/pages-list/cases/config/segments'
@@ -93,7 +94,7 @@ export default async function CaseRoute({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <CaseDetailPage data={data} />
+      <CaseDetailPage data={{ ...data, content: resolveHtmlRouteLinks(data.content) }} />
     </>
   )
 }

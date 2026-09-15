@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { destinationWithDirectHtmlLinks } from "@/shared/lib/html-links";
 import { Metadata } from "next";
 import Script from "next/script";
 import { BASE_URL } from "@/shared/constants";
@@ -152,7 +153,7 @@ export default async function Page({ params }: Props) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(taxiServiceSchema) }}
         />
       )}
-      <DestinationPage destination={destination} />
+      <DestinationPage destination={destinationWithDirectHtmlLinks(destination)} />
     </>
   );
 }

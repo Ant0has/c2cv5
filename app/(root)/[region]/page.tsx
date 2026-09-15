@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { Home } from "../Home";
+import { routeDataWithDirectHtmlLinks } from "@/shared/lib/html-links";
 import { routeService } from "@/shared/api/route.service";
 import { Metadata } from "next";
 import { excludesPages } from "@/shared/data/excludes-page";
@@ -187,7 +188,7 @@ export default async function RegionPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      <Home routeData={data}>
+      <Home routeData={routeDataWithDirectHtmlLinks(data)}>
         {relatedRoutes.length > 0 && (
           <ServerRouteLinks
             routes={relatedRoutes}

@@ -7,6 +7,7 @@ import s from '@/pages-list/region-hubs/ui/RegionCityHubPage.module.scss'
 import { CITY_SEO_TEXTS, CITY_ADVANTAGES } from '../config/seo-texts'
 import { generateMezhgorodCityFaq } from '../config/faq'
 import { isPilotCity, PilotCity } from '../config/pilot'
+import { cityRouteToUrl, resolveVerifiedRoutePath } from '@/shared/lib/route-url'
 
 interface Props {
   city: PilotCity
@@ -42,12 +43,7 @@ function formatPrice(price: number | null): string {
 }
 
 function leafHref(citySlug: string, routeUrl: string): string {
-  const prefix = `${citySlug}-`
-  if (routeUrl.startsWith(prefix)) {
-    const destSlug = routeUrl.slice(prefix.length)
-    return `/mezhgorod/${citySlug}/${destSlug}`
-  }
-  return `/${routeUrl}.html`
+  return cityRouteToUrl(citySlug, routeUrl)
 }
 
 export default function MezhgorodCityHubPage({ city, data, neighborCities }: Props) {
@@ -196,7 +192,7 @@ export default function MezhgorodCityHubPage({ city, data, neighborCities }: Pro
               {neighborCities.map(c => (
                 <a
                   key={c.slug}
-                  href={c.isPilot ? `/mezhgorod/${c.slug}` : `/regions/${c.fo}/${c.slug}/`}
+                  href={resolveVerifiedRoutePath(c.isPilot ? `/mezhgorod/${c.slug}` : `/regions/${c.fo}/${c.slug}/`)}
                   className={s.neighborLink}
                 >
                   Такси межгород {c.name}

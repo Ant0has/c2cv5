@@ -8,6 +8,7 @@ import s from '@/pages-list/region-hubs/ui/RegionCityHubPage.module.scss'
 import CalculatorDefault from '@/feature/calculator/ui/calculator-default/CalculatorDefault'
 import { Prices } from '@/shared/types/enums'
 import { requisitsData } from '@/shared/data/requisits.data'
+import { resolvePublicRoutePath } from '@/shared/lib/public-route-url'
 
 import {
   ROOT_SEO_SECTIONS,
@@ -46,7 +47,7 @@ interface Props {
 export default function MezhgorodRootPage({ stats, pilotCityStats }: Props) {
   const pilotSet = new Set(PILOT_CITIES.map(c => c.slug))
   const cityHref = (foSlug: string, citySlug: string) =>
-    pilotSet.has(citySlug) ? `/mezhgorod/${citySlug}` : `/regions/${foSlug}/${citySlug}/`
+    resolvePublicRoutePath(pilotSet.has(citySlug) ? `/mezhgorod/${citySlug}` : `/regions/${foSlug}/${citySlug}/`)
 
   const [activeTab, setActiveTab] = useState(DIRECTION_CATEGORIES[0].key)
   const activeCategory = DIRECTION_CATEGORIES.find(c => c.key === activeTab) || DIRECTION_CATEGORIES[0]
@@ -190,7 +191,7 @@ export default function MezhgorodRootPage({ stats, pilotCityStats }: Props) {
           <h2 className={s.h2}>Популярные направления</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 12, marginTop: 20 }}>
             {POPULAR_ROUTES.map(r => (
-              <a key={r.url} href={r.url} style={{
+              <a key={r.url} href={resolvePublicRoutePath(r.url)} style={{
                 display: 'flex', flexDirection: 'column', gap: 6,
                 padding: 16, background: '#fff', border: '1px solid #eee',
                 borderRadius: 10, textDecoration: 'none', color: '#222',
@@ -272,7 +273,7 @@ export default function MezhgorodRootPage({ stats, pilotCityStats }: Props) {
             <p style={{ fontSize: 15, color: '#555', marginBottom: 16, lineHeight: 1.6 }}>{activeCategory.description}</p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 10 }}>
               {activeCategory.routes.map(r => (
-                <a key={r.url} href={r.url} style={{
+                <a key={r.url} href={resolvePublicRoutePath(r.url)} style={{
                   padding: '10px 14px',
                   background: '#fff',
                   border: '1px solid #eee',
