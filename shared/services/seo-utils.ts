@@ -169,26 +169,18 @@ export function generateAggregateRatingSchema(route: IRouteData) {
 }
 
 export function generateFAQSchema(route: IRouteData) {
+  const questions = [
+    [route.faq1_q, route.faq1_a], [route.faq2_q, route.faq2_a],
+    [route.faq3_q, route.faq3_a], [route.faq4_q, route.faq4_a],
+    [route.faq5_q, route.faq5_a],
+  ].filter(([question, answer]) => question && answer);
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: route.faq1_q,
-        acceptedAnswer: { "@type": "Answer", text: route.faq1_a }
-      },
-      {
-        "@type": "Question",
-        name: route.faq2_q,
-        acceptedAnswer: { "@type": "Answer", text: route.faq2_a }
-      },
-      {
-        "@type": "Question",
-        name: route.faq3_q,
-        acceptedAnswer: { "@type": "Answer", text: route.faq3_a }
-      }
-    ]
+    mainEntity: questions.map(([question, answer]) => ({
+      "@type": "Question", name: question,
+      acceptedAnswer: { "@type": "Answer", text: answer },
+    })),
   };
 }
 
@@ -287,7 +279,10 @@ export function extractCityFrom(data: IRouteData): string {
 export function extractCityTo(data: IRouteData): string {
   if (data.city_seo_data) {
     const parts = data.city_seo_data.split(',');
-    if (parts.length >= 2) return parts[1].trim();
+    if (parts.length >= 2) {
+      const v = parts[1].trim();
+      if (v && !/^-+$/.test(v)) return v;
+    }
   }
   return '';
 }

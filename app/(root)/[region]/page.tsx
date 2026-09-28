@@ -57,18 +57,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const durationHours = distanceKm ? Math.max(1, Math.round(distanceKm / 70 * 2) / 2) : 0;
   const durationStr = durationHours ? (durationHours === Math.floor(durationHours) ? `${durationHours}` : `${durationHours.toFixed(1)}`) : '';
 
-  // SVO-специфичные метаданные для маршрутных страниц зоны СВО
+  // Public SVO route prices follow the same published "from" policy.
   const isSvoRoute = data?.is_svo === 1;
-  const svoUrl = data?.url || '';
-  const svoYrs: number = isSvoRoute ? (svoUrl.includes('donetsk') || svoUrl.includes('lugansk') ? 8 : 4) : 0;
-  const svoYrsWord = svoYrs === 1 ? 'год' : svoYrs < 5 ? 'года' : 'лет';
-  const svoYrsCtx = svoYrs === 8 ? '(с до-СВО)' : '(с момента СВО)';
-
   const svoTitle = isSvoRoute && metaCityFrom && metaCityTo
-    ? `Такси ${metaCityFrom} — ${metaCityTo} 2026 (зона СВО) — водители работают по региону ${svoYrs} ${svoYrsWord}`
+    ? `Такси ${metaCityFrom} — ${metaCityTo}${priceStr ? ` — от ${priceStr} ₽` : ''}${distanceKm ? ` | ${distanceKm} км` : ''} (зона СВО)`
     : null;
   const svoDescription = isSvoRoute && metaCityFrom && metaCityTo
-    ? `Актуально на 2026 год: трансфер ${metaCityFrom} — ${metaCityTo} в зону СВО. Водители работают по новым регионам ${svoYrs} ${svoYrsWord} ${svoYrsCtx}, 500+ поездок. Связь с диспетчером 24/7, документы для въезда — на странице. ${distanceKm ? `${distanceKm} км${durationStr ? `, ~${durationStr} ч` : ''}.` : ''}`
+    ? `Трансфер ${metaCityFrom} — ${metaCityTo} в зону СВО.${priceStr ? ` Комфорт от ${priceStr} ₽ за автомобиль.` : ''}${distanceKm ? ` Ориентировочно ${distanceKm} км${durationStr ? `, около ${durationStr} ч` : ''}.` : ''} Возможность поездки, точный маршрут и окончательную стоимость согласует диспетчер.`
     : null;
 
   const currentYear = new Date().getFullYear();
@@ -83,7 +78,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const description = svoDescription ?? (
     metaCityFrom && metaCityTo && distanceKm
-      ? `Такси ${metaCityFrom} — ${metaCityTo} по цене ${currentYear} года${priceStr ? ` от ${priceStr}₽` : ''}. ${distanceKm} км${durationStr ? `, ~${durationStr} ч` : ''}. ✅ Фиксированная цена ✅ Подача от 30 мин ✅ Без предоплаты. Заказать онлайн или ${requisitsData.PHONE_MARKED}`
+      ? `Такси ${metaCityFrom} — ${metaCityTo} по цене ${currentYear} года${priceStr ? ` от ${priceStr}₽` : ''}. ${distanceKm} км${durationStr ? `, ~${durationStr} ч` : ''}. Цена на странице ориентировочная; окончательную стоимость согласует диспетчер. Заказать онлайн или ${requisitsData.PHONE_MARKED}`
       : data?.seo_description || `Заказать междугороднее такси по цене ${currentYear} года. Комфортные автомобили, опытные водители, фиксированные цены. Тел: ${requisitsData.PHONE_MARKED}`
   );
 

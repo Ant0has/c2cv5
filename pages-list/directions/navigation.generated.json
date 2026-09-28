@@ -1,0 +1,147 @@
+[
+  {
+    "slug": "sheregesh",
+    "name": "Шерегеш",
+    "group": "ski",
+    "routeSlugs": [
+      "sheregesh"
+    ],
+    "routes": [
+      "/gornolyzhka/kemerovo-sheregesh",
+      "/gornolyzhka/novosibirsk-sheregesh",
+      "/gornolyzhka/tomsk-sheregesh",
+      "/gornolyzhka/barnaul-sheregesh"
+    ]
+  },
+  {
+    "slug": "arhyz",
+    "name": "Архыз",
+    "group": "ski",
+    "routeSlugs": [
+      "arhyz",
+      "arkhyz"
+    ],
+    "routes": [
+      "/gornolyzhka/mineralnye-vody-aeroport-arhyz",
+      "/gornolyzhka/krasnodar-arhyz",
+      "/gornolyzhka/rostov-na-donu-arhyz",
+      "/gornolyzhka/stavropol-arhyz"
+    ]
+  },
+  {
+    "slug": "sochi",
+    "name": "Сочи",
+    "group": "sea",
+    "routeSlugs": [
+      "sochi"
+    ],
+    "routes": [
+      "/morskoj-otdyh/moskva-sochi-sea",
+      "/morskoj-otdyh/krasnodar-sochi-sea",
+      "/morskoj-otdyh/rostov-sochi-sea",
+      "/morskoj-otdyh/stavropol-sochi-sea"
+    ]
+  },
+  {
+    "slug": "listvyanka",
+    "name": "Листвянка",
+    "group": "nature",
+    "routeSlugs": [
+      "listvyanka"
+    ],
+    "routes": [
+      "/mezhgorod/irkutsk/listvyanka"
+    ]
+  },
+  {
+    "slug": "kislovodsk",
+    "name": "Кисловодск",
+    "group": "spa",
+    "routeSlugs": [
+      "kislovodsk"
+    ],
+    "routes": [
+      "/mezhgorod/stavropol/kislovodsk"
+    ]
+  },
+  {
+    "slug": "pereslavl-zalesskiy",
+    "name": "Переславль-Залесский",
+    "group": "golden",
+    "routeSlugs": [
+      "pereslavl-zalesskij",
+      "pereslavl-zalesskiy"
+    ],
+    "routes": [
+      "/mezhgorod/kostroma/pereslavl-zalesskij",
+      "/mezhgorod/moskva/pereslavl-zalesskij",
+      "/mezhgorod/yaroslavl/pereslavl-zalesskij"
+    ]
+  },
+  {
+    "slug": "sortavala",
+    "name": "Сортавала",
+    "group": "silver",
+    "routeSlugs": [
+      "sortavala"
+    ],
+    "routes": [
+      "/mezhgorod/sankt-peterburg/sortavala",
+      "/mezhgorod/petrozavodsk/sortavala"
+    ]
+  },
+  {
+    "slug": "abzakovo",
+    "name": "Абзаково",
+    "group": "ski",
+    "routeSlugs": [
+      "abzakovo",
+      "novoabzakovo"
+    ],
+    "routes": [
+      "/gornolyzhka/magnitogorsk-abzakovo",
+      "/gornolyzhka/ufa-abzakovo",
+      "/gornolyzhka/chelyabinsk-abzakovo",
+      "/gornolyzhka/ekaterinburg-abzakovo"
+    ]
+  },
+  {
+    "slug": "manzherok",
+    "name": "Манжерок",
+    "group": "ski",
+    "routeSlugs": [
+      "manzherok"
+    ],
+    "routes": [
+      "/gornolyzhka/barnaul-manzherok",
+      "/gornolyzhka/novosibirsk-manzherok"
+    ]
+  },
+  {
+    "slug": "gora-sobolinaya",
+    "name": "Гора Соболиная / Байкальск",
+    "group": "ski",
+    "routeSlugs": [
+      "baykalsk",
+      "bajkalsk",
+      "baykalsk-gora-sobolinaya"
+    ],
+    "routes": [
+      "/gornolyzhka/irkutsk-baykalsk-gora-sobolinaya",
+      "/gornolyzhka/ulan-ude-baykalsk-gora-sobolinaya"
+    ]
+  },
+  {
+    "slug": "valday",
+    "name": "Валдай",
+    "group": "silver",
+    "routeSlugs": [
+      "valday",
+      "valdaj"
+    ],
+    "routes": [
+      "/mezhgorod/moskva/valdaj",
+      "/mezhgorod/tver/valdaj"
+    ]
+  }
+]

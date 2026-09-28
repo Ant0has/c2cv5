@@ -1,5 +1,6 @@
 import { IOrderModalData } from "@/app/providers";
 import { mailService } from "@/shared/services/mail.service";
+import { normalizePhoneNumber } from "@/shared/lib/phone-number";
 import { ButtonTypes, Prices } from "@/shared/types/enums";
 import { IMailRequest } from "@/shared/types/types";
 import { DatePicker, Form, FormInstance, Input, Radio, RadioChangeEvent, notification } from "antd";
@@ -8,7 +9,7 @@ import TextArea from "antd/es/input/TextArea";
 import dayjs from "dayjs";
 import 'dayjs/locale/ru';
 import Link from "next/link";
-import { FC, useState } from "react";
+import { FC, useRef, useState } from "react";
 import { planLabel } from "../../../../pages-list/home/ui/Price/data";
 import Button from "../../ui/Button/Button";
 import s from './OrderForm.module.scss';
@@ -20,8 +21,18 @@ interface IProps {
   handleClose?: (isResetForm?: boolean) => void
 }
 
+interface OrderFormValues {
+  name: string
+  phone: string
+  trip_type: string
+  trip_date: dayjs.Dayjs
+  additional_info?: string
+  confirm_email?: string
+}
+
 const OrderForm: FC<IProps> = ({ form, orderModalData, handleClickLink, handleClose }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const submittingRef = useRef(false);
 
   const [tripType, setTripType] = useState<string>('');
 
@@ -39,15 +50,23 @@ const OrderForm: FC<IProps> = ({ form, orderModalData, handleClickLink, handleCl
     }
   };
 
-  const handleSubmitForm = async () => {
+  const handleSubmitForm = async (values: OrderFormValues) => {
+    if (submittingRef.current) return;
+    const phone = normalizePhoneNumber(values.phone);
+    if (!phone) {
+      notification.error({ message: 'Введите корректный номер телефона', placement: 'topRight' });
+      return;
+    }
+    submittingRef.current = true;
     try {
       setIsSubmitting(true);
       const requestBody: IMailRequest = {
-        ...form?.getFieldsValue(),
         ...orderModalData,
+        ...values,
+        phone,
         order_from: orderModalData.order_from || 'Не указано',
         order_to: orderModalData.order_to || 'Не указано',
-        trip_date: form?.getFieldValue('trip_date')?.format('DD.MM.YYYY HH:mm'),
+        trip_date: values.trip_date?.format('DD.MM.YYYY HH:mm'),
         auto_class: orderModalData.auto_class ? planLabel[orderModalData.auto_class as Prices] : undefined
       }
 
@@ -76,6 +95,7 @@ const OrderForm: FC<IProps> = ({ form, orderModalData, handleClickLink, handleCl
         handleClose();
       }
     } finally {
+      submittingRef.current = false;
       setIsSubmitting(false);
     }
   }
@@ -112,7 +132,9 @@ const OrderForm: FC<IProps> = ({ form, orderModalData, handleClickLink, handleCl
               message: <span className="font-14-normal text-primary">Пожалуйста, введите ваш номер телефона</span>
             },
             {
-              pattern: /^[0-9+()]+$/,
+              validator: (_, value: string) => normalizePhoneNumber(value)
+                ? Promise.resolve()
+                : Promise.reject(new Error('Введите корректный номер телефона')),
               message: <span className="font-14-normal text-primary">Введите корректный номер телефона</span>
             },
           ]}
@@ -182,10 +204,11 @@ const OrderForm: FC<IProps> = ({ form, orderModalData, handleClickLink, handleCl
         <div className={s.bottom}>
           <Button
             type={ButtonTypes.PRIMARY}
+            htmlType="submit"
             text={'Заказать поездку'}
             loading={isSubmitting}
           />
-          <p className="font-14-normal">Нажимая на кнопку, вы соглашаетесь на обработку <Link onClick={handleClickLink} className="font-14-normal text-primary" href="privacy-policy">персональных данных</Link></p>
+          <p className="font-14-normal">Нажимая на кнопку, вы соглашаетесь на обработку <Link onClick={handleClickLink} className="font-14-normal text-primary" href="/privacy-policy">персональных данных</Link></p>
         </div>
       </Form>
     </>

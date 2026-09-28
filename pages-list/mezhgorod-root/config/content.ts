@@ -78,7 +78,7 @@ export const ROOT_FAQ = [
   },
   {
     question: 'Как рассчитывается цена поездки?',
-    answer: 'Цена фиксированная и рассчитывается по расстоянию и классу автомобиля. Внутри маршрута вы платите только за него — ожидание в точке подачи до 30 минут, пробки, объезды и кофе-паузы в стоимость уже включены. Точную сумму увидите до оформления заказа — онлайн-калькулятор на главной или подтверждение от диспетчера в течение 5 минут после заявки.',
+    answer: 'Цена зависит от расстояния, класса автомобиля, адресов и условий поездки. На сайте и в калькуляторе указана ориентировочная стоимость «от» за автомобиль. Окончательную сумму, платные участки, ожидание и дополнительные заезды диспетчер согласует до подтверждения заказа.',
   },
   {
     question: 'Можно ли заказать на сегодня или прямо сейчас?',
@@ -110,24 +110,23 @@ export interface PopularRoute {
   timeH: number          // часов в пути (приблизительно, distance / 80 + остановки)
 }
 
-// Цены взяты из таблицы routes на 2026-04-21, могут обновляться автоматически
-// через generateBuildData при наличии endpoint. Сейчас захардкожены.
+// Published route-price snapshot, CRM revision 1, refreshed 2026-09-11.
+// Refresh these examples together with route publications.
 export const POPULAR_ROUTES: PopularRoute[] = [
-  { title: 'Москва — Казань', url: '/moskva-kazan.html', distanceKm: 805, priceComfort: 24200, timeH: 11 },
-  { title: 'Санкт-Петербург — Москва', url: '/sankt-peterburg-moskva.html', distanceKm: 705, priceComfort: 21200, timeH: 9.5 },
-  { title: 'Белгород — Москва', url: '/mezhgorod/belgorod/moskva', distanceKm: 660, priceComfort: 19800, timeH: 9 },
-  { title: 'Воронеж — Москва', url: '/mezhgorod/voronezh/moskva', distanceKm: 515, priceComfort: 15400, timeH: 7 },
-  { title: 'Самара — Казань', url: '/samara-kazan.html', distanceKm: 365, priceComfort: 11000, timeH: 5 },
-  { title: 'Ярославль — Москва', url: '/mezhgorod/yaroslavl/moskva', distanceKm: 265, priceComfort: 8000, timeH: 4 },
-  { title: 'Екатеринбург — Челябинск', url: '/ekaterinburg-chelyabinsk.html', distanceKm: 210, priceComfort: 6300, timeH: 3 },
-  { title: 'Владимир — Москва', url: '/mezhgorod/vladimir/moskva', distanceKm: 185, priceComfort: 6500, timeH: 3 },
-  { title: 'Москва — Тула', url: '/moskva-tula.html', distanceKm: 185, priceComfort: 6500, timeH: 3 },
-  { title: 'Тверь — Москва', url: '/mezhgorod/tver/moskva', distanceKm: 170, priceComfort: 6000, timeH: 2.5 },
-  { title: 'Краснодар — Анапа', url: '/krasnodar-anapa.html', distanceKm: 165, priceComfort: 6000, timeH: 2.5 },
-  { title: 'Курск — Воронеж', url: '/mezhgorod/kursk/voronezh', distanceKm: 220, priceComfort: 6600, timeH: 3 },
-  { title: 'Белгород — Воронеж', url: '/mezhgorod/belgorod/voronezh', distanceKm: 260, priceComfort: 7800, timeH: 3.5 },
-  { title: 'Ярославль — Кострома', url: '/mezhgorod/yaroslavl/kostroma', distanceKm: 85, priceComfort: 3500, timeH: 1.5 },
-  { title: 'Орёл — Курск', url: '/mezhgorod/oryol/kursk', distanceKm: 170, priceComfort: 5500, timeH: 2.5 },
+  { title: 'Москва — Казань', url: '/moskva-kazan.html', distanceKm: 840, priceComfort: 28500, timeH: 12.0 },
+  { title: 'Санкт-Петербург — Москва', url: '/sankt-peterburg-moskva.html', distanceKm: 720, priceComfort: 24500, timeH: 10.5 },
+  { title: 'Белгород — Москва', url: '/mezhgorod/belgorod/moskva', distanceKm: 670, priceComfort: 22500, timeH: 9.5 },
+  { title: 'Воронеж — Москва', url: '/mezhgorod/voronezh/moskva', distanceKm: 520, priceComfort: 17500, timeH: 7.5 },
+  { title: 'Самара — Казань', url: '/samara-kazan.html', distanceKm: 370, priceComfort: 12000, timeH: 5.5 },
+  { title: 'Ярославль — Москва', url: '/mezhgorod/yaroslavl/moskva', distanceKm: 270, priceComfort: 9500, timeH: 4.0 },
+  { title: 'Екатеринбург — Челябинск', url: '/ekaterinburg-chelyabinsk.html', distanceKm: 220, priceComfort: 8000, timeH: 3.0 },
+  { title: 'Владимир — Москва', url: '/mezhgorod/vladimir/moskva', distanceKm: 200, priceComfort: 8000, timeH: 3.0 },
+  { title: 'Москва — Тула', url: '/moskva-tula.html', distanceKm: 190, priceComfort: 7500, timeH: 2.5 },
+  { title: 'Тверь — Москва', url: '/mezhgorod/tver/moskva', distanceKm: 190, priceComfort: 7500, timeH: 2.5 },
+  { title: 'Краснодар — Анапа', url: '/krasnodar-anapa.html', distanceKm: 190, priceComfort: 7500, timeH: 2.5 },
+  { title: 'Курск — Воронеж', url: '/mezhgorod/kursk/voronezh', distanceKm: 230, priceComfort: 8500, timeH: 3.5 },
+  { title: 'Белгород — Воронеж', url: '/mezhgorod/belgorod/voronezh', distanceKm: 260, priceComfort: 9500, timeH: 3.5 },
+  { title: 'Ярославль — Кострома', url: '/mezhgorod/yaroslavl/kostroma', distanceKm: 90, priceComfort: 5000, timeH: 1.5 },
 ]
 
 // Отзывы — реальные из route_reviews БД (rate=5, review_date >= 2025-06)
@@ -167,12 +166,12 @@ export const DIRECTION_CATEGORIES: DirectionCategory[] = [
     emoji: '✈️',
     description: 'Трансферы в Шереметьево, Внуково, Домодедово, Пулково из региональных центров. Подача под утренние рейсы без наценки.',
     routes: [
-      { title: 'Ярославль → Шереметьево', url: '/mezhgorod/yaroslavl/moskva', priceFrom: 8000 },
-      { title: 'Владимир → Домодедово', url: '/mezhgorod/vladimir/moskva', priceFrom: 6500 },
-      { title: 'Калуга → Внуково', url: '/mezhgorod/kaluga/moskva', priceFrom: 7500 },
-      { title: 'Тверь → Шереметьево', url: '/mezhgorod/tver/moskva', priceFrom: 6000 },
-      { title: 'Воронеж → Домодедово', url: '/mezhgorod/voronezh/moskva', priceFrom: 15400 },
-      { title: 'Белгород → Внуково', url: '/mezhgorod/belgorod/moskva', priceFrom: 19800 },
+      { title: 'Ярославль → Шереметьево', url: '/mezhgorod/yaroslavl/moskva', priceFrom: 9500 },
+      { title: 'Владимир → Домодедово', url: '/mezhgorod/vladimir/moskva', priceFrom: 8000 },
+      { title: 'Калуга → Внуково', url: '/mezhgorod/kaluga/moskva', priceFrom: 7000 },
+      { title: 'Тверь → Шереметьево', url: '/mezhgorod/tver/moskva', priceFrom: 7500 },
+      { title: 'Воронеж → Домодедово', url: '/mezhgorod/voronezh/moskva', priceFrom: 17500 },
+      { title: 'Белгород → Внуково', url: '/mezhgorod/belgorod/moskva', priceFrom: 22500 },
     ],
   },
   {
@@ -186,7 +185,7 @@ export const DIRECTION_CATEGORIES: DirectionCategory[] = [
       { title: 'Воронеж → Геленджик', url: '/mezhgorod/voronezh/gelendzhik' },
       { title: 'Краснодар → Сочи', url: '/krasnodar-sochi.html' },
       { title: 'Ростов-на-Дону → Сочи', url: '/rostov-na-donu-sochi.html' },
-      { title: 'Краснодар → Анапа', url: '/krasnodar-anapa.html', priceFrom: 6000 },
+      { title: 'Краснодар → Анапа', url: '/krasnodar-anapa.html', priceFrom: 7500 },
     ],
   },
   {

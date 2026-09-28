@@ -46,6 +46,10 @@ export interface IRouteData {
     faq2_a: string | null;
     faq3_q: string | null;
     faq3_a: string | null;
+    faq4_q?: string | null;
+    faq4_a?: string | null;
+    faq5_q?: string | null;
+    faq5_a?: string | null;
     is_svo?: 0 | 1;
 
     main_text: string | null;

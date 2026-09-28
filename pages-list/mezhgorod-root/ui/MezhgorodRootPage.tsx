@@ -7,6 +7,7 @@ import OrderButton from '@/pages-list/region-hubs/ui/OrderButton'
 import s from '@/pages-list/region-hubs/ui/RegionCityHubPage.module.scss'
 import CalculatorDefault from '@/feature/calculator/ui/calculator-default/CalculatorDefault'
 import { Prices } from '@/shared/types/enums'
+import TripConstructor from '@/feature/calculator/ui/trip-constructor/TripConstructor'
 import { requisitsData } from '@/shared/data/requisits.data'
 import { resolvePublicRoutePath } from '@/shared/lib/public-route-url'
 
@@ -85,7 +86,7 @@ export default function MezhgorodRootPage({ stats, pilotCityStats }: Props) {
 
           <h1 className={s.h1}>Такси межгород по России</h1>
           <p className={s.heroDescription}>
-            Фиксированные цены на тысячи маршрутов между городами России. Подача от 30 минут. Работаем с 2017 года.
+            Ориентировочные цены «от» на тысячи маршрутов. Окончательную стоимость согласует диспетчер. Подача от 30 минут. Работаем с 2017 года.
           </p>
 
           {/* Live counter badge */}
@@ -146,7 +147,7 @@ export default function MezhgorodRootPage({ stats, pilotCityStats }: Props) {
           <h2 className={s.h2} style={{ color: '#fff', textAlign: 'center', marginBottom: 24 }}>
             Рассчитать стоимость межгородной поездки
           </h2>
-          <CalculatorDefault selectedPlan={Prices.COMFORT} />
+          <TripConstructor context={{ from: '', to: '' }}><CalculatorDefault selectedPlan={Prices.COMFORT} /></TripConstructor>
         </div>
       </section>
 

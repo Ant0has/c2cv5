@@ -16,6 +16,7 @@ import s from './DestinationPage.module.scss'
 import HubHero from "@/pages-list/gornolyzhka/ui/HubHero/HubHero"
 import { formatPrice } from "@/shared/services/seo-utils"
 import SvoDestinationView from "@/pages-list/destination/ui/svo-blocks/SvoDestinationView"
+import DestinationGuideLinks from '@/pages-list/directions/DestinationGuideLinks'
 
 interface Props {
     destination: IHubDestination
@@ -95,7 +96,7 @@ const DestinationPage = ({ destination }: Props) => {
                 calculatorSlot={
                     <div className="container">
                         <TripCounter destination={destination} />
-                        <Price title={routeName} />
+                        <Price title={routeName} cityData={`${destination.fromCity || ''},${destination.toCity || ''}`} withOrderAnchor={false} />
                     </div>
                 }
                 belowSlot={
@@ -125,10 +126,13 @@ const DestinationPage = ({ destination }: Props) => {
                 <TripCounter destination={destination} />
                 <Price
                     title={routeName}
+                    cityData={`${destination.fromCity || ''},${destination.toCity || ''}`}
+                    withOrderAnchor={false}
                 />
             </section>
 
             <DestinationFeatures destination={destination} />
+            <DestinationGuideLinks routePath={`/${destination.hub.slug}/${destination.slug}`} />
 
             <Guarantees destination={destination} />
 

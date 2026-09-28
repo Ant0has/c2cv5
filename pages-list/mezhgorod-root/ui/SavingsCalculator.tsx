@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import { calculatePublicQuote } from '@/feature/calculator/public-price'
+import { Prices } from '@/shared/types/enums'
 
 // Калькулятор экономии: такси-межгород vs собственная машина
 // Формула своя машина: бензин + амортизация + стоимость времени водителя
@@ -13,9 +15,7 @@ const DEFAULT_DEPRECIATION = 4 // ₽/км (амортизация + ТО + ре
 const DEFAULT_HOUR_VALUE = 400 // ₽/час стоимость вашего времени за рулём
 const AVG_SPEED = 80 // км/ч
 
-// Тариф межгорода — эмпирическая формула: base + distance × rate
-const TAXI_BASE = 1500
-const TAXI_RATE = 28 // ₽/км для комфорт-класса
+// Same public tariff as the customer calculator; no routing-service changes.
 
 export default function SavingsCalculator() {
   const [distance, setDistance] = useState(DEFAULT_DIST)
@@ -29,7 +29,7 @@ export default function SavingsCalculator() {
     const timeCost = (distance / AVG_SPEED) * hourValue
     const ownCar = Math.round(fuelCost + depreciationCost + timeCost)
 
-    const taxi = Math.round(TAXI_BASE + distance * TAXI_RATE)
+    const taxi = calculatePublicQuote(Math.max(1, Number.isFinite(distance) ? distance : DEFAULT_DIST), Prices.COMFORT).price
     const savings = ownCar - taxi
     const savingsPercent = ownCar > 0 ? Math.round((savings / ownCar) * 100) : 0
 
@@ -111,12 +111,12 @@ export default function SavingsCalculator() {
           <div className="col taxi">
             <div>
               <div className="label">Такси Комфорт</div>
-              <div className="price">{result.taxi.toLocaleString('ru-RU')}₽</div>
+              <div className="price">От {result.taxi.toLocaleString('ru-RU')}₽</div>
             </div>
             <div className="detail">
               Водитель за рулём<br />
               Ваше время свободно<br />
-              Фиксированная цена
+              Окончательную цену согласует диспетчер
             </div>
           </div>
         </div>

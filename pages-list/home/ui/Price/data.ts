@@ -61,11 +61,6 @@ export const comfortPlusOptions = [
 
 export const businessOptions = [
   {
-    id: 1,
-    label: 'Стоимость 1 км',
-    value: 'от 70 руб.'
-  },
-  {
     id: 2,
     label: 'Ожидание при подаче 15 минут',
     value: 'Бесплатно'

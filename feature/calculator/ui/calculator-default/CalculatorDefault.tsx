@@ -25,7 +25,7 @@ const AddressSelectDefault: FC<AddressSelectDefaultProps> = (props) => {
   return (
     <CalculatorBase {...props}>
       {({ state, actions, infoData, selectedPlan }) => (
-        <div id="order" className={clsx(s.wrapper, { [s.military]: props.routeData?.is_svo === 1 })}>
+        <div className={clsx(s.wrapper, { [s.military]: props.routeData?.is_svo === 1 })}>
           <div className={clsx(s.title, 'font-24-medium text-white')}>
             Укажите куда вам надо?
           </div>
@@ -111,7 +111,7 @@ const AddressSelectDefault: FC<AddressSelectDefaultProps> = (props) => {
             <div className={clsx(s.warning, 'font-14-normal text-white')}>
               Расчеты носят информационно-справочный характер, нажмите Заказать, чтобы узнать точную стоимость. 
               Нажимая на кнопку, вы соглашаетесь на{' '}
-              <Link href='privacy-policy' className={clsx(s.policy, 'font-14-normal text-primary')}>
+              <Link href='/privacy-policy' className={clsx(s.policy, 'font-14-normal text-primary')}>
                 обработку персональных данных
               </Link>.
             </div>

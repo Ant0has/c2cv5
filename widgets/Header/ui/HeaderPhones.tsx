@@ -13,7 +13,7 @@ interface IProps {
 const HeaderPhones: FC<IProps> = ({ isDark }) => {
     return (
         <div className={s.phones}>
-            <Link target='_blank' href={`tel:+${requisitsData.PHONE}`} className={clsx('font-18-semibold',{ ['text-white']: isDark },{ ['text-black']: !isDark })}>
+            <Link href={`tel:${requisitsData.PHONE}`} aria-label="Позвонить в City2City" className={clsx('font-18-semibold',{ ['text-white']: isDark },{ ['text-black']: !isDark })}>
                 <PhoneIcon fill="currentColor" />
             </Link>
         </div>

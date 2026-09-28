@@ -14,6 +14,8 @@ interface IButtonProps {
   className?: string,
   disabled?: boolean,
   loading?: boolean,
+  htmlType?: 'button' | 'submit' | 'reset',
+  ariaLabel?: string,
   handleClick?: () => void,
   style?: React.CSSProperties
 }
@@ -26,6 +28,8 @@ const Button: FC<IButtonProps> = (props) => {
     className,
     disabled,
     loading,
+    htmlType = 'button',
+    ariaLabel,
     handleClick,
     style
   } = props
@@ -33,7 +37,9 @@ const Button: FC<IButtonProps> = (props) => {
   if (type === ButtonTypes.LINK) {
     return <a
       target="_blank"
+      rel="noopener noreferrer"
       href={link}
+      aria-label={ariaLabel}
       className={clsx(s.buttonLink, className)}
     >
       {icon && <i className={s.icon}>{icon}</i>}
@@ -43,6 +49,10 @@ const Button: FC<IButtonProps> = (props) => {
 
   return (
     <button
+      type={htmlType}
+      disabled={disabled || loading}
+      aria-busy={loading || undefined}
+      aria-label={ariaLabel}
       className={clsx(s.button, s[type], 'font-16-medium', {
         [s.disable]: disabled,
         [s.loading]: loading

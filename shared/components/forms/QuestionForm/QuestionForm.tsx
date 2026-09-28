@@ -1,11 +1,12 @@
 'use client';
 
 import { mailService } from "@/shared/services/mail.service";
+import { normalizePhoneNumber } from "@/shared/lib/phone-number";
 import { Blocks, ButtonTypes } from "@/shared/types/enums";
 import { IMailRequest } from "@/shared/types/types";
 import { Form, FormInstance, Input, notification } from "antd";
 import Link from "next/link";
-import { FC, useContext, useMemo, useState } from "react";
+import { FC, useContext, useMemo, useRef, useState } from "react";
 import Button from "../../ui/Button/Button";
 import s from './QuestionForm.module.scss';
 import { ModalContext } from "@/app/providers";
@@ -27,9 +28,16 @@ interface IProps {
   handleClose?: (isResetForm?: boolean) => void
 }
 
+interface QuestionFormValues {
+  name: string
+  phone: string
+  confirm_email?: string
+}
+
 const QuestionForm: FC<IProps> = ({ buttonText, className, form, handleClickLink, handleClose, theme, dataToSend }) => {
-  const { orderModalData, setOrderModalData } = useContext(ModalContext)
+  const { orderModalData } = useContext(ModalContext)
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const submittingRef = useRef(false);
 
   const addAdditionalInfo = useMemo(() => {
     const additionalInfo = [];
@@ -43,12 +51,20 @@ const QuestionForm: FC<IProps> = ({ buttonText, className, form, handleClickLink
   }, [dataToSend])
 
 
-  const handleSubmitForm = async () => {
+  const handleSubmitForm = async (values: QuestionFormValues) => {
+    if (submittingRef.current) return;
+    const phone = normalizePhoneNumber(values.phone);
+    if (!phone) {
+      notification.error({ message: 'Введите корректный номер телефона', placement: 'topRight' });
+      return;
+    }
+    submittingRef.current = true;
     try {
       setIsSubmitting(true);
-      const requestBody: IMailRequest = {
+      const requestBody: IMailRequest & { type: 'question' } = {
         ...orderModalData,
-        ...form?.getFieldsValue(),
+        ...values,
+        phone,
         order_from: orderModalData.order_from || dataToSend?.order_from || 'Не указано',
         order_to: orderModalData.order_to || dataToSend?.order_to || 'Не указано',
         type: 'question',
@@ -77,6 +93,7 @@ const QuestionForm: FC<IProps> = ({ buttonText, className, form, handleClickLink
         handleClose();
       }
     } finally {
+      submittingRef.current = false;
       setIsSubmitting(false);
     }
   }
@@ -115,7 +132,9 @@ const QuestionForm: FC<IProps> = ({ buttonText, className, form, handleClickLink
               message: <span className="font-14-normal text-primary">Пожалуйста, введите ваш номер телефона</span>
             },
             {
-              pattern: /^[0-9+()]+$/,
+              validator: (_, value: string) => normalizePhoneNumber(value)
+                ? Promise.resolve()
+                : Promise.reject(new Error('Введите корректный номер телефона')),
               message: <span className="font-14-normal text-primary">Введите корректный номер телефона</span>
             },
           ]}
@@ -136,10 +155,11 @@ const QuestionForm: FC<IProps> = ({ buttonText, className, form, handleClickLink
         <div className={s.bottom}>
           <Button
             type={ButtonTypes.PRIMARY}
+            htmlType="submit"
             text={buttonText ?? 'Задать вопрос'}
             loading={isSubmitting}
           />
-          <p className={clsx("font-14-normal", theme === 'dark' ? 'text-white' : 'text-black')}>Нажимая на кнопку, вы соглашаетесь на обработку <Link onClick={handleClickLink} className="font-14-normal text-primary" href="privacy-policy">персональных данных</Link></p>
+          <p className={clsx("font-14-normal", theme === 'dark' ? 'text-white' : 'text-black')}>Нажимая на кнопку, вы соглашаетесь на обработку <Link onClick={handleClickLink} className="font-14-normal text-primary" href="/privacy-policy">персональных данных</Link></p>
         </div>
       </Form>
     </>

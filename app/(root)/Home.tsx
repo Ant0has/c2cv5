@@ -9,6 +9,7 @@ import dynamic from "next/dynamic"
 import { usePathname } from "next/navigation"
 import { Suspense, useContext, useLayoutEffect } from "react"
 import { RouteContext } from "../providers";
+import DestinationGuideLinks from '@/pages-list/directions/DestinationGuideLinks';
 
 interface Props {
 	routeData?: IRouteData
@@ -19,7 +20,7 @@ const OrderStepsSection = dynamic(
 	() => import("@/pages-list/home/ui/OrderSteps/OrderSteps").then((mod) => mod.default),
 	{
 		loading: () => <LoadingSkeleton height="300px" />,
-		ssr: false,
+		
 	}
 );
 
@@ -36,7 +37,7 @@ const QuestionsSection = dynamic(
 	() => import("@/pages-list/home/ui/Questions/Questions").then((mod) => mod.default),
 	{
 		loading: () => <LoadingSkeleton height="300px" />,
-		ssr: false,
+		
 	}
 );
 
@@ -44,7 +45,7 @@ const RouteDescriptionSection = dynamic(
 	() => import("@/pages-list/home/ui/RouteDescription/RouteDescription").then((mod) => mod.default),
 	{
 		loading: () => <LoadingSkeleton height="300px" />,
-		ssr: false,
+		
 	}
 )
 
@@ -52,7 +53,7 @@ const AttractionsSection = dynamic(
 	() => import("@/pages-list/home/ui/attractions/Attractions").then((mod) => mod.default),
 	{
 		loading: () => <LoadingSkeleton height="300px" />,
-		ssr: false,
+		
 	}
 )
 
@@ -60,7 +61,7 @@ const FaqSection = dynamic(
 	() => import("@/pages-list/home/ui/faq/Faq").then((mod) => mod.default),
 	{
 		loading: () => <LoadingSkeleton height="300px" />,
-		ssr: false,
+		
 	}
 )
 
@@ -68,7 +69,7 @@ const BusinessBridgeSection = dynamic(
 	() => import("@/entities/buziness/ui/business-bridge/BusinessBridge").then((mod) => mod.default),
 	{
 		loading: () => <LoadingSkeleton height="300px" />,
-		ssr: false,
+		
 	}
 );
 
@@ -76,7 +77,7 @@ const ReviewsSection = dynamic(
 	() => import("@/pages-list/home/ui/Reviews/Reviews").then((mod) => mod.default),
 	{
 		loading: () => <LoadingSkeleton height="300px" />,
-		ssr: false,
+		
 	}
 )
 
@@ -84,7 +85,7 @@ const YandexReviewsSection = dynamic(
 	() => import("@/shared/components/YandexReviews/YandexReviews").then((mod) => mod.default),
 	{
 		loading: () => <LoadingSkeleton height="300px" />,
-		ssr: false,
+		
 	}
 )
 
@@ -92,7 +93,7 @@ const RouteVideoSection = dynamic(
 	() => import("@/shared/components/RouteVideo/RouteVideo").then((mod) => mod.default),
 	{
 		loading: () => <LoadingSkeleton height="300px" />,
-		ssr: false,
+		
 	}
 )
 
@@ -117,6 +118,8 @@ export function Home({ routeData, children }: Props) {
 			</Suspense>
 
 			<Price routeData={routeData} title={cityTitle} cityData={routeData?.city_seo_data} />
+
+			{routeData && !isMilitary && <DestinationGuideLinks routePath={pathname} />}
 
 			{pathname === '/' && <PopularDirections />}
 
@@ -190,5 +193,4 @@ export function Home({ routeData, children }: Props) {
 		</>
 	)
 }
-
 

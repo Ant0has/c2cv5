@@ -13,6 +13,8 @@ const nextConfig = {
     ],
   },
   experimental: {
+    // Keep release builds from competing with the live CRM and website workers.
+    cpus: 1,
     optimizePackageImports: ['heavy-package'],
   },
 

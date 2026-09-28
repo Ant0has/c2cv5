@@ -60,7 +60,7 @@ const CityHubPage = ({ data }: Props) => {
       />
       <BusinessPopularRoutes
         title={routesTitle}
-        description="Фиксированные цены для юридических лиц"
+        description="Ориентировочные цены «от»; окончательную стоимость согласует диспетчер"
         list={data.routes}
       />
       <BusinessB2bCalculator {...calculatorData} />

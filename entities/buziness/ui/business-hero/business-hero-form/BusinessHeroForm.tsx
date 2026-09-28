@@ -3,8 +3,9 @@ import { b2bGoals } from '@/shared/services/analytics.service'
 import { Form, Input, notification } from "antd";
 import { ButtonTypes } from "@/shared/types/enums";
 import Button from "@/shared/components/ui/Button/Button";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { mailService } from "@/shared/services/mail.service";
+import { normalizePhoneNumber } from "@/shared/lib/phone-number";
 import { useIsMobile } from "@/shared/hooks/useResize";
 import clsx from "clsx";
 import ChatIcon from "@/public/icons/ChatIcon";
@@ -26,19 +27,32 @@ const buttonStyle = {
     height: '56px',
 }
 
+interface HeroFormValues {
+    name: string
+    phone: string
+}
+
 const BusinessHeroForm = () => {
-    const [form] = Form.useForm()
+    const [form] = Form.useForm<HeroFormValues>()
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const submittingRef = useRef(false)
     const isMobile = useIsMobile()
 
-    const handleHeroFormSubmit = async () => {
+    const handleHeroFormSubmit = async (values: HeroFormValues) => {
+        if (submittingRef.current) return
+        const phone = normalizePhoneNumber(values.phone)
+        if (!phone) {
+            form.setFields([{ name: 'phone', errors: ['Введите корректный телефон'] }])
+            return
+        }
+
+        submittingRef.current = true
         try {
             setIsSubmitting(true)
-            const values = form.getFieldsValue()
 
             await mailService.sendMail({
                 name: values.name,
-                phone: values.phone,
+                phone,
                 block: 'B2B',
                 order_from: 'Страница для бизнеса',
                 order_to: 'Заявка на расчёт',
@@ -60,6 +74,7 @@ const BusinessHeroForm = () => {
                 placement: 'topRight',
             })
         } finally {
+            submittingRef.current = false
             setIsSubmitting(false)
         }
     }
@@ -95,10 +110,16 @@ const BusinessHeroForm = () => {
                     className="flex-1 w-full margin-b-0 gap-8"
                     rules={[
                         { required: true, message: 'Введите телефон' },
-                        { pattern: /^[0-9+() -]+$/, message: 'Некорректный номер' }
+                        {
+                            validator: (_, value) => !value || normalizePhoneNumber(value)
+                                ? Promise.resolve()
+                                : Promise.reject(new Error('Введите корректный телефон'))
+                        }
                     ]}
                 >
                     <Input
+                        type="tel"
+                        autoComplete="tel"
                         prefix={<PhoneIcon fill='var(--dark-secondary)' />}
                         placeholder="Ваш телефон"
                         style={inputStyle}
@@ -108,6 +129,7 @@ const BusinessHeroForm = () => {
                     <Button
                         className="flex-1 w-full margin-b-0"
                         type={ButtonTypes.PRIMARY}
+                        htmlType="submit"
                         text="Получить расчёт"
                         loading={isSubmitting}
                         style={buttonStyle}

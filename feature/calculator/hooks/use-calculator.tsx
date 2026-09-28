@@ -1,5 +1,6 @@
 import { dadataOsrmService } from "@/shared/api/dadata-osrm.service";
-import { COEFFICIENT_100, COEFFICIENT_100_150, COEFFICIENT_150_200, COEFFICIENT_200, DEFAULT_DISTANCE, DEFAULT_PRICE, prices, SPEED } from "@/shared/constants";
+import { DEFAULT_DISTANCE, SPEED } from "@/shared/constants";
+import { calculatePublicQuote, formatPublicPrice, publicMinimum } from '../public-price';
 import { Prices } from "@/shared/types/enums";
 import { IRouteData } from "@/shared/types/route.interface";
 import { message } from "antd";
@@ -78,19 +79,21 @@ export const useCalculator = ({
   })();
 
   const getInitialPrice = useCallback(() => {
+    // Saved page prices already include any publication discount. Never subtract it twice.
+    const fallback = publicMinimum(selectedPlan);
     switch (selectedPlan) {
       case Prices.COMFORT:
-        return routeData?.price_comfort || DEFAULT_PRICE;
+        return routeData?.price_comfort || fallback;
       case Prices.COMFORT_PLUS:
-        return routeData?.price_comfort_plus || DEFAULT_PRICE;
+        return routeData?.price_comfort_plus || fallback;
       case Prices.BUSINESS:
-        return routeData?.price_business || DEFAULT_PRICE;
+        return routeData?.price_business || fallback;
       case Prices.MINIVAN:
-        return routeData?.price_minivan || DEFAULT_PRICE;
+        return routeData?.price_minivan || fallback;
       case Prices.DELIVERY:
-        return routeData?.price_delivery || DEFAULT_PRICE;
+        return routeData?.price_delivery || fallback;
       default:
-        return DEFAULT_PRICE;
+        return fallback;
     }
   }, [selectedPlan, routeData]);
 
@@ -111,6 +114,19 @@ export const useCalculator = ({
     price: getInitialPrice(),
     isLoading: false,
   });
+
+  const contextKey = JSON.stringify([cityData, routeData?.ID, routeData?.url]);
+  const [lastCalculation, setLastCalculation] = useState<{
+    distanceKm: number; time: string; contextKey: string;
+  } | null>(null);
+  const currentCalculation = lastCalculation?.contextKey === contextKey ? lastCalculation : null;
+  // Changing class re-prices the same calculated trip without a new routing request.
+  const displayState: ICalculatorState = currentCalculation ? {
+    ...state,
+    distance: Math.ceil(currentCalculation.distanceKm / 10) * 10,
+    time: currentCalculation.time,
+    price: calculatePublicQuote(currentCalculation.distanceKm, selectedPlan).price,
+  } : { ...state, price: getInitialPrice() };
 
   useEffect(() => {
     setState(prev => ({
@@ -194,25 +210,15 @@ export const useCalculator = ({
         return result.join(" ");
       };
 
-      const getCoefficient = (d: number) => {
-        if (d < 100) return COEFFICIENT_100;
-        if (d >= 100 && d < 150) return COEFFICIENT_100_150;
-        if (d >= 150 && d < 200) return COEFFICIENT_150_200;
-        return COEFFICIENT_200;
-      };
-
-      const getPrice = () => {
-        const initialPrice = distanceValue * prices[selectedPlan as keyof typeof prices] * getCoefficient(distanceValue);
-        return Math.ceil(initialPrice / 500) * 500;
-      };
-
       const timeValue = convertHoursToRoundedTime(distanceValue / SPEED);
+
+      setLastCalculation({ distanceKm, time: timeValue, contextKey });
 
       setState(prev => ({
         ...prev,
         distance: distanceValue,
         time: timeValue,
-        price: getPrice(),
+        price: calculatePublicQuote(distanceKm, selectedPlan).price,
         isLoading: false,
       }));
     } catch {
@@ -225,23 +231,23 @@ export const useCalculator = ({
     {
       id: 1,
       icon: 'road',
-      value: state.distance,
-      valueLabel: `${state.distance} км`,
+      value: displayState.distance,
+      valueLabel: `${displayState.distance} км`,
       description: 'Протяженность'
     },
     {
       id: 2,
       icon: 'time',
-      value: state.time,
-      valueLabel: state.time,
+      value: displayState.time,
+      valueLabel: displayState.time,
       description: 'Время в пути'
     },
     {
       id: 3,
       icon: 'wallet',
-      value: state.price,
-      valueLabel: `${state.price} руб.`,
-      description: 'Стоимость'
+      value: displayState.price,
+      valueLabel: formatPublicPrice(displayState.price),
+      description: 'Предварительная стоимость'
     },
     {
       id: 4,
@@ -258,7 +264,7 @@ export const useCalculator = ({
   ];
 
   return {
-    state,
+    state: displayState,
     actions: {
       handleClickSwapAddress,
       handleChangeDeparturePoint,

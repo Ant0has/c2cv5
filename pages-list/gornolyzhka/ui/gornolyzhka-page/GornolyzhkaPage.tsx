@@ -2,11 +2,11 @@
 import SeoText from "@/shared/components/SeoText/SeoText";
 import { IHub } from "@/shared/types/hub.interface";
 import HubHero from "../HubHero/HubHero";
-import ResortWeatherGrid from "../ResortWeatherGrid/ResortWeatherGrid";
 import styles from './GornolyzhkaPage.module.scss';
 import DestinationCard from "../DestinationCard/DestinationCard";
 import { hubBenefits } from "@/shared/data/hub.data";
 import clsx from "clsx";
+import DestinationGuideLinks from '@/pages-list/directions/DestinationGuideLinks';
 
 interface GornolyghkaPageProps {
     hub: IHub;
@@ -35,6 +35,7 @@ const GornolyghkaPage = ({ hub }: GornolyghkaPageProps) => {
     return (
         <div className={styles.hubPage}>
             <HubHero hub={hub} benefits={hubBenefits} />
+            <DestinationGuideLinks group="ski" />
 
             <section className={clsx(styles.destinationSection, 'container', 'padding-y-40')} id="destinations">
                 <h2 className={clsx('title', 'margin-b-32')}>Популярные направления</h2>
@@ -50,9 +51,6 @@ const GornolyghkaPage = ({ hub }: GornolyghkaPageProps) => {
                 </div>
 
             </section>
-            <div className={styles.resortWeatherGrid}>
-                <ResortWeatherGrid destinations={hub.destinations} />
-            </div>
             {/* <OrderSteps /> */}
             <SeoText content={seoText} />
         </div>

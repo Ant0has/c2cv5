@@ -1,6 +1,9 @@
 'use client'
 
 import { requisitsData } from '@/shared/data/requisits.data'
+import { ModalContext } from '@/app/providers'
+import { Blocks } from '@/shared/types/enums'
+import { useContext } from 'react'
 
 const styles: Record<string, React.CSSProperties> = {
   bar: {
@@ -49,12 +52,17 @@ const styles: Record<string, React.CSSProperties> = {
   },
 }
 
-const scrollToCalc = () => {
-  const el = document.getElementById('order')
-  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-}
-
 export default function SvoStickyMobileCTA() {
+  const { setOrderModalData } = useContext(ModalContext)
+  const handleOrder = () => {
+    const el = document.getElementById('order')
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    } else {
+      setOrderModalData({ status: true, block: Blocks.HUB })
+    }
+  }
+
   return (
     <>
       <style>{`
@@ -70,7 +78,7 @@ export default function SvoStickyMobileCTA() {
         }
       `}</style>
       <div className="svoStickyMobileCta" style={styles.bar}>
-        <button onClick={scrollToCalc} style={{ ...styles.btn, ...styles.primary }}>
+        <button type="button" onClick={handleOrder} style={{ ...styles.btn, ...styles.primary }}>
           <span style={styles.dot} />
           Срочно — заказать
         </button>

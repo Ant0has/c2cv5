@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Price from '@/pages-list/home/ui/Price/Price'
 import { CityHubPageData, RegionHubRoute } from '@/pages-list/region-hubs/types'
 import { ADVANTAGES } from '@/pages-list/region-hubs/config/content'
 import OrderButton from '@/pages-list/region-hubs/ui/OrderButton'
@@ -126,6 +127,7 @@ export default function MezhgorodCityHubPage({ city, data, neighborCities }: Pro
       </div>
 
       <div className="container">
+        <Price cityData={`${city.name},`} title={`из ${city.name}`} />
         {seoText && (
           <section className={s.section}>
             <p style={{ fontSize: '1.05rem', lineHeight: 1.7, maxWidth: '900px' }}>{seoText}</p>

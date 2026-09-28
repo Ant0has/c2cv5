@@ -1,4 +1,4 @@
-'use-client'
+'use client'
 import { CalculatorDefault } from "@/feature/calculator";
 import { HomeLayout, HomeLayoutTitle } from "@/shared/layouts/homeLayout/HomeLayout";
 import { Prices } from "@/shared/types/enums";
@@ -8,19 +8,23 @@ import { FC, useEffect, useRef, useState } from "react";
 import { planLabel } from "./data";
 import s from './Price.module.scss';
 import PriceContent from "./PriceContent/PriceContent";
+import TripConstructor from '@/feature/calculator/ui/trip-constructor/TripConstructor';
+import { getRoutePoints } from '@/feature/calculator/route-context';
 
 interface IProps {
   title?: string
   cityData?: string
   routeData?: IRouteData
+  withOrderAnchor?: boolean
 }
 
-const Price: FC<IProps> = ({ title, cityData, routeData }) => {
+const Price: FC<IProps> = ({ title, cityData, routeData, withOrderAnchor = true }) => {
   const [selectedPlan, setSelectedPlan] = useState<Prices>(Prices.COMFORT)
   const [showMap, setShowMap] = useState(false)
   const sectionRef = useRef<HTMLDivElement>(null)
 
   const isMilitary = routeData?.is_svo === 1
+  const context = { ...getRoutePoints(routeData, cityData), routeSlug: routeData?.url?.replace(/\.html$/, '') };
 
   const tabs: TabsProps['items'] = [
     {
@@ -71,9 +75,10 @@ const Price: FC<IProps> = ({ title, cityData, routeData }) => {
 
   return (
     <HomeLayout
-      top={<HomeLayoutTitle title="Цена такси"
+      top={<HomeLayoutTitle title="Цена трансфера"
         titlePrimary={title} description="Комфорт, Бизнес и Минивэн - поездки на любой случай" />}
     >
+      <TripConstructor key={JSON.stringify(context)} context={context} id={withOrderAnchor ? 'order' : undefined}>
       <Tabs
         items={tabs}
         onChange={(key) => {
@@ -91,6 +96,7 @@ const Price: FC<IProps> = ({ title, cityData, routeData }) => {
           />
         )}
       </div>
+      </TripConstructor>
 
     </HomeLayout>
 

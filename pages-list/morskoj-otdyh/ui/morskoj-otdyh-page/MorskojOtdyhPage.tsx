@@ -6,6 +6,7 @@ import styles from './MorskojOtdyhPage.module.scss';
 import SeaDestinationCard from "../SeaDestinationCard/SeaDestinationCard";
 import clsx from "clsx";
 import { useState, useMemo } from "react";
+import DestinationGuideLinks from '@/pages-list/directions/DestinationGuideLinks';
 
 interface MorskojOtdyhPageProps {
     hub: IHub;
@@ -162,6 +163,7 @@ const MorskojOtdyhPage = ({ hub }: MorskojOtdyhPageProps) => {
     return (
         <div className={styles.seaPage}>
             <HubHero hub={hub} benefits={seaBenefits} />
+            <DestinationGuideLinks group="sea" />
 
             {/* Sea filter */}
             <section className={clsx(styles.filterSection, 'container', 'padding-y-40')} id="seas">

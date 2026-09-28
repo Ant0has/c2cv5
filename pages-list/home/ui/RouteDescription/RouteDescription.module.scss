@@ -1,7 +1,47 @@
-.description{
-    line-height: 24px;
+.description {
+    line-height: 1.65;
+    margin-top: 24px;
+    color: #333;
+    font-size: 16px;
 
-    & p{
-        line-height: 24px;
+    & h2 {
+        margin: 36px 0 16px;
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 1.3;
+        color: #1a1a1a;
+    }
+
+    & h3 {
+        margin: 32px 0 12px;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 1.35;
+        color: #1a1a1a;
+    }
+
+    & p {
+        margin: 0 0 14px;
+        line-height: 1.65;
+    }
+
+    & ul {
+        margin: 8px 0 16px;
+        padding-left: 24px;
+        list-style: disc;
+    }
+
+    & li {
+        margin-bottom: 10px;
+        line-height: 1.6;
+    }
+
+    & strong {
+        font-weight: 600;
+    }
+
+    & p strong:first-child {
+        display: inline-block;
+        margin-bottom: 2px;
     }
 }

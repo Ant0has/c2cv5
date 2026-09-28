@@ -15,13 +15,13 @@ export const revalidate = 3600
 
 function getStats() {
   const cityCount = FEDERAL_DISTRICTS.reduce((sum, fd) => sum + fd.cities.length, 0)
-  return { cityCount, routeCount: '4000+', minPrice: '1500' }
+  return { cityCount, routeCount: '4000+', minPrice: '2500' }
 }
 
 export async function generateMetadata(): Promise<Metadata> {
   const { cityCount, routeCount, minPrice } = getStats()
   const title = `Такси межгород по России — заказать междугороднее такси из любого города | ${requisitsData.BRAND_NAME}`
-  const description = `Заказать такси межгород из ${cityCount}+ городов России. ${routeCount} маршрутов, цены от ${minPrice}₽. Фиксированная стоимость, подача от 30 минут.`
+  const description = `Заказать такси межгород из ${cityCount}+ городов России. ${routeCount} маршрутов, цены от ${minPrice}₽. Окончательную стоимость согласует диспетчер, подача от 30 минут.`
 
   return {
     title,
@@ -29,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: { canonical: `${BASE_URL}/mezhgorod` },
     openGraph: {
       title: 'Такси межгород по России — City2City',
-      description: 'Фиксированные цены на тысячи маршрутов. Подача от 30 минут.',
+      description: 'Поездки от 2 500 ₽. Окончательную стоимость согласует диспетчер. Подача от 30 минут.',
       url: `${BASE_URL}/mezhgorod`,
       siteName: requisitsData.BRAND_NAME,
       locale: 'ru_RU',
@@ -127,8 +127,7 @@ export default async function MezhgorodRootRoute() {
     offers: {
       '@type': 'Offer',
       priceCurrency: 'RUB',
-      lowPrice: '1500',
-      highPrice: '50000',
+      lowPrice: '2500',
       availability: 'https://schema.org/InStock',
     },
   }

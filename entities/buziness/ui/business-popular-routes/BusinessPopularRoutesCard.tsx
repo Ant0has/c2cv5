@@ -20,7 +20,7 @@ const BusinessPopularRoutesCard = ({ route }: Props) => {
                         <span className={'font-18-medium text-white'}>{route.to}</span>
                     </div>
                     <div className={styles.divider} />
-                    <div className={'text-center font-24-medium text-primary'}>{`от ${route.price} руб.*`}</div>
+                    <div className={'text-center font-24-medium text-primary'}>{`от ${String(route.price).replace(/\s*(?:₽|руб\.?)$/i, '')} ₽*`}</div>
                 </div>
                 <div className={styles.cardContentRight}>
                     <Image src={'/images/dlya-biznesa/popular-routes-bg.png'} alt="Route Card Background" fill sizes="100vw" />

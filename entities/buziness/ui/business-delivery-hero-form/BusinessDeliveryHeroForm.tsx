@@ -2,11 +2,12 @@
 import Button from "@/shared/components/ui/Button/Button";
 import { useIsMobile } from "@/shared/hooks/useResize";
 import { mailService } from "@/shared/services/mail.service";
+import { normalizePhoneNumber } from "@/shared/lib/phone-number";
 import { ButtonTypes } from "@/shared/types/enums";
 import { Form, Input, notification, Select } from "antd";
 import { useForm } from "antd/es/form/Form";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import styles from './BusinessDeliveryHeroForm.module.scss'
 import { weightOptions } from "@/shared/constants";
 
@@ -62,6 +63,7 @@ interface FieldError {
 const BusinessDeliveryHeroForm = () => {
     const [form] = useForm<FormValues>()
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const submittingRef = useRef(false)
     const isMobile = useIsMobile()
     const [errors, setErrors] = useState<FieldError[]>([])
     const [values, setValues] = useState<FormValues>(initialValues)
@@ -83,11 +85,8 @@ const BusinessDeliveryHeroForm = () => {
 
         if (!values.phone || values.phone.trim() === '') {
             newErrors.push({ field: 'phone', message: 'Введите телефон' })
-        } else {
-            const phoneRegex = /^[0-9+\-\s()]{10,20}$/
-            if (!phoneRegex.test(values.phone)) {
-                newErrors.push({ field: 'phone', message: 'Введите корректный телефон' })
-            }
+        } else if (!normalizePhoneNumber(values.phone)) {
+            newErrors.push({ field: 'phone', message: 'Введите корректный телефон' })
         }
 
         if (!values.departurePoint || values.departurePoint.trim() === '') {
@@ -115,6 +114,7 @@ const BusinessDeliveryHeroForm = () => {
     }
 
     const handleHeroFormSubmit = async () => {
+        if (submittingRef.current) return
         try {
             const validationErrors = validateForm(values as FormValues)
             if (validationErrors.length > 0) {
@@ -128,11 +128,14 @@ const BusinessDeliveryHeroForm = () => {
                 return
             }
 
+            const phone = normalizePhoneNumber(values.phone)
+            if (!phone) return
+            submittingRef.current = true
             setIsSubmitting(true)
 
             await mailService.sendMail({
                 name: values.name,
-                phone: values.phone,
+                phone,
                 block: 'Доставка грузов',
                 order_from: values.departurePoint,
                 order_to: values.arrivalPoint,
@@ -159,6 +162,7 @@ const BusinessDeliveryHeroForm = () => {
                 placement: 'topRight',
             })
         } finally {
+            submittingRef.current = false
             setIsSubmitting(false)
         }
     }
@@ -204,6 +208,8 @@ const BusinessDeliveryHeroForm = () => {
                                 Телефон <span className="font-14-normal text-error">*</span>
                             </span>
                             <Input
+                                type="tel"
+                                autoComplete="tel"
                                 className={clsx(styles.input, { 'border-error': hasFieldError('phone') })}
                                 onChange={(e) => handleFieldChange('phone', e.target.value)}
                                 value={values.phone}
@@ -292,6 +298,7 @@ const BusinessDeliveryHeroForm = () => {
                     <Button
                         className="flex-1"
                         type={ButtonTypes.PRIMARY}
+                        htmlType="submit"
                         text="Рассчитать доставку"
                         loading={isSubmitting}
                         style={buttonStyle}

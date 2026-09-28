@@ -175,7 +175,7 @@ const BuzinessCalculator: FC<BuzinessCalculatorProps> = (props) => {
                     <div className='font-14-normal flex flex-row gap-4 items-center'>
                       <Image src="/icons/PriceCheckIcon.svg" alt="price-check" width={14} height={12} />
                       <span className='font-14-normal text-white'>
-                        Цена фиксированная
+                        Итоговую стоимость согласуем перед поездкой
                       </span>
                     </div>
                   </div>

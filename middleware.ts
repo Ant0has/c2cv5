@@ -129,8 +129,68 @@ const svoRedirects: Record<string, string> = {
   'tokmak-simferopol.html': 'svo-taxi-simferopol-tokmak.html',
 }
 
+// 301 redirect: cleanup of -2/-3/-5/-6/-7 generation duplicates (2020 legacy bug)
+const numericSuffixRedirects: Record<string, string> = {
+  'xabarovsk-nikolaevsk-na-amure-2.html': '/xabarovsk-nikolaevsk-na-amure.html',
+  'xabarovsk-tynda-2.html': '/xabarovsk-tynda.html',
+  'ekaterinburg-oktyabrskij-5.html': '/ekaterinburg-oktyabrskij.html',
+  'ekaterinburg-oktyabrskij-6.html': '/ekaterinburg-oktyabrskij.html',
+  'xabarovsk-gornye-klyuchi-shmakovka-2.html': '/xabarovsk-gornye-klyuchi-shmakovka.html',
+  'xabarovsk-chita-2.html': '/xabarovsk-chita.html',
+  'xabarovsk-teploozyorsk-2.html': '/xabarovsk-teploozyorsk.html',
+  'xabarovsk-kuldur-2.html': '/xabarovsk-kuldur.html',
+  'xabarovsk-obluche-2.html': '/xabarovsk-obluche.html',
+  'xabarovsk-izvestkovyj-2.html': '/xabarovsk-izvestkovyj.html',
+  'xabarovsk-lesozavodsk-2.html': '/xabarovsk-lesozavodsk.html',
+  'xabarovsk-vladivostok-2.html': '/xabarovsk-vladivostok.html',
+  'kirov-syktyvkar-2.html': '/kirov-syktyvkar.html',
+  'xabarovsk-birakan-2.html': '/xabarovsk-birakan.html',
+  'ekaterinburg-chelyabinsk-2.html': '/ekaterinburg-chelyabinsk.html',
+  'belgorod-rossosh-2.html': '/belgorod-rossosh.html',
+  'xabarovsk-belogorsk-2.html': '/xabarovsk-belogorsk.html',
+  'ekaterinburg-sibaj-2.html': '/ekaterinburg-sibaj.html',
+  'xabarovsk-dalnegorsk-2.html': '/xabarovsk-dalnegorsk.html',
+  'xabarovsk-birobidzhan-2.html': '/xabarovsk-birobidzhan.html',
+  'belgorod-smolensk-2.html': '/belgorod-smolensk.html',
+  'xabarovsk-komsomolsk-na-amure-2.html': '/xabarovsk-komsomolsk-na-amure.html',
+  'xabarovsk-bira-2.html': '/xabarovsk-bira.html',
+  'xabarovsk-vyazemskij-2.html': '/xabarovsk-vyazemskij.html',
+  'ekaterinburg-magnitogorsk-2.html': '/ekaterinburg-magnitogorsk.html',
+  'ekaterinburg-irbit-2.html': '/ekaterinburg-irbit.html',
+  'xabarovsk-volochaevka-2-2.html': '/xabarovsk-volochaevka-2.html',
+  'xabarovsk-vanino-2.html': '/xabarovsk-vanino.html',
+  'ekaterinburg-kirov-2.html': '/ekaterinburg-kirov.html',
+  'xabarovsk-svobodnyj-2.html': '/xabarovsk-svobodnyj.html',
+  'xabarovsk-amursk-2.html': '/xabarovsk-amursk.html',
+  'xabarovsk-bikin-2.html': '/xabarovsk-bikin.html',
+  'xabarovsk-blagoveshhensk-2.html': '/xabarovsk-blagoveshhensk.html',
+  'xabarovsk-nikolaevka-2.html': '/xabarovsk-nikolaevka.html',
+  'xabarovsk-aldan-2.html': '/xabarovsk-aldan.html',
+  'xabarovsk-ussurijsk-2.html': '/xabarovsk-ussurijsk.html',
+  'krasnodar-oktyabrskij-7.html': '/krasnodar-oktyabrskij.html',
+  'ufa-meleuz-2.html': '/ufa-meleuz.html',
+  'xabarovsk-novosibirsk-2.html': '/xabarovsk-novosibirsk.html',
+  'xabarovsk-smidovich-2.html': '/xabarovsk-smidovich.html',
+  'rostov-kirov-2.html': '/rostov-kirov.html',
+  'xabarovsk-skovorodino-2.html': '/xabarovsk-skovorodino.html',
+  'xabarovsk-tayozhnyj-2.html': '/xabarovsk-tayozhnyj.html',
+  'rostov-majkop-2.html': '/rostov-majkop.html',
+  'rostov-ardatov-2.html': '/rostov-ardatov.html',
+  'xabarovsk-sovetskaya-gavan-2.html': '/xabarovsk-sovetskaya-gavan.html',
+  'xabarovsk-naxodka-2.html': '/xabarovsk-naxodka.html',
+}
+
 export function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl
+
+  // Destination URLs must be explicitly published and allowed, never arbitrary slugs.
+  if (pathname === '/napravleniya' || pathname.startsWith('/napravleniya/')) {
+    const slug = pathname.replace(/^\//, '').replace(/\/$/, '')
+    if (!whitelist.includes(slug)) {
+      // A direct response avoids an HTTPS self-proxy to the internal HTTP Next.js port.
+      return new NextResponse('<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, follow"><title>Страница не найдена | City2City</title><style>body{font:18px/1.6 Arial,sans-serif;color:#202528;background:#f4f5f6;margin:0}main{max-width:680px;margin:12vh auto;padding:32px;background:white;border-radius:24px}h1{font-size:32px;line-height:1.2}a{display:inline-block;padding:14px 20px;background:#ff9d00;color:#202528;border-radius:16px;text-decoration:none}@media(max-width:740px){main{margin:40px 16px;padding:24px}}</style></head><body><main><p>City2City · 404</p><h1>Страница не найдена</h1><p>Выберите место поездки в разделе направлений.</p><a href="/napravleniya">Направления поездок</a></main></body></html>', {status:404,headers:{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex'}})
+    }
+  }
 
   // 1a. Orel/oryol дубль → /mezhgorod/oryol/
   if (
@@ -181,6 +241,11 @@ export function middleware(request: NextRequest) {
   // 3. Проверка страниц маршрутов на наличие в whitelist
   if (pathname.endsWith('.html') && pathname !== '/') {
     const slug = pathname.slice(1)
+
+    // 301 redirect: numeric-suffix duplicates (-2/-3/-5/-6/-7) → base page
+    if (numericSuffixRedirects[slug]) {
+      return NextResponse.redirect(new URL(numericSuffixRedirects[slug], request.url), 301)
+    }
 
     // 301 redirect старые .html хабы → /mezhgorod/{city}/
     if (hubRedirects[slug]) {
