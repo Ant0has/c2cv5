@@ -92,6 +92,10 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   const regions = await getRegions()
+  // One server value is serialized to the browser, including cached HTML.
+  const renderDate = new Date().toLocaleDateString('ru-RU', {
+    timeZone: 'Europe/Moscow', day: '2-digit', month: '2-digit', year: 'numeric',
+  })
 
   return (
     <html lang='ru'>
@@ -124,7 +128,7 @@ export default async function RootLayout({
         />
       </head>
       <body className={inter.className} suppressHydrationWarning>
-        <Providers regions={regions}>
+        <Providers regions={regions} renderDate={renderDate}>
           <YandexHit />
           <UTMTracker />
           <div className="app-layout">
@@ -144,3 +148,4 @@ export default async function RootLayout({
     </html>
   )
 }
+

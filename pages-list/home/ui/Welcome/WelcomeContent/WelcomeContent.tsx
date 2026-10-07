@@ -1,5 +1,6 @@
 import clsx from "clsx";
-import { FC } from "react";
+import { FC, useContext } from "react";
+import { RenderDateContext } from "@/app/providers";
 import s from './WelcomeContent.module.scss';
 import { IRouteData } from "@/shared/types/route.interface";
 import { getAdvantages } from "@/pages-list/home/libs/get-advantages";
@@ -13,7 +14,7 @@ interface IProps {
 const WelcomeContent: FC<IProps> = ({ city, isMilitary, route }) => {
 
   const advantages = getAdvantages(route, city)
-  const today = new Date().toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' })
+  const today = useContext(RenderDateContext)
 
   return (
     <>
@@ -49,3 +50,4 @@ const WelcomeContent: FC<IProps> = ({ city, isMilitary, route }) => {
 }
 
 export default WelcomeContent;
+

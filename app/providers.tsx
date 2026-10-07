@@ -10,6 +10,7 @@ import { usePathname } from "next/navigation";
 
 interface ProvidersProps extends PropsWithChildren {
 	regions: IRegion[]
+	renderDate: string
 }
 interface IQuestionModalData {
 	status: boolean,
@@ -45,11 +46,14 @@ interface RouteContextProps {
 
 export const RegionsContext = createContext<IRegion[]>([])
 
+// Date of this server render, not evidence of a tariff change.
+export const RenderDateContext = createContext<string>('')
+
 export const ModalContext = createContext<ModalContextProps>({} as ModalContextProps)
 
 export const RouteContext = createContext<RouteContextProps>({} as RouteContextProps)
 
-export function Providers({ children, regions }: ProvidersProps) {
+export function Providers({ children, regions, renderDate }: ProvidersProps) {
 	const [questionModalData, setQuestionModalData] = useState<IQuestionModalData>({
 		status: false,
 		blockFrom: null,
@@ -76,6 +80,7 @@ export function Providers({ children, regions }: ProvidersProps) {
 					token: tokens.token
 				}}
 			>
+				<RenderDateContext.Provider value={renderDate}>
 				<RegionsContext.Provider value={regions}>
 					<RouteContext.Provider value={{
 						route,
@@ -92,6 +97,7 @@ export function Providers({ children, regions }: ProvidersProps) {
 						</ModalContext.Provider>
 					</RouteContext.Provider>
 				</RegionsContext.Provider>
+				</RenderDateContext.Provider>
 			</ConfigProvider >
 	)
 }

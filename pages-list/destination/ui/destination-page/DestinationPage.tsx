@@ -5,7 +5,6 @@ import Price from "@/pages-list/home/ui/Price/Price"
 import OrderSteps from "@/pages-list/home/ui/OrderSteps/OrderSteps"
 import DestinationFeatures from "@/pages-list/destination/ui/DestinationFeatures/DestinationFeatures"
 import DestinationDescription from "@/pages-list/destination/ui/DestinationDescription/DestinationDescription"
-import DestinationWeather from "@/pages-list/destination/ui/DestinationWeather/DestinationWeather"
 import SeoText from "@/shared/components/SeoText/SeoText"
 import DestinationFaq from "@/pages-list/destination/ui/DestinationFaq/DestinationFaq"
 import TripCounter from "@/pages-list/destination/ui/TripCounter/TripCounter"
@@ -88,7 +87,7 @@ const DestinationPage = ({ destination }: Props) => {
     }
 
     // SVO-режим: специализированная страница для зоны СВО.
-    // Скрываем тарифный регламент, гарантии и погоду — только релевантные блоки.
+    // Скрываем тарифный регламент и гарантии — только релевантные блоки.
     if (destination.hub?.slug === 'svo') {
         return (
             <SvoDestinationView
@@ -136,10 +135,6 @@ const DestinationPage = ({ destination }: Props) => {
 
             <Guarantees destination={destination} />
 
-            {destination.weatherData && (
-                <DestinationWeather weatherDataJson={JSON.stringify(destination.weatherData)} />
-            )}
-
             <OrderSteps />
 
             {destination.description && (
@@ -160,3 +155,4 @@ const DestinationPage = ({ destination }: Props) => {
 }
 
 export default DestinationPage
+
