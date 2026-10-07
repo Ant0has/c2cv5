@@ -191,8 +191,10 @@ export function middleware(request: NextRequest) {
   if (pathname === '/napravleniya' || pathname.startsWith('/napravleniya/')) {
     const slug = pathname.replace(/^\//, '').replace(/\/$/, '')
     if (!whitelist.includes(slug)) {
-      // Render the complete error page locally, preserving the 404 status.
-      return NextResponse.rewrite(new URL('/404', request.url), { status: 404 })
+      // Preserve the denial status without an absolute self-proxy. Behind HTTPS
+      // termination request.url may be https://localhost:<plain-http-port>.
+      // The scoped frontend Nginx error_page renders the shared /404 body.
+      return NextResponse.next({ status: 404 })
     }
   }
 
@@ -262,7 +264,7 @@ export function middleware(request: NextRequest) {
     }
 
     if (!whitelist.includes(slug)) {
-      return NextResponse.rewrite(new URL('/404', request.url), { status: 404 })
+      return NextResponse.next({ status: 404 })
     }
   }
 

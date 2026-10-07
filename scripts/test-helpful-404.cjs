@@ -34,7 +34,11 @@ for (const p of ['/', '/napravleniya', '/napravleniya/sheregesh', '/rostov-novom
 }
 ok(check('/404').status === 404, 'Explicit 404 status without self-proxy');
 for (const p of ['/napravleniya/c2c-check-missing', '/no-such-page.html']) {
-  const r = check(p); ok(r.kind === 'rewrite' && r.status === 404 && r.url === '/404', 'Internal 404: ' + p);
+  const r = check(p); ok(r.kind === 'next' && r.status === 404, 'Local 404 without self-proxy: ' + p);
+}
+for (const p of ['/napravleniya/c2c-check-missing', '/no-such-page.html']) {
+  const r = context.exports.middleware({ url: 'https://localhost:3023' + p, nextUrl: new URL('https://localhost:3023' + p) });
+  ok(r.kind === 'next' && r.status === 404 && !r.url, 'HTTPS proxy headers cannot trigger a self-proxy: ' + p);
 }
 for (const p of ['/taxi777-mezhgorod-moscow.html', '/rostov-novomoskovsk']) {
   const r = check(p); ok(r.kind === 'redirect' && r.status === 301, 'Legacy redirect: ' + p);
