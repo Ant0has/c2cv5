@@ -10,8 +10,8 @@ const defaultAdvantages: IAdvantage[] = [
     },
     {
       id: 2,
-      title: '5 мин',
-      description: 'Подтверждение',
+      title: '10 мин',
+      description: 'Обратный звонок, 08–22 МСК',
     },
   ]
 

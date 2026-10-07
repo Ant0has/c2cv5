@@ -2,6 +2,7 @@ import { FederalDistrict } from '../types'
 import { FEDERAL_DISTRICTS } from '../config/registry'
 import OrderButton from './OrderButton'
 import s from './FoHubPage.module.scss'
+import { SERVICE_POLICY } from '@/shared/configs/service-policy'
 
 interface CityInfo {
   slug: string
@@ -79,7 +80,7 @@ export default function FoHubPage({ fo, citiesInfo }: Props) {
 
         <div className={s.ctaBlock}>
           <h3 className={s.ctaTitle}>Заказать междугороднее такси</h3>
-          <p className={s.ctaText}>Позвоните или оставьте заявку — подтвердим заказ за 5 минут</p>
+          <p className={s.ctaText}>{SERVICE_POLICY.callback}</p>
           <div className={s.ctaActions}>
             <OrderButton cityName="" />
             <a href="tel:+79381568757" className={s.phoneLink}>+7 (938) 156-87-57</a>

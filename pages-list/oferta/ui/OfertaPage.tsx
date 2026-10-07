@@ -1,12 +1,13 @@
 import TextPageLayout from "@/shared/layouts/textPageLayout/TextPageLayout";
 import { requisitsData } from "@/shared/data/requisits.data";
+import { SERVICE_POLICY } from "@/shared/configs/service-policy";
 
 const OfertaPage = () => {
     return (
         <TextPageLayout title="Публичная Оферта для Юридических Лиц">
             <>
                 <p className="font-16-normal">
-                    <strong>Дата последнего обновления: 19 декабря 2025 г.</strong>
+                    <strong>Дата последнего обновления: 7 октября 2026 г.</strong>
                 </p>
 
                 <h2>1. Применение Оферты</h2>
@@ -96,10 +97,8 @@ const OfertaPage = () => {
                         утвержденных письменно через варианты обращения из п. 1.3.
                     </li>
                     <li>
-                        Заказчик имеет право отказаться от поездки не позднее чем за 24 часа до даты поездки
-                        с возмещением 60% стоимости оплаченных услуг. При отказе позднее чем 24 часа до даты и
-                        времени поездки, утвержденных письменно через варианты обращения из п. 1.3, возврат средств
-                        Заказчику не производится.
+                        {SERVICE_POLICY.cancellationEarly} {SERVICE_POLICY.cancellationLate}
+                        {' '}{SERVICE_POLICY.cancellationLaw}
                     </li>
                 </ol>
 

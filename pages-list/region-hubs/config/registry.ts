@@ -114,6 +114,8 @@ export const FEDERAL_DISTRICTS: FederalDistrict[] = [
       { slug: 'barnaul', name: 'Барнаул', nameGenitive: 'из Барнаула', nameLocative: 'в Барнауле', regionId: 5, oldHubUrl: 'taxi-mezhgorod-barnaul-22' },
       { slug: 'kemerovo', name: 'Кемерово', nameGenitive: 'из Кемерова', nameLocative: 'в Кемерове', regionId: 20, oldHubUrl: 'taxi-mezhgorod-kemerovo-42' },
       { slug: 'omsk', name: 'Омск', nameGenitive: 'из Омска', nameLocative: 'в Омске', regionId: 34, oldHubUrl: 'taxi-mezhgorod-omsk-55' },
+      { slug: 'irkutsk', name: 'Иркутск', nameGenitive: 'из Иркутска', nameLocative: 'в Иркутске', regionId: 16, oldHubUrl: 'taxi-mezhgorod-irkutsk' },
+      { slug: 'kyzyl', name: 'Кызыл', nameGenitive: 'из Кызыла', nameLocative: 'в Кызыле', regionId: 50, oldHubUrl: 'taxi-mezhgorod-kyzyl-17' },
     ],
   },
   {
@@ -124,12 +126,10 @@ export const FEDERAL_DISTRICTS: FederalDistrict[] = [
     cities: [
       { slug: 'habarovsk', name: 'Хабаровск', nameGenitive: 'из Хабаровска', nameLocative: 'в Хабаровске', regionId: 64, oldHubUrl: 'taxi-mezhgorod-habarovsk' },
       { slug: 'yakutsk', name: 'Якутск', nameGenitive: 'из Якутска', nameLocative: 'в Якутске', regionId: 48, oldHubUrl: 'taxi-mezhgorod-jakutsk' },
-      { slug: 'irkutsk', name: 'Иркутск', nameGenitive: 'из Иркутска', nameLocative: 'в Иркутске', regionId: 16, oldHubUrl: 'taxi-mezhgorod-irkutsk' },
       { slug: 'vladivostok', name: 'Владивосток', nameGenitive: 'из Владивостока', nameLocative: 'во Владивостоке', regionId: 33, oldHubUrl: 'taxi-mezhgorod-vladivostok' },
       { slug: 'blagoveshchensk', name: 'Благовещенск', nameGenitive: 'из Благовещенска', nameLocative: 'в Благовещенске', regionId: 3, oldHubUrl: 'taxi-mezhgorod-blagoveshhensk' },
       { slug: 'chita', name: 'Чита', nameGenitive: 'из Читы', nameLocative: 'в Чите', regionId: 14, oldHubUrl: 'taxi-mezhgorod-chita' },
       { slug: 'ulan-ude', name: 'Улан-Удэ', nameGenitive: 'из Улан-Удэ', nameLocative: 'в Улан-Удэ', regionId: 41, oldHubUrl: 'taxi-mezhgorod-ulan-ude-03' },
-      { slug: 'kyzyl', name: 'Кызыл', nameGenitive: 'из Кызыла', nameLocative: 'в Кызыле', regionId: 50, oldHubUrl: 'taxi-mezhgorod-kyzyl-17' },
       { slug: 'yuzhno-sahalinsk', name: 'Южно-Сахалинск', nameGenitive: 'из Южно-Сахалинска', nameLocative: 'в Южно-Сахалинске', regionId: 51, oldHubUrl: 'taxi-mezhgorod-yuzhno-sahalinsk-65' },
       { slug: 'birobidzhan', name: 'Биробиджан', nameGenitive: 'из Биробиджана', nameLocative: 'в Биробиджане', regionId: 13, oldHubUrl: 'taxi-mezhgorod-birobidzhan-79' },
     ],

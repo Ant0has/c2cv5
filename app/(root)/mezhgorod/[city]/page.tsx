@@ -10,6 +10,7 @@ import { getFoBySlug } from '@/pages-list/region-hubs/config/registry'
 import MezhgorodCityHubPage from '@/pages-list/mezhgorod-city/ui/MezhgorodCityHubPage'
 import { getPilotCityParams, getCityBySlug, PILOT_CITIES } from '@/pages-list/mezhgorod-city/config/pilot'
 import { generateMezhgorodCityFaq } from '@/pages-list/mezhgorod-city/config/faq'
+import { selectCityHubData } from '@/pages-list/mezhgorod-city/config/route-selection'
 
 interface Props {
   params: { city: string }
@@ -25,14 +26,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const city = getCityBySlug(params.city)
   if (!city) return {}
 
-  const data = await regionHubService.getRoutesByRegionId(city.regionId)
+  const source = await regionHubService.getRoutesByRegionId(city.regionId)
+  const data = source ? selectCityHubData(city.slug, source) : null
   const totalCount = data?.totalCount || 0
   const minPrice = data?.minPrice || 0
   const priceStr = minPrice > 0 ? `от ${minPrice.toLocaleString('ru-RU')}₽` : ''
 
   const currentYear = new Date().getFullYear()
-  const title = `Такси межгород ${city.name} в ${currentYear} году — заказать трансфер ${city.nameGenitive} | ${requisitsData.BRAND_NAME}`
-  const description = `Заказать такси межгород ${city.nameGenitive} по цене ${currentYear} года. ${totalCount} направлений${priceStr ? `, ${priceStr}` : ''}. Фиксированная цена, подача от 30 минут. Тел: ${requisitsData.PHONE_MARKED}`
+  const title = city.slug === 'habarovsk'
+    ? 'Такси межгород из Хабаровска — маршруты и цены | City2City'
+    : `Такси межгород ${city.name} в ${currentYear} году — заказать трансфер ${city.nameGenitive} | ${requisitsData.BRAND_NAME}`
+  const description = city.slug === 'habarovsk'
+    ? `Междугородние поездки из Хабаровска: ${totalCount} направлений${priceStr ? `, цены ${priceStr}` : ''}. Комсомольск-на-Амуре, Биробиджан, Ванино. Встречу в аэропорту и итоговую цену согласуем заранее.`
+    : `Заказать такси межгород ${city.nameGenitive} по цене ${currentYear} года. ${totalCount} направлений${priceStr ? `, ${priceStr}` : ''}. Фиксированная цена, подача от 30 минут. Тел: ${requisitsData.PHONE_MARKED}`
 
   return {
     title,
@@ -53,7 +59,8 @@ export default async function MezhgorodCityRoute({ params }: Props) {
   const city = getCityBySlug(params.city)
   if (!city) notFound()
 
-  const data = await regionHubService.getRoutesByRegionId(city.regionId)
+  const source = await regionHubService.getRoutesByRegionId(city.regionId)
+  const data = source ? selectCityHubData(city.slug, source) : null
   if (!data) notFound()
 
   const fo = getFoBySlug(city.fo)

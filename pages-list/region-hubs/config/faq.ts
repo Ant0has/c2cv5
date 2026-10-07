@@ -1,10 +1,12 @@
+import { SERVICE_POLICY } from '@/shared/configs/service-policy'
+
 export function generateCityFaq(cityName: string, cityGenitive: string, minPrice: number, totalCount: number) {
   const priceStr = minPrice > 0 ? minPrice.toLocaleString('ru-RU') : '3 000'
 
   return [
     {
       question: `Как заказать такси межгород ${cityGenitive}?`,
-      answer: `Позвоните по номеру +7 (938) 156-87-57 или оставьте заявку на сайте. Мы подтвердим заказ в течение 5 минут и назначим водителя.`,
+      answer: SERVICE_POLICY.callback,
     },
     {
       question: `Сколько стоит междугороднее такси ${cityGenitive}?`,

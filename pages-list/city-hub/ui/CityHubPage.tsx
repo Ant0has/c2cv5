@@ -46,7 +46,7 @@ const CityHubPage = ({ data }: Props) => {
       { text: 'трансфера', isPrimary: true },
     ],
     image: '/images/dlya-biznesa/businessman-lg.png',
-    description: 'Укажите маршрут — получите точную цену за 30 секунд',
+    description: 'Укажите маршрут — получите предварительную стоимость «от». Окончательную цену согласует диспетчер.',
     buttonText: 'Рассчитать',
   }
 

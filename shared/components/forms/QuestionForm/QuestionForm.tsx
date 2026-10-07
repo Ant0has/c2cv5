@@ -76,7 +76,7 @@ const QuestionForm: FC<IProps> = ({ buttonText, className, form, handleClickLink
 
       notification.success({
         message: 'Вопрос успешно отправлен',
-        description: 'Мы свяжемся с вами в ближайшее время',
+        description: 'Диспетчер свяжется с вами в течение 10 минут в рабочие часы: 08:00–22:00 МСК',
         placement: 'topRight',
       });
 
@@ -124,7 +124,7 @@ const QuestionForm: FC<IProps> = ({ buttonText, className, form, handleClickLink
         </Form.Item>
 
         <Form.Item
-          label={<span className="font-14-normal">Ваш номер телефона<span className="font-14-normal text-primary" >*</span></span>}
+          label={<span className="font-14-normal">Номер телефона<span className="font-14-normal text-primary" >*</span></span>}
           name="phone"
           rules={[
             {

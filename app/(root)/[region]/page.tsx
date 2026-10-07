@@ -20,6 +20,7 @@ import {
 } from "@/shared/services/seo-utils";
 import { requisitsData } from "@/shared/data/requisits.data";
 import ServerRouteLinks from "@/shared/components/ServerRouteLinks/ServerRouteLinks";
+import { reviewedCanonicalSlug } from '@/shared/configs/regional-canonical';
 
 interface Props {
   params: {
@@ -45,9 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const siteName = requisitsData.BRAND_NAME;
 
-  const canonicalUrl = data?.canonical_url
-    ? `${BASE_URL}/${data?.canonical_url}.html`
-    : `${BASE_URL}/${data?.url}.html`;
+  const canonicalUrl = `${BASE_URL}/${reviewedCanonicalSlug(regionSlug, data.canonical_url, data.url)}.html`;
 
   const metaCityFrom = extractCityFromSeoData(data);
   const metaCityTo = extractCityTo(data);

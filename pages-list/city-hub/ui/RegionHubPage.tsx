@@ -38,12 +38,12 @@ const RegionHubPage = ({ data }: Props) => {
       `${data.cities.length} городов с корпоративным обслуживанием`,
       'Договор, акт, счёт-фактура, ЭДО через Диадок',
       'Фиксированные цены при бронировании',
-      'Персональный менеджер 8:00–23:00 МСК',
+      'Диспетчер 08:00–22:00 МСК',
     ],
     stats: [
       { id: 1, label: `${data.cities.length}`, value: 'городов' },
       { id: 2, label: '< 1 ч', value: 'подача' },
-      { id: 3, label: '9 лет', value: 'на рынке' },
+      { id: 3, label: 'С 2016 года', value: 'на рынке' },
       { id: 4, label: '79', value: 'регионов' },
     ],
   }
@@ -71,7 +71,7 @@ const RegionHubPage = ({ data }: Props) => {
       { text: 'трансфера', isPrimary: true },
     ],
     image: '/images/dlya-biznesa/businessman-lg.png',
-    description: 'Укажите маршрут — получите точную цену за 30 секунд',
+    description: 'Укажите маршрут — получите предварительную стоимость «от». Окончательную цену согласует диспетчер.',
     buttonText: 'Рассчитать',
   }
 

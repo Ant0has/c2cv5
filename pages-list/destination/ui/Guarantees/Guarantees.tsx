@@ -3,6 +3,7 @@
 import { IHubDestination } from "@/shared/types/hub.interface"
 import s from './Guarantees.module.scss'
 import clsx from "clsx"
+import { SERVICE_POLICY } from '@/shared/configs/service-policy'
 
 interface Props {
   destination: IHubDestination
@@ -45,7 +46,7 @@ const Guarantees = ({ destination }: Props) => {
     {
       icon: <MoneyIcon />,
       title: 'Фиксированная цена',
-      description: 'Стоимость известна до поездки. Без счётчика, скрытых доплат и сюрпризов.',
+      description: SERVICE_POLICY.price,
     },
     {
       icon: <ClockIcon />,
@@ -67,8 +68,8 @@ const Guarantees = ({ destination }: Props) => {
   if (isSeaHub) {
     guarantees.push({
       icon: <BabyIcon />,
-      title: 'Детские кресла бесплатно',
-      description: 'Автокресла и бустеры для детей любого возраста — включены в стоимость.',
+      title: 'Детские кресла по согласованию',
+      description: SERVICE_POLICY.children,
     })
   }
 

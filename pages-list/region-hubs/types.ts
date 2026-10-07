@@ -22,6 +22,7 @@ export interface RegionHubRoute {
   url: string
   title: string
   price_economy: number | null
+  price_comfort?: number | null
   distance_km: number | null
 }
 

@@ -109,7 +109,7 @@ export const deliveryOptions = [
 ]
 
 export const additionalServices = [
-  { id: 1, label: 'Детское кресло', value: '600 руб.' },
+  { id: 1, label: 'Детское кресло (1–7 лет включительно)', value: '600 руб.' },
   { id: 2, label: 'Встреча с табличкой в Аэропорту', value: '800 руб.' },
   { id: 3, label: 'Встреча у вагона на ЖД вокзале', value: '800 руб.' },
   { id: 4, label: 'Помощь с багажом', value: '800 руб.' },

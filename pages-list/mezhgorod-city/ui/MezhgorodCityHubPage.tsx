@@ -9,6 +9,8 @@ import { CITY_SEO_TEXTS, CITY_ADVANTAGES } from '../config/seo-texts'
 import { generateMezhgorodCityFaq } from '../config/faq'
 import { isPilotCity, PilotCity } from '../config/pilot'
 import { cityRouteToUrl, resolveVerifiedRoutePath } from '@/shared/lib/route-url'
+import { selectCityHubData, khabarovskRoutePath, KHABAROVSK_ROUTE_GROUPS } from '../config/route-selection'
+import { SERVICE_POLICY } from '@/shared/configs/service-policy'
 
 interface Props {
   city: PilotCity
@@ -44,12 +46,13 @@ function formatPrice(price: number | null): string {
 }
 
 function leafHref(citySlug: string, routeUrl: string): string {
+  if (citySlug === 'habarovsk') return khabarovskRoutePath(routeUrl) ?? cityRouteToUrl(citySlug, routeUrl)
   return cityRouteToUrl(citySlug, routeUrl)
 }
 
 export default function MezhgorodCityHubPage({ city, data, neighborCities }: Props) {
-  const { routes: allRoutes, totalCount, minPrice } = data
-  const routes = allRoutes.filter(r => r.url.startsWith(`${city.slug}-`))
+  const { routes: allRoutes, totalCount, minPrice } = selectCityHubData(city.slug, data)
+  const routes = city.slug === 'habarovsk' ? allRoutes : allRoutes.filter(r => r.url.startsWith(`${city.slug}-`))
   const seoText = CITY_SEO_TEXTS[city.slug] || ''
   const citySpecificAdvantages = CITY_ADVANTAGES[city.slug] || []
   const advantages = [...citySpecificAdvantages, ...ADVANTAGES.slice(0, 4)]
@@ -128,6 +131,30 @@ export default function MezhgorodCityHubPage({ city, data, neighborCities }: Pro
 
       <div className="container">
         <Price cityData={`${city.name},`} title={`из ${city.name}`} />
+        {city.slug === 'habarovsk' && (
+          <>
+            <section className={s.section}>
+              <h2 className={s.h2}>Встреча в аэропорту и поездка дальше по краю</h2>
+              <p>Укажите аэропорт как место подачи, номер рейса, дату и время прилёта по местному расписанию, конечный адрес и количество багажа. Цена между городами не означает автоматически ту же цену при подаче в аэропорт.</p>
+              <p>{SERVICE_POLICY.waiting}</p>
+              <p>В Хабаровске на 7 часов больше, чем в Москве. Рабочие часы диспетчера 08:00–22:00 МСК соответствуют 15:00–05:00 следующего дня по Хабаровску. Утреннюю встречу лучше согласовать заранее; поездки выполняются в согласованное время суток.</p>
+            </section>
+            {KHABAROVSK_ROUTE_GROUPS.map(group => {
+              const items = routes.filter(route => (group.paths as readonly string[]).includes(leafHref(city.slug, route.url)))
+              if (!items.length) return null
+              return <section key={group.title} className={s.section}>
+                <h2 className={s.h2}>{group.title}</h2>
+                <p>{group.description}</p>
+                <nav className={s.routeList} aria-label={group.title}>
+                  {items.map(route => <a key={route.ID} className={s.routeLink} href={leafHref(city.slug, route.url)}>
+                    <span>{route.title}</span>
+                    {!!route.price_comfort && <span className={s.price}>от {formatPrice(route.price_comfort)}₽</span>}
+                  </a>)}
+                </nav>
+              </section>
+            })}
+          </>
+        )}
         {seoText && (
           <section className={s.section}>
             <p style={{ fontSize: '1.05rem', lineHeight: 1.7, maxWidth: '900px' }}>{seoText}</p>
@@ -148,7 +175,7 @@ export default function MezhgorodCityHubPage({ city, data, neighborCities }: Pro
 
         {popular.length > 0 && (
           <section className={s.section}>
-            <h2 className={s.h2}>Популярные направления {city.nameGenitive}</h2>
+            <h2 className={s.h2}>Ближайшие направления {city.nameGenitive}</h2>
             <nav className={s.routeGrid}>
               {popular.map(route => (
                 <a key={route.ID} href={leafHref(city.slug, route.url)} className={s.routeCard}>
@@ -183,7 +210,7 @@ export default function MezhgorodCityHubPage({ city, data, neighborCities }: Pro
 
         <div className={s.ctaBlock}>
           <h3 className={s.ctaTitle}>Нужен маршрут, которого нет в списке?</h3>
-          <p className={s.ctaText}>Организуем поездку по любому направлению {city.nameGenitive}. Позвоните или оставьте заявку.</p>
+          <p className={s.ctaText}>Укажите адреса, дату, пассажиров и багаж. Диспетчер проверит возможность поездки и согласует условия.</p>
           <OrderButton cityName={city.nameGenitive.replace(/^из /i, '')} />
         </div>
 

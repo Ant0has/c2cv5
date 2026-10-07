@@ -1,0 +1,113 @@
+
+  <button id="about-preview" hidden>Описание конструктора</button>
+  <div id="constructor" class="wrap" role="region" aria-label="Конструктор поездки Москва — Санкт-Петербург">
+    <div class="constructor-grid">
+      <section class="builder" aria-label="Параметры поездки">
+        <section class="step-card route-step" aria-labelledby="route-heading">
+        <div class="section-title"><h2 id="route-heading"><span class="step">01</span> Куда едем</h2><span class="small-muted">В одну сторону</span></div>
+        <form id="route-form">
+          <div class="route-fields"><label class="route-field"><span><i class="point from"></i> Откуда</span><input id="from" name="from" list="cities" value="Москва" placeholder="Город отправления" autocomplete="off" maxlength="100" required></label><button class="swap icon-button" id="swap" type="button" aria-label="Поменять города местами">⇄</button><label class="route-field"><span><i class="point to"></i> Куда</span><input id="to" name="to" list="cities" value="Санкт-Петербург" placeholder="Город назначения" autocomplete="off" maxlength="100" required></label></div>
+          <datalist id="cities"><option value="Москва"></option><option value="Санкт-Петербург"></option><option value="Воронеж"></option><option value="Ярославль"></option></datalist>
+          <div id="route-metrics" class="route-metrics" hidden>
+            <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3 4 21M16 3l4 18M12 3v3m0 4v4m0 4v3"/></svg><span><strong id="route-distance">710 км</strong><small>Расстояние</small></span></div>
+            <div><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg><span><strong id="route-time">≈ 9 ч</strong><small>Примерно в пути</small></span></div>
+          </div>
+          <div class="route-bottom"><p id="route-status" class="small-muted">Время без учёта пробок и остановок.</p><button id="calculate" class="calculate" type="submit" hidden>Рассчитать маршрут <span aria-hidden="true">→</span></button><button id="route-examples" class="text-button" type="button">Другой пример</button></div>
+          <div id="example-list" class="example-list" hidden></div>
+        </form>
+        </section>
+        <section class="step-card people-step" aria-labelledby="people-heading">
+        <div class="section-title"><h2 id="people-heading"><span class="step">02</span> Кто с вами</h2><div class="presets" role="group" aria-label="Быстрый выбор пассажиров"><button data-preset="couple" aria-pressed="true">2 взрослых</button><button data-preset="family" aria-pressed="false">2 взрослых + 2 ребёнка</button><button data-preset="company" aria-pressed="false">6 взрослых</button></div></div>
+        <div class="people-row"><div><label id="passengers-label">Пассажиры</label><span class="help">Включая детей, без водителя</span></div><div class="counter" role="group" aria-labelledby="passengers-label"><button id="less" type="button" aria-label="Уменьшить число пассажиров">−</button><output id="passengers">2</output><button id="more" type="button" aria-label="Увеличить число пассажиров">+</button></div><label class="check"><input id="with-children" type="checkbox"><span>Едут дети</span></label></div>
+        <div id="children-box" class="children-box" hidden>
+          <label for="children">Из них детей <select id="children"></select></label>
+          <fieldset class="child-ages"><legend>Возраст на день поездки</legend><div id="child-ages" class="age-fields"></div></fieldset>
+          <p id="child-seat-status" class="child-seat-status" role="status"></p>
+          <p class="child-seat-help" id="child-seat-help">От 1 до 7 лет включительно добавим запрос кресла. До года — своя подходящая автолюлька. Тип, наличие и установку согласуем заранее.</p>
+        </div>
+        <div class="baggage-row"><span id="baggage-label" class="field-title">Багаж</span><div class="baggage-options" role="group" aria-labelledby="baggage-label"><button data-baggage="light" aria-pressed="true"><span aria-hidden="true">♧</span> Налегке</button><button data-baggage="standard" aria-pressed="false"><span aria-hidden="true">▥</span> Чемоданы</button><button data-baggage="many" aria-pressed="false"><span aria-hidden="true">▥▥</span> Много вещей</button></div></div>
+        <div class="cargo-controls" id="cargo-controls" hidden>
+          <div class="cargo-counter"><label id="bags-label">Большой чемодан<small>75 × 48 × 30 см</small></label><div class="counter" role="group" aria-labelledby="bags-label"><button id="bags-less" aria-label="Убрать большой чемодан">−</button><output id="bags-count">0</output><button id="bags-more" aria-label="Добавить большой чемодан">+</button></div></div>
+          <div class="cargo-counter"><label id="carry-label">Дорожная сумка<small>45 × 30 × 25 см</small></label><div class="counter" role="group" aria-labelledby="carry-label"><button id="carry-less" aria-label="Убрать дорожную сумку">−</button><output id="carry-count">0</output><button id="carry-more" aria-label="Добавить дорожную сумку">+</button></div></div>
+          <p>Размеры включают ручки и колёса. Если вещи крупнее — напишите в пожеланиях.</p>
+        </div>
+        <button id="toggle-cargo" class="text-button" aria-expanded="false" aria-controls="cargo-controls">Указать количество и размер багажа +</button>
+        </section>
+        <section class="step-card vehicle-step" aria-labelledby="vehicle-heading">
+        <div class="section-title"><h2 id="vehicle-heading"><span class="step">03</span> Выберите машину</h2><span class="small-muted">Цена за автомобиль</span></div>
+        <div id="classes" class="class-grid" role="group" aria-label="Класс автомобиля"></div>
+        <div id="capacity-warning" class="warning" hidden><p id="capacity-message"></p><button id="recommend" class="text-button">Выбрать минивэн →</button></div>
+        <section class="cabin-panel" aria-labelledby="cabin-title">
+          <div class="cabin-heading"><div><h3 id="cabin-title">Как разместимся внутри</h3><p id="cabin-subtitle">Пассажиры и багаж меняются вместе с вашим выбором</p></div><button id="expand-cabin" class="text-button" aria-label="Увеличить схему салона">Увеличить ↗</button></div>
+          <div id="cabin-preview" class="cabin-preview"></div>
+          <div class="cabin-legend"><span id="seat-caption"></span><span id="packing-caption"></span></div>
+          <div id="fold-options" class="fold-options" hidden><label for="folded-seats">Отдать третий ряд под багаж<select id="folded-seats"><option value="0">Не складывать · до 7 пассажиров</option><option value="1">Одно кресло · до 6 пассажиров</option><option value="2">Два кресла · до 5 пассажиров</option><option value="3">Весь ряд · до 4 пассажиров</option></select></label><p>Возможность трансформации подтвердим для конкретной машины.</p></div>
+          <p id="roof-note" class="cargo-note" hidden>Универсал: полка снята, задний ряд на месте. Загрузку под крышу согласуем с водителем: нужны крепление и защита пассажиров от смещения багажа.</p>
+          <div id="cargo-warning" class="warning" hidden><p id="cargo-message"></p><button id="cargo-recommend" class="text-button" hidden></button></div>
+          <p class="cabin-caveat">Это эскиз вашей поездки, не гарантия вместимости. Багаж и кресла проверим для конкретной машины.</p>
+          <details class="packing-details"><summary>На чём основана оценка багажа</summary><div class="packing-detail-grid"><div id="cargo-plan"></div><div><p id="cargo-basis"></p><p>Эскиз не учитывает все изгибы багажника, проём, массу и крепление вещей. Число предметов — оценка, не гарантия.</p></div></div></details>
+        </section>
+        <section class="tariff-panel" aria-labelledby="tariff-title">
+          <div class="tariff-heading"><h3 id="tariff-title">Условия тарифа Комфорт</h3><span>Для выбранного класса</span></div>
+          <dl class="tariff-rows">
+            <div><dt>Ожидание при подаче · 15 минут</dt><dd class="included">Бесплатно</dd></div>
+            <div><dt>1 час ожидания</dt><dd id="waiting-price">500 ₽</dd></div>
+            <div><dt>Остановка в пути более 15 минут</dt><dd id="stop-price">500 ₽</dd></div>
+          </dl>
+          <p id="estate-tariff-note" class="tariff-note" hidden>Для Универсала ориентир — условия Комфорт+. Подтвердим перед заказом.</p>
+          <details id="additional-services" class="services-disclosure">
+            <summary><span><strong>Дополнительные услуги <span id="services-count"></span></strong><small>Выберите нужное — добавим в заявку</small></span><span class="disclosure-plus" aria-hidden="true">+</span></summary>
+            <div class="services-content"><dl id="services-list" class="tariff-rows"></dl><p class="tariff-note">Допуслуги не включены в показанную стоимость поездки. Цены по прайсу — ориентир; наличие и итог подтвердим. Дополнительный адрес — 500 ₽, возможный крюк оплачивается по согласованию. Вес питомца, адрес и номер рейса укажите в пожеланиях. Для нескольких животных нужен отдельный подбор.</p></div>
+          </details>
+        </section>
+        <details class="wishes"><summary>Есть пожелания к поездке? <span aria-hidden="true">+</span></summary><label for="note" class="help">Коляска, питомец, остановка, дополнительный адрес или помощь с багажом</label><textarea id="note" rows="2" maxlength="500" placeholder="Расскажите, что важно учесть"></textarea><p class="small-muted">Особые условия и возможные доплаты подтверждает диспетчер.</p></details>
+        </section>
+      </section>
+      <aside class="trip-card" aria-labelledby="trip-title">
+        <div class="trip-card-top"><span class="eyebrow">ВАША ПОЕЗДКА</span><span class="draft-tag"><span></span> Черновик</span></div>
+        <h2 id="trip-title">Москва <span aria-hidden="true">→</span><br>Санкт-Петербург</h2>
+        <p id="trip-route-meta" class="trip-route-meta" hidden>710 км · ≈ 9 ч в пути</p>
+        <div class="trip-selection"><div><strong id="selected-class">Комфорт</strong><span id="class-description">Для повседневных поездок</span></div><div id="people-icons" class="people-icons" aria-hidden="true"></div></div>
+        <div class="trip-chips"><span id="people-summary">2 пассажира</span><span id="baggage-summary">Налегке</span><span id="children-summary" hidden></span></div>
+        <p id="special-note" class="special-note" hidden></p>
+        <div class="checkout-panel">
+        <div class="price-section"><div class="price-caption" id="price-caption" hidden></div><p class="total-price" id="total-price">Загружаем расчёт</p><div class="price-description" id="price-description">За автомобиль · без допуслуг</div><p class="per-person" id="per-person">По 12 000 ₽, если разделить на двоих</p></div>
+        <p id="services-summary" class="services-summary" hidden></p>
+        <button id="show-tariff" class="text-button tariff-link" type="button">Условия тарифа и допуслуги <span aria-hidden="true">↗</span></button>
+        <button class="primary order-button" id="order">Оставить заявку <span aria-hidden="true">→</span></button>
+        <p class="confirmation">Итоговую цену, машину и условия<br class="desktop-only"> подтвердим перед заказом.</p>
+        <div class="summary-footer"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m10 2 6 3v5c0 4-6 7-6 7S4 14 4 10V5Z"/><path d="m7 9 2 2 4-4"/></svg><span>Заявка поступит диспетчеру City2City</span></div>
+        </div>
+        <div class="vehicle-photo"><img id="car-image" src="/trip-constructor-pilot/assets/photo-rio-display.webp" alt="Белый Kia Rio, пример модели спереди в три четверти" width="800" height="533" loading="lazy"></div>
+        <div class="photo-caption"><strong id="model-name">Kia Rio</strong><span>Пример модели, не выбор конкретной машины</span></div>
+        <details class="gallery-details"><summary>Другие примеры автомобилей</summary><div id="model-gallery" class="model-gallery" role="group" aria-label="Посмотреть другие модели этого класса"></div></details>
+      </aside>
+    </div>
+    <p class="demo-rules">Правила City2City: Комфорт — 4, Комфорт+ — 3, Универсал — 4, Бизнес — 3, Минивэн — до 7 пассажиров, без водителя. Универсал рассчитывается по тарифу Комфорт+. Изображения и схемы приведены для примера. Конкретную машину и размещение багажа подтвердит диспетчер.</p>
+  </div>
+  <div class="mobile-total" id="mobile-total"><div><span id="mobile-price">От 24 000 ₽</span><small id="mobile-price-unit">за автомобиль</small><small id="mobile-price-note" hidden></small></div><button id="mobile-order" class="primary">К заявке <span aria-hidden="true">→</span></button></div>
+  <div id="live-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+  <dialog id="cabin-dialog" aria-labelledby="large-cabin-title" class="cabin-dialog"><button class="dialog-close icon-button" id="close-cabin" aria-label="Закрыть увеличенный салон">×</button><p class="eyebrow">САЛОН И БАГАЖ</p><h2 id="large-cabin-title">Как разместимся внутри</h2><div id="cabin-large"></div><p id="large-cabin-caption"></p><p class="cabin-caveat">Схематическая иллюстрация. Места, детские кресла и багаж согласуем для конкретного автомобиля.</p></dialog>
+  <dialog id="order-dialog" aria-labelledby="dialog-title">
+    <button class="dialog-close icon-button" id="close-dialog" aria-label="Закрыть окно заявки">×</button>
+    <p class="eyebrow">ВАША ПОЕЗДКА</p><h2 id="dialog-title">Оставить заявку</h2>
+    <div id="order-summary" class="order-summary"></div><p id="order-review" class="order-review" hidden></p>
+    <form id="demo-order">
+      <div class="contact-fields"><label>Как к вам обращаться<input id="name" autocomplete="name" maxlength="60" placeholder="Ваше имя" required></label><label>Номер телефона<input id="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="24" placeholder="+7 (___) ___-__-__" required></label></div>
+      <fieldset class="schedule-field"><legend>Когда нужна поездка</legend>
+        <select id="schedule-mode" aria-label="Когда нужна поездка"><option value="unsure">Уточню позже</option><option value="now">Как можно скорее</option><option value="scheduled">Дата и время</option></select>
+        <div id="schedule-fields" class="schedule-fields" hidden><label>Дата<input id="date" type="date"></label><label>Время подачи<input id="time" type="time"></label></div>
+        <p id="schedule-help" class="small-muted">Дату можно уточнить при подтверждении.</p>
+        <p id="schedule-error" class="form-error" role="alert" hidden></p>
+      </fieldset>
+      <fieldset id="order-children-box" class="child-ages" hidden><legend>Возраст детей на день поездки</legend><div id="order-child-ages" class="age-fields"></div><p id="order-seat-status" class="child-seat-status" role="status"></p></fieldset>
+      <details id="order-services" class="services-disclosure"><summary><span><strong>Дополнительные услуги</strong><small id="order-services-caption">Можно выбрать или изменить</small></span><span aria-hidden="true">+</span></summary><div class="services-content"><dl id="order-services-list" class="tariff-rows"></dl><p class="tariff-note">Цены по прайсу — ориентир, отдельно от поездки. Наличие, стоимость заезда и итог подтвердим. Вес питомца и адрес укажите в пожеланиях.</p></div></details>
+      <label for="order-note">Есть пожелания к поездке?<textarea id="order-note" rows="2" maxlength="500" placeholder="Адрес, рейс, питомец, остановки — что учесть?" aria-describedby="order-note-help"></textarea></label><p id="order-note-help" class="small-muted">Необязательно. Изменения сохранятся при закрытии этой формы.</p>
+      <details id="order-details" class="order-details"><summary>Все параметры и условия поездки</summary><div id="order-detail-summary"></div></details>
+      <p id="privacy-notice" class="privacy-notice">Используем указанные данные для обработки вашей заявки и подготовки поездки. <a href="/privacy-policy" target="_blank" rel="noopener">Политика обработки персональных данных</a>.</p>
+      <div class="honeypot" aria-hidden="true"><label>Не заполняйте это поле<input id="confirm-email" tabindex="-1" autocomplete="off"></label></div>
+      <p class="demo-notice">Заявка поступит диспетчеру. Наличие машины и окончательную стоимость подтвердим перед заказом.</p>
+      <button id="order-submit" class="primary" type="submit">Отправить заявку →</button><p id="demo-success" role="status" hidden></p>
+    </form>
+  </dialog>
+  <dialog id="about-dialog" aria-labelledby="about-title"><button class="dialog-close icon-button" id="close-about" aria-label="Закрыть описание">×</button><h2 id="about-title">Конструктор поездки</h2><p>Выберите маршрут, пассажиров, багаж и услуги. Машину и итоговую стоимость подтвердит диспетчер.</p><button class="primary" id="try-preview">Понятно</button></dialog>

@@ -12,6 +12,7 @@ import Button from '@/shared/components/ui/Button/Button'
 import s from '../Footer.module.scss'
 import MaxIcon from '@/public/icons/MaxIcon'
 import { requisitsData } from '@/shared/data/requisits.data'
+import { SERVICE_POLICY } from '@/shared/configs/service-policy'
 
 const FooterContacts = () => {
   const { route } = useContext(RouteContext)
@@ -31,7 +32,7 @@ const FooterContacts = () => {
         {markedPhoneFirst}
       </a>
       <div>
-        <p className={clsx(s.phoneDescription, 'font-14-normal text-white')}>8:00 - 23:00 МСК Бесплатно по России</p>
+        <p className={clsx(s.phoneDescription, 'font-14-normal text-white')}>{SERVICE_POLICY.workingHours}. Бесплатно по России</p>
       </div>
 
       <a href={`mailto:${requisitsData.EMAIL}`} className='font-32-semibold text-white'>
@@ -67,5 +68,4 @@ const FooterContacts = () => {
 }
 
 export default FooterContacts
-
 

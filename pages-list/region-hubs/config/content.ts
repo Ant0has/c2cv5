@@ -1,3 +1,5 @@
+import { SERVICE_POLICY } from '@/shared/configs/service-policy'
+
 export function generateCityDescription(
   cityName: string,
   cityGenitive: string,
@@ -8,7 +10,7 @@ export function generateCityDescription(
   const priceStr = minPrice > 0 ? minPrice.toLocaleString('ru-RU') : '3 000'
 
   return `Служба City2City предлагает комфортное междугороднее такси ${cityGenitive}. ` +
-    `У нас доступно ${totalCount} направлений с фиксированными ценами от ${priceStr}₽. ` +
+    `В каталоге ${totalCount} направлений с предварительной стоимостью от ${priceStr}₽. Итоговую цену согласуем при заказе. ` +
     `Подача автомобиля ${cityLocative} — от 30 минут. ` +
     `Опытные водители, чистые автомобили классов Комфорт, Комфорт+, Бизнес и Минивэн. ` +
     `Оплата наличными, картой или безналичным расчётом.`
@@ -17,23 +19,23 @@ export function generateCityDescription(
 export const ADVANTAGES = [
   {
     title: 'Фиксированная цена',
-    description: 'Стоимость поездки известна заранее и не меняется в пути. Никаких счётчиков и доплат.',
+    description: SERVICE_POLICY.price,
   },
   {
     title: 'Подача от 30 минут',
-    description: 'Подтверждение заказа за 5 минут. Водитель прибудет к указанному адресу в назначенное время.',
+    description: SERVICE_POLICY.driver,
   },
   {
     title: 'Комфортные автомобили',
     description: 'Иномарки не старше 5 лет. Классы Комфорт, Комфорт+, Бизнес и Минивэн на выбор.',
   },
   {
-    title: 'Без доплат в дороге',
-    description: 'Цена фиксированная — за пробки, объезды и время в пути не доплачиваете. Сколько договорились — столько и платите.',
+    title: 'Условия согласованы заранее',
+    description: 'Платные дороги, дополнительные остановки и ожидание обсуждаем до подтверждения заказа.',
   },
   {
-    title: 'Работаем 24/7',
-    description: 'Принимаем заказы круглосуточно. Звоните, пишите в Telegram или WhatsApp.',
+    title: 'Поездки в любое время суток',
+    description: SERVICE_POLICY.availability,
   },
   {
     title: 'Безопасность',

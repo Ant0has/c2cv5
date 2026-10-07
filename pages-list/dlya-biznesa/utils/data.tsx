@@ -14,7 +14,7 @@ import PeopleIcon from "@/public/icons/PeopleIcon"
 export const companyExperienceList = [
     {
       id: 1,
-      label: '9 лет',
+      label: 'С 2016 года',
       value: 'на рынке'
     },
     {
@@ -188,7 +188,7 @@ export const instructionList = [
   {
     id: 1,
     title: 'Заявка',
-    description: 'Оставьте заявку на сайте или позвоните нам. Менеджер свяжется в течение 15 минут.'
+    description: 'Оставьте заявку — диспетчер свяжется с вами в течение 10 минут в рабочие часы: 08:00–22:00 МСК. Уточним задачу и согласуем срок подготовки предложения.'
   },
   {
     id: 2,
@@ -339,7 +339,7 @@ export const pageData = {
   },
   cooperation: {
     title: [{text: 'Готовы начать', isPrimary: false}, {text: 'сотрудничество?', isPrimary: true}],
-    description: 'Оставьте заявку — менеджер свяжется в течение 15 минут и подготовит индивидуальное предложение',
+    description: 'Оставьте заявку — диспетчер свяжется в течение 10 минут в рабочие часы: 08:00–22:00 МСК. Условия и срок подготовки предложения согласуем отдельно.',
     image: '/images/dlya-biznesa/businessman-lg.png',
     buttonText: 'Получить предложение',
   },

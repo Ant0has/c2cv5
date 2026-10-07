@@ -76,7 +76,7 @@ const OrderForm: FC<IProps> = ({ form, orderModalData, handleClickLink, handleCl
 
       notification.success({
         message: 'Заказ успешно оформлен',
-        description: 'Мы свяжемся с вами в ближайшее время',
+        description: 'Диспетчер свяжется с вами в течение 10 минут в рабочие часы: 08:00–22:00 МСК',
         placement: 'topRight',
 
       });
@@ -124,7 +124,7 @@ const OrderForm: FC<IProps> = ({ form, orderModalData, handleClickLink, handleCl
         </Form.Item>
 
         <Form.Item
-          label={<span className="font-14-normal">Ваш номер телефона<span className="font-14-normal text-primary" >*</span></span>}
+          label={<span className="font-14-normal">Номер телефона<span className="font-14-normal text-primary" >*</span></span>}
           name="phone"
           rules={[
             {
@@ -187,7 +187,7 @@ const OrderForm: FC<IProps> = ({ form, orderModalData, handleClickLink, handleCl
           name="additional_info"
         >
           <TextArea
-            placeholder="Укажите дополнительную информацию - Адресс выезда, Количество пассажиров, Номер рейса, Дети до 7 лет и другие особенности поездки"
+            placeholder="Укажите адрес выезда, пассажиров и багаж, номер рейса, возраст детей и другие особенности поездки"
             autoSize={{ minRows: 4, maxRows: 6 }}
           />
         </Form.Item>

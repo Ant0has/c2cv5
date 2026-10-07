@@ -16,6 +16,7 @@ import DriverIcon from '@/public/icons/DriverIcon';
 import CleanAutoIcon from '@/public/icons/CleanAutoIcon';
 import { requisitsData } from '@/shared/data/requisits.data';
 import Requisits from '@/shared/components/requisits/Requisits';
+import { SERVICE_POLICY } from '@/shared/configs/service-policy';
 
 interface IProps {
     title?: unknown;
@@ -43,8 +44,8 @@ const AboutPage: FC<IProps> = () => {
                     <div className={s.statsGrid}>
                         <div className={s.statItem}>
                             <YearsIcon />
-                            <p className={s.statNumber}>8+ лет</p>
-                            <p className={s.statLabel}>на рынке</p>
+                            <p className={s.statNumber}>С апреля 2016</p>
+                            <p className={s.statLabel}>выполняем перевозки</p>
                         </div>
                         <div className={s.statItem}>
                             <DistanceIcon />
@@ -68,8 +69,7 @@ const AboutPage: FC<IProps> = () => {
                 <section className={clsx(s.history, 'content-block')}>
                     <h2 className="sub-title margin-b-32">Наша история</h2>
                     <div className="font-18-normal">
-                        <p className="font-18-normal">Компания {requisitsData.BRAND_NAME} была основана в 2018 году с целью сделать междугородние поездки на такси простыми, предсказуемыми и комфортными. Начиная с нескольких автомобилей, мы быстро росли благодаря доверию клиентов и качеству сервиса.</p>
-                        <p className="font-18-normal">Ключевыми вехами нашего развития стали: расширение автопарка в 2020 году, запуск корпоративного обслуживания в 2021 году и внедрение системы электронного документооборота в 2022 году.</p>
+                        <p className="font-18-normal">Первые перевозки {requisitsData.BRAND_NAME} состоялись в апреле 2016 года. С этого времени мы организуем междугородние поездки для частных и корпоративных клиентов.</p>
                         <p className="font-18-normal">Сегодня {requisitsData.BRAND_NAME} — это слаженная команда профессионалов, которая продолжает развиваться, внедрять новые технологии и улучшать сервис для наших пассажиров.</p>
                     </div>
                 </section>
@@ -81,7 +81,7 @@ const AboutPage: FC<IProps> = () => {
                         <div className={s.advantageCard}>
                             <AroundClockIcon />
                             <h3 className="font-24-medium">Фиксированные цены</h3>
-                            <p className="font-16-normal">Стоимость поездки согласовывается при бронировании и не меняется.</p>
+                            <p className="font-16-normal">{SERVICE_POLICY.price}</p>
                         </div>
                         <div className={s.advantageCard}>
                             <DriverIcon />
@@ -95,8 +95,8 @@ const AboutPage: FC<IProps> = () => {
                         </div>
                         <div className={s.advantageCard}>
                             <AroundClockIcon />
-                            <h3 className="font-24-medium">Круглосуточная поддержка</h3>
-                            <p className="font-16-normal">Диспетчерская служба работает 24/7 для решения любых вопросов.</p>
+                            <h3 className="font-24-medium">Работа диспетчера</h3>
+                            <p className="font-16-normal">{SERVICE_POLICY.availability}</p>
                         </div>
                     </div>
                 </section>
@@ -109,7 +109,7 @@ const AboutPage: FC<IProps> = () => {
                             <PriceIcon />
                             <div>
                                 <h3 className="font-24-medium">Гарантия фиксированной цены</h3>
-                                <p className="font-16-normal">Цена при бронировании — финальная, никаких доплат.</p>
+                                <p className="font-16-normal">Стоимость фиксируется для согласованных условий. Изменение маршрута и дополнительные услуги согласуем отдельно.</p>
                             </div>
                         </div>
                         <div className={s.guaranteeItem}>

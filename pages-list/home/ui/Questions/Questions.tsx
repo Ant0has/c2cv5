@@ -7,6 +7,7 @@ import man from "@/public/images/man.png";
 import manMilitary from "@/public/images/military/man.png";
 import clsx from "clsx";
 import { Blocks } from "@/shared/types/enums";
+import { SERVICE_POLICY } from "@/shared/configs/service-policy";
 
 const Questions = ({ isMilitary }: { isMilitary?: boolean }) => {
   return (
@@ -17,8 +18,7 @@ const Questions = ({ isMilitary }: { isMilitary?: boolean }) => {
             Остались <span>вопросы?</span>
           </h2>
           <p className="font-16-normal title-m-32">
-            Отправьте заявку и наш менеджер свяжется с Вами в течении 5-ти
-            минут.
+            {SERVICE_POLICY.callback}
           </p>
           <QuestionForm blockFrom={Blocks.QUESTIONS} className="white-input" handleClickLink={()=>undefined} />
         </div>

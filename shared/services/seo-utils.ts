@@ -195,7 +195,7 @@ export function generateOrganizationSchemaOrg() {
     "description": "Служба заказа междугороднего такси по России. Комфортные трансферы между городами, фиксированные цены, профессиональные водители.",
     "telephone": requisitsData.PHONE_MARKED,
     "email": requisitsData.EMAIL,
-    "foundingDate": "2020",
+    "foundingDate": "2016",
     "areaServed": {
       "@type": "Country",
       "name": "Россия"
@@ -209,7 +209,7 @@ export function generateOrganizationSchemaOrg() {
         "@type": "OpeningHoursSpecification",
         "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
         "opens": "08:00",
-        "closes": "23:00"
+        "closes": "22:00"
       }
     },
     "sameAs": [
@@ -340,7 +340,7 @@ export function generateHubSchemaOrg(city: string, region: string) {
       "@type": "OpeningHoursSpecification",
       "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
       "opens": "08:00",
-      "closes": "23:00"
+      "closes": "22:00"
     },
     "areaServed": {
       "@type": "Place",

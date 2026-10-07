@@ -1,3 +1,5 @@
+import { SERVICE_POLICY } from '@/shared/configs/service-policy'
+
 export const requisitsData = {
     BRAND_NAME: 'City2City',
     INN: '616606322786',
@@ -10,7 +12,7 @@ export const requisitsData = {
     EMAIL: 'zakaz@city2city.ru',
     NAME: 'ИП Фурсенко К.В.',
     FULL_NAME: 'ИП Фурсенко Катерина Валерьевна',
-    WORK_TIME: '8:00–23:00 МСК, без выходных',
+    WORK_TIME: SERVICE_POLICY.workingHours,
     TELEGRAM_NICKNAME: 'taxi_city2city',
     WHATSAPP_NICKNAME: '79381568757',
     MAX_NICKNAME: 'id616606322786_bot',

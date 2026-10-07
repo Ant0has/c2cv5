@@ -1,4 +1,5 @@
 import { RegionHubData } from '../../types'
+import { SERVICE_POLICY } from '@/shared/configs/service-policy'
 
 export const data: RegionHubData = {
   slug: 'povolzhye',
@@ -83,7 +84,7 @@ City2City организует корпоративные трансферы м�
       id: 2,
       question: 'Работаете ли вы с аэропортами ПФО?',
       answer:
-        'Да, обслуживаем все ключевые аэропорты: Казань (KZN), Нижний Новгород (GOJ), Курумоч — Самара (KUF), Уфа (UFA), Пермь (PEE). Водитель встречает с табличкой, бесплатное ожидание до 30 минут.',
+        `Да, обслуживаем все ключевые аэропорты: Казань (KZN), Нижний Новгород (GOJ), Курумоч — Самара (KUF), Уфа (UFA), Пермь (PEE). Встречу с табличкой согласуем при заказе. ${SERVICE_POLICY.waiting}`,
     },
     {
       id: 3,

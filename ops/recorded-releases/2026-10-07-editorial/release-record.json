@@ -1,0 +1,46 @@
+{
+  "publishedAt": "2026-10-07T14:30:30.399Z",
+  "initialSwitchAt": "2026-10-07T14:24:37.170Z",
+  "frontend": {
+    "name": "city2city-front-editorial-release-jE919Q",
+    "port": 3024
+  },
+  "constructor": {
+    "name": "city2city-constructor-editorial-release-jE919Q",
+    "port": 3016,
+    "changed": [
+      {
+        "path": "core.mjs",
+        "sha256": "95c0b4e74c86517ff47258b09ba6e21d851b8626371e68b7fc7f92085379b12a"
+      },
+      {
+        "path": "public/domain.mjs",
+        "sha256": "8e800b330bdd6e8fc2d87bf8b6483920487dbfad8091174e704151990eb1e497"
+      },
+      {
+        "path": "public/app.mjs",
+        "sha256": "33d36f4ad948d01f197b5e25a3a32411cf7a867f0be8124a1d20864e3acd35b5"
+      }
+    ],
+    "additional": [
+      {
+        "path": "public/index.html",
+        "sha256": "16150e76b14c88c4e995be65c1e61d4d533f5610f0cad72f9b523d9c749c0450"
+      },
+      {
+        "path": "widget/layout.html",
+        "sha256": "a58d9174625e8cac44ccf34a42a80abb09835e93ef629646970c325bca5a1807"
+      }
+    ]
+  },
+  "rollbackFrontendPort": 3023,
+  "rollbackConstructorPort": 3015,
+  "checks": {
+    "pages": 142,
+    "contracts": 102,
+    "protectedProcesses": 12,
+    "revalidation": "REVALIDATED"
+  },
+  "regionalReviewDueAt": "2027-02-07T14:30:30.399Z",
+  "dataAndSecretsExcluded": true
+}
