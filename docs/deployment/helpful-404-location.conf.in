@@ -1,0 +1,22 @@
+# Candidate only. Replace __FRONTEND_PORT__ with the verified new release port.
+# Insert at server scope. Preserve existing 410 maps and all API/static locations.
+location = /404 {
+    proxy_pass http://127.0.0.1:__FRONTEND_PORT__;
+    proxy_http_version 1.1;
+    proxy_set_header Host $host;
+    proxy_set_header Connection "";
+    # An intercepted Flight error must get a complete HTML recovery page.
+    proxy_set_header RSC "";
+    proxy_set_header Next-Router-State-Tree "";
+    proxy_set_header Next-Router-Prefetch "";
+    proxy_set_header Next-Url "";
+    proxy_intercept_errors off;
+    proxy_cache off;
+    add_header Cache-Control "no-store" always;
+    add_header X-Robots-Tag "noindex, follow" always;
+}
+
+# Add the following ONLY to existing frontend locations / and ~ \.html$:
+# proxy_intercept_errors on;
+# error_page 404 =404 /404;
+# Never add them at server-wide level: API, assets, CRM and existing 410s stay as-is.

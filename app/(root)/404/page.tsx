@@ -1,5 +1,5 @@
-import NotFoundPage from '@/pages-list/not-found/NotFound';
 import type { Metadata } from 'next';
+import NotFoundPage from '@/pages-list/not-found/NotFound';
 
 export const metadata: Metadata = {
   title: { absolute: 'Страница не найдена | City2City' },
@@ -7,6 +7,8 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
-export default function NotFound() {
+// Render real HTML, including without JS. Middleware and the edge error handler
+// keep the HTTP status at 404; throwing here would emit an empty error shell.
+export default function MissingPage() {
   return <NotFoundPage />;
 }

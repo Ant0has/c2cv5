@@ -183,12 +183,16 @@ const numericSuffixRedirects: Record<string, string> = {
 export function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl
 
+  if (pathname === '/404') {
+    return NextResponse.next({ status: 404 })
+  }
+
   // Destination URLs must be explicitly published and allowed, never arbitrary slugs.
   if (pathname === '/napravleniya' || pathname.startsWith('/napravleniya/')) {
     const slug = pathname.replace(/^\//, '').replace(/\/$/, '')
     if (!whitelist.includes(slug)) {
-      // A direct response avoids an HTTPS self-proxy to the internal HTTP Next.js port.
-      return new NextResponse('<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, follow"><title>Страница не найдена | City2City</title><style>body{font:18px/1.6 Arial,sans-serif;color:#202528;background:#f4f5f6;margin:0}main{max-width:680px;margin:12vh auto;padding:32px;background:white;border-radius:24px}h1{font-size:32px;line-height:1.2}a{display:inline-block;padding:14px 20px;background:#ff9d00;color:#202528;border-radius:16px;text-decoration:none}@media(max-width:740px){main{margin:40px 16px;padding:24px}}</style></head><body><main><p>City2City · 404</p><h1>Страница не найдена</h1><p>Выберите место поездки в разделе направлений.</p><a href="/napravleniya">Направления поездок</a></main></body></html>', {status:404,headers:{'Content-Type':'text/html; charset=utf-8','X-Robots-Tag':'noindex'}})
+      // Render the complete error page locally, preserving the 404 status.
+      return NextResponse.rewrite(new URL('/404', request.url), { status: 404 })
     }
   }
 
